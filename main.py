@@ -7,111 +7,143 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWidgets import QFileDialog
+from collections import namedtuple
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.setObjectName("DMS")
+        MainWindow.resize(390, 350)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"background-color: qlineargradient(spread:pad, x1:0.517824, y1:1, x2:0.493, y2:0, stop:0 rgba(219, 238, 247, 255), stop:1 rgba(255, 255, 255, 255));")
         self.centralwidget.setObjectName("centralwidget")
-        self.textName = QtWidgets.QTextEdit(self.centralwidget)
-        self.textName.setGeometry(QtCore.QRect(175, 160, 150, 30))
-        self.textName.setStyleSheet("color: rgb(0, 0, 0);")
-        self.textName.setObjectName("textName")
-        self.Name = QtWidgets.QLabel(self.centralwidget)
-        self.Name.setGeometry(QtCore.QRect(215, 130, 70, 30))
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        self.Name.setFont(font)
-        self.Name.setStyleSheet("color: rgb(0, 0, 0);\n"
-"font-weight:bold;")
-        self.Name.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.Name.setObjectName("Name")
-        self.textInitiative = QtWidgets.QTextEdit(self.centralwidget)
-        self.textInitiative.setGeometry(QtCore.QRect(175, 230, 150, 30))
-        self.textInitiative.setStyleSheet("color: rgb(0, 0, 0);")
-        self.textInitiative.setObjectName("textInitiative")
-        self.Initiative = QtWidgets.QLabel(self.centralwidget)
-        self.Initiative.setGeometry(QtCore.QRect(215, 200, 70, 30))
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        self.Initiative.setFont(font)
-        self.Initiative.setStyleSheet("color: rgb(0, 0, 0);\n"
-"font-weight:bold;")
-        self.Initiative.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.Initiative.setObjectName("Initiative")
-        self.HP = QtWidgets.QLabel(self.centralwidget)
-        self.HP.setGeometry(QtCore.QRect(215, 270, 70, 30))
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        self.HP.setFont(font)
-        self.HP.setStyleSheet("color: rgb(0, 0, 0);\n"
-"font-weight:bold;")
-        self.HP.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.HP.setObjectName("HP")
-        self.textHP = QtWidgets.QTextEdit(self.centralwidget)
-        self.textHP.setGeometry(QtCore.QRect(175, 300, 150, 30))
-        self.textHP.setStyleSheet("color: rgb(0, 0, 0);")
-        self.textHP.setObjectName("textHP")
+        self.name_edit = QtWidgets.QLineEdit(self.centralwidget)
+        self.name_edit.setGeometry(QtCore.QRect(70, 70, 120, 25))
+        self.name_edit.setObjectName("name_edit")
+        self.hp_edit = QtWidgets.QLineEdit(self.centralwidget)
+        self.hp_edit.setGeometry(QtCore.QRect(70, 140, 120, 25))
+        self.hp_edit.setObjectName("hp_edit")
+        self.initiative_edit = QtWidgets.QLineEdit(self.centralwidget)
+        self.initiative_edit.setGeometry(QtCore.QRect(70, 210, 120, 25))
+        self.initiative_edit.setObjectName("initiative_edit")
+        self.name = QtWidgets.QLabel(self.centralwidget)
+        self.name.setGeometry(QtCore.QRect(70, 45, 120, 25))
+        self.name.setStyleSheet("font-weight:bold")
+        self.name.setObjectName("name")
+        self.hp = QtWidgets.QLabel(self.centralwidget)
+        self.hp.setGeometry(QtCore.QRect(70, 115, 120, 25))
+        self.hp.setStyleSheet("font-weight:bold")
+        self.hp.setObjectName("hp")
+        self.initiative = QtWidgets.QLabel(self.centralwidget)
+        self.initiative.setGeometry(QtCore.QRect(70, 185, 120, 25))
+        self.initiative.setStyleSheet("font-weight:bold")
+        self.initiative.setObjectName("initiative")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(205, 350, 90, 25))
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.pushButton.setFont(font)
-        self.pushButton.setStyleSheet("color: rgb(0, 0, 0);")
+        self.pushButton.setGeometry(QtCore.QRect(70, 280, 120, 25))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(205, 395, 90, 25))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.pushButton_2.setFont(font)
-        self.pushButton_2.setStyleSheet("color: rgb(0, 0, 0);")
-        self.pushButton_2.setObjectName("pushButton_2")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(500, 0, 300, 578))
-        self.label.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignTop)
+        self.label.setGeometry(QtCore.QRect(200, 45, 120, 190))
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.label.setFont(font)
+        self.label.setStyleSheet("font-weight:bold")
+        self.label.setText("")
+        self.label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label.setObjectName("label")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 390, 22))
         self.menubar.setObjectName("menubar")
-        self.menuMenu = QtWidgets.QMenu(self.menubar)
-        self.menuMenu.setObjectName("menuMenu")
+        self.menuFile = QtWidgets.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")
         MainWindow.setMenuBar(self.menubar)
-        self.actionClose = QtGui.QAction(MainWindow)
-        self.actionClose.setObjectName("actionClose")
-        self.menuMenu.addAction(self.actionClose)
-        self.menubar.addAction(self.menuMenu.menuAction())
+        self.actionOpen = QtGui.QAction(MainWindow)
+        self.actionOpen.setObjectName("actionOpen")
+        self.actionSave = QtGui.QAction(MainWindow)
+        self.actionSave.setObjectName("actionSave")
+        self.menuFile.addAction(self.actionOpen)
+        self.menuFile.addAction(self.actionSave)
+        self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        # self.textName.textChanged.connect(self.label.setText)
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.Name.setText(_translate("MainWindow", "Name"))
-        self.Initiative.setText(_translate("MainWindow", "Initiative"))
-        self.HP.setText(_translate("MainWindow", "Hp"))
-        self.pushButton.setText(_translate("MainWindow", "Add character"))
-        self.pushButton_2.setText(_translate("MainWindow", "initiative"))
-        self.label.setText(_translate("MainWindow", "TextLabel"))
-        self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
-        self.actionClose.setText(_translate("MainWindow", "Close"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "DMS"))
+        self.name.setText(_translate("MainWindow", "Name"))
+        self.hp.setText(_translate("MainWindow", "Hp"))
+        self.initiative.setText(_translate("MainWindow", "Initiative"))
+        self.pushButton.setText(_translate("MainWindow", "Create"))
+        self.menuFile.setTitle(_translate("MainWindow", "File"))
+        self.actionOpen.setText(_translate("MainWindow", "Open"))
+        self.actionSave.setText(_translate("MainWindow", "Save"))
+
+
+hero = []
+class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.aplication_func()
+
+    def aplication_func(self):
+        self.actionSave.triggered.connect(self.actions_save)
+        self.actionOpen.triggered.connect(self.action_open)
+        self.pushButton.clicked.connect(self.create_hero)
+
+    def write_value(self):
+        value = f'Name: {self.name_edit.text()}' + '\n' + \
+                f'Hp: {self.hp_edit.text()}' + '\n' + \
+                f'Initiative: {self.initiative_edit.text()}'
+        print(self.name_edit.text() + ' ' + self.hp_edit.text() + ' ' + self.initiative_edit.text())
+        self.label.setText(value)
+
+    def create_hero(self):
+        Hero = namedtuple('Hero', 'name hp initiative')
+
+        hero.append(Hero(f'{self.name_edit.text()}',
+                         f'{self.hp_edit.text()}',
+                         f'{self.initiative_edit.text()}'
+                         ))
+        print(hero)
+        value = ''
+        for i in range(len(hero)):
+            value += f'Name: {hero[i].name}' + '\n' + \
+                    f'Hp: {hero[i].hp}' + '\n' + \
+                    f'Initiative: {hero[i].initiative}'\
+                     + '\n' + '\n'
+            self.label.setText(value)
+
+    def actions_save(self):
+        fname = QFileDialog.getSaveFileName(self)[0]
+
+        try:
+            f = open(fname, 'w')
+            text = self.label.text()
+            f.write(text)
+            f.close()
+        except FileNotFoundError:
+            print("No such file")
+
+    def action_open(self):
+        fname = QFileDialog.getOpenFileName(self)[0]
+
+        try:
+            f = open(fname, 'r')
+            with f:
+                data = f.read()
+                self.label.setText(data)
+
+            f.close()
+        except FileNotFoundError:
+            print("No such file")
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
+    MainWindow = MainWindow()
     MainWindow.show()
     sys.exit(app.exec())
