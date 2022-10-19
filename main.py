@@ -7,53 +7,189 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QFileDialog
-from collections import namedtuple
+from PyQt6.QtWidgets import QFileDialog, QMessageBox
+import random
+import webbrowser
+import json
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("DMS")
-        MainWindow.resize(390, 350)
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(800, 425)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.name_edit = QtWidgets.QLineEdit(self.centralwidget)
-        self.name_edit.setGeometry(QtCore.QRect(70, 70, 120, 25))
-        self.name_edit.setObjectName("name_edit")
-        self.hp_edit = QtWidgets.QLineEdit(self.centralwidget)
-        self.hp_edit.setGeometry(QtCore.QRect(70, 140, 120, 25))
-        self.hp_edit.setObjectName("hp_edit")
-        self.initiative_edit = QtWidgets.QLineEdit(self.centralwidget)
-        self.initiative_edit.setGeometry(QtCore.QRect(70, 210, 120, 25))
-        self.initiative_edit.setObjectName("initiative_edit")
-        self.name = QtWidgets.QLabel(self.centralwidget)
-        self.name.setGeometry(QtCore.QRect(70, 45, 120, 25))
-        self.name.setStyleSheet("font-weight:bold")
-        self.name.setObjectName("name")
-        self.hp = QtWidgets.QLabel(self.centralwidget)
-        self.hp.setGeometry(QtCore.QRect(70, 115, 120, 25))
+        self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
+        self.tabWidget.setGeometry(QtCore.QRect(0, 0, 800, 399))
+        self.tabWidget.setObjectName("tabWidget")
+        self.tab = QtWidgets.QWidget()
+        self.tab.setObjectName("tab")
+        self.hp = QtWidgets.QLabel(self.tab)
+        self.hp.setGeometry(QtCore.QRect(0, 80, 120, 25))
         self.hp.setStyleSheet("font-weight:bold")
         self.hp.setObjectName("hp")
-        self.initiative = QtWidgets.QLabel(self.centralwidget)
-        self.initiative.setGeometry(QtCore.QRect(70, 185, 120, 25))
-        self.initiative.setStyleSheet("font-weight:bold")
-        self.initiative.setObjectName("initiative")
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(70, 280, 120, 25))
+        self.initiative_edit = QtWidgets.QLineEdit(self.tab)
+        self.initiative_edit.setGeometry(QtCore.QRect(0, 175, 120, 25))
+        self.initiative_edit.setObjectName("initiative_edit")
+        self.hp_edit = QtWidgets.QLineEdit(self.tab)
+        self.hp_edit.setGeometry(QtCore.QRect(0, 105, 120, 25))
+        self.hp_edit.setObjectName("hp_edit")
+        self.pushButton = QtWidgets.QPushButton(self.tab)
+        self.pushButton.setGeometry(QtCore.QRect(0, 245, 120, 25))
         self.pushButton.setObjectName("pushButton")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(200, 45, 120, 190))
+        self.label = QtWidgets.QLabel(self.tab)
+        self.label.setGeometry(QtCore.QRect(130, 10, 151, 311))
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
         self.label.setFont(font)
         self.label.setStyleSheet("font-weight:bold")
         self.label.setText("")
+        self.label.setScaledContents(True)
         self.label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label.setObjectName("label")
+        self.name = QtWidgets.QLabel(self.tab)
+        self.name.setGeometry(QtCore.QRect(0, 10, 120, 25))
+        self.name.setStyleSheet("font-weight:bold")
+        self.name.setObjectName("name")
+        self.name_edit = QtWidgets.QLineEdit(self.tab)
+        self.name_edit.setGeometry(QtCore.QRect(0, 35, 120, 25))
+        self.name_edit.setObjectName("name_edit")
+        self.initiative = QtWidgets.QLabel(self.tab)
+        self.initiative.setGeometry(QtCore.QRect(0, 150, 120, 25))
+        self.initiative.setStyleSheet("font-weight:bold")
+        self.initiative.setObjectName("initiative")
+        self.pushButton_initiative = QtWidgets.QPushButton(self.tab)
+        self.pushButton_initiative.setGeometry(QtCore.QRect(650, 240, 120, 25))
+        self.pushButton_initiative.setObjectName("pushButton_initiative")
+        self.label_2 = QtWidgets.QLabel(self.tab)
+        self.label_2.setGeometry(QtCore.QRect(630, 5, 160, 190))
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_2.setFont(font)
+        self.label_2.setStyleSheet("font-weight:bold")
+        self.label_2.setText("")
+        self.label_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_2.setObjectName("label_2")
+        self.label_roll_dice = QtWidgets.QLabel(self.tab)
+        self.label_roll_dice.setGeometry(QtCore.QRect(650, 300, 120, 20))
+        self.label_roll_dice.setObjectName("label_roll_dice")
+        self.pushButton_roll_dice = QtWidgets.QPushButton(self.tab)
+        self.pushButton_roll_dice.setGeometry(QtCore.QRect(650, 330, 120, 25))
+        self.pushButton_roll_dice.setObjectName("pushButton_roll_dice")
+        self.amount_dice_box = QtWidgets.QSpinBox(self.tab)
+        self.amount_dice_box.setGeometry(QtCore.QRect(610, 330, 42, 22))
+        self.amount_dice_box.setObjectName("amount_dice_box")
+        self.dice_edit = QtWidgets.QLineEdit(self.tab)
+        self.dice_edit.setGeometry(QtCore.QRect(572, 330, 41, 22))
+        self.dice_edit.setObjectName("dice_edit")
+        self.label_dice_amount = QtWidgets.QLabel(self.tab)
+        self.label_dice_amount.setGeometry(QtCore.QRect(570, 350, 81, 16))
+        self.label_dice_amount.setObjectName("label_dice_amount")
+        self.radioButton_hide_create = QtWidgets.QRadioButton(self.tab)
+        self.radioButton_hide_create.setGeometry(QtCore.QRect(10, 270, 95, 20))
+        self.radioButton_hide_create.setChecked(False)
+        self.radioButton_hide_create.setAutoRepeat(False)
+        self.radioButton_hide_create.setObjectName("radioButton_hide_create")
+        self.name_charapter0 = QtWidgets.QLabel(self.tab)
+        self.name_charapter0.setGeometry(QtCore.QRect(170, 20, 120, 25))
+        self.name_charapter0.setStyleSheet("font-weight:bold")
+        self.name_charapter0.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.name_charapter0.setObjectName("name_charapter0")
+        self.hp_edit_charapter0 = QtWidgets.QLineEdit(self.tab)
+        self.hp_edit_charapter0.setGeometry(QtCore.QRect(199, 50, 95, 25))
+        self.hp_edit_charapter0.setObjectName("hp_edit_charapter0")
+        self.hp_charapter0 = QtWidgets.QLabel(self.tab)
+        self.hp_charapter0.setGeometry(QtCore.QRect(170, 50, 25, 25))
+        self.hp_charapter0.setStyleSheet("font-weight:bold")
+        self.hp_charapter0.setObjectName("hp_charapter0")
+        self.initiative_charapter0 = QtWidgets.QLabel(self.tab)
+        self.initiative_charapter0.setGeometry(QtCore.QRect(170, 75, 120, 25))
+        self.initiative_charapter0.setStyleSheet("font-weight:bold")
+        self.initiative_charapter0.setObjectName("initiative_charapter0")
+        self.initiative_edit_charapter0 = QtWidgets.QLineEdit(self.tab)
+        self.initiative_edit_charapter0.setGeometry(QtCore.QRect(170, 100, 120, 25))
+        self.initiative_edit_charapter0.setObjectName("initiative_edit_charapter0")
+        self.name_charapter1 = QtWidgets.QLabel(self.tab)
+        self.name_charapter1.setGeometry(QtCore.QRect(330, 20, 120, 25))
+        self.name_charapter1.setStyleSheet("font-weight:bold")
+        self.name_charapter1.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.name_charapter1.setObjectName("name_charapter1")
+        self.hp_edit_charapter1 = QtWidgets.QLineEdit(self.tab)
+        self.hp_edit_charapter1.setGeometry(QtCore.QRect(359, 50, 95, 25))
+        self.hp_edit_charapter1.setObjectName("hp_edit_charapter1")
+        self.initiative_edit_charapter1 = QtWidgets.QLineEdit(self.tab)
+        self.initiative_edit_charapter1.setGeometry(QtCore.QRect(330, 100, 120, 25))
+        self.initiative_edit_charapter1.setObjectName("initiative_edit_charapter1")
+        self.initiative_charapter1 = QtWidgets.QLabel(self.tab)
+        self.initiative_charapter1.setGeometry(QtCore.QRect(330, 75, 120, 25))
+        self.initiative_charapter1.setStyleSheet("font-weight:bold")
+        self.initiative_charapter1.setObjectName("initiative_charapter1")
+        self.hp_charapter1 = QtWidgets.QLabel(self.tab)
+        self.hp_charapter1.setGeometry(QtCore.QRect(330, 50, 25, 25))
+        self.hp_charapter1.setStyleSheet("font-weight:bold")
+        self.hp_charapter1.setObjectName("hp_charapter1")
+        self.name_charapter2 = QtWidgets.QLabel(self.tab)
+        self.name_charapter2.setGeometry(QtCore.QRect(170, 130, 120, 25))
+        self.name_charapter2.setStyleSheet("font-weight:bold")
+        self.name_charapter2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.name_charapter2.setObjectName("name_charapter2")
+        self.initiative_charapter3 = QtWidgets.QLabel(self.tab)
+        self.initiative_charapter3.setGeometry(QtCore.QRect(330, 185, 120, 25))
+        self.initiative_charapter3.setStyleSheet("font-weight:bold")
+        self.initiative_charapter3.setObjectName("initiative_charapter3")
+        self.hp_edit_charapter2 = QtWidgets.QLineEdit(self.tab)
+        self.hp_edit_charapter2.setGeometry(QtCore.QRect(199, 160, 95, 25))
+        self.hp_edit_charapter2.setObjectName("hp_edit_charapter2")
+        self.hp_edit_charapter3 = QtWidgets.QLineEdit(self.tab)
+        self.hp_edit_charapter3.setGeometry(QtCore.QRect(359, 160, 95, 25))
+        self.hp_edit_charapter3.setObjectName("hp_edit_charapter3")
+        self.name_charapter3 = QtWidgets.QLabel(self.tab)
+        self.name_charapter3.setGeometry(QtCore.QRect(330, 130, 120, 25))
+        self.name_charapter3.setStyleSheet("font-weight:bold")
+        self.name_charapter3.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.name_charapter3.setObjectName("name_charapter3")
+        self.initiative_edit_charapter2 = QtWidgets.QLineEdit(self.tab)
+        self.initiative_edit_charapter2.setGeometry(QtCore.QRect(170, 210, 120, 25))
+        self.initiative_edit_charapter2.setObjectName("initiative_edit_charapter2")
+        self.initiative_charapter2 = QtWidgets.QLabel(self.tab)
+        self.initiative_charapter2.setGeometry(QtCore.QRect(170, 185, 120, 25))
+        self.initiative_charapter2.setStyleSheet("font-weight:bold")
+        self.initiative_charapter2.setObjectName("initiative_charapter2")
+        self.initiative_edit_charapter3 = QtWidgets.QLineEdit(self.tab)
+        self.initiative_edit_charapter3.setGeometry(QtCore.QRect(330, 210, 120, 25))
+        self.initiative_edit_charapter3.setObjectName("initiative_edit_charapter3")
+        self.hp_charapter3 = QtWidgets.QLabel(self.tab)
+        self.hp_charapter3.setGeometry(QtCore.QRect(330, 160, 25, 25))
+        self.hp_charapter3.setStyleSheet("font-weight:bold")
+        self.hp_charapter3.setObjectName("hp_charapter3")
+        self.hp_charapter2 = QtWidgets.QLabel(self.tab)
+        self.hp_charapter2.setGeometry(QtCore.QRect(170, 160, 25, 25))
+        self.hp_charapter2.setStyleSheet("font-weight:bold")
+        self.hp_charapter2.setObjectName("hp_charapter2")
+        self.tabWidget.addTab(self.tab, "")
+        self.tab_2 = QtWidgets.QWidget()
+        self.tab_2.setObjectName("tab_2")
+        self.scene_edit = QtWidgets.QLineEdit(self.tab_2)
+        self.scene_edit.setGeometry(QtCore.QRect(10, 40, 113, 22))
+        self.scene_edit.setObjectName("scene_edit")
+        self.url_edit = QtWidgets.QLineEdit(self.tab_2)
+        self.url_edit.setGeometry(QtCore.QRect(140, 40, 451, 22))
+        self.url_edit.setObjectName("url_edit")
+        self.pushButton_url_set = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_url_set.setGeometry(QtCore.QRect(610, 40, 93, 28))
+        self.pushButton_url_set.setObjectName("pushButton_url_set")
+        self.pushButton_url_open = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_url_open.setGeometry(QtCore.QRect(410, 120, 93, 28))
+        self.pushButton_url_open.setObjectName("pushButton_url_open")
+        self.comboBox = QtWidgets.QComboBox(self.tab_2)
+        self.comboBox.setGeometry(QtCore.QRect(140, 120, 251, 22))
+        self.comboBox.setObjectName("comboBox")
+        self.tabWidget.addTab(self.tab_2, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 390, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -67,21 +203,45 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "DMS"))
-        self.name.setText(_translate("MainWindow", "Name"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.hp.setText(_translate("MainWindow", "Hp"))
-        self.initiative.setText(_translate("MainWindow", "Initiative"))
         self.pushButton.setText(_translate("MainWindow", "Create"))
+        self.name.setText(_translate("MainWindow", "Name"))
+        self.initiative.setText(_translate("MainWindow", "Initiative"))
+        self.pushButton_initiative.setText(_translate("MainWindow", "Initiative"))
+        self.label_roll_dice.setText(_translate("MainWindow", ""))
+        self.pushButton_roll_dice.setText(_translate("MainWindow", "Roll dice"))
+        self.label_dice_amount.setText(_translate("MainWindow", "Dice  Amount"))
+        self.dice_edit.setText(_translate("MainWindow", "20"))
+        self.radioButton_hide_create.setText(_translate("MainWindow", "Выкл создание"))
+        self.name_charapter0.setText(_translate("MainWindow", "Name"))
+        self.hp_charapter0.setText(_translate("MainWindow", "Hp"))
+        self.initiative_charapter0.setText(_translate("MainWindow", "Initiative"))
+        self.name_charapter1.setText(_translate("MainWindow", "Name"))
+        self.initiative_charapter1.setText(_translate("MainWindow", "Initiative"))
+        self.hp_charapter1.setText(_translate("MainWindow", "Hp"))
+        self.name_charapter2.setText(_translate("MainWindow", "Name"))
+        self.initiative_charapter3.setText(_translate("MainWindow", "Initiative"))
+        self.name_charapter3.setText(_translate("MainWindow", "Name"))
+        self.initiative_charapter2.setText(_translate("MainWindow", "Initiative"))
+        self.hp_charapter3.setText(_translate("MainWindow", "Hp"))
+        self.hp_charapter2.setText(_translate("MainWindow", "Hp"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
+        self.pushButton_url_set.setText(_translate("MainWindow", "set"))
+        self.pushButton_url_open.setText(_translate("MainWindow", "open"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionSave.setText(_translate("MainWindow", "Save"))
 
 
-hero = []
+hero = {}
+music = {}
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -91,54 +251,335 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def aplication_func(self):
         self.actionSave.triggered.connect(self.actions_save)
         self.actionOpen.triggered.connect(self.action_open)
-        self.pushButton.clicked.connect(self.create_hero)
+        self.pushButton.clicked.connect(self.input_chek)
+        self.pushButton_initiative.clicked.connect(self.calk_initiative)
+        self.radioButton_hide_create.toggled.connect(self.hide_create)
+        self.pushButton_roll_dice.clicked.connect(self.roll_dice)
+        self.pushButton_url_set.clicked.connect(self.music_changer_update)
+        self.pushButton_url_open.clicked.connect(self.music_changer_play)
 
-    def write_value(self):
-        value = f'Name: {self.name_edit.text()}' + '\n' + \
-                f'Hp: {self.hp_edit.text()}' + '\n' + \
-                f'Initiative: {self.initiative_edit.text()}'
-        print(self.name_edit.text() + ' ' + self.hp_edit.text() + ' ' + self.initiative_edit.text())
-        self.label.setText(value)
 
+        self.hide_aplications()
+        self.view_charapter_stats()
+
+    def hide_aplications(self):
+        self.name_charapter0.hide()
+        self.name_charapter1.hide()
+        self.name_charapter2.hide()
+        self.name_charapter3.hide()
+        self.hp_charapter0.hide()
+        self.hp_charapter1.hide()
+        self.hp_charapter2.hide()
+        self.hp_charapter3.hide()
+        self.hp_edit_charapter0.hide()
+        self.hp_edit_charapter1.hide()
+        self.hp_edit_charapter2.hide()
+        self.hp_edit_charapter3.hide()
+        self.initiative_charapter0.hide()
+        self.initiative_charapter1.hide()
+        self.initiative_charapter2.hide()
+        self.initiative_charapter3.hide()
+        self.initiative_edit_charapter0.hide()
+        self.initiative_edit_charapter1.hide()
+        self.initiative_edit_charapter2.hide()
+        self.initiative_edit_charapter3.hide()
+
+        self.name.show()
+        self.name_edit.show()
+        self.hp.show()
+        self.hp_edit.show()
+        self.initiative.show()
+        self.initiative_edit.show()
+        self.pushButton.show()
+        self.label.show()
+
+    def view_charapter_stats(self):
+        self.hp_edit_charapter0.editingFinished.connect(self.set_stats_charapter)
+        self.hp_edit_charapter1.editingFinished.connect(self.set_stats_charapter)
+        self.hp_edit_charapter2.editingFinished.connect(self.set_stats_charapter)
+        self.hp_edit_charapter3.editingFinished.connect(self.set_stats_charapter)
+        self.initiative_edit_charapter0.editingFinished.connect(self.set_stats_charapter)
+        self.initiative_edit_charapter1.editingFinished.connect(self.set_stats_charapter)
+        self.initiative_edit_charapter2.editingFinished.connect(self.set_stats_charapter)
+        self.initiative_edit_charapter3.editingFinished.connect(self.set_stats_charapter)
+
+    def input_chek(self):
+        try:
+            hp_check = int(self.hp_edit.text())
+            initiative_check = int(self.initiative_edit.text())
+            self.create_hero()
+        except:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Не корректный ввод!')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+            error.setDetailedText('HP и инициатива должны состоять только из цифр')
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
     def create_hero(self):
-        Hero = namedtuple('Hero', 'name hp initiative')
+        self.iter = 0
+        for item in range(len(hero)):
+            self.iter += 1
+        if self.iter <= 3:
+            hero.update({
+            'charapter' + str(self.iter): {
+                'name': self.name_edit.text(),
+                'hp': self.hp_edit.text(),
+                'initiative': self.initiative_edit.text()
+            }
+            })
+            print(hero)
+        else:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Нельзя выполнить действие')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+            error.setInformativeText('На данный момент только 4 персонажа')
+            error.setDetailedText('Слишком много людей!')
 
-        hero.append(Hero(f'{self.name_edit.text()}',
-                         f'{self.hp_edit.text()}',
-                         f'{self.initiative_edit.text()}'
-                         ))
-        print(hero)
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
+        self.view_create_hero()
+        self.add_to_tracker()
+
+    def popup_action(self, but):
+        if but.text() == 'Ok':
+            print('Ok')
+
+    def view_create_hero(self):
         value = ''
-        for i in range(len(hero)):
-            value += f'Name: {hero[i].name}' + '\n' + \
-                    f'Hp: {hero[i].hp}' + '\n' + \
-                    f'Initiative: {hero[i].initiative}'\
+        for item in range(len(hero)):
+            value += f'Name: {hero["charapter" + str(item)]["name"]}' + '\n' + \
+                    f'Hp: {hero["charapter" + str(item)]["hp"]}' + '\n' + \
+                    f'Initiative: {hero["charapter" + str(item)]["initiative"]}'\
                      + '\n' + '\n'
             self.label.setText(value)
+            print(iter)
+        print(value)
+
+    def add_to_tracker(self):
+        if len(hero) == 1:
+            self.name_charapter0.setText(hero['charapter0']['name'])
+            self.hp_edit_charapter0.setText(hero['charapter0']['hp'])
+            self.initiative_edit_charapter0.setText(hero['charapter0']['initiative'])
+
+        elif len(hero) == 2:
+            self.name_charapter0.setText(hero['charapter0']['name'])
+            self.name_charapter1.setText(hero['charapter1']['name'])
+            self.hp_edit_charapter0.setText(hero['charapter0']['hp'])
+            self.hp_edit_charapter1.setText(hero['charapter1']['hp'])
+            self.initiative_edit_charapter0.setText(hero['charapter0']['initiative'])
+            self.initiative_edit_charapter1.setText(hero['charapter1']['initiative'])
+
+        elif len(hero) == 3:
+            self.name_charapter0.setText(hero['charapter0']['name'])
+            self.name_charapter1.setText(hero['charapter1']['name'])
+            self.name_charapter2.setText(hero['charapter2']['name'])
+            self.hp_edit_charapter0.setText(hero['charapter0']['hp'])
+            self.hp_edit_charapter1.setText(hero['charapter1']['hp'])
+            self.hp_edit_charapter2.setText(hero['charapter2']['hp'])
+            self.initiative_edit_charapter0.setText(hero['charapter0']['initiative'])
+            self.initiative_edit_charapter1.setText(hero['charapter1']['initiative'])
+            self.initiative_edit_charapter2.setText(hero['charapter2']['initiative'])
+
+        elif len(hero) == 4:
+            self.name_charapter0.setText(hero['charapter0']['name'])
+            self.name_charapter1.setText(hero['charapter1']['name'])
+            self.name_charapter2.setText(hero['charapter2']['name'])
+            self.name_charapter3.setText(hero['charapter3']['name'])
+            self.hp_edit_charapter0.setText(hero['charapter0']['hp'])
+            self.hp_edit_charapter1.setText(hero['charapter1']['hp'])
+            self.hp_edit_charapter2.setText(hero['charapter2']['hp'])
+            self.hp_edit_charapter3.setText(hero['charapter3']['hp'])
+            self.initiative_edit_charapter0.setText(hero['charapter0']['initiative'])
+            self.initiative_edit_charapter1.setText(hero['charapter1']['initiative'])
+            self.initiative_edit_charapter2.setText(hero['charapter2']['initiative'])
+            self.initiative_edit_charapter3.setText(hero['charapter3']['initiative'])
+
+    def set_stats_charapter(self):
+        try:
+            if len(hero) == 1:
+                hero['charapter0']['hp'] = int(self.hp_edit_charapter0.text())
+                hero['charapter0']['initiative'] = int(self.initiative_edit_charapter0.text())
+            elif len(hero) == 2:
+                hero['charapter0']['hp'] = int(self.hp_edit_charapter0.text())
+                hero['charapter1']['hp'] = int(self.hp_edit_charapter1.text())
+                hero['charapter0']['initiative'] = int(self.initiative_edit_charapter0.text())
+                hero['charapter1']['initiative'] = int(self.initiative_edit_charapter1.text())
+            elif len(hero) == 3:
+                hero['charapter0']['hp'] = int(self.hp_edit_charapter0.text())
+                hero['charapter1']['hp'] = int(self.hp_edit_charapter1.text())
+                hero['charapter2']['hp'] = int(self.hp_edit_charapter2.text())
+                hero['charapter0']['initiative'] = int(self.initiative_edit_charapter0.text())
+                hero['charapter1']['initiative'] = int(self.initiative_edit_charapter1.text())
+                hero['charapter2']['initiative'] = int(self.initiative_edit_charapter2.text())
+            elif len(hero) == 4:
+                hero['charapter0']['hp'] = int(self.hp_edit_charapter0.text())
+                hero['charapter1']['hp'] = int(self.hp_edit_charapter1.text())
+                hero['charapter2']['hp'] = int(self.hp_edit_charapter2.text())
+                hero['charapter3']['hp'] = int(self.hp_edit_charapter3.text())
+                hero['charapter0']['initiative'] = int(self.initiative_edit_charapter0.text())
+                hero['charapter1']['initiative'] = int(self.initiative_edit_charapter1.text())
+                hero['charapter2']['initiative'] = int(self.initiative_edit_charapter2.text())
+                hero['charapter3']['initiative'] = int(self.initiative_edit_charapter3.text())
+        except:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Не корректный ввод данных')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
+
+
+    def calk_initiative(self):
+        hero_res = []
+        value = ''
+        for i in range(len(hero)):
+            t = int(hero['charapter' + str(i)]['initiative']) + random.randint(1, 20)
+            n = hero['charapter' + str(i)]['name']
+            hero_res += (t, n),
+
+        hero_res.sort(key=lambda x: (x[0], x[1]), reverse=True)
+        for i in range(len(hero_res)):
+            value += f'Name = {hero_res[i][1]}' + '\n' + f'initiative = {hero_res[i][0]}' + '\n'
+        self.label_2.setText(value)
+
+    def hide_create(self):
+        radioButton = self.sender()
+        if radioButton.isChecked():
+            self.name_charapter0.show()
+            self.name_charapter1.show()
+            self.name_charapter2.show()
+            self.name_charapter3.show()
+            self.hp_charapter0.show()
+            self.hp_charapter1.show()
+            self.hp_charapter2.show()
+            self.hp_charapter3.show()
+            self.hp_edit_charapter0.show()
+            self.hp_edit_charapter1.show()
+            self.hp_edit_charapter2.show()
+            self.hp_edit_charapter3.show()
+            self.initiative_charapter0.show()
+            self.initiative_charapter1.show()
+            self.initiative_charapter2.show()
+            self.initiative_charapter3.show()
+            self.initiative_edit_charapter0.show()
+            self.initiative_edit_charapter1.show()
+            self.initiative_edit_charapter2.show()
+            self.initiative_edit_charapter3.show()
+
+            self.name.hide()
+            self.name_edit.hide()
+            self.hp.hide()
+            self.hp_edit.hide()
+            self.initiative.hide()
+            self.initiative_edit.hide()
+            self.pushButton.hide()
+            self.label.hide()
+
+        else:
+            self.name_charapter0.hide()
+            self.name_charapter1.hide()
+            self.name_charapter2.hide()
+            self.name_charapter3.hide()
+            self.hp_charapter0.hide()
+            self.hp_charapter1.hide()
+            self.hp_charapter2.hide()
+            self.hp_charapter3.hide()
+            self.hp_edit_charapter0.hide()
+            self.hp_edit_charapter1.hide()
+            self.hp_edit_charapter2.hide()
+            self.hp_edit_charapter3.hide()
+            self.initiative_charapter0.hide()
+            self.initiative_charapter1.hide()
+            self.initiative_charapter2.hide()
+            self.initiative_charapter3.hide()
+            self.initiative_edit_charapter0.hide()
+            self.initiative_edit_charapter1.hide()
+            self.initiative_edit_charapter2.hide()
+            self.initiative_edit_charapter3.hide()
+
+            self.name.show()
+            self.name_edit.show()
+            self.hp.show()
+            self.hp_edit.show()
+            self.initiative.show()
+            self.initiative_edit.show()
+            self.pushButton.show()
+            self.label.show()
+
+    def roll_dice(self):
+        try:
+            dice = int(self.dice_edit.text())
+            amount = int(self.amount_dice_box.text())
+            value = 0
+            if amount == 0:
+                amount += 1
+            for roll in range(amount):
+                value += random.randint(1, dice)
+            self.label_roll_dice.setText(str(value))
+        except:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Не корректный ввод данных')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
 
     def actions_save(self):
-        fname = QFileDialog.getSaveFileName(self)[0]
+        save_dict = (hero, music)
+        data = QFileDialog.getSaveFileName(self)[0]
 
         try:
-            f = open(fname, 'w')
-            text = self.label.text()
-            f.write(text)
-            f.close()
+            with open(data, 'w') as outfile:
+                json.dump(save_dict, outfile)
         except FileNotFoundError:
             print("No such file")
 
     def action_open(self):
-        fname = QFileDialog.getOpenFileName(self)[0]
+        data = QFileDialog.getOpenFileName(self)[0]
 
         try:
-            f = open(fname, 'r')
-            with f:
-                data = f.read()
-                self.label.setText(data)
-
-            f.close()
+            with open(data, 'r') as json_file:
+                data = json.load(json_file)
+                global hero
+                global music
+                hero = data[0]
+                music = data[1]
+            self.view_create_hero()
+            self.add_to_tracker()
+            self.music_changer_combo_box_update()
         except FileNotFoundError:
             print("No such file")
+
+    def music_changer_update(self):
+        music.update({self.scene_edit.text(): self.url_edit.text()})
+        self.comboBox.addItem(self.scene_edit.text())
+        print(music)
+
+    def music_changer_combo_box_update(self):
+        for i in music.keys():
+            self.comboBox.addItem(i)
+
+    def music_changer_play(self):
+        webbrowser.open(music[self.comboBox.currentText()])
+
+
 
 
 if __name__ == "__main__":
