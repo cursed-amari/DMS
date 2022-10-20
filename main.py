@@ -88,7 +88,7 @@ class Ui_MainWindow(object):
         self.label_dice_amount.setGeometry(QtCore.QRect(570, 350, 81, 16))
         self.label_dice_amount.setObjectName("label_dice_amount")
         self.radioButton_hide_create = QtWidgets.QRadioButton(self.tab)
-        self.radioButton_hide_create.setGeometry(QtCore.QRect(10, 270, 95, 20))
+        self.radioButton_hide_create.setGeometry(QtCore.QRect(10, 270, 105, 20))
         self.radioButton_hide_create.setChecked(False)
         self.radioButton_hide_create.setAutoRepeat(False)
         self.radioButton_hide_create.setObjectName("radioButton_hide_create")
@@ -186,6 +186,9 @@ class Ui_MainWindow(object):
         self.comboBox = QtWidgets.QComboBox(self.tab_2)
         self.comboBox.setGeometry(QtCore.QRect(140, 120, 251, 22))
         self.comboBox.setObjectName("comboBox")
+        self.pushButton_url_delete = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_url_delete.setGeometry(QtCore.QRect(640, 120, 93, 28))
+        self.pushButton_url_delete.setObjectName("pushButton_url_delete")
         self.tabWidget.addTab(self.tab_2, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -231,10 +234,11 @@ class Ui_MainWindow(object):
         self.initiative_charapter2.setText(_translate("MainWindow", "Initiative"))
         self.hp_charapter3.setText(_translate("MainWindow", "Hp"))
         self.hp_charapter2.setText(_translate("MainWindow", "Hp"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tracker"))
         self.pushButton_url_set.setText(_translate("MainWindow", "set"))
         self.pushButton_url_open.setText(_translate("MainWindow", "open"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
+        self.pushButton_url_delete.setText(_translate("MainWindow", "delete"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Music changer"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionSave.setText(_translate("MainWindow", "Save"))
@@ -257,6 +261,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_roll_dice.clicked.connect(self.roll_dice)
         self.pushButton_url_set.clicked.connect(self.music_changer_update)
         self.pushButton_url_open.clicked.connect(self.music_changer_play)
+        self.pushButton_url_delete.clicked.connect(self.music_changer_delete)
 
 
         self.hide_aplications()
@@ -321,6 +326,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             error.exec()
     def create_hero(self):
+        '''
+        DOCKSTRING: Создание персонажа в редакторе и добавление его в словарь
+        :return:
+        '''
         self.iter = 0
         for item in range(len(hero)):
             self.iter += 1
@@ -350,10 +359,20 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.add_to_tracker()
 
     def popup_action(self, but):
+        '''
+        DOCKSTRING: Заглушка
+        :param but:
+        :return:
+        '''
         if but.text() == 'Ok':
             print('Ok')
 
     def view_create_hero(self):
+        '''
+        DOCKSTRING: Отображение созданых персонажей в окне рядом с редактором
+        :param but:
+        :return:
+        '''
         value = ''
         for item in range(len(hero)):
             value += f'Name: {hero["charapter" + str(item)]["name"]}' + '\n' + \
@@ -365,6 +384,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         print(value)
 
     def add_to_tracker(self):
+        '''
+        DOCKSTRING: добавление созданых персонажей в трекер
+        :param but:
+        :return:
+        '''
         if len(hero) == 1:
             self.name_charapter0.setText(hero['charapter0']['name'])
             self.hp_edit_charapter0.setText(hero['charapter0']['hp'])
@@ -404,6 +428,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.initiative_edit_charapter3.setText(hero['charapter3']['initiative'])
 
     def set_stats_charapter(self):
+        '''
+        DOCKSTRING: Обновление статов персонажей при их изменении в трекере
+        :param but:
+        :return:
+        '''
         try:
             if len(hero) == 1:
                 hero['charapter0']['hp'] = int(self.hp_edit_charapter0.text())
@@ -443,6 +472,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
     def calk_initiative(self):
+        '''
+        DOCKSTRING: подсчёт инициативы
+        :param but:
+        :return:
+        '''
         hero_res = []
         value = ''
         for i in range(len(hero)):
@@ -456,6 +490,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_2.setText(value)
 
     def hide_create(self):
+        '''
+        DOCKSTRING: круглая кнопка. Скрыть или показать редактор персонажа
+        :param but:
+        :return:
+        '''
         radioButton = self.sender()
         if radioButton.isChecked():
             self.name_charapter0.show()
@@ -520,6 +559,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label.show()
 
     def roll_dice(self):
+        '''
+        DOCKSTRING: рандом кубика и вывод в окно
+        :param but:
+        :return:
+        '''
         try:
             dice = int(self.dice_edit.text())
             amount = int(self.amount_dice_box.text())
@@ -542,6 +586,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             error.exec()
 
     def actions_save(self):
+        '''
+        DOCKSTRING: сохранение в json файл
+        :param but:
+        :return:
+        '''
         save_dict = (hero, music)
         data = QFileDialog.getSaveFileName(self)[0]
 
@@ -552,6 +601,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             print("No such file")
 
     def action_open(self):
+        '''
+        DOCKSTRING: загрузка из json файла
+        :param but:
+        :return:
+        '''
         data = QFileDialog.getOpenFileName(self)[0]
 
         try:
@@ -568,17 +622,70 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             print("No such file")
 
     def music_changer_update(self):
-        music.update({self.scene_edit.text(): self.url_edit.text()})
-        self.comboBox.addItem(self.scene_edit.text())
+        '''
+        DOCKSTRING: Добавление ссылок на музыку в словарь в формате сцена: урл
+        :param but:
+        :return:
+        '''
+        if self.scene_edit.text() not in music.keys():
+            self.comboBox.addItem(self.scene_edit.text())
+        if self.scene_edit.text() in music.keys():
+            item = music[self.scene_edit.text()].split(' ')
+            if self.url_edit.text() in item:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Такая ссылка уже есть в этой сцене')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+            else:
+                value = self.url_edit.text()
+                value_result = music[self.scene_edit.text()] + ' ' + value
+                music.update({self.scene_edit.text(): value_result})
+        else:
+            music.update({self.scene_edit.text(): self.url_edit.text()})
+
+
+
         print(music)
 
+
     def music_changer_combo_box_update(self):
+        '''
+        DOCKSTRING: обновление комбо бокса, при загрузке сохранения
+        :param but:
+        :return:
+        '''
         for i in music.keys():
             self.comboBox.addItem(i)
 
     def music_changer_play(self):
-        webbrowser.open(music[self.comboBox.currentText()])
+        value = music[self.comboBox.currentText()].split(' ')
+        for i in range(len(value)):
+            webbrowser.open(value[i])
 
+    def music_changer_delete(self):
+        if self.comboBox.currentText() in music.keys():
+            list_key = list(music.keys())
+            music.pop(self.comboBox.currentText())
+            self.comboBox.removeItem(list_key.index(self.comboBox.currentText()))
+
+            print(music)
+        else:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Сцена не найдена')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
 
 
 
