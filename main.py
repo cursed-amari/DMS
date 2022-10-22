@@ -13,6 +13,7 @@ import webbrowser
 import json
 
 from main_class import Ui_MainWindow
+from dict_rules import dict_rules
 
 
 hero = {}
@@ -29,14 +30,21 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton.clicked.connect(self.input_chek)
         self.pushButton_initiative.clicked.connect(self.calk_initiative)
         self.radioButton_hide_create.toggled.connect(self.hide_create)
+        self.checkBox_lock_init.toggled.connect(self.lock_initiative)
         self.pushButton_roll_dice.clicked.connect(self.roll_dice)
         self.pushButton_url_set.clicked.connect(self.music_changer_update)
         self.pushButton_url_open.clicked.connect(self.music_changer_play)
         self.pushButton_url_delete.clicked.connect(self.music_changer_delete)
+        self.pushButton_restore_spell_slots_0.clicked.connect(self.restore_slot_chr0)
+        self.pushButton_restore_spell_slots_1.clicked.connect(self.restore_slot_chr1)
+        self.pushButton_restore_spell_slots_2.clicked.connect(self.restore_slot_chr2)
+        self.pushButton_restore_spell_slots_3.clicked.connect(self.restore_slot_chr3)
+        self.comboBox_rules.currentTextChanged.connect(self.changed_combobox_rules)
 
 
         self.hide_aplications()
         self.view_charapter_stats()
+        self.set_combobox_rules()
 
     def hide_aplications(self):
         self.label_2.hide()
@@ -142,6 +150,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.spin_spell_slot_charapter3_7.hide()
         self.spin_spell_slot_charapter3_8.hide()
         self.spin_spell_slot_charapter3_9.hide()
+        self.pushButton_restore_spell_slots_0.hide()
+        self.pushButton_restore_spell_slots_1.hide()
+        self.pushButton_restore_spell_slots_2.hide()
+        self.pushButton_restore_spell_slots_3.hide()
 
         self.name.show()
         self.name_edit.show()
@@ -161,6 +173,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.initiative_edit_charapter1.editingFinished.connect(self.set_stats_charapter)
         self.initiative_edit_charapter2.editingFinished.connect(self.set_stats_charapter)
         self.initiative_edit_charapter3.editingFinished.connect(self.set_stats_charapter)
+
 
     def input_chek(self):
         try:
@@ -391,6 +404,62 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.spin_spell_slot_charapter3_8.setValue(int(hero['charapter3']['8']))
             self.spin_spell_slot_charapter3_9.setValue(int(hero['charapter3']['9']))
 
+    def restore_slot_chr0(self):
+        if 'charapter0' in hero:
+            self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
+            self.spin_spell_slot_charapter0_2.setValue(int(hero['charapter0']['2']))
+            self.spin_spell_slot_charapter0_3.setValue(int(hero['charapter0']['3']))
+            self.spin_spell_slot_charapter0_4.setValue(int(hero['charapter0']['4']))
+            self.spin_spell_slot_charapter0_5.setValue(int(hero['charapter0']['5']))
+            self.spin_spell_slot_charapter0_6.setValue(int(hero['charapter0']['6']))
+            self.spin_spell_slot_charapter0_7.setValue(int(hero['charapter0']['7']))
+            self.spin_spell_slot_charapter0_8.setValue(int(hero['charapter0']['8']))
+            self.spin_spell_slot_charapter0_9.setValue(int(hero['charapter0']['9']))
+        else:
+            pass
+
+    def restore_slot_chr1(self):
+        if 'charapter1' in hero:
+            self.spin_spell_slot_charapter1.setValue(int(hero['charapter1']['1']))
+            self.spin_spell_slot_charapter1_2.setValue(int(hero['charapter1']['2']))
+            self.spin_spell_slot_charapter1_3.setValue(int(hero['charapter1']['3']))
+            self.spin_spell_slot_charapter1_4.setValue(int(hero['charapter1']['4']))
+            self.spin_spell_slot_charapter1_5.setValue(int(hero['charapter1']['5']))
+            self.spin_spell_slot_charapter1_6.setValue(int(hero['charapter1']['6']))
+            self.spin_spell_slot_charapter1_7.setValue(int(hero['charapter1']['7']))
+            self.spin_spell_slot_charapter1_8.setValue(int(hero['charapter1']['8']))
+            self.spin_spell_slot_charapter1_9.setValue(int(hero['charapter1']['9']))
+        else:
+            pass
+
+    def restore_slot_chr2(self):
+        if 'charapter2' in hero:
+            self.spin_spell_slot_charapter2.setValue(int(hero['charapter2']['1']))
+            self.spin_spell_slot_charapter2_2.setValue(int(hero['charapter2']['2']))
+            self.spin_spell_slot_charapter2_3.setValue(int(hero['charapter2']['3']))
+            self.spin_spell_slot_charapter2_4.setValue(int(hero['charapter2']['4']))
+            self.spin_spell_slot_charapter2_5.setValue(int(hero['charapter2']['5']))
+            self.spin_spell_slot_charapter2_6.setValue(int(hero['charapter2']['6']))
+            self.spin_spell_slot_charapter2_7.setValue(int(hero['charapter2']['7']))
+            self.spin_spell_slot_charapter2_8.setValue(int(hero['charapter2']['8']))
+            self.spin_spell_slot_charapter2_9.setValue(int(hero['charapter2']['9']))
+        else:
+            pass
+
+    def restore_slot_chr3(self):
+        if 'charapter3' in hero:
+            self.spin_spell_slot_charapter3.setValue(int(hero['charapter3']['1']))
+            self.spin_spell_slot_charapter3_2.setValue(int(hero['charapter3']['2']))
+            self.spin_spell_slot_charapter3_3.setValue(int(hero['charapter3']['3']))
+            self.spin_spell_slot_charapter3_4.setValue(int(hero['charapter3']['4']))
+            self.spin_spell_slot_charapter3_5.setValue(int(hero['charapter3']['5']))
+            self.spin_spell_slot_charapter3_6.setValue(int(hero['charapter3']['6']))
+            self.spin_spell_slot_charapter3_7.setValue(int(hero['charapter3']['7']))
+            self.spin_spell_slot_charapter3_8.setValue(int(hero['charapter3']['8']))
+            self.spin_spell_slot_charapter3_9.setValue(int(hero['charapter3']['9']))
+        else:
+            pass
+
 
     def set_stats_charapter(self):
         '''
@@ -460,8 +529,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         :param but:
         :return:
         '''
-        radioButton = self.sender()
-        if radioButton.isChecked():
+        self.check_radiobutton = self.radioButton_hide_create.isChecked()
+        if self.check_radiobutton:
             self.label_2.show()
             self.pushButton_initiative.show()
             self.dice_edit.show()
@@ -566,6 +635,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.spin_spell_slot_charapter3_7.show()
             self.spin_spell_slot_charapter3_8.show()
             self.spin_spell_slot_charapter3_9.show()
+            self.pushButton_restore_spell_slots_0.show()
+            self.pushButton_restore_spell_slots_1.show()
+            self.pushButton_restore_spell_slots_2.show()
+            self.pushButton_restore_spell_slots_3.show()
 
 
             self.name.hide()
@@ -598,7 +671,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
 
-        else:
+        if self.check_radiobutton == False:
             self.label_2.hide()
             self.pushButton_initiative.hide()
             self.dice_edit.hide()
@@ -703,6 +776,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.spin_spell_slot_charapter3_7.hide()
             self.spin_spell_slot_charapter3_8.hide()
             self.spin_spell_slot_charapter3_9.hide()
+            self.pushButton_restore_spell_slots_0.hide()
+            self.pushButton_restore_spell_slots_1.hide()
+            self.pushButton_restore_spell_slots_2.hide()
+            self.pushButton_restore_spell_slots_3.hide()
 
             self.name.show()
             self.name_edit.show()
@@ -731,6 +808,73 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.spell_slot_edit_7.show()
             self.spell_slot_edit_8.show()
             self.spell_slot_edit_9.show()
+
+    def lock_initiative(self):
+        check_checkbox = self.checkBox_lock_init.isChecked()
+        try:
+            if self.check_radiobutton == True:
+                if len(hero) != 0:
+                    if len(hero) == 1:
+                        self.label_lock_init_chr_0.show()
+
+                        self.initiative_edit_charapter0.hide()
+
+                        self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
+
+                    if len(hero) == 2:
+                        self.label_lock_init_chr_0.show()
+                        self.label_lock_init_chr_1.show()
+
+                        self.initiative_edit_charapter0.hide()
+                        self.initiative_edit_charapter1.hide()
+
+                        self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
+                        self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
+
+                    if len(hero) == 3:
+                        self.label_lock_init_chr_0.show()
+                        self.label_lock_init_chr_1.show()
+                        self.label_lock_init_chr_2.show()
+
+                        self.initiative_edit_charapter0.hide()
+                        self.initiative_edit_charapter1.hide()
+                        self.initiative_edit_charapter2.hide()
+
+                        self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
+                        self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
+                        self.label_lock_init_chr_2.setText(hero["charapter2"]['initiative'])
+
+                    if len(hero) == 4:
+                        if check_checkbox:
+                            self.label_lock_init_chr_0.show()
+                            self.label_lock_init_chr_1.show()
+                            self.label_lock_init_chr_2.show()
+                            self.label_lock_init_chr_3.show()
+
+                            self.initiative_edit_charapter0.hide()
+                            self.initiative_edit_charapter1.hide()
+                            self.initiative_edit_charapter2.hide()
+                            self.initiative_edit_charapter3.hide()
+
+                            self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
+                            self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
+                            self.label_lock_init_chr_2.setText(hero["charapter2"]['initiative'])
+                            self.label_lock_init_chr_3.setText(hero["charapter3"]['initiative'])
+
+                if check_checkbox == False:
+                    self.label_lock_init_chr_0.hide()
+                    self.label_lock_init_chr_1.hide()
+                    self.label_lock_init_chr_2.hide()
+                    self.label_lock_init_chr_3.hide()
+
+                    self.initiative_edit_charapter0.show()
+                    self.initiative_edit_charapter1.show()
+                    self.initiative_edit_charapter2.show()
+                    self.initiative_edit_charapter3.show()
+            else:
+                pass
+        except:
+            pass
 
     def roll_dice(self):
         '''
@@ -765,7 +909,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         :param but:
         :return:
         '''
-        save_dict = (hero, music)
+        note_zero = self.note_edit_0.toPlainText()
+        note_one = self.note_edit_1.toPlainText()
+        note_two = self.note_edit_2.toPlainText()
+        note_three = self.note_edit_3.toPlainText()
+        save_dict = (hero, music, note_zero, note_one, note_two, note_three)
         data = QFileDialog.getSaveFileName(self)[0]
 
         try:
@@ -789,6 +937,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 global music
                 hero = data[0]
                 music = data[1]
+                self.note_edit_0.setText(data[2])
+                self.note_edit_1.setText(data[3])
+                self.note_edit_2.setText(data[4])
+                self.note_edit_3.setText(data[5])
             self.view_create_hero()
             self.add_to_tracker()
             self.music_changer_combo_box_update()
@@ -860,6 +1012,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             error.buttonClicked.connect(self.popup_action)
 
             error.exec()
+
+    def set_combobox_rules(self):
+        for i in dict_rules:
+            self.comboBox_rules.addItem(i)
+
+    def changed_combobox_rules(self):
+        self.label_rules.setText(dict_rules[self.comboBox_rules.currentText()])
+
 
 
 
