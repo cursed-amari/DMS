@@ -13,6 +13,7 @@ import webbrowser
 import json
 
 from main_class import Ui_MainWindow
+from calc_init import InitiativeWindow
 from dict_rules import dict_rules
 
 
@@ -28,7 +29,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionSave.triggered.connect(self.actions_save)
         self.actionOpen.triggered.connect(self.action_open)
         self.pushButton.clicked.connect(self.input_chek)
-        self.pushButton_initiative.clicked.connect(self.calk_initiative)
         self.radioButton_hide_create.toggled.connect(self.hide_create)
         self.checkBox_lock_init.toggled.connect(self.lock_initiative)
         self.pushButton_roll_dice.clicked.connect(self.roll_dice)
@@ -40,6 +40,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_restore_spell_slots_2.clicked.connect(self.restore_slot_chr2)
         self.pushButton_restore_spell_slots_3.clicked.connect(self.restore_slot_chr3)
         self.comboBox_rules.currentTextChanged.connect(self.changed_combobox_rules)
+        self.pushButton_init_open.clicked.connect(self.open_init_calc)
 
 
         self.hide_aplications()
@@ -47,12 +48,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.set_combobox_rules()
 
     def hide_aplications(self):
-        self.label_2.hide()
-        self.pushButton_initiative.hide()
+        self.pushButton_init_open.hide()
         self.dice_edit.hide()
         self.amount_dice_box.hide()
-        self.label_dice_amount.hide()
+        self.modifier_box.hide()
+        self.label_amount.hide()
+        self.label_dice.hide()
+        self.label_modifier.hide()
         self.label_roll_dice.hide()
+        self.check_advantage.hide()
         self.pushButton_roll_dice.hide()
         self.name_charapter0.hide()
         self.name_charapter1.hide()
@@ -154,6 +158,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_restore_spell_slots_1.hide()
         self.pushButton_restore_spell_slots_2.hide()
         self.pushButton_restore_spell_slots_3.hide()
+        self.checkBox_lock_init.hide()
 
         self.name.show()
         self.name_edit.show()
@@ -163,6 +168,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.initiative_edit.show()
         self.pushButton.show()
         self.label.show()
+
+    def open_init_calc(self):
+        self.result_widget = InitiativeWindow(hero)
+        self.result_widget.show()
 
     def view_charapter_stats(self):
         self.hp_edit_charapter0.editingFinished.connect(self.set_stats_charapter)
@@ -266,8 +275,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     f'Initiative: {hero["charapter" + str(item)]["initiative"]}'\
                      + '\n' + '\n'
             self.label.setText(value)
-            print(iter)
-        print(value)
 
     def add_to_tracker(self):
         '''
@@ -505,23 +512,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             error.exec()
 
 
-    def calk_initiative(self):
-        '''
-        DOCKSTRING: подсчёт инициативы
-        :param but:
-        :return:
-        '''
-        hero_res = []
-        value = ''
-        for i in range(len(hero)):
-            t = int(hero['charapter' + str(i)]['initiative']) + random.randint(1, 20)
-            n = hero['charapter' + str(i)]['name']
-            hero_res += (t, n),
 
-        hero_res.sort(key=lambda x: (x[0], x[1]), reverse=True)
-        for i in range(len(hero_res)):
-            value += f'Name = {hero_res[i][1]}' + '\n' + f'initiative = {hero_res[i][0]}' + '\n'
-        self.label_2.setText(value)
 
     def hide_create(self):
         '''
@@ -530,13 +521,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         :return:
         '''
         self.check_radiobutton = self.radioButton_hide_create.isChecked()
-        if self.check_radiobutton:
-            self.label_2.show()
-            self.pushButton_initiative.show()
+        self.check_checkbox = self.checkBox_lock_init.isChecked()
+        if self.check_radiobutton == True:
+            self.pushButton_init_open.show()
             self.dice_edit.show()
             self.amount_dice_box.show()
-            self.label_dice_amount.show()
+            self.modifier_box.show()
+            self.label_amount.show()
+            self.label_dice.show()
+            self.label_modifier.show()
+            self.label_amount.show()
             self.label_roll_dice.show()
+            self.check_advantage.show()
             self.pushButton_roll_dice.show()
             self.name_charapter0.show()
             self.name_charapter1.show()
@@ -558,6 +554,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.initiative_edit_charapter1.show()
             self.initiative_edit_charapter2.show()
             self.initiative_edit_charapter3.show()
+
+            self.label_lock_init_chr_0.hide()
+            self.label_lock_init_chr_1.hide()
+            self.label_lock_init_chr_2.hide()
+            self.label_lock_init_chr_3.hide()
 
             self.label_spell_slot_charapter0.show()
             self.label_spell_slot_charapter0_2.show()
@@ -639,6 +640,23 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.pushButton_restore_spell_slots_1.show()
             self.pushButton_restore_spell_slots_2.show()
             self.pushButton_restore_spell_slots_3.show()
+            self.label_lock_init_chr_0.show()
+            self.label_lock_init_chr_1.show()
+            self.label_lock_init_chr_2.show()
+            self.label_lock_init_chr_3.show()
+            self.checkBox_lock_init.show()
+
+            if self.check_checkbox == False:
+                self.label_lock_init_chr_0.hide()
+                self.label_lock_init_chr_1.hide()
+                self.label_lock_init_chr_2.hide()
+                self.label_lock_init_chr_3.hide()
+            else:
+                self.initiative_edit_charapter0.hide()
+                self.initiative_edit_charapter1.hide()
+                self.initiative_edit_charapter2.hide()
+                self.initiative_edit_charapter3.hide()
+
 
 
             self.name.hide()
@@ -669,15 +687,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.spell_slot_edit_8.hide()
             self.spell_slot_edit_9.hide()
 
-
-
-        if self.check_radiobutton == False:
-            self.label_2.hide()
-            self.pushButton_initiative.hide()
+        else:
+            self.pushButton_init_open.hide()
             self.dice_edit.hide()
             self.amount_dice_box.hide()
-            self.label_dice_amount.hide()
+            self.modifier_box.hide()
+            self.label_amount.hide()
+            self.label_dice.hide()
+            self.label_modifier.hide()
             self.label_roll_dice.hide()
+            self.label_amount.hide()
+            self.label_roll_dice.hide()
+            self.check_advantage.hide()
             self.pushButton_roll_dice.hide()
             self.name_charapter0.hide()
             self.name_charapter1.hide()
@@ -699,6 +720,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.initiative_edit_charapter1.hide()
             self.initiative_edit_charapter2.hide()
             self.initiative_edit_charapter3.hide()
+
+            self.label_lock_init_chr_0.show()
+            self.label_lock_init_chr_1.show()
+            self.label_lock_init_chr_2.show()
+            self.label_lock_init_chr_3.show()
 
             self.label_spell_slot_charapter0.hide()
             self.label_spell_slot_charapter0_2.hide()
@@ -780,6 +806,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.pushButton_restore_spell_slots_1.hide()
             self.pushButton_restore_spell_slots_2.hide()
             self.pushButton_restore_spell_slots_3.hide()
+            self.label_lock_init_chr_0.hide()
+            self.label_lock_init_chr_1.hide()
+            self.label_lock_init_chr_2.hide()
+            self.label_lock_init_chr_3.hide()
+            self.checkBox_lock_init.hide()
+
 
             self.name.show()
             self.name_edit.show()
@@ -810,71 +842,67 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.spell_slot_edit_9.show()
 
     def lock_initiative(self):
-        check_checkbox = self.checkBox_lock_init.isChecked()
-        try:
-            if self.check_radiobutton == True:
-                if len(hero) != 0:
-                    if len(hero) == 1:
-                        self.label_lock_init_chr_0.show()
+        self.check_checkbox = self.checkBox_lock_init.isChecked()
+        if self.check_checkbox:
 
-                        self.initiative_edit_charapter0.hide()
+            if len(hero) != 0:
+                if len(hero) == 1:
+                    self.label_lock_init_chr_0.show()
 
-                        self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
+                    self.initiative_edit_charapter0.hide()
 
-                    if len(hero) == 2:
-                        self.label_lock_init_chr_0.show()
-                        self.label_lock_init_chr_1.show()
+                    self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
 
-                        self.initiative_edit_charapter0.hide()
-                        self.initiative_edit_charapter1.hide()
+                if len(hero) == 2:
+                    self.label_lock_init_chr_0.show()
+                    self.label_lock_init_chr_1.show()
 
-                        self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
-                        self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
+                    self.initiative_edit_charapter0.hide()
+                    self.initiative_edit_charapter1.hide()
 
-                    if len(hero) == 3:
-                        self.label_lock_init_chr_0.show()
-                        self.label_lock_init_chr_1.show()
-                        self.label_lock_init_chr_2.show()
+                    self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
+                    self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
 
-                        self.initiative_edit_charapter0.hide()
-                        self.initiative_edit_charapter1.hide()
-                        self.initiative_edit_charapter2.hide()
+                if len(hero) == 3:
+                    self.label_lock_init_chr_0.show()
+                    self.label_lock_init_chr_1.show()
+                    self.label_lock_init_chr_2.show()
 
-                        self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
-                        self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
-                        self.label_lock_init_chr_2.setText(hero["charapter2"]['initiative'])
+                    self.initiative_edit_charapter0.hide()
+                    self.initiative_edit_charapter1.hide()
+                    self.initiative_edit_charapter2.hide()
 
-                    if len(hero) == 4:
-                        if check_checkbox:
-                            self.label_lock_init_chr_0.show()
-                            self.label_lock_init_chr_1.show()
-                            self.label_lock_init_chr_2.show()
-                            self.label_lock_init_chr_3.show()
+                    self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
+                    self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
+                    self.label_lock_init_chr_2.setText(hero["charapter2"]['initiative'])
 
-                            self.initiative_edit_charapter0.hide()
-                            self.initiative_edit_charapter1.hide()
-                            self.initiative_edit_charapter2.hide()
-                            self.initiative_edit_charapter3.hide()
+                if len(hero) == 4:
+                    self.label_lock_init_chr_0.show()
+                    self.label_lock_init_chr_1.show()
+                    self.label_lock_init_chr_2.show()
+                    self.label_lock_init_chr_3.show()
 
-                            self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
-                            self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
-                            self.label_lock_init_chr_2.setText(hero["charapter2"]['initiative'])
-                            self.label_lock_init_chr_3.setText(hero["charapter3"]['initiative'])
+                    self.initiative_edit_charapter0.hide()
+                    self.initiative_edit_charapter1.hide()
+                    self.initiative_edit_charapter2.hide()
+                    self.initiative_edit_charapter3.hide()
 
-                if check_checkbox == False:
-                    self.label_lock_init_chr_0.hide()
-                    self.label_lock_init_chr_1.hide()
-                    self.label_lock_init_chr_2.hide()
-                    self.label_lock_init_chr_3.hide()
+                    self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
+                    self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
+                    self.label_lock_init_chr_2.setText(hero["charapter2"]['initiative'])
+                    self.label_lock_init_chr_3.setText(hero["charapter3"]['initiative'])
 
-                    self.initiative_edit_charapter0.show()
-                    self.initiative_edit_charapter1.show()
-                    self.initiative_edit_charapter2.show()
-                    self.initiative_edit_charapter3.show()
-            else:
-                pass
-        except:
-            pass
+        else:
+            print('FUCK')
+            self.label_lock_init_chr_0.hide()
+            self.label_lock_init_chr_1.hide()
+            self.label_lock_init_chr_2.hide()
+            self.label_lock_init_chr_3.hide()
+
+            self.initiative_edit_charapter0.show()
+            self.initiative_edit_charapter1.show()
+            self.initiative_edit_charapter2.show()
+            self.initiative_edit_charapter3.show()
 
     def roll_dice(self):
         '''
@@ -882,15 +910,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         :param but:
         :return:
         '''
+        check_advantage = self.check_advantage.isChecked()
         try:
             dice = int(self.dice_edit.text())
             amount = int(self.amount_dice_box.text())
+            modifier = int(self.modifier_box.text())
             value = 0
             if amount == 0:
                 amount += 1
             for roll in range(amount):
-                value += random.randint(1, dice)
-            self.label_roll_dice.setText(str(value))
+                value += random.randint(1, dice) + modifier
+            if check_advantage == False:
+                self.label_roll_dice.setText(str(value))
+            else:
+                value_advantege = 0
+                if amount == 0:
+                    amount += 1
+                for roll in range(amount):
+                    value_advantege += random.randint(1, dice) + modifier
+                self.label_roll_dice.setText(str(value) + ' ' + str(value_advantege))
+
         except:
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
