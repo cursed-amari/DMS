@@ -916,16 +916,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             amount = int(self.amount_dice_box.text())
             modifier = int(self.modifier_box.text())
             value = 0
-            if amount == 0:
-                amount += 1
             for roll in range(amount):
                 value += random.randint(1, dice) + modifier
             if check_advantage == False:
                 self.label_roll_dice.setText(str(value))
             else:
                 value_advantege = 0
-                if amount == 0:
-                    amount += 1
                 for roll in range(amount):
                     value_advantege += random.randint(1, dice) + modifier
                 self.label_roll_dice.setText(str(value) + ' ' + str(value_advantege))
