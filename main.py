@@ -41,6 +41,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_restore_spell_slots_3.clicked.connect(self.restore_slot_chr3)
         self.comboBox_rules.currentTextChanged.connect(self.changed_combobox_rules)
         self.pushButton_init_open.clicked.connect(self.open_init_calc)
+        self.pushButton_del_chr.clicked.connect(self.del_chr)
 
 
         self.hide_aplications()
@@ -58,6 +59,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_roll_dice.hide()
         self.check_advantage.hide()
         self.pushButton_roll_dice.hide()
+        self.label_del_chr.hide()
+        self.comboBox_del_chr.hide()
+        self.pushButton_del_chr.hide()
         self.name_charapter0.hide()
         self.name_charapter1.hide()
         self.name_charapter2.hide()
@@ -217,8 +221,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         :return:
         '''
         self.iter = 0
-        for item in range(len(hero)):
-            self.iter += 1
+        flag = True
+        while flag == True:
+            if 'charapter' + str(self.iter) in hero.keys():
+                self.iter += 1
+            else:
+                flag = False
         if self.iter <= 3:
             hero.update({
             'charapter' + str(self.iter): {
@@ -237,6 +245,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             }
             })
             print(hero)
+            self.add_to_del_chr_box()
         else:
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
@@ -269,10 +278,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         :return:
         '''
         value = ''
-        for item in range(len(hero)):
-            value += f'Name: {hero["charapter" + str(item)]["name"]}' + '\n' + \
-                    f'Hp: {hero["charapter" + str(item)]["hp"]}' + '\n' + \
-                    f'Initiative: {hero["charapter" + str(item)]["initiative"]}'\
+        for item in hero:
+            value += f'Name: {hero[item]["name"]}' + '\n' + \
+                    f'Hp: {hero[item]["hp"]}' + '\n' + \
+                    f'Initiative: {hero[item]["initiative"]}'\
                      + '\n' + '\n'
             self.label.setText(value)
 
@@ -282,28 +291,74 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         :param but:
         :return:
         '''
-        if len(hero) == 1:
-            self.name_charapter0.setText(hero['charapter0']['name'])
-            self.hp_edit_charapter0.setText(hero['charapter0']['hp'])
-            self.initiative_edit_charapter0.setText(hero['charapter0']['initiative'])
-            self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
-            self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
-            self.spin_spell_slot_charapter0_2.setValue(int(hero['charapter0']['2']))
-            self.spin_spell_slot_charapter0_3.setValue(int(hero['charapter0']['3']))
-            self.spin_spell_slot_charapter0_4.setValue(int(hero['charapter0']['4']))
-            self.spin_spell_slot_charapter0_5.setValue(int(hero['charapter0']['5']))
-            self.spin_spell_slot_charapter0_6.setValue(int(hero['charapter0']['6']))
-            self.spin_spell_slot_charapter0_7.setValue(int(hero['charapter0']['7']))
-            self.spin_spell_slot_charapter0_8.setValue(int(hero['charapter0']['8']))
-            self.spin_spell_slot_charapter0_9.setValue(int(hero['charapter0']['9']))
+        self.initiative_edit_charapter0.setText('')
+        self.initiative_edit_charapter1.setText('')
+        self.initiative_edit_charapter2.setText('')
+        self.initiative_edit_charapter3.setText('')
+        self.hp_edit_charapter0.setText('')
+        self.hp_edit_charapter1.setText('')
+        self.hp_edit_charapter2.setText('')
+        self.hp_edit_charapter3.setText('')
+        self.name_charapter0.setText('')
+        self.name_charapter1.setText('')
+        self.name_charapter2.setText('')
+        self.name_charapter3.setText('')
+        self.spin_spell_slot_charapter0.setValue(0)
+        self.spin_spell_slot_charapter0_2.setValue(0)
+        self.spin_spell_slot_charapter0_3.setValue(0)
+        self.spin_spell_slot_charapter0_4.setValue(0)
+        self.spin_spell_slot_charapter0_5.setValue(0)
+        self.spin_spell_slot_charapter0_6.setValue(0)
+        self.spin_spell_slot_charapter0_7.setValue(0)
+        self.spin_spell_slot_charapter0_8.setValue(0)
+        self.spin_spell_slot_charapter0_9.setValue(0)
+        self.spin_spell_slot_charapter1.setValue(0)
+        self.spin_spell_slot_charapter1_2.setValue(0)
+        self.spin_spell_slot_charapter1_3.setValue(0)
+        self.spin_spell_slot_charapter1_4.setValue(0)
+        self.spin_spell_slot_charapter1_5.setValue(0)
+        self.spin_spell_slot_charapter1_6.setValue(0)
+        self.spin_spell_slot_charapter1_7.setValue(0)
+        self.spin_spell_slot_charapter1_8.setValue(0)
+        self.spin_spell_slot_charapter1_9.setValue(0)
+        self.spin_spell_slot_charapter2.setValue(0)
+        self.spin_spell_slot_charapter2_2.setValue(0)
+        self.spin_spell_slot_charapter2_3.setValue(0)
+        self.spin_spell_slot_charapter2_4.setValue(0)
+        self.spin_spell_slot_charapter2_5.setValue(0)
+        self.spin_spell_slot_charapter2_6.setValue(0)
+        self.spin_spell_slot_charapter2_7.setValue(0)
+        self.spin_spell_slot_charapter2_8.setValue(0)
+        self.spin_spell_slot_charapter2_9.setValue(0)
+        self.spin_spell_slot_charapter3.setValue(0)
+        self.spin_spell_slot_charapter3_2.setValue(0)
+        self.spin_spell_slot_charapter3_3.setValue(0)
+        self.spin_spell_slot_charapter3_4.setValue(0)
+        self.spin_spell_slot_charapter3_5.setValue(0)
+        self.spin_spell_slot_charapter3_6.setValue(0)
+        self.spin_spell_slot_charapter3_7.setValue(0)
+        self.spin_spell_slot_charapter3_8.setValue(0)
+        self.spin_spell_slot_charapter3_9.setValue(0)
+        if 'charapter0' in hero.keys():
+            self.name_charapter0.setDisabled(False)
+            self.hp_edit_charapter0.setDisabled(False)
+            self.initiative_edit_charapter0.setDisabled(False)
+            self.spin_spell_slot_charapter0.setDisabled(False)
+            self.spin_spell_slot_charapter0.setDisabled(False)
+            self.spin_spell_slot_charapter0_2.setDisabled(False)
+            self.spin_spell_slot_charapter0_3.setDisabled(False)
+            self.spin_spell_slot_charapter0_4.setDisabled(False)
+            self.spin_spell_slot_charapter0_5.setDisabled(False)
+            self.spin_spell_slot_charapter0_6.setDisabled(False)
+            self.spin_spell_slot_charapter0_7.setDisabled(False)
+            self.spin_spell_slot_charapter0_8.setDisabled(False)
+            self.spin_spell_slot_charapter0_9.setDisabled(False)
+            self.pushButton_restore_spell_slots_0.setDisabled(False)
 
-        elif len(hero) == 2:
             self.name_charapter0.setText(hero['charapter0']['name'])
-            self.name_charapter1.setText(hero['charapter1']['name'])
             self.hp_edit_charapter0.setText(hero['charapter0']['hp'])
-            self.hp_edit_charapter1.setText(hero['charapter1']['hp'])
             self.initiative_edit_charapter0.setText(hero['charapter0']['initiative'])
-            self.initiative_edit_charapter1.setText(hero['charapter1']['initiative'])
+            self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
             self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
             self.spin_spell_slot_charapter0_2.setValue(int(hero['charapter0']['2']))
             self.spin_spell_slot_charapter0_3.setValue(int(hero['charapter0']['3']))
@@ -313,6 +368,40 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.spin_spell_slot_charapter0_7.setValue(int(hero['charapter0']['7']))
             self.spin_spell_slot_charapter0_8.setValue(int(hero['charapter0']['8']))
             self.spin_spell_slot_charapter0_9.setValue(int(hero['charapter0']['9']))
+        else:
+            self.name_charapter0.setDisabled(True)
+            self.hp_edit_charapter0.setDisabled(True)
+            self.initiative_edit_charapter0.setDisabled(True)
+            self.spin_spell_slot_charapter0.setDisabled(True)
+            self.spin_spell_slot_charapter0.setDisabled(True)
+            self.spin_spell_slot_charapter0_2.setDisabled(True)
+            self.spin_spell_slot_charapter0_3.setDisabled(True)
+            self.spin_spell_slot_charapter0_4.setDisabled(True)
+            self.spin_spell_slot_charapter0_5.setDisabled(True)
+            self.spin_spell_slot_charapter0_6.setDisabled(True)
+            self.spin_spell_slot_charapter0_7.setDisabled(True)
+            self.spin_spell_slot_charapter0_8.setDisabled(True)
+            self.spin_spell_slot_charapter0_9.setDisabled(True)
+            self.pushButton_restore_spell_slots_0.setDisabled(True)
+
+        if 'charapter1' in hero.keys():
+            self.name_charapter1.setDisabled(False)
+            self.hp_edit_charapter1.setDisabled(False)
+            self.initiative_edit_charapter1.setDisabled(False)
+            self.spin_spell_slot_charapter1.setDisabled(False)
+            self.spin_spell_slot_charapter1_2.setDisabled(False)
+            self.spin_spell_slot_charapter1_3.setDisabled(False)
+            self.spin_spell_slot_charapter1_4.setDisabled(False)
+            self.spin_spell_slot_charapter1_5.setDisabled(False)
+            self.spin_spell_slot_charapter1_6.setDisabled(False)
+            self.spin_spell_slot_charapter1_7.setDisabled(False)
+            self.spin_spell_slot_charapter1_8.setDisabled(False)
+            self.spin_spell_slot_charapter1_9.setDisabled(False)
+            self.pushButton_restore_spell_slots_1.setDisabled(False)
+
+            self.name_charapter1.setText(hero['charapter1']['name'])
+            self.hp_edit_charapter1.setText(hero['charapter1']['hp'])
+            self.initiative_edit_charapter1.setText(hero['charapter1']['initiative'])
             self.spin_spell_slot_charapter1.setValue(int(hero['charapter1']['1']))
             self.spin_spell_slot_charapter1_2.setValue(int(hero['charapter1']['2']))
             self.spin_spell_slot_charapter1_3.setValue(int(hero['charapter1']['3']))
@@ -322,35 +411,39 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.spin_spell_slot_charapter1_7.setValue(int(hero['charapter1']['7']))
             self.spin_spell_slot_charapter1_8.setValue(int(hero['charapter1']['8']))
             self.spin_spell_slot_charapter1_9.setValue(int(hero['charapter1']['9']))
+        else:
+            self.name_charapter1.setDisabled(True)
+            self.hp_edit_charapter1.setDisabled(True)
+            self.initiative_edit_charapter1.setDisabled(True)
+            self.spin_spell_slot_charapter1.setDisabled(True)
+            self.spin_spell_slot_charapter1_2.setDisabled(True)
+            self.spin_spell_slot_charapter1_3.setDisabled(True)
+            self.spin_spell_slot_charapter1_4.setDisabled(True)
+            self.spin_spell_slot_charapter1_5.setDisabled(True)
+            self.spin_spell_slot_charapter1_6.setDisabled(True)
+            self.spin_spell_slot_charapter1_7.setDisabled(True)
+            self.spin_spell_slot_charapter1_8.setDisabled(True)
+            self.spin_spell_slot_charapter1_9.setDisabled(True)
+            self.pushButton_restore_spell_slots_1.setDisabled(True)
 
-        elif len(hero) == 3:
-            self.name_charapter0.setText(hero['charapter0']['name'])
-            self.name_charapter1.setText(hero['charapter1']['name'])
+        if 'charapter2' in hero.keys():
+            self.name_charapter2.setDisabled(False)
+            self.hp_edit_charapter2.setDisabled(False)
+            self.initiative_edit_charapter2.setDisabled(False)
+            self.spin_spell_slot_charapter2.setDisabled(False)
+            self.spin_spell_slot_charapter2_2.setDisabled(False)
+            self.spin_spell_slot_charapter2_3.setDisabled(False)
+            self.spin_spell_slot_charapter2_4.setDisabled(False)
+            self.spin_spell_slot_charapter2_5.setDisabled(False)
+            self.spin_spell_slot_charapter2_6.setDisabled(False)
+            self.spin_spell_slot_charapter2_7.setDisabled(False)
+            self.spin_spell_slot_charapter2_8.setDisabled(False)
+            self.spin_spell_slot_charapter2_9.setDisabled(False)
+            self.pushButton_restore_spell_slots_2.setDisabled(False)
+
             self.name_charapter2.setText(hero['charapter2']['name'])
-            self.hp_edit_charapter0.setText(hero['charapter0']['hp'])
-            self.hp_edit_charapter1.setText(hero['charapter1']['hp'])
             self.hp_edit_charapter2.setText(hero['charapter2']['hp'])
-            self.initiative_edit_charapter0.setText(hero['charapter0']['initiative'])
-            self.initiative_edit_charapter1.setText(hero['charapter1']['initiative'])
             self.initiative_edit_charapter2.setText(hero['charapter2']['initiative'])
-            self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
-            self.spin_spell_slot_charapter0_2.setValue(int(hero['charapter0']['2']))
-            self.spin_spell_slot_charapter0_3.setValue(int(hero['charapter0']['3']))
-            self.spin_spell_slot_charapter0_4.setValue(int(hero['charapter0']['4']))
-            self.spin_spell_slot_charapter0_5.setValue(int(hero['charapter0']['5']))
-            self.spin_spell_slot_charapter0_6.setValue(int(hero['charapter0']['6']))
-            self.spin_spell_slot_charapter0_7.setValue(int(hero['charapter0']['7']))
-            self.spin_spell_slot_charapter0_8.setValue(int(hero['charapter0']['8']))
-            self.spin_spell_slot_charapter0_9.setValue(int(hero['charapter0']['9']))
-            self.spin_spell_slot_charapter1.setValue(int(hero['charapter1']['1']))
-            self.spin_spell_slot_charapter1_2.setValue(int(hero['charapter1']['2']))
-            self.spin_spell_slot_charapter1_3.setValue(int(hero['charapter1']['3']))
-            self.spin_spell_slot_charapter1_4.setValue(int(hero['charapter1']['4']))
-            self.spin_spell_slot_charapter1_5.setValue(int(hero['charapter1']['5']))
-            self.spin_spell_slot_charapter1_6.setValue(int(hero['charapter1']['6']))
-            self.spin_spell_slot_charapter1_7.setValue(int(hero['charapter1']['7']))
-            self.spin_spell_slot_charapter1_8.setValue(int(hero['charapter1']['8']))
-            self.spin_spell_slot_charapter1_9.setValue(int(hero['charapter1']['9']))
             self.spin_spell_slot_charapter2.setValue(int(hero['charapter2']['1']))
             self.spin_spell_slot_charapter2_2.setValue(int(hero['charapter2']['2']))
             self.spin_spell_slot_charapter2_3.setValue(int(hero['charapter2']['3']))
@@ -360,47 +453,39 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.spin_spell_slot_charapter2_7.setValue(int(hero['charapter2']['7']))
             self.spin_spell_slot_charapter2_8.setValue(int(hero['charapter2']['8']))
             self.spin_spell_slot_charapter2_9.setValue(int(hero['charapter2']['9']))
+        else:
+            self.name_charapter2.setDisabled(True)
+            self.hp_edit_charapter2.setDisabled(True)
+            self.initiative_edit_charapter2.setDisabled(True)
+            self.spin_spell_slot_charapter2.setDisabled(True)
+            self.spin_spell_slot_charapter2_2.setDisabled(True)
+            self.spin_spell_slot_charapter2_3.setDisabled(True)
+            self.spin_spell_slot_charapter2_4.setDisabled(True)
+            self.spin_spell_slot_charapter2_5.setDisabled(True)
+            self.spin_spell_slot_charapter2_6.setDisabled(True)
+            self.spin_spell_slot_charapter2_7.setDisabled(True)
+            self.spin_spell_slot_charapter2_8.setDisabled(True)
+            self.spin_spell_slot_charapter2_9.setDisabled(True)
+            self.pushButton_restore_spell_slots_2.setDisabled(True)
 
-        elif len(hero) == 4:
-            self.name_charapter0.setText(hero['charapter0']['name'])
-            self.name_charapter1.setText(hero['charapter1']['name'])
-            self.name_charapter2.setText(hero['charapter2']['name'])
+        if 'charapter3' in hero.keys():
+            self.name_charapter3.setDisabled(False)
+            self.hp_edit_charapter3.setDisabled(False)
+            self.initiative_edit_charapter3.setDisabled(False)
+            self.spin_spell_slot_charapter3.setDisabled(False)
+            self.spin_spell_slot_charapter3_2.setDisabled(False)
+            self.spin_spell_slot_charapter3_3.setDisabled(False)
+            self.spin_spell_slot_charapter3_4.setDisabled(False)
+            self.spin_spell_slot_charapter3_5.setDisabled(False)
+            self.spin_spell_slot_charapter3_6.setDisabled(False)
+            self.spin_spell_slot_charapter3_7.setDisabled(False)
+            self.spin_spell_slot_charapter3_8.setDisabled(False)
+            self.spin_spell_slot_charapter3_9.setDisabled(False)
+            self.pushButton_restore_spell_slots_3.setDisabled(False)
+
             self.name_charapter3.setText(hero['charapter3']['name'])
-            self.hp_edit_charapter0.setText(hero['charapter0']['hp'])
-            self.hp_edit_charapter1.setText(hero['charapter1']['hp'])
-            self.hp_edit_charapter2.setText(hero['charapter2']['hp'])
             self.hp_edit_charapter3.setText(hero['charapter3']['hp'])
-            self.initiative_edit_charapter0.setText(hero['charapter0']['initiative'])
-            self.initiative_edit_charapter1.setText(hero['charapter1']['initiative'])
-            self.initiative_edit_charapter2.setText(hero['charapter2']['initiative'])
             self.initiative_edit_charapter3.setText(hero['charapter3']['initiative'])
-            self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
-            self.spin_spell_slot_charapter0_2.setValue(int(hero['charapter0']['2']))
-            self.spin_spell_slot_charapter0_3.setValue(int(hero['charapter0']['3']))
-            self.spin_spell_slot_charapter0_4.setValue(int(hero['charapter0']['4']))
-            self.spin_spell_slot_charapter0_5.setValue(int(hero['charapter0']['5']))
-            self.spin_spell_slot_charapter0_6.setValue(int(hero['charapter0']['6']))
-            self.spin_spell_slot_charapter0_7.setValue(int(hero['charapter0']['7']))
-            self.spin_spell_slot_charapter0_8.setValue(int(hero['charapter0']['8']))
-            self.spin_spell_slot_charapter0_9.setValue(int(hero['charapter0']['9']))
-            self.spin_spell_slot_charapter1.setValue(int(hero['charapter1']['1']))
-            self.spin_spell_slot_charapter1_2.setValue(int(hero['charapter1']['2']))
-            self.spin_spell_slot_charapter1_3.setValue(int(hero['charapter1']['3']))
-            self.spin_spell_slot_charapter1_4.setValue(int(hero['charapter1']['4']))
-            self.spin_spell_slot_charapter1_5.setValue(int(hero['charapter1']['5']))
-            self.spin_spell_slot_charapter1_6.setValue(int(hero['charapter1']['6']))
-            self.spin_spell_slot_charapter1_7.setValue(int(hero['charapter1']['7']))
-            self.spin_spell_slot_charapter1_8.setValue(int(hero['charapter1']['8']))
-            self.spin_spell_slot_charapter1_9.setValue(int(hero['charapter1']['9']))
-            self.spin_spell_slot_charapter2.setValue(int(hero['charapter2']['1']))
-            self.spin_spell_slot_charapter2_2.setValue(int(hero['charapter2']['2']))
-            self.spin_spell_slot_charapter2_3.setValue(int(hero['charapter2']['3']))
-            self.spin_spell_slot_charapter2_4.setValue(int(hero['charapter2']['4']))
-            self.spin_spell_slot_charapter2_5.setValue(int(hero['charapter2']['5']))
-            self.spin_spell_slot_charapter2_6.setValue(int(hero['charapter2']['6']))
-            self.spin_spell_slot_charapter2_7.setValue(int(hero['charapter2']['7']))
-            self.spin_spell_slot_charapter2_8.setValue(int(hero['charapter2']['8']))
-            self.spin_spell_slot_charapter2_9.setValue(int(hero['charapter2']['9']))
             self.spin_spell_slot_charapter3.setValue(int(hero['charapter3']['1']))
             self.spin_spell_slot_charapter3_2.setValue(int(hero['charapter3']['2']))
             self.spin_spell_slot_charapter3_3.setValue(int(hero['charapter3']['3']))
@@ -410,6 +495,20 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.spin_spell_slot_charapter3_7.setValue(int(hero['charapter3']['7']))
             self.spin_spell_slot_charapter3_8.setValue(int(hero['charapter3']['8']))
             self.spin_spell_slot_charapter3_9.setValue(int(hero['charapter3']['9']))
+        else:
+            self.name_charapter3.setDisabled(True)
+            self.hp_edit_charapter3.setDisabled(True)
+            self.initiative_edit_charapter3.setDisabled(True)
+            self.spin_spell_slot_charapter3.setDisabled(True)
+            self.spin_spell_slot_charapter3_2.setDisabled(True)
+            self.spin_spell_slot_charapter3_3.setDisabled(True)
+            self.spin_spell_slot_charapter3_4.setDisabled(True)
+            self.spin_spell_slot_charapter3_5.setDisabled(True)
+            self.spin_spell_slot_charapter3_6.setDisabled(True)
+            self.spin_spell_slot_charapter3_7.setDisabled(True)
+            self.spin_spell_slot_charapter3_8.setDisabled(True)
+            self.spin_spell_slot_charapter3_9.setDisabled(True)
+            self.pushButton_restore_spell_slots_3.setDisabled(True)
 
     def restore_slot_chr0(self):
         if 'charapter0' in hero:
@@ -475,29 +574,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         :return:
         '''
         try:
-            if len(hero) == 1:
+            if 'charapter0' in hero.keys():
                 hero['charapter0']['hp'] = int(self.hp_edit_charapter0.text())
                 hero['charapter0']['initiative'] = int(self.initiative_edit_charapter0.text())
-            elif len(hero) == 2:
-                hero['charapter0']['hp'] = int(self.hp_edit_charapter0.text())
+            if 'charapter1' in hero.keys():
                 hero['charapter1']['hp'] = int(self.hp_edit_charapter1.text())
-                hero['charapter0']['initiative'] = int(self.initiative_edit_charapter0.text())
                 hero['charapter1']['initiative'] = int(self.initiative_edit_charapter1.text())
-            elif len(hero) == 3:
-                hero['charapter0']['hp'] = int(self.hp_edit_charapter0.text())
-                hero['charapter1']['hp'] = int(self.hp_edit_charapter1.text())
+            if 'charapter2' in hero.keys():
                 hero['charapter2']['hp'] = int(self.hp_edit_charapter2.text())
-                hero['charapter0']['initiative'] = int(self.initiative_edit_charapter0.text())
-                hero['charapter1']['initiative'] = int(self.initiative_edit_charapter1.text())
                 hero['charapter2']['initiative'] = int(self.initiative_edit_charapter2.text())
-            elif len(hero) == 4:
-                hero['charapter0']['hp'] = int(self.hp_edit_charapter0.text())
-                hero['charapter1']['hp'] = int(self.hp_edit_charapter1.text())
-                hero['charapter2']['hp'] = int(self.hp_edit_charapter2.text())
+            if 'charapter3' in hero.keys():
                 hero['charapter3']['hp'] = int(self.hp_edit_charapter3.text())
-                hero['charapter0']['initiative'] = int(self.initiative_edit_charapter0.text())
-                hero['charapter1']['initiative'] = int(self.initiative_edit_charapter1.text())
-                hero['charapter2']['initiative'] = int(self.initiative_edit_charapter2.text())
                 hero['charapter3']['initiative'] = int(self.initiative_edit_charapter3.text())
         except:
             error = QMessageBox()
@@ -534,6 +621,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_roll_dice.show()
             self.check_advantage.show()
             self.pushButton_roll_dice.show()
+            self.label_del_chr.show()
+            self.comboBox_del_chr.show()
+            self.pushButton_del_chr.show()
             self.name_charapter0.show()
             self.name_charapter1.show()
             self.name_charapter2.show()
@@ -700,6 +790,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_roll_dice.hide()
             self.check_advantage.hide()
             self.pushButton_roll_dice.hide()
+            self.label_del_chr.hide()
+            self.comboBox_del_chr.hide()
+            self.pushButton_del_chr.hide()
             self.name_charapter0.hide()
             self.name_charapter1.hide()
             self.name_charapter2.hide()
@@ -846,54 +939,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.check_checkbox:
 
             if len(hero) != 0:
-                if len(hero) == 1:
+                if 'charapter0' in hero.keys():
                     self.label_lock_init_chr_0.show()
-
                     self.initiative_edit_charapter0.hide()
-
                     self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
 
-                if len(hero) == 2:
-                    self.label_lock_init_chr_0.show()
+                if 'charapter1' in hero.keys():
                     self.label_lock_init_chr_1.show()
-
-                    self.initiative_edit_charapter0.hide()
                     self.initiative_edit_charapter1.hide()
-
-                    self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
                     self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
 
-                if len(hero) == 3:
-                    self.label_lock_init_chr_0.show()
-                    self.label_lock_init_chr_1.show()
+                if 'charapter2' in hero.keys():
                     self.label_lock_init_chr_2.show()
-
-                    self.initiative_edit_charapter0.hide()
-                    self.initiative_edit_charapter1.hide()
                     self.initiative_edit_charapter2.hide()
-
-                    self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
-                    self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
                     self.label_lock_init_chr_2.setText(hero["charapter2"]['initiative'])
 
-                if len(hero) == 4:
-                    self.label_lock_init_chr_0.show()
-                    self.label_lock_init_chr_1.show()
-                    self.label_lock_init_chr_2.show()
+                if 'charapter3' in hero.keys():
                     self.label_lock_init_chr_3.show()
-
-                    self.initiative_edit_charapter0.hide()
-                    self.initiative_edit_charapter1.hide()
-                    self.initiative_edit_charapter2.hide()
                     self.initiative_edit_charapter3.hide()
-
-                    self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
-                    self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
-                    self.label_lock_init_chr_2.setText(hero["charapter2"]['initiative'])
                     self.label_lock_init_chr_3.setText(hero["charapter3"]['initiative'])
 
         else:
-            print('FUCK')
             self.label_lock_init_chr_0.hide()
             self.label_lock_init_chr_1.hide()
             self.label_lock_init_chr_2.hide()
@@ -938,6 +1004,33 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             error.exec()
 
+    def add_to_del_chr_box(self):
+        self.comboBox_del_chr.clear()
+        for i in hero:
+            self.comboBox_del_chr.addItem(hero[i]['name'])
+
+    def del_chr(self):
+        name_delete = ''
+        try:
+            for i in hero:
+                if self.comboBox_del_chr.currentText() == hero[i]['name']:
+                    name_delete = str(i)
+            self.comboBox_del_chr.removeItem(self.comboBox_del_chr.currentIndex())
+            hero.pop(name_delete)
+            self.add_to_tracker()
+        except:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Поле пустое, либо этого персонажа уже нет!')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
+
+
     def actions_save(self):
         '''
         DOCKSTRING: сохранение в json файл
@@ -979,6 +1072,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.view_create_hero()
             self.add_to_tracker()
             self.music_changer_combo_box_update()
+            self.add_to_del_chr_box()
         except FileNotFoundError:
             print("No such file")
 
