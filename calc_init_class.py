@@ -60,3 +60,5 @@ class Ui_MainWindow_init(object):
         self.enemy_initiative.setText(_translate("MainWindow", "Initiative"))
         self.pushButton_add.setText(_translate("MainWindow", "add"))
         self.pushButton_clean_enemy.setText(_translate("MainWindow", "Clear"))
+
+

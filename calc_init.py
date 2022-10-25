@@ -7,7 +7,7 @@
 
 
 from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QApplication
 from calc_init_class import Ui_MainWindow_init
 import random
 
@@ -19,6 +19,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         self.setupUi(self)
         self.app_func()
         self.hero = hero
+
 
     def app_func(self):
         self.pushButton_initiative.clicked.connect(self.calk_initiative)

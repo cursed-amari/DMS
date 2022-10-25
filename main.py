@@ -10,6 +10,7 @@ from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 import random
 import webbrowser
+import time
 import json
 
 from main_class import Ui_MainWindow
@@ -1122,6 +1123,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         value = music[self.comboBox.currentText()].split(' ')
         for i in range(len(value)):
             webbrowser.open(value[i])
+            time.sleep(1)
 
     def music_changer_delete(self):
         if self.comboBox.currentText() in music.keys():
@@ -1158,3 +1160,11 @@ if __name__ == "__main__":
     MainWindow = MainWindow()
     MainWindow.show()
     sys.exit(app.exec())
+
+
+# Сделать кд
+# Сделать кнопку сет спел слот для обновления количества слотов
+# Лок инициатывы перенести влево
+# Связать лок инициативы с кд
+# Добавить маленькие заметки под каждым персонажем
+# В инициативе добавить создание и удаление пресетов
