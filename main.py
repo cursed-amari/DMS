@@ -27,171 +27,129 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.aplication_func()
 
     def aplication_func(self):
+        # Menu
         self.actionSave.triggered.connect(self.actions_save)
         self.actionOpen.triggered.connect(self.action_open)
+        # pushButton
         self.pushButton.clicked.connect(self.input_chek)
-        self.radioButton_hide_create.toggled.connect(self.hide_create)
-        self.checkBox_lock_init.toggled.connect(self.lock_initiative)
+        self.pushButton_init_open.clicked.connect(self.open_init_calc)
         self.pushButton_roll_dice.clicked.connect(self.roll_dice)
-        self.pushButton_url_set.clicked.connect(self.music_changer_update)
-        self.pushButton_url_open.clicked.connect(self.music_changer_play)
-        self.pushButton_url_delete.clicked.connect(self.music_changer_delete)
+        self.pushButton_del_chr.clicked.connect(self.del_chr)
         self.pushButton_restore_spell_slots_0.clicked.connect(self.restore_slot_chr0)
         self.pushButton_restore_spell_slots_1.clicked.connect(self.restore_slot_chr1)
         self.pushButton_restore_spell_slots_2.clicked.connect(self.restore_slot_chr2)
         self.pushButton_restore_spell_slots_3.clicked.connect(self.restore_slot_chr3)
+        self.pushButton_set_spell_slots_0.clicked.connect(self.set_slot_chr0)
+        self.pushButton_set_spell_slots_1.clicked.connect(self.set_slot_chr1)
+        self.pushButton_set_spell_slots_2.clicked.connect(self.set_slot_chr2)
+        self.pushButton_set_spell_slots_3.clicked.connect(self.set_slot_chr3)
+        self.pushButton_url_set.clicked.connect(self.music_changer_update)
+        self.pushButton_url_open.clicked.connect(self.music_changer_play)
+        self.pushButton_url_delete.clicked.connect(self.music_changer_delete)
+        # checkBox
+        self.checkBox_lock_init.toggled.connect(self.lock_initiative)
+        self.checkBox_lock_ac.toggled.connect(self.lock_ac)
+        # radioButton
+        self.radioButton_hide_create.toggled.connect(self.hide_create)
+        # comboBox
         self.comboBox_rules.currentTextChanged.connect(self.changed_combobox_rules)
-        self.pushButton_init_open.clicked.connect(self.open_init_calc)
-        self.pushButton_del_chr.clicked.connect(self.del_chr)
-
-
-        self.hide_aplications()
+        # method
         self.view_charapter_stats()
         self.set_combobox_rules()
-
-    def hide_aplications(self):
-        self.pushButton_init_open.hide()
-        self.dice_edit.hide()
-        self.amount_dice_box.hide()
-        self.modifier_box.hide()
-        self.label_amount.hide()
-        self.label_dice.hide()
-        self.label_modifier.hide()
-        self.label_roll_dice.hide()
-        self.check_advantage.hide()
-        self.pushButton_roll_dice.hide()
-        self.label_del_chr.hide()
-        self.comboBox_del_chr.hide()
-        self.pushButton_del_chr.hide()
-        self.name_charapter0.hide()
-        self.name_charapter1.hide()
-        self.name_charapter2.hide()
-        self.name_charapter3.hide()
-        self.hp_charapter0.hide()
-        self.hp_charapter1.hide()
-        self.hp_charapter2.hide()
-        self.hp_charapter3.hide()
-        self.hp_edit_charapter0.hide()
-        self.hp_edit_charapter1.hide()
-        self.hp_edit_charapter2.hide()
-        self.hp_edit_charapter3.hide()
-        self.initiative_charapter0.hide()
-        self.initiative_charapter1.hide()
-        self.initiative_charapter2.hide()
-        self.initiative_charapter3.hide()
-        self.initiative_edit_charapter0.hide()
-        self.initiative_edit_charapter1.hide()
-        self.initiative_edit_charapter2.hide()
-        self.initiative_edit_charapter3.hide()
-        self.label_spell_slot_charapter0.hide()
-        self.label_spell_slot_charapter0_2.hide()
-        self.label_spell_slot_charapter0_3.hide()
-        self.label_spell_slot_charapter0_4.hide()
-        self.label_spell_slot_charapter0_5.hide()
-        self.label_spell_slot_charapter0_6.hide()
-        self.label_spell_slot_charapter0_7.hide()
-        self.label_spell_slot_charapter0_8.hide()
-        self.label_spell_slot_charapter0_9.hide()
-        self.spell_slot_label_traker_chr0.hide()
-        self.label_spell_slot_charapter0_10.hide()
-        self.spell_slot_label_traker_chr1.hide()
-        self.label_spell_slot_charapter0_11.hide()
-        self.label_spell_slot_charapter0_12.hide()
-        self.label_spell_slot_charapter0_13.hide()
-        self.label_spell_slot_charapter0_14.hide()
-        self.label_spell_slot_charapter0_15.hide()
-        self.label_spell_slot_charapter0_16.hide()
-        self.label_spell_slot_charapter0_17.hide()
-        self.label_spell_slot_charapter0_18.hide()
-        self.label_spell_slot_charapter0_19.hide()
-        self.label_spell_slot_charapter0_20.hide()
-        self.label_spell_slot_charapter0_21.hide()
-        self.spell_slot_label_traker_chr2.hide()
-        self.label_spell_slot_charapter0_22.hide()
-        self.label_spell_slot_charapter0_23.hide()
-        self.label_spell_slot_charapter0_24.hide()
-        self.label_spell_slot_charapter0_25.hide()
-        self.label_spell_slot_charapter0_26.hide()
-        self.label_spell_slot_charapter0_27.hide()
-        self.label_spell_slot_charapter0_28.hide()
-        self.label_spell_slot_charapter0_29.hide()
-        self.label_spell_slot_charapter0_30.hide()
-        self.spell_slot_label_traker_chr3.hide()
-        self.label_spell_slot_charapter0_31.hide()
-        self.label_spell_slot_charapter0_32.hide()
-        self.label_spell_slot_charapter0_33.hide()
-        self.label_spell_slot_charapter0_34.hide()
-        self.label_spell_slot_charapter0_35.hide()
-        self.label_spell_slot_charapter0_36.hide()
-        self.spin_spell_slot_charapter0.hide()
-        self.spin_spell_slot_charapter0_2.hide()
-        self.spin_spell_slot_charapter0_3.hide()
-        self.spin_spell_slot_charapter0_4.hide()
-        self.spin_spell_slot_charapter0_5.hide()
-        self.spin_spell_slot_charapter0_6.hide()
-        self.spin_spell_slot_charapter0_7.hide()
-        self.spin_spell_slot_charapter0_8.hide()
-        self.spin_spell_slot_charapter0_9.hide()
-        self.spin_spell_slot_charapter1.hide()
-        self.spin_spell_slot_charapter1_2.hide()
-        self.spin_spell_slot_charapter1_3.hide()
-        self.spin_spell_slot_charapter1_4.hide()
-        self.spin_spell_slot_charapter1_5.hide()
-        self.spin_spell_slot_charapter1_6.hide()
-        self.spin_spell_slot_charapter1_7.hide()
-        self.spin_spell_slot_charapter1_8.hide()
-        self.spin_spell_slot_charapter1_9.hide()
-        self.spin_spell_slot_charapter2.hide()
-        self.spin_spell_slot_charapter2_2.hide()
-        self.spin_spell_slot_charapter2_3.hide()
-        self.spin_spell_slot_charapter2_4.hide()
-        self.spin_spell_slot_charapter2_5.hide()
-        self.spin_spell_slot_charapter2_6.hide()
-        self.spin_spell_slot_charapter2_7.hide()
-        self.spin_spell_slot_charapter2_8.hide()
-        self.spin_spell_slot_charapter2_9.hide()
-        self.spin_spell_slot_charapter3.hide()
-        self.spin_spell_slot_charapter3_2.hide()
-        self.spin_spell_slot_charapter3_3.hide()
-        self.spin_spell_slot_charapter3_4.hide()
-        self.spin_spell_slot_charapter3_5.hide()
-        self.spin_spell_slot_charapter3_6.hide()
-        self.spin_spell_slot_charapter3_7.hide()
-        self.spin_spell_slot_charapter3_8.hide()
-        self.spin_spell_slot_charapter3_9.hide()
-        self.pushButton_restore_spell_slots_0.hide()
-        self.pushButton_restore_spell_slots_1.hide()
-        self.pushButton_restore_spell_slots_2.hide()
-        self.pushButton_restore_spell_slots_3.hide()
-        self.checkBox_lock_init.hide()
-
-        self.name.show()
-        self.name_edit.show()
-        self.hp.show()
-        self.hp_edit.show()
-        self.initiative.show()
-        self.initiative_edit.show()
-        self.pushButton.show()
-        self.label.show()
-
-    def open_init_calc(self):
-        self.result_widget = InitiativeWindow(hero)
-        self.result_widget.show()
+        self.add_to_tracker()
 
     def view_charapter_stats(self):
+        '''
+        DOCKSTRING: Обновление статов через трекер
+        '''
         self.hp_edit_charapter0.editingFinished.connect(self.set_stats_charapter)
         self.hp_edit_charapter1.editingFinished.connect(self.set_stats_charapter)
         self.hp_edit_charapter2.editingFinished.connect(self.set_stats_charapter)
         self.hp_edit_charapter3.editingFinished.connect(self.set_stats_charapter)
+        self.ac_edit_charapter0.editingFinished.connect(self.set_stats_charapter)
+        self.ac_edit_charapter1.editingFinished.connect(self.set_stats_charapter)
+        self.ac_edit_charapter2.editingFinished.connect(self.set_stats_charapter)
+        self.ac_edit_charapter3.editingFinished.connect(self.set_stats_charapter)
         self.initiative_edit_charapter0.editingFinished.connect(self.set_stats_charapter)
         self.initiative_edit_charapter1.editingFinished.connect(self.set_stats_charapter)
         self.initiative_edit_charapter2.editingFinished.connect(self.set_stats_charapter)
         self.initiative_edit_charapter3.editingFinished.connect(self.set_stats_charapter)
 
+    '''
+    Menu
+    '''
+
+    def actions_save(self):
+        '''
+        DOCKSTRING: сохранение в json файл
+        '''
+        note_zero = self.note_edit_0.toPlainText()
+        note_one = self.note_edit_1.toPlainText()
+        note_two = self.note_edit_2.toPlainText()
+        note_three = self.note_edit_3.toPlainText()
+        note_chr_zero = self.textEdit_chr_0.toPlainText()
+        note_chr_one = self.textEdit_chr_1.toPlainText()
+        note_chr_two = self.textEdit_chr_2.toPlainText()
+        note_chr_three = self.textEdit_chr_3.toPlainText()
+        save_dict = (
+            hero,
+            music,
+            note_zero,
+            note_one,
+            note_two,
+            note_three,
+            note_chr_zero,
+            note_chr_one,
+            note_chr_two,
+            note_chr_three
+        )
+        data = QFileDialog.getSaveFileName(self)[0]
+
+        try:
+            with open(data, 'w') as outfile:
+                json.dump(save_dict, outfile)
+        except FileNotFoundError:
+            print("No such file")
+
+    def action_open(self):
+        '''
+        DOCKSTRING: загрузка из json файла
+        '''
+        data = QFileDialog.getOpenFileName(self)[0]
+
+        try:
+            with open(data, 'r') as json_file:
+                data = json.load(json_file)
+                global hero
+                global music
+                hero = data[0]
+                music = data[1]
+                self.note_edit_0.setText(data[2])
+                self.note_edit_1.setText(data[3])
+                self.note_edit_2.setText(data[4])
+                self.note_edit_3.setText(data[5])
+                self.textEdit_chr_0.setText(data[6])
+                self.textEdit_chr_1.setText(data[7])
+                self.textEdit_chr_2.setText(data[8])
+                self.textEdit_chr_3.setText(data[9])
+            self.view_create_hero()
+            self.add_to_tracker()
+            self.music_changer_combo_box_update()
+            self.add_to_del_chr_box()
+        except FileNotFoundError:
+            print("No such file")
+
+    '''
+    Main window hide
+    '''
 
     def input_chek(self):
+        '''
+        DOCKSTRING: Проверка чисел
+        '''
         try:
             hp_check = int(self.hp_edit.text())
+            ac_check = int(self.ac_edit.text())
             initiative_check = int(self.initiative_edit.text())
             Spell_slot_chek_1 = int(self.spell_slot_edit.text())
             Spell_slot_chek_2 = int(self.spell_slot_edit_2.text())
@@ -216,10 +174,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             error.buttonClicked.connect(self.popup_action)
 
             error.exec()
+
     def create_hero(self):
         '''
         DOCKSTRING: Создание персонажа в редакторе и добавление его в словарь
-        :return:
         '''
         self.iter = 0
         flag = True
@@ -233,6 +191,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             'charapter' + str(self.iter): {
                 'name': self.name_edit.text(),
                 'hp': self.hp_edit.text(),
+                'ac': self.ac_edit.text(),
                 '1': self.spell_slot_edit.text(),
                 '2': self.spell_slot_edit_2.text(),
                 '3': self.spell_slot_edit_3.text(),
@@ -263,353 +222,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.view_create_hero()
         self.add_to_tracker()
 
-    def popup_action(self, but):
-        '''
-        DOCKSTRING: Заглушка
-        :param but:
-        :return:
-        '''
-        if but.text() == 'Ok':
-            print('Ok')
-
     def view_create_hero(self):
         '''
         DOCKSTRING: Отображение созданых персонажей в окне рядом с редактором
-        :param but:
-        :return:
         '''
         value = ''
         for item in hero:
             value += f'Name: {hero[item]["name"]}' + '\n' + \
                     f'Hp: {hero[item]["hp"]}' + '\n' + \
-                    f'Initiative: {hero[item]["initiative"]}'\
+                     f'Ac: {hero[item]["ac"]}' + '\n' + \
+                     f'Initiative: {hero[item]["initiative"]}'\
                      + '\n' + '\n'
             self.label.setText(value)
-
-    def add_to_tracker(self):
-        '''
-        DOCKSTRING: добавление созданых персонажей в трекер
-        :param but:
-        :return:
-        '''
-        self.initiative_edit_charapter0.setText('')
-        self.initiative_edit_charapter1.setText('')
-        self.initiative_edit_charapter2.setText('')
-        self.initiative_edit_charapter3.setText('')
-        self.hp_edit_charapter0.setText('')
-        self.hp_edit_charapter1.setText('')
-        self.hp_edit_charapter2.setText('')
-        self.hp_edit_charapter3.setText('')
-        self.name_charapter0.setText('')
-        self.name_charapter1.setText('')
-        self.name_charapter2.setText('')
-        self.name_charapter3.setText('')
-        self.spin_spell_slot_charapter0.setValue(0)
-        self.spin_spell_slot_charapter0_2.setValue(0)
-        self.spin_spell_slot_charapter0_3.setValue(0)
-        self.spin_spell_slot_charapter0_4.setValue(0)
-        self.spin_spell_slot_charapter0_5.setValue(0)
-        self.spin_spell_slot_charapter0_6.setValue(0)
-        self.spin_spell_slot_charapter0_7.setValue(0)
-        self.spin_spell_slot_charapter0_8.setValue(0)
-        self.spin_spell_slot_charapter0_9.setValue(0)
-        self.spin_spell_slot_charapter1.setValue(0)
-        self.spin_spell_slot_charapter1_2.setValue(0)
-        self.spin_spell_slot_charapter1_3.setValue(0)
-        self.spin_spell_slot_charapter1_4.setValue(0)
-        self.spin_spell_slot_charapter1_5.setValue(0)
-        self.spin_spell_slot_charapter1_6.setValue(0)
-        self.spin_spell_slot_charapter1_7.setValue(0)
-        self.spin_spell_slot_charapter1_8.setValue(0)
-        self.spin_spell_slot_charapter1_9.setValue(0)
-        self.spin_spell_slot_charapter2.setValue(0)
-        self.spin_spell_slot_charapter2_2.setValue(0)
-        self.spin_spell_slot_charapter2_3.setValue(0)
-        self.spin_spell_slot_charapter2_4.setValue(0)
-        self.spin_spell_slot_charapter2_5.setValue(0)
-        self.spin_spell_slot_charapter2_6.setValue(0)
-        self.spin_spell_slot_charapter2_7.setValue(0)
-        self.spin_spell_slot_charapter2_8.setValue(0)
-        self.spin_spell_slot_charapter2_9.setValue(0)
-        self.spin_spell_slot_charapter3.setValue(0)
-        self.spin_spell_slot_charapter3_2.setValue(0)
-        self.spin_spell_slot_charapter3_3.setValue(0)
-        self.spin_spell_slot_charapter3_4.setValue(0)
-        self.spin_spell_slot_charapter3_5.setValue(0)
-        self.spin_spell_slot_charapter3_6.setValue(0)
-        self.spin_spell_slot_charapter3_7.setValue(0)
-        self.spin_spell_slot_charapter3_8.setValue(0)
-        self.spin_spell_slot_charapter3_9.setValue(0)
-        if 'charapter0' in hero.keys():
-            self.name_charapter0.setDisabled(False)
-            self.hp_edit_charapter0.setDisabled(False)
-            self.initiative_edit_charapter0.setDisabled(False)
-            self.spin_spell_slot_charapter0.setDisabled(False)
-            self.spin_spell_slot_charapter0.setDisabled(False)
-            self.spin_spell_slot_charapter0_2.setDisabled(False)
-            self.spin_spell_slot_charapter0_3.setDisabled(False)
-            self.spin_spell_slot_charapter0_4.setDisabled(False)
-            self.spin_spell_slot_charapter0_5.setDisabled(False)
-            self.spin_spell_slot_charapter0_6.setDisabled(False)
-            self.spin_spell_slot_charapter0_7.setDisabled(False)
-            self.spin_spell_slot_charapter0_8.setDisabled(False)
-            self.spin_spell_slot_charapter0_9.setDisabled(False)
-            self.pushButton_restore_spell_slots_0.setDisabled(False)
-
-            self.name_charapter0.setText(hero['charapter0']['name'])
-            self.hp_edit_charapter0.setText(hero['charapter0']['hp'])
-            self.initiative_edit_charapter0.setText(hero['charapter0']['initiative'])
-            self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
-            self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
-            self.spin_spell_slot_charapter0_2.setValue(int(hero['charapter0']['2']))
-            self.spin_spell_slot_charapter0_3.setValue(int(hero['charapter0']['3']))
-            self.spin_spell_slot_charapter0_4.setValue(int(hero['charapter0']['4']))
-            self.spin_spell_slot_charapter0_5.setValue(int(hero['charapter0']['5']))
-            self.spin_spell_slot_charapter0_6.setValue(int(hero['charapter0']['6']))
-            self.spin_spell_slot_charapter0_7.setValue(int(hero['charapter0']['7']))
-            self.spin_spell_slot_charapter0_8.setValue(int(hero['charapter0']['8']))
-            self.spin_spell_slot_charapter0_9.setValue(int(hero['charapter0']['9']))
-        else:
-            self.name_charapter0.setDisabled(True)
-            self.hp_edit_charapter0.setDisabled(True)
-            self.initiative_edit_charapter0.setDisabled(True)
-            self.spin_spell_slot_charapter0.setDisabled(True)
-            self.spin_spell_slot_charapter0.setDisabled(True)
-            self.spin_spell_slot_charapter0_2.setDisabled(True)
-            self.spin_spell_slot_charapter0_3.setDisabled(True)
-            self.spin_spell_slot_charapter0_4.setDisabled(True)
-            self.spin_spell_slot_charapter0_5.setDisabled(True)
-            self.spin_spell_slot_charapter0_6.setDisabled(True)
-            self.spin_spell_slot_charapter0_7.setDisabled(True)
-            self.spin_spell_slot_charapter0_8.setDisabled(True)
-            self.spin_spell_slot_charapter0_9.setDisabled(True)
-            self.pushButton_restore_spell_slots_0.setDisabled(True)
-
-        if 'charapter1' in hero.keys():
-            self.name_charapter1.setDisabled(False)
-            self.hp_edit_charapter1.setDisabled(False)
-            self.initiative_edit_charapter1.setDisabled(False)
-            self.spin_spell_slot_charapter1.setDisabled(False)
-            self.spin_spell_slot_charapter1_2.setDisabled(False)
-            self.spin_spell_slot_charapter1_3.setDisabled(False)
-            self.spin_spell_slot_charapter1_4.setDisabled(False)
-            self.spin_spell_slot_charapter1_5.setDisabled(False)
-            self.spin_spell_slot_charapter1_6.setDisabled(False)
-            self.spin_spell_slot_charapter1_7.setDisabled(False)
-            self.spin_spell_slot_charapter1_8.setDisabled(False)
-            self.spin_spell_slot_charapter1_9.setDisabled(False)
-            self.pushButton_restore_spell_slots_1.setDisabled(False)
-
-            self.name_charapter1.setText(hero['charapter1']['name'])
-            self.hp_edit_charapter1.setText(hero['charapter1']['hp'])
-            self.initiative_edit_charapter1.setText(hero['charapter1']['initiative'])
-            self.spin_spell_slot_charapter1.setValue(int(hero['charapter1']['1']))
-            self.spin_spell_slot_charapter1_2.setValue(int(hero['charapter1']['2']))
-            self.spin_spell_slot_charapter1_3.setValue(int(hero['charapter1']['3']))
-            self.spin_spell_slot_charapter1_4.setValue(int(hero['charapter1']['4']))
-            self.spin_spell_slot_charapter1_5.setValue(int(hero['charapter1']['5']))
-            self.spin_spell_slot_charapter1_6.setValue(int(hero['charapter1']['6']))
-            self.spin_spell_slot_charapter1_7.setValue(int(hero['charapter1']['7']))
-            self.spin_spell_slot_charapter1_8.setValue(int(hero['charapter1']['8']))
-            self.spin_spell_slot_charapter1_9.setValue(int(hero['charapter1']['9']))
-        else:
-            self.name_charapter1.setDisabled(True)
-            self.hp_edit_charapter1.setDisabled(True)
-            self.initiative_edit_charapter1.setDisabled(True)
-            self.spin_spell_slot_charapter1.setDisabled(True)
-            self.spin_spell_slot_charapter1_2.setDisabled(True)
-            self.spin_spell_slot_charapter1_3.setDisabled(True)
-            self.spin_spell_slot_charapter1_4.setDisabled(True)
-            self.spin_spell_slot_charapter1_5.setDisabled(True)
-            self.spin_spell_slot_charapter1_6.setDisabled(True)
-            self.spin_spell_slot_charapter1_7.setDisabled(True)
-            self.spin_spell_slot_charapter1_8.setDisabled(True)
-            self.spin_spell_slot_charapter1_9.setDisabled(True)
-            self.pushButton_restore_spell_slots_1.setDisabled(True)
-
-        if 'charapter2' in hero.keys():
-            self.name_charapter2.setDisabled(False)
-            self.hp_edit_charapter2.setDisabled(False)
-            self.initiative_edit_charapter2.setDisabled(False)
-            self.spin_spell_slot_charapter2.setDisabled(False)
-            self.spin_spell_slot_charapter2_2.setDisabled(False)
-            self.spin_spell_slot_charapter2_3.setDisabled(False)
-            self.spin_spell_slot_charapter2_4.setDisabled(False)
-            self.spin_spell_slot_charapter2_5.setDisabled(False)
-            self.spin_spell_slot_charapter2_6.setDisabled(False)
-            self.spin_spell_slot_charapter2_7.setDisabled(False)
-            self.spin_spell_slot_charapter2_8.setDisabled(False)
-            self.spin_spell_slot_charapter2_9.setDisabled(False)
-            self.pushButton_restore_spell_slots_2.setDisabled(False)
-
-            self.name_charapter2.setText(hero['charapter2']['name'])
-            self.hp_edit_charapter2.setText(hero['charapter2']['hp'])
-            self.initiative_edit_charapter2.setText(hero['charapter2']['initiative'])
-            self.spin_spell_slot_charapter2.setValue(int(hero['charapter2']['1']))
-            self.spin_spell_slot_charapter2_2.setValue(int(hero['charapter2']['2']))
-            self.spin_spell_slot_charapter2_3.setValue(int(hero['charapter2']['3']))
-            self.spin_spell_slot_charapter2_4.setValue(int(hero['charapter2']['4']))
-            self.spin_spell_slot_charapter2_5.setValue(int(hero['charapter2']['5']))
-            self.spin_spell_slot_charapter2_6.setValue(int(hero['charapter2']['6']))
-            self.spin_spell_slot_charapter2_7.setValue(int(hero['charapter2']['7']))
-            self.spin_spell_slot_charapter2_8.setValue(int(hero['charapter2']['8']))
-            self.spin_spell_slot_charapter2_9.setValue(int(hero['charapter2']['9']))
-        else:
-            self.name_charapter2.setDisabled(True)
-            self.hp_edit_charapter2.setDisabled(True)
-            self.initiative_edit_charapter2.setDisabled(True)
-            self.spin_spell_slot_charapter2.setDisabled(True)
-            self.spin_spell_slot_charapter2_2.setDisabled(True)
-            self.spin_spell_slot_charapter2_3.setDisabled(True)
-            self.spin_spell_slot_charapter2_4.setDisabled(True)
-            self.spin_spell_slot_charapter2_5.setDisabled(True)
-            self.spin_spell_slot_charapter2_6.setDisabled(True)
-            self.spin_spell_slot_charapter2_7.setDisabled(True)
-            self.spin_spell_slot_charapter2_8.setDisabled(True)
-            self.spin_spell_slot_charapter2_9.setDisabled(True)
-            self.pushButton_restore_spell_slots_2.setDisabled(True)
-
-        if 'charapter3' in hero.keys():
-            self.name_charapter3.setDisabled(False)
-            self.hp_edit_charapter3.setDisabled(False)
-            self.initiative_edit_charapter3.setDisabled(False)
-            self.spin_spell_slot_charapter3.setDisabled(False)
-            self.spin_spell_slot_charapter3_2.setDisabled(False)
-            self.spin_spell_slot_charapter3_3.setDisabled(False)
-            self.spin_spell_slot_charapter3_4.setDisabled(False)
-            self.spin_spell_slot_charapter3_5.setDisabled(False)
-            self.spin_spell_slot_charapter3_6.setDisabled(False)
-            self.spin_spell_slot_charapter3_7.setDisabled(False)
-            self.spin_spell_slot_charapter3_8.setDisabled(False)
-            self.spin_spell_slot_charapter3_9.setDisabled(False)
-            self.pushButton_restore_spell_slots_3.setDisabled(False)
-
-            self.name_charapter3.setText(hero['charapter3']['name'])
-            self.hp_edit_charapter3.setText(hero['charapter3']['hp'])
-            self.initiative_edit_charapter3.setText(hero['charapter3']['initiative'])
-            self.spin_spell_slot_charapter3.setValue(int(hero['charapter3']['1']))
-            self.spin_spell_slot_charapter3_2.setValue(int(hero['charapter3']['2']))
-            self.spin_spell_slot_charapter3_3.setValue(int(hero['charapter3']['3']))
-            self.spin_spell_slot_charapter3_4.setValue(int(hero['charapter3']['4']))
-            self.spin_spell_slot_charapter3_5.setValue(int(hero['charapter3']['5']))
-            self.spin_spell_slot_charapter3_6.setValue(int(hero['charapter3']['6']))
-            self.spin_spell_slot_charapter3_7.setValue(int(hero['charapter3']['7']))
-            self.spin_spell_slot_charapter3_8.setValue(int(hero['charapter3']['8']))
-            self.spin_spell_slot_charapter3_9.setValue(int(hero['charapter3']['9']))
-        else:
-            self.name_charapter3.setDisabled(True)
-            self.hp_edit_charapter3.setDisabled(True)
-            self.initiative_edit_charapter3.setDisabled(True)
-            self.spin_spell_slot_charapter3.setDisabled(True)
-            self.spin_spell_slot_charapter3_2.setDisabled(True)
-            self.spin_spell_slot_charapter3_3.setDisabled(True)
-            self.spin_spell_slot_charapter3_4.setDisabled(True)
-            self.spin_spell_slot_charapter3_5.setDisabled(True)
-            self.spin_spell_slot_charapter3_6.setDisabled(True)
-            self.spin_spell_slot_charapter3_7.setDisabled(True)
-            self.spin_spell_slot_charapter3_8.setDisabled(True)
-            self.spin_spell_slot_charapter3_9.setDisabled(True)
-            self.pushButton_restore_spell_slots_3.setDisabled(True)
-
-    def restore_slot_chr0(self):
-        if 'charapter0' in hero:
-            self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
-            self.spin_spell_slot_charapter0_2.setValue(int(hero['charapter0']['2']))
-            self.spin_spell_slot_charapter0_3.setValue(int(hero['charapter0']['3']))
-            self.spin_spell_slot_charapter0_4.setValue(int(hero['charapter0']['4']))
-            self.spin_spell_slot_charapter0_5.setValue(int(hero['charapter0']['5']))
-            self.spin_spell_slot_charapter0_6.setValue(int(hero['charapter0']['6']))
-            self.spin_spell_slot_charapter0_7.setValue(int(hero['charapter0']['7']))
-            self.spin_spell_slot_charapter0_8.setValue(int(hero['charapter0']['8']))
-            self.spin_spell_slot_charapter0_9.setValue(int(hero['charapter0']['9']))
-        else:
-            pass
-
-    def restore_slot_chr1(self):
-        if 'charapter1' in hero:
-            self.spin_spell_slot_charapter1.setValue(int(hero['charapter1']['1']))
-            self.spin_spell_slot_charapter1_2.setValue(int(hero['charapter1']['2']))
-            self.spin_spell_slot_charapter1_3.setValue(int(hero['charapter1']['3']))
-            self.spin_spell_slot_charapter1_4.setValue(int(hero['charapter1']['4']))
-            self.spin_spell_slot_charapter1_5.setValue(int(hero['charapter1']['5']))
-            self.spin_spell_slot_charapter1_6.setValue(int(hero['charapter1']['6']))
-            self.spin_spell_slot_charapter1_7.setValue(int(hero['charapter1']['7']))
-            self.spin_spell_slot_charapter1_8.setValue(int(hero['charapter1']['8']))
-            self.spin_spell_slot_charapter1_9.setValue(int(hero['charapter1']['9']))
-        else:
-            pass
-
-    def restore_slot_chr2(self):
-        if 'charapter2' in hero:
-            self.spin_spell_slot_charapter2.setValue(int(hero['charapter2']['1']))
-            self.spin_spell_slot_charapter2_2.setValue(int(hero['charapter2']['2']))
-            self.spin_spell_slot_charapter2_3.setValue(int(hero['charapter2']['3']))
-            self.spin_spell_slot_charapter2_4.setValue(int(hero['charapter2']['4']))
-            self.spin_spell_slot_charapter2_5.setValue(int(hero['charapter2']['5']))
-            self.spin_spell_slot_charapter2_6.setValue(int(hero['charapter2']['6']))
-            self.spin_spell_slot_charapter2_7.setValue(int(hero['charapter2']['7']))
-            self.spin_spell_slot_charapter2_8.setValue(int(hero['charapter2']['8']))
-            self.spin_spell_slot_charapter2_9.setValue(int(hero['charapter2']['9']))
-        else:
-            pass
-
-    def restore_slot_chr3(self):
-        if 'charapter3' in hero:
-            self.spin_spell_slot_charapter3.setValue(int(hero['charapter3']['1']))
-            self.spin_spell_slot_charapter3_2.setValue(int(hero['charapter3']['2']))
-            self.spin_spell_slot_charapter3_3.setValue(int(hero['charapter3']['3']))
-            self.spin_spell_slot_charapter3_4.setValue(int(hero['charapter3']['4']))
-            self.spin_spell_slot_charapter3_5.setValue(int(hero['charapter3']['5']))
-            self.spin_spell_slot_charapter3_6.setValue(int(hero['charapter3']['6']))
-            self.spin_spell_slot_charapter3_7.setValue(int(hero['charapter3']['7']))
-            self.spin_spell_slot_charapter3_8.setValue(int(hero['charapter3']['8']))
-            self.spin_spell_slot_charapter3_9.setValue(int(hero['charapter3']['9']))
-        else:
-            pass
-
-
-    def set_stats_charapter(self):
-        '''
-        DOCKSTRING: Обновление статов персонажей при их изменении в трекере
-        :param but:
-        :return:
-        '''
-        try:
-            if 'charapter0' in hero.keys():
-                hero['charapter0']['hp'] = int(self.hp_edit_charapter0.text())
-                hero['charapter0']['initiative'] = int(self.initiative_edit_charapter0.text())
-            if 'charapter1' in hero.keys():
-                hero['charapter1']['hp'] = int(self.hp_edit_charapter1.text())
-                hero['charapter1']['initiative'] = int(self.initiative_edit_charapter1.text())
-            if 'charapter2' in hero.keys():
-                hero['charapter2']['hp'] = int(self.hp_edit_charapter2.text())
-                hero['charapter2']['initiative'] = int(self.initiative_edit_charapter2.text())
-            if 'charapter3' in hero.keys():
-                hero['charapter3']['hp'] = int(self.hp_edit_charapter3.text())
-                hero['charapter3']['initiative'] = int(self.initiative_edit_charapter3.text())
-        except:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Не корректный ввод данных')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
-
-
-
 
     def hide_create(self):
         '''
         DOCKSTRING: круглая кнопка. Скрыть или показать редактор персонажа
-        :param but:
-        :return:
         '''
         self.check_radiobutton = self.radioButton_hide_create.isChecked()
-        self.check_checkbox = self.checkBox_lock_init.isChecked()
+        self.check_checkbox_init = self.checkBox_lock_init.isChecked()
+        self.check_checkbox_ac = self.checkBox_lock_ac.isChecked()
         if self.check_radiobutton == True:
             self.pushButton_init_open.show()
             self.dice_edit.show()
@@ -637,6 +269,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.hp_edit_charapter1.show()
             self.hp_edit_charapter2.show()
             self.hp_edit_charapter3.show()
+            self.ac_charapter0.show()
+            self.ac_charapter1.show()
+            self.ac_charapter2.show()
+            self.ac_charapter3.show()
+            self.ac_edit_charapter0.show()
+            self.ac_edit_charapter1.show()
+            self.ac_edit_charapter2.show()
+            self.ac_edit_charapter3.show()
             self.initiative_charapter0.show()
             self.initiative_charapter1.show()
             self.initiative_charapter2.show()
@@ -650,6 +290,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_lock_init_chr_1.hide()
             self.label_lock_init_chr_2.hide()
             self.label_lock_init_chr_3.hide()
+            self.label_lock_ac_chr_0.hide()
+            self.label_lock_ac_chr_1.hide()
+            self.label_lock_ac_chr_2.hide()
+            self.label_lock_ac_chr_3.hide()
 
             self.label_spell_slot_charapter0.show()
             self.label_spell_slot_charapter0_2.show()
@@ -731,13 +375,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.pushButton_restore_spell_slots_1.show()
             self.pushButton_restore_spell_slots_2.show()
             self.pushButton_restore_spell_slots_3.show()
+            self.pushButton_set_spell_slots_0.show()
+            self.pushButton_set_spell_slots_1.show()
+            self.pushButton_set_spell_slots_2.show()
+            self.pushButton_set_spell_slots_3.show()
             self.label_lock_init_chr_0.show()
             self.label_lock_init_chr_1.show()
             self.label_lock_init_chr_2.show()
             self.label_lock_init_chr_3.show()
-            self.checkBox_lock_init.show()
+            self.label_lock_ac_chr_0.show()
+            self.label_lock_ac_chr_1.show()
+            self.label_lock_ac_chr_2.show()
+            self.label_lock_ac_chr_3.show()
+            self.textEdit_chr_0.show()
+            self.textEdit_chr_1.show()
+            self.textEdit_chr_2.show()
+            self.textEdit_chr_3.show()
 
-            if self.check_checkbox == False:
+            self.checkBox_lock_init.show()
+            self.checkBox_lock_ac.show()
+
+            if self.check_checkbox_init == False:
                 self.label_lock_init_chr_0.hide()
                 self.label_lock_init_chr_1.hide()
                 self.label_lock_init_chr_2.hide()
@@ -748,12 +406,25 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.initiative_edit_charapter2.hide()
                 self.initiative_edit_charapter3.hide()
 
+            if self.check_checkbox_ac == False:
+                self.label_lock_ac_chr_0.hide()
+                self.label_lock_ac_chr_1.hide()
+                self.label_lock_ac_chr_2.hide()
+                self.label_lock_ac_chr_3.hide()
+            else:
+                self.ac_edit_charapter0.hide()
+                self.ac_edit_charapter1.hide()
+                self.ac_edit_charapter2.hide()
+                self.ac_edit_charapter3.hide()
+
 
 
             self.name.hide()
             self.name_edit.hide()
             self.hp.hide()
             self.hp_edit.hide()
+            self.ac.hide()
+            self.ac_edit.hide()
             self.initiative.hide()
             self.initiative_edit.hide()
             self.pushButton.hide()
@@ -806,6 +477,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.hp_edit_charapter1.hide()
             self.hp_edit_charapter2.hide()
             self.hp_edit_charapter3.hide()
+            self.ac_charapter0.hide()
+            self.ac_charapter1.hide()
+            self.ac_charapter2.hide()
+            self.ac_charapter3.hide()
+            self.ac_edit_charapter0.hide()
+            self.ac_edit_charapter1.hide()
+            self.ac_edit_charapter2.hide()
+            self.ac_edit_charapter3.hide()
             self.initiative_charapter0.hide()
             self.initiative_charapter1.hide()
             self.initiative_charapter2.hide()
@@ -819,6 +498,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_lock_init_chr_1.show()
             self.label_lock_init_chr_2.show()
             self.label_lock_init_chr_3.show()
+            self.label_lock_ac_chr_0.show()
+            self.label_lock_ac_chr_1.show()
+            self.label_lock_ac_chr_2.show()
+            self.label_lock_ac_chr_3.show()
 
             self.label_spell_slot_charapter0.hide()
             self.label_spell_slot_charapter0_2.hide()
@@ -900,17 +583,33 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.pushButton_restore_spell_slots_1.hide()
             self.pushButton_restore_spell_slots_2.hide()
             self.pushButton_restore_spell_slots_3.hide()
+            self.pushButton_set_spell_slots_0.hide()
+            self.pushButton_set_spell_slots_1.hide()
+            self.pushButton_set_spell_slots_2.hide()
+            self.pushButton_set_spell_slots_3.hide()
             self.label_lock_init_chr_0.hide()
             self.label_lock_init_chr_1.hide()
             self.label_lock_init_chr_2.hide()
             self.label_lock_init_chr_3.hide()
+            self.label_lock_ac_chr_0.hide()
+            self.label_lock_ac_chr_1.hide()
+            self.label_lock_ac_chr_2.hide()
+            self.label_lock_ac_chr_3.hide()
+            self.textEdit_chr_0.hide()
+            self.textEdit_chr_1.hide()
+            self.textEdit_chr_2.hide()
+            self.textEdit_chr_3.hide()
+
             self.checkBox_lock_init.hide()
+            self.checkBox_lock_ac.hide()
 
 
             self.name.show()
             self.name_edit.show()
             self.hp.show()
             self.hp_edit.show()
+            self.ac.show()
+            self.ac_edit.show()
             self.initiative.show()
             self.initiative_edit.show()
             self.pushButton.show()
@@ -935,47 +634,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.spell_slot_edit_8.show()
             self.spell_slot_edit_9.show()
 
-    def lock_initiative(self):
-        self.check_checkbox = self.checkBox_lock_init.isChecked()
-        if self.check_checkbox:
+    '''
+    Main window show
+    '''
 
-            if len(hero) != 0:
-                if 'charapter0' in hero.keys():
-                    self.label_lock_init_chr_0.show()
-                    self.initiative_edit_charapter0.hide()
-                    self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
-
-                if 'charapter1' in hero.keys():
-                    self.label_lock_init_chr_1.show()
-                    self.initiative_edit_charapter1.hide()
-                    self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
-
-                if 'charapter2' in hero.keys():
-                    self.label_lock_init_chr_2.show()
-                    self.initiative_edit_charapter2.hide()
-                    self.label_lock_init_chr_2.setText(hero["charapter2"]['initiative'])
-
-                if 'charapter3' in hero.keys():
-                    self.label_lock_init_chr_3.show()
-                    self.initiative_edit_charapter3.hide()
-                    self.label_lock_init_chr_3.setText(hero["charapter3"]['initiative'])
-
-        else:
-            self.label_lock_init_chr_0.hide()
-            self.label_lock_init_chr_1.hide()
-            self.label_lock_init_chr_2.hide()
-            self.label_lock_init_chr_3.hide()
-
-            self.initiative_edit_charapter0.show()
-            self.initiative_edit_charapter1.show()
-            self.initiative_edit_charapter2.show()
-            self.initiative_edit_charapter3.show()
+    def open_init_calc(self):
+        self.result_widget = InitiativeWindow(hero)
+        self.result_widget.show()
 
     def roll_dice(self):
         '''
-        DOCKSTRING: рандом кубика и вывод в окно
-        :param but:
-        :return:
+        DOCKSTRING: рандом кубика(числа) и вывод в окно
         '''
         check_advantage = self.check_advantage.isChecked()
         try:
@@ -1031,57 +700,498 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             error.exec()
 
-
-    def actions_save(self):
+    def lock_initiative(self):
         '''
-        DOCKSTRING: сохранение в json файл
-        :param but:
-        :return:
+        DOCKSTRING: Вывод вместо lineEdit Label со значением initiative
         '''
-        note_zero = self.note_edit_0.toPlainText()
-        note_one = self.note_edit_1.toPlainText()
-        note_two = self.note_edit_2.toPlainText()
-        note_three = self.note_edit_3.toPlainText()
-        save_dict = (hero, music, note_zero, note_one, note_two, note_three)
-        data = QFileDialog.getSaveFileName(self)[0]
+        self.check_checkbox_init = self.checkBox_lock_init.isChecked()
+        if self.check_checkbox_init:
 
+            if len(hero) != 0:
+                if 'charapter0' in hero.keys():
+                    self.label_lock_init_chr_0.show()
+                    self.initiative_edit_charapter0.hide()
+                    self.label_lock_init_chr_0.setText(hero["charapter0"]['initiative'])
+
+                if 'charapter1' in hero.keys():
+                    self.label_lock_init_chr_1.show()
+                    self.initiative_edit_charapter1.hide()
+                    self.label_lock_init_chr_1.setText(hero["charapter1"]['initiative'])
+
+                if 'charapter2' in hero.keys():
+                    self.label_lock_init_chr_2.show()
+                    self.initiative_edit_charapter2.hide()
+                    self.label_lock_init_chr_2.setText(hero["charapter2"]['initiative'])
+
+                if 'charapter3' in hero.keys():
+                    self.label_lock_init_chr_3.show()
+                    self.initiative_edit_charapter3.hide()
+                    self.label_lock_init_chr_3.setText(hero["charapter3"]['initiative'])
+
+        else:
+            self.label_lock_init_chr_0.hide()
+            self.label_lock_init_chr_1.hide()
+            self.label_lock_init_chr_2.hide()
+            self.label_lock_init_chr_3.hide()
+
+            self.initiative_edit_charapter0.show()
+            self.initiative_edit_charapter1.show()
+            self.initiative_edit_charapter2.show()
+            self.initiative_edit_charapter3.show()
+
+    def lock_ac(self):
+        '''
+        DOCKSTRING: Вывод вместо lineEdit Label со значением ac
+        '''
+        self.check_checkbox_ac = self.checkBox_lock_ac.isChecked()
+        if self.check_checkbox_ac:
+
+            if len(hero) != 0:
+                if 'charapter0' in hero.keys():
+                    self.label_lock_ac_chr_0.show()
+                    self.ac_edit_charapter0.hide()
+                    self.label_lock_ac_chr_0.setText(hero["charapter0"]['ac'])
+
+                if 'charapter1' in hero.keys():
+                    self.label_lock_ac_chr_1.show()
+                    self.ac_edit_charapter1.hide()
+                    self.label_lock_ac_chr_1.setText(hero["charapter1"]['ac'])
+
+                if 'charapter2' in hero.keys():
+                    self.label_lock_ac_chr_2.show()
+                    self.ac_edit_charapter2.hide()
+                    self.label_lock_ac_chr_2.setText(hero["charapter2"]['ac'])
+
+                if 'charapter3' in hero.keys():
+                    self.label_lock_ac_chr_3.show()
+                    self.ac_edit_charapter3.hide()
+                    self.label_lock_ac_chr_3.setText(hero["charapter3"]['ac'])
+
+        else:
+            self.label_lock_ac_chr_0.hide()
+            self.label_lock_ac_chr_1.hide()
+            self.label_lock_ac_chr_2.hide()
+            self.label_lock_ac_chr_3.hide()
+
+            self.ac_edit_charapter0.show()
+            self.ac_edit_charapter1.show()
+            self.ac_edit_charapter2.show()
+            self.ac_edit_charapter3.show()
+
+    def add_to_tracker(self):
+        '''
+        DOCKSTRING: добавление созданых персонажей в трекер и отключение полей несуществующий персонажей
+        '''
+        self.initiative_edit_charapter0.setText('')
+        self.initiative_edit_charapter1.setText('')
+        self.initiative_edit_charapter2.setText('')
+        self.initiative_edit_charapter3.setText('')
+        self.hp_edit_charapter0.setText('')
+        self.hp_edit_charapter1.setText('')
+        self.hp_edit_charapter2.setText('')
+        self.hp_edit_charapter3.setText('')
+        self.ac_edit_charapter0.setText('')
+        self.ac_edit_charapter1.setText('')
+        self.ac_edit_charapter2.setText('')
+        self.ac_edit_charapter3.setText('')
+        self.name_charapter0.setText('')
+        self.name_charapter1.setText('')
+        self.name_charapter2.setText('')
+        self.name_charapter3.setText('')
+        self.spin_spell_slot_charapter0.setValue(0)
+        self.spin_spell_slot_charapter0_2.setValue(0)
+        self.spin_spell_slot_charapter0_3.setValue(0)
+        self.spin_spell_slot_charapter0_4.setValue(0)
+        self.spin_spell_slot_charapter0_5.setValue(0)
+        self.spin_spell_slot_charapter0_6.setValue(0)
+        self.spin_spell_slot_charapter0_7.setValue(0)
+        self.spin_spell_slot_charapter0_8.setValue(0)
+        self.spin_spell_slot_charapter0_9.setValue(0)
+        self.spin_spell_slot_charapter1.setValue(0)
+        self.spin_spell_slot_charapter1_2.setValue(0)
+        self.spin_spell_slot_charapter1_3.setValue(0)
+        self.spin_spell_slot_charapter1_4.setValue(0)
+        self.spin_spell_slot_charapter1_5.setValue(0)
+        self.spin_spell_slot_charapter1_6.setValue(0)
+        self.spin_spell_slot_charapter1_7.setValue(0)
+        self.spin_spell_slot_charapter1_8.setValue(0)
+        self.spin_spell_slot_charapter1_9.setValue(0)
+        self.spin_spell_slot_charapter2.setValue(0)
+        self.spin_spell_slot_charapter2_2.setValue(0)
+        self.spin_spell_slot_charapter2_3.setValue(0)
+        self.spin_spell_slot_charapter2_4.setValue(0)
+        self.spin_spell_slot_charapter2_5.setValue(0)
+        self.spin_spell_slot_charapter2_6.setValue(0)
+        self.spin_spell_slot_charapter2_7.setValue(0)
+        self.spin_spell_slot_charapter2_8.setValue(0)
+        self.spin_spell_slot_charapter2_9.setValue(0)
+        self.spin_spell_slot_charapter3.setValue(0)
+        self.spin_spell_slot_charapter3_2.setValue(0)
+        self.spin_spell_slot_charapter3_3.setValue(0)
+        self.spin_spell_slot_charapter3_4.setValue(0)
+        self.spin_spell_slot_charapter3_5.setValue(0)
+        self.spin_spell_slot_charapter3_6.setValue(0)
+        self.spin_spell_slot_charapter3_7.setValue(0)
+        self.spin_spell_slot_charapter3_8.setValue(0)
+        self.spin_spell_slot_charapter3_9.setValue(0)
+        if 'charapter0' in hero.keys():
+            self.name_charapter0.setDisabled(False)
+            self.hp_edit_charapter0.setDisabled(False)
+            self.ac_edit_charapter0.setDisabled(False)
+            self.initiative_edit_charapter0.setDisabled(False)
+            self.spin_spell_slot_charapter0.setDisabled(False)
+            self.spin_spell_slot_charapter0.setDisabled(False)
+            self.spin_spell_slot_charapter0_2.setDisabled(False)
+            self.spin_spell_slot_charapter0_3.setDisabled(False)
+            self.spin_spell_slot_charapter0_4.setDisabled(False)
+            self.spin_spell_slot_charapter0_5.setDisabled(False)
+            self.spin_spell_slot_charapter0_6.setDisabled(False)
+            self.spin_spell_slot_charapter0_7.setDisabled(False)
+            self.spin_spell_slot_charapter0_8.setDisabled(False)
+            self.spin_spell_slot_charapter0_9.setDisabled(False)
+            self.pushButton_restore_spell_slots_0.setDisabled(False)
+            self.pushButton_set_spell_slots_0.setDisabled(False)
+            self.textEdit_chr_0.setDisabled(False)
+
+            self.name_charapter0.setText(hero['charapter0']['name'])
+            self.hp_edit_charapter0.setText(hero['charapter0']['hp'])
+            self.ac_edit_charapter0.setText(hero['charapter0']['ac'])
+            self.initiative_edit_charapter0.setText(hero['charapter0']['initiative'])
+            self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
+            self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
+            self.spin_spell_slot_charapter0_2.setValue(int(hero['charapter0']['2']))
+            self.spin_spell_slot_charapter0_3.setValue(int(hero['charapter0']['3']))
+            self.spin_spell_slot_charapter0_4.setValue(int(hero['charapter0']['4']))
+            self.spin_spell_slot_charapter0_5.setValue(int(hero['charapter0']['5']))
+            self.spin_spell_slot_charapter0_6.setValue(int(hero['charapter0']['6']))
+            self.spin_spell_slot_charapter0_7.setValue(int(hero['charapter0']['7']))
+            self.spin_spell_slot_charapter0_8.setValue(int(hero['charapter0']['8']))
+            self.spin_spell_slot_charapter0_9.setValue(int(hero['charapter0']['9']))
+        else:
+            self.name_charapter0.setDisabled(True)
+            self.hp_edit_charapter0.setDisabled(True)
+            self.ac_edit_charapter0.setDisabled(True)
+            self.initiative_edit_charapter0.setDisabled(True)
+            self.spin_spell_slot_charapter0.setDisabled(True)
+            self.spin_spell_slot_charapter0.setDisabled(True)
+            self.spin_spell_slot_charapter0_2.setDisabled(True)
+            self.spin_spell_slot_charapter0_3.setDisabled(True)
+            self.spin_spell_slot_charapter0_4.setDisabled(True)
+            self.spin_spell_slot_charapter0_5.setDisabled(True)
+            self.spin_spell_slot_charapter0_6.setDisabled(True)
+            self.spin_spell_slot_charapter0_7.setDisabled(True)
+            self.spin_spell_slot_charapter0_8.setDisabled(True)
+            self.spin_spell_slot_charapter0_9.setDisabled(True)
+            self.pushButton_restore_spell_slots_0.setDisabled(True)
+            self.pushButton_set_spell_slots_0.setDisabled(True)
+            self.textEdit_chr_0.setDisabled(True)
+
+        if 'charapter1' in hero.keys():
+            self.name_charapter1.setDisabled(False)
+            self.hp_edit_charapter1.setDisabled(False)
+            self.ac_edit_charapter1.setDisabled(False)
+            self.initiative_edit_charapter1.setDisabled(False)
+            self.spin_spell_slot_charapter1.setDisabled(False)
+            self.spin_spell_slot_charapter1_2.setDisabled(False)
+            self.spin_spell_slot_charapter1_3.setDisabled(False)
+            self.spin_spell_slot_charapter1_4.setDisabled(False)
+            self.spin_spell_slot_charapter1_5.setDisabled(False)
+            self.spin_spell_slot_charapter1_6.setDisabled(False)
+            self.spin_spell_slot_charapter1_7.setDisabled(False)
+            self.spin_spell_slot_charapter1_8.setDisabled(False)
+            self.spin_spell_slot_charapter1_9.setDisabled(False)
+            self.pushButton_restore_spell_slots_1.setDisabled(False)
+            self.pushButton_set_spell_slots_1.setDisabled(False)
+            self.textEdit_chr_1.setDisabled(False)
+
+            self.name_charapter1.setText(hero['charapter1']['name'])
+            self.hp_edit_charapter1.setText(hero['charapter1']['hp'])
+            self.ac_edit_charapter1.setText(hero['charapter1']['ac'])
+            self.initiative_edit_charapter1.setText(hero['charapter1']['initiative'])
+            self.spin_spell_slot_charapter1.setValue(int(hero['charapter1']['1']))
+            self.spin_spell_slot_charapter1_2.setValue(int(hero['charapter1']['2']))
+            self.spin_spell_slot_charapter1_3.setValue(int(hero['charapter1']['3']))
+            self.spin_spell_slot_charapter1_4.setValue(int(hero['charapter1']['4']))
+            self.spin_spell_slot_charapter1_5.setValue(int(hero['charapter1']['5']))
+            self.spin_spell_slot_charapter1_6.setValue(int(hero['charapter1']['6']))
+            self.spin_spell_slot_charapter1_7.setValue(int(hero['charapter1']['7']))
+            self.spin_spell_slot_charapter1_8.setValue(int(hero['charapter1']['8']))
+            self.spin_spell_slot_charapter1_9.setValue(int(hero['charapter1']['9']))
+        else:
+            self.name_charapter1.setDisabled(True)
+            self.hp_edit_charapter1.setDisabled(True)
+            self.ac_edit_charapter1.setDisabled(True)
+            self.initiative_edit_charapter1.setDisabled(True)
+            self.spin_spell_slot_charapter1.setDisabled(True)
+            self.spin_spell_slot_charapter1_2.setDisabled(True)
+            self.spin_spell_slot_charapter1_3.setDisabled(True)
+            self.spin_spell_slot_charapter1_4.setDisabled(True)
+            self.spin_spell_slot_charapter1_5.setDisabled(True)
+            self.spin_spell_slot_charapter1_6.setDisabled(True)
+            self.spin_spell_slot_charapter1_7.setDisabled(True)
+            self.spin_spell_slot_charapter1_8.setDisabled(True)
+            self.spin_spell_slot_charapter1_9.setDisabled(True)
+            self.pushButton_restore_spell_slots_1.setDisabled(True)
+            self.pushButton_set_spell_slots_1.setDisabled(True)
+            self.textEdit_chr_1.setDisabled(True)
+
+        if 'charapter2' in hero.keys():
+            self.name_charapter2.setDisabled(False)
+            self.hp_edit_charapter2.setDisabled(False)
+            self.ac_edit_charapter2.setDisabled(False)
+            self.initiative_edit_charapter2.setDisabled(False)
+            self.spin_spell_slot_charapter2.setDisabled(False)
+            self.spin_spell_slot_charapter2_2.setDisabled(False)
+            self.spin_spell_slot_charapter2_3.setDisabled(False)
+            self.spin_spell_slot_charapter2_4.setDisabled(False)
+            self.spin_spell_slot_charapter2_5.setDisabled(False)
+            self.spin_spell_slot_charapter2_6.setDisabled(False)
+            self.spin_spell_slot_charapter2_7.setDisabled(False)
+            self.spin_spell_slot_charapter2_8.setDisabled(False)
+            self.spin_spell_slot_charapter2_9.setDisabled(False)
+            self.pushButton_restore_spell_slots_2.setDisabled(False)
+            self.pushButton_set_spell_slots_2.setDisabled(False)
+            self.textEdit_chr_2.setDisabled(False)
+
+            self.name_charapter2.setText(hero['charapter2']['name'])
+            self.hp_edit_charapter2.setText(hero['charapter2']['hp'])
+            self.ac_edit_charapter2.setText(hero['charapter2']['ac'])
+            self.initiative_edit_charapter2.setText(hero['charapter2']['initiative'])
+            self.spin_spell_slot_charapter2.setValue(int(hero['charapter2']['1']))
+            self.spin_spell_slot_charapter2_2.setValue(int(hero['charapter2']['2']))
+            self.spin_spell_slot_charapter2_3.setValue(int(hero['charapter2']['3']))
+            self.spin_spell_slot_charapter2_4.setValue(int(hero['charapter2']['4']))
+            self.spin_spell_slot_charapter2_5.setValue(int(hero['charapter2']['5']))
+            self.spin_spell_slot_charapter2_6.setValue(int(hero['charapter2']['6']))
+            self.spin_spell_slot_charapter2_7.setValue(int(hero['charapter2']['7']))
+            self.spin_spell_slot_charapter2_8.setValue(int(hero['charapter2']['8']))
+            self.spin_spell_slot_charapter2_9.setValue(int(hero['charapter2']['9']))
+        else:
+            self.name_charapter2.setDisabled(True)
+            self.hp_edit_charapter2.setDisabled(True)
+            self.ac_edit_charapter2.setDisabled(True)
+            self.initiative_edit_charapter2.setDisabled(True)
+            self.spin_spell_slot_charapter2.setDisabled(True)
+            self.spin_spell_slot_charapter2_2.setDisabled(True)
+            self.spin_spell_slot_charapter2_3.setDisabled(True)
+            self.spin_spell_slot_charapter2_4.setDisabled(True)
+            self.spin_spell_slot_charapter2_5.setDisabled(True)
+            self.spin_spell_slot_charapter2_6.setDisabled(True)
+            self.spin_spell_slot_charapter2_7.setDisabled(True)
+            self.spin_spell_slot_charapter2_8.setDisabled(True)
+            self.spin_spell_slot_charapter2_9.setDisabled(True)
+            self.pushButton_restore_spell_slots_2.setDisabled(True)
+            self.pushButton_set_spell_slots_2.setDisabled(True)
+            self.textEdit_chr_2.setDisabled(True)
+
+        if 'charapter3' in hero.keys():
+            self.name_charapter3.setDisabled(False)
+            self.hp_edit_charapter3.setDisabled(False)
+            self.ac_edit_charapter3.setDisabled(False)
+            self.initiative_edit_charapter3.setDisabled(False)
+            self.spin_spell_slot_charapter3.setDisabled(False)
+            self.spin_spell_slot_charapter3_2.setDisabled(False)
+            self.spin_spell_slot_charapter3_3.setDisabled(False)
+            self.spin_spell_slot_charapter3_4.setDisabled(False)
+            self.spin_spell_slot_charapter3_5.setDisabled(False)
+            self.spin_spell_slot_charapter3_6.setDisabled(False)
+            self.spin_spell_slot_charapter3_7.setDisabled(False)
+            self.spin_spell_slot_charapter3_8.setDisabled(False)
+            self.spin_spell_slot_charapter3_9.setDisabled(False)
+            self.pushButton_restore_spell_slots_3.setDisabled(False)
+            self.pushButton_set_spell_slots_3.setDisabled(False)
+            self.textEdit_chr_3.setDisabled(False)
+
+            self.name_charapter3.setText(hero['charapter3']['name'])
+            self.hp_edit_charapter3.setText(hero['charapter3']['hp'])
+            self.ac_edit_charapter3.setText(hero['charapter3']['ac'])
+            self.initiative_edit_charapter3.setText(hero['charapter3']['initiative'])
+            self.spin_spell_slot_charapter3.setValue(int(hero['charapter3']['1']))
+            self.spin_spell_slot_charapter3_2.setValue(int(hero['charapter3']['2']))
+            self.spin_spell_slot_charapter3_3.setValue(int(hero['charapter3']['3']))
+            self.spin_spell_slot_charapter3_4.setValue(int(hero['charapter3']['4']))
+            self.spin_spell_slot_charapter3_5.setValue(int(hero['charapter3']['5']))
+            self.spin_spell_slot_charapter3_6.setValue(int(hero['charapter3']['6']))
+            self.spin_spell_slot_charapter3_7.setValue(int(hero['charapter3']['7']))
+            self.spin_spell_slot_charapter3_8.setValue(int(hero['charapter3']['8']))
+            self.spin_spell_slot_charapter3_9.setValue(int(hero['charapter3']['9']))
+        else:
+            self.name_charapter3.setDisabled(True)
+            self.hp_edit_charapter3.setDisabled(True)
+            self.ac_edit_charapter3.setDisabled(True)
+            self.initiative_edit_charapter3.setDisabled(True)
+            self.spin_spell_slot_charapter3.setDisabled(True)
+            self.spin_spell_slot_charapter3_2.setDisabled(True)
+            self.spin_spell_slot_charapter3_3.setDisabled(True)
+            self.spin_spell_slot_charapter3_4.setDisabled(True)
+            self.spin_spell_slot_charapter3_5.setDisabled(True)
+            self.spin_spell_slot_charapter3_6.setDisabled(True)
+            self.spin_spell_slot_charapter3_7.setDisabled(True)
+            self.spin_spell_slot_charapter3_8.setDisabled(True)
+            self.spin_spell_slot_charapter3_9.setDisabled(True)
+            self.pushButton_restore_spell_slots_3.setDisabled(True)
+            self.pushButton_set_spell_slots_3.setDisabled(True)
+            self.textEdit_chr_3.setDisabled(True)
+
+    def restore_slot_chr0(self):
+        if 'charapter0' in hero:
+            self.spin_spell_slot_charapter0.setValue(int(hero['charapter0']['1']))
+            self.spin_spell_slot_charapter0_2.setValue(int(hero['charapter0']['2']))
+            self.spin_spell_slot_charapter0_3.setValue(int(hero['charapter0']['3']))
+            self.spin_spell_slot_charapter0_4.setValue(int(hero['charapter0']['4']))
+            self.spin_spell_slot_charapter0_5.setValue(int(hero['charapter0']['5']))
+            self.spin_spell_slot_charapter0_6.setValue(int(hero['charapter0']['6']))
+            self.spin_spell_slot_charapter0_7.setValue(int(hero['charapter0']['7']))
+            self.spin_spell_slot_charapter0_8.setValue(int(hero['charapter0']['8']))
+            self.spin_spell_slot_charapter0_9.setValue(int(hero['charapter0']['9']))
+        else:
+            pass
+
+    def restore_slot_chr1(self):
+        if 'charapter1' in hero:
+            self.spin_spell_slot_charapter1.setValue(int(hero['charapter1']['1']))
+            self.spin_spell_slot_charapter1_2.setValue(int(hero['charapter1']['2']))
+            self.spin_spell_slot_charapter1_3.setValue(int(hero['charapter1']['3']))
+            self.spin_spell_slot_charapter1_4.setValue(int(hero['charapter1']['4']))
+            self.spin_spell_slot_charapter1_5.setValue(int(hero['charapter1']['5']))
+            self.spin_spell_slot_charapter1_6.setValue(int(hero['charapter1']['6']))
+            self.spin_spell_slot_charapter1_7.setValue(int(hero['charapter1']['7']))
+            self.spin_spell_slot_charapter1_8.setValue(int(hero['charapter1']['8']))
+            self.spin_spell_slot_charapter1_9.setValue(int(hero['charapter1']['9']))
+        else:
+            pass
+
+    def restore_slot_chr2(self):
+        if 'charapter2' in hero:
+            self.spin_spell_slot_charapter2.setValue(int(hero['charapter2']['1']))
+            self.spin_spell_slot_charapter2_2.setValue(int(hero['charapter2']['2']))
+            self.spin_spell_slot_charapter2_3.setValue(int(hero['charapter2']['3']))
+            self.spin_spell_slot_charapter2_4.setValue(int(hero['charapter2']['4']))
+            self.spin_spell_slot_charapter2_5.setValue(int(hero['charapter2']['5']))
+            self.spin_spell_slot_charapter2_6.setValue(int(hero['charapter2']['6']))
+            self.spin_spell_slot_charapter2_7.setValue(int(hero['charapter2']['7']))
+            self.spin_spell_slot_charapter2_8.setValue(int(hero['charapter2']['8']))
+            self.spin_spell_slot_charapter2_9.setValue(int(hero['charapter2']['9']))
+        else:
+            pass
+
+    def restore_slot_chr3(self):
+        if 'charapter3' in hero:
+            self.spin_spell_slot_charapter3.setValue(int(hero['charapter3']['1']))
+            self.spin_spell_slot_charapter3_2.setValue(int(hero['charapter3']['2']))
+            self.spin_spell_slot_charapter3_3.setValue(int(hero['charapter3']['3']))
+            self.spin_spell_slot_charapter3_4.setValue(int(hero['charapter3']['4']))
+            self.spin_spell_slot_charapter3_5.setValue(int(hero['charapter3']['5']))
+            self.spin_spell_slot_charapter3_6.setValue(int(hero['charapter3']['6']))
+            self.spin_spell_slot_charapter3_7.setValue(int(hero['charapter3']['7']))
+            self.spin_spell_slot_charapter3_8.setValue(int(hero['charapter3']['8']))
+            self.spin_spell_slot_charapter3_9.setValue(int(hero['charapter3']['9']))
+        else:
+            pass
+    def set_slot_chr0(self):
+        if 'charapter0' in hero:
+            hero['charapter0']['1'] = self.spin_spell_slot_charapter0.text()
+            hero['charapter0']['2'] = self.spin_spell_slot_charapter0_2.text()
+            hero['charapter0']['3'] = self.spin_spell_slot_charapter0_3.text()
+            hero['charapter0']['4'] = self.spin_spell_slot_charapter0_4.text()
+            hero['charapter0']['5'] = self.spin_spell_slot_charapter0_5.text()
+            hero['charapter0']['6'] = self.spin_spell_slot_charapter0_6.text()
+            hero['charapter0']['7'] = self.spin_spell_slot_charapter0_7.text()
+            hero['charapter0']['8'] = self.spin_spell_slot_charapter0_8.text()
+            hero['charapter0']['9'] = self.spin_spell_slot_charapter0_9.text()
+        else:
+            pass
+
+    def set_slot_chr1(self):
+        if 'charapter1' in hero:
+            hero['charapter1']['1'] = self.spin_spell_slot_charapter1.text()
+            hero['charapter1']['2'] = self.spin_spell_slot_charapter1_2.text()
+            hero['charapter1']['3'] = self.spin_spell_slot_charapter1_3.text()
+            hero['charapter1']['4'] = self.spin_spell_slot_charapter1_4.text()
+            hero['charapter1']['5'] = self.spin_spell_slot_charapter1_5.text()
+            hero['charapter1']['6'] = self.spin_spell_slot_charapter1_6.text()
+            hero['charapter1']['7'] = self.spin_spell_slot_charapter1_7.text()
+            hero['charapter1']['8'] = self.spin_spell_slot_charapter1_8.text()
+            hero['charapter1']['9'] = self.spin_spell_slot_charapter1_9.text()
+        else:
+            pass
+
+    def set_slot_chr2(self):
+        if 'charapter2' in hero:
+            hero['charapter2']['1'] = self.spin_spell_slot_charapter2.text()
+            hero['charapter2']['2'] = self.spin_spell_slot_charapter2_2.text()
+            hero['charapter2']['3'] = self.spin_spell_slot_charapter2_3.text()
+            hero['charapter2']['4'] = self.spin_spell_slot_charapter2_4.text()
+            hero['charapter2']['5'] = self.spin_spell_slot_charapter2_5.text()
+            hero['charapter2']['6'] = self.spin_spell_slot_charapter2_6.text()
+            hero['charapter2']['7'] = self.spin_spell_slot_charapter2_7.text()
+            hero['charapter2']['8'] = self.spin_spell_slot_charapter2_8.text()
+            hero['charapter2']['9'] = self.spin_spell_slot_charapter2_9.text()
+        else:
+            pass
+
+    def set_slot_chr3(self):
+        if 'charapter3' in hero:
+            hero['charapter3']['1'] = self.spin_spell_slot_charapter3.text()
+            hero['charapter3']['2'] = self.spin_spell_slot_charapter3_2.text()
+            hero['charapter3']['3'] = self.spin_spell_slot_charapter3_3.text()
+            hero['charapter3']['4'] = self.spin_spell_slot_charapter3_4.text()
+            hero['charapter3']['5'] = self.spin_spell_slot_charapter3_5.text()
+            hero['charapter3']['6'] = self.spin_spell_slot_charapter3_6.text()
+            hero['charapter3']['7'] = self.spin_spell_slot_charapter3_7.text()
+            hero['charapter3']['8'] = self.spin_spell_slot_charapter3_8.text()
+            hero['charapter3']['9'] = self.spin_spell_slot_charapter3_9.text()
+        else:
+            pass
+
+
+    def set_stats_charapter(self):
+        '''
+        DOCKSTRING: Обновление статов персонажей при их изменении в трекере
+        '''
         try:
-            with open(data, 'w') as outfile:
-                json.dump(save_dict, outfile)
-        except FileNotFoundError:
-            print("No such file")
+            if 'charapter0' in hero.keys():
+                hero['charapter0']['hp'] = int(self.hp_edit_charapter0.text())
+                hero['charapter0']['ac'] = int(self.ac_edit_charapter0.text())
+                hero['charapter0']['initiative'] = int(self.initiative_edit_charapter0.text())
+            if 'charapter1' in hero.keys():
+                hero['charapter1']['hp'] = int(self.hp_edit_charapter1.text())
+                hero['charapter1']['ac'] = int(self.ac_edit_charapter1.text())
+                hero['charapter1']['initiative'] = int(self.initiative_edit_charapter1.text())
+            if 'charapter2' in hero.keys():
+                hero['charapter2']['hp'] = int(self.hp_edit_charapter2.text())
+                hero['charapter2']['ac'] = int(self.ac_edit_charapter2.text())
+                hero['charapter2']['initiative'] = int(self.initiative_edit_charapter2.text())
+            if 'charapter3' in hero.keys():
+                hero['charapter3']['hp'] = int(self.hp_edit_charapter3.text())
+                hero['charapter3']['ac'] = int(self.ac_edit_charapter3.text())
+                hero['charapter3']['initiative'] = int(self.initiative_edit_charapter3.text())
+        except:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Не корректный ввод данных')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
 
-    def action_open(self):
-        '''
-        DOCKSTRING: загрузка из json файла
-        :param but:
-        :return:
-        '''
-        data = QFileDialog.getOpenFileName(self)[0]
+            error.buttonClicked.connect(self.popup_action)
 
-        try:
-            with open(data, 'r') as json_file:
-                data = json.load(json_file)
-                global hero
-                global music
-                hero = data[0]
-                music = data[1]
-                self.note_edit_0.setText(data[2])
-                self.note_edit_1.setText(data[3])
-                self.note_edit_2.setText(data[4])
-                self.note_edit_3.setText(data[5])
-            self.view_create_hero()
-            self.add_to_tracker()
-            self.music_changer_combo_box_update()
-            self.add_to_del_chr_box()
-        except FileNotFoundError:
-            print("No such file")
+            error.exec()
+
+    def popup_action(self, but):
+        '''
+        DOCKSTRING: Заглушка для ошибок
+        '''
+        if but.text() == 'Ok':
+            print('Ok')
+
+    '''
+    Music changer
+    '''
 
     def music_changer_update(self):
         '''
         DOCKSTRING: Добавление ссылок на музыку в словарь в формате сцена: урл
-        :param but:
-        :return:
         '''
         if self.scene_edit.text() not in music.keys():
             self.comboBox.addItem(self.scene_edit.text())
@@ -1113,8 +1223,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def music_changer_combo_box_update(self):
         '''
         DOCKSTRING: обновление комбо бокса, при загрузке сохранения
-        :param but:
-        :return:
         '''
         for i in music.keys():
             self.comboBox.addItem(i)
@@ -1144,6 +1252,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             error.exec()
 
+    '''
+    Rules
+    '''
+
     def set_combobox_rules(self):
         for i in dict_rules:
             self.comboBox_rules.addItem(i)
@@ -1152,19 +1264,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_rules.setText(dict_rules[self.comboBox_rules.currentText()])
 
 
-
-
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = MainWindow()
     MainWindow.show()
     sys.exit(app.exec())
-
-
-# Сделать кд
-# Сделать кнопку сет спел слот для обновления количества слотов
-# Лок инициатывы перенести влево
-# Связать лок инициативы с кд
-# Добавить маленькие заметки под каждым персонажем
-# В инициативе добавить создание и удаление пресетов

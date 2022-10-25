@@ -7,12 +7,13 @@
 
 
 from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QMessageBox, QApplication
+from PyQt6.QtWidgets import QMessageBox
 from calc_init_class import Ui_MainWindow_init
 import random
 
 
 enemy_list = []
+enemy_dict_preset = {}
 class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
     def __init__(self, hero):
         super().__init__()
@@ -25,6 +26,12 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         self.pushButton_initiative.clicked.connect(self.calk_initiative)
         self.pushButton_add.clicked.connect(self.check_input)
         self.pushButton_clean_enemy.clicked.connect(self.clean_enemy)
+        self.set_preset.clicked.connect(self.preset_update)
+        self.load_preset.clicked.connect(self.preset_load)
+        self.del_preset.clicked.connect(self.preset_delete)
+
+        self.view_enemy()
+        self.preset_combo_box_update()
 
     def check_input(self):
         try:
@@ -60,6 +67,11 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         if in_enemy_list == True:
             name += '_' + str(item)
         enemy_list += (initiative + random.randint(1, 20), name),
+        self.view_enemy()
+
+
+    def view_enemy(self):
+        value = ''
         for i in range(len(enemy_list)):
             value += f'{enemy_list[i][1]}' + ' ' + f'{enemy_list[i][0]}' + '\n'
         self.label_enemy.setText(value)
@@ -88,6 +100,71 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         for i in range(len(chr_list)):
             value += f'{chr_list[i][1]}' + ' ' + f'{chr_list[i][0]}' + '\n'
         self.label_calk_enemy.setText(value)
+
+
+    def preset_update(self):
+        '''
+        DOCKSTRING: Добавление ссылок на музыку в словарь в формате сцена: урл
+        :param but:
+        :return:
+        '''
+        global enemy_dict_preset
+        if self.preset_edit.text() not in enemy_dict_preset.keys():
+            enemy_dict_preset[self.preset_edit.text()] = enemy_list.copy()
+            self.preset_combo_box_update()
+        else:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Такой пресет уже создан')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
+
+
+
+        print(enemy_dict_preset)
+
+
+    def preset_combo_box_update(self):
+        '''
+        DOCKSTRING: обновление комбо бокса, при загрузке сохранения
+        :param but:
+        :return:
+        '''
+        self.comboBox_preset.clear()
+        for i in enemy_dict_preset.keys():
+            self.comboBox_preset.addItem(i)
+
+    def preset_load(self):
+        enemy_list.clear()
+        print(enemy_dict_preset)
+        for i in list(enemy_dict_preset[self.comboBox_preset.currentText()]):
+            enemy_list.append(i)
+        self.view_enemy()
+
+
+
+
+    def preset_delete(self):
+        if self.comboBox_preset.currentText() in enemy_dict_preset.keys():
+            list_key = list(enemy_dict_preset.keys())
+            enemy_dict_preset.pop(self.comboBox_preset.currentText())
+            self.comboBox_preset.removeItem(list_key.index(self.comboBox_preset.currentText()))
+        else:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Сцена не найдена')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
 
     def popup_action(self, but):
         if but.text() == 'Ok':
