@@ -13,25 +13,35 @@ import random
 
 
 enemy_list = []
+initiative_list = []
 enemy_dict_preset = {}
 class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
     def __init__(self, hero):
         super().__init__()
         self.setupUi(self)
-        self.app_func()
         self.hero = hero
+        self.app_func()
 
 
     def app_func(self):
         self.pushButton_initiative.clicked.connect(self.calk_initiative)
         self.pushButton_add.clicked.connect(self.check_input)
+        self.pushButton_add.clicked.connect(self.enemy_box_update)
         self.pushButton_clean_enemy.clicked.connect(self.clean_enemy)
         self.set_preset.clicked.connect(self.preset_update)
         self.load_preset.clicked.connect(self.preset_load)
         self.del_preset.clicked.connect(self.preset_delete)
+        self.radioButton.toggled.connect(self.show_n_hide_options)
 
+        self.box_select_character.currentTextChanged.connect(self.selected_enemy_view)
+        self.pushButton_set_redaction.clicked.connect(self.redaction_enemy)
+        self.del_character.clicked.connect(self.del_enemy)
+        self.pushButton_apply_player_dice.clicked.connect(self.view_player_initiative)
+
+        self.view_player_initiative()
         self.view_enemy()
         self.preset_combo_box_update()
+
 
     def check_input(self):
         try:
@@ -66,7 +76,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
                 in_enemy_list = True
         if in_enemy_list == True:
             name += '_' + str(item)
-        enemy_list += (initiative + random.randint(1, 20), name),
+        enemy_list += [initiative, name],
         self.view_enemy()
 
 
@@ -80,38 +90,78 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         global enemy_list
         enemy_list = []
         self.label_enemy.setText('')
+        self.enemy_box_update()
+        self.selected_enemy_view()
+
+    def view_player_initiative(self):
+        if "character0" in self.hero.keys():
+            self.set_player_dice_edit_char_0.setText(str(int(self.hero["character0"]["initiative"]) + random.randint(1, 20)))
+            self.initiative_chr_0 = self.hero["character0"]["initiative"]
+        if "character1" in self.hero.keys():
+            self.set_player_dice_edit_char_1.setText(str(int(self.hero["character1"]["initiative"]) + random.randint(1, 20)))
+            self.initiative_chr_1 = self.hero["character1"]["initiative"]
+        if "character2" in self.hero.keys():
+            self.set_player_dice_edit_char_2.setText(str(int(self.hero["character2"]["initiative"]) + random.randint(1, 20)))
+            self.initiative_chr_2 = self.hero["character2"]["initiative"]
+        if "character3" in self.hero.keys():
+            self.set_player_dice_edit_char_3.setText(str(int(self.hero["character3"]["initiative"]) + random.randint(1, 20)))
+            self.initiative_chr_3 = self.hero["character3"]["initiative"]
+
+    # def set_player_initiative(self):
+    #     if "character0" in self.hero.keys():
+    #         self.hero["character0"]["initiative"] = int(self.set_player_dice_edit_char_0.text())
+    #     if "character1" in self.hero.keys():
+    #         self.hero["character1"]["initiative"] = int(self.set_player_dice_edit_char_1.text())
+    #     if "character2" in self.hero.keys():
+    #         self.hero["character2"]["initiative"] = int(self.set_player_dice_edit_char_2.text())
+    #     if "character3" in self.hero.keys():
+    #         self.hero["character3"]["initiative"] = int(self.set_player_dice_edit_char_3.text())
+    #
+    #     self.calk_initiative()
 
     def calk_initiative(self):
         '''
         DOCKSTRING: подсчёт инициативы
-        :param but:
-        :return:
         '''
-        global enemy_list
-        chr_list = []
-        chr_list += enemy_list
-        value = ''
+        global initiative_list
+        initiative_list = []
+
+
         for i in range(len(self.hero)):
-            t = int(self.hero['charapter' + str(i)]['initiative']) + random.randint(1, 20)
-            n = self.hero['charapter' + str(i)]['name']
-            chr_list += (t, n),
+            if i == 0:
+                t = int(self.set_player_dice_edit_char_0.text())
+            if i == 1:
+                t = int(self.set_player_dice_edit_char_1.text())
+            if i == 2:
+                t = int(self.set_player_dice_edit_char_2.text())
+            if i == 3:
+                t = int(self.set_player_dice_edit_char_3.text())
+            n = self.hero['character' + str(i)]['name']
+            initiative_list += [t, n],
 
-        chr_list.sort(key=lambda x: (x[0], x[1]), reverse=True)
-        for i in range(len(chr_list)):
-            value += f'{chr_list[i][1]}' + ' ' + f'{chr_list[i][0]}' + '\n'
+        for i in range(len(enemy_list)):
+            init = int(enemy_list[i][0]) + random.randint(1, 20)
+            n = enemy_list[i][1]
+            initiative_list += [init, n],
+
+        initiative_list.sort(key=lambda x: (x[0], x[1]), reverse=True)
+
+        self.calk_initiative_view()
+    def calk_initiative_view(self):
+        value = ''
+        for i in range(len(initiative_list)):
+            value += f'{initiative_list[i][1]}' + ' ' + f'{initiative_list[i][0]}' + '\n'
         self.label_calk_enemy.setText(value)
-
 
     def preset_update(self):
         '''
         DOCKSTRING: Добавление ссылок на музыку в словарь в формате сцена: урл
-        :param but:
-        :return:
         '''
         global enemy_dict_preset
         if self.preset_edit.text() not in enemy_dict_preset.keys():
             enemy_dict_preset[self.preset_edit.text()] = enemy_list.copy()
             self.preset_combo_box_update()
+            self.preset_edit.setText('')
         else:
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
@@ -132,22 +182,32 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
     def preset_combo_box_update(self):
         '''
         DOCKSTRING: обновление комбо бокса, при загрузке сохранения
-        :param but:
-        :return:
         '''
         self.comboBox_preset.clear()
         for i in enemy_dict_preset.keys():
             self.comboBox_preset.addItem(i)
 
     def preset_load(self):
-        enemy_list.clear()
-        print(enemy_dict_preset)
-        for i in list(enemy_dict_preset[self.comboBox_preset.currentText()]):
-            enemy_list.append(i)
-        self.view_enemy()
+        try:
+            enemy_list.clear()
+            print(enemy_dict_preset)
+            for i in list(enemy_dict_preset[self.comboBox_preset.currentText()]):
+                enemy_list.append(i)
+            self.view_enemy()
+            self.enemy_box_update()
+            self.selected_enemy_view()
 
+        except NameError:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Противник не найден')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
 
+            error.buttonClicked.connect(self.popup_action)
 
+            error.exec()
 
     def preset_delete(self):
         if self.comboBox_preset.currentText() in enemy_dict_preset.keys():
@@ -165,6 +225,70 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
             error.buttonClicked.connect(self.popup_action)
 
             error.exec()
+
+    def show_n_hide_options(self):
+        check_options = self.radioButton.isChecked()
+
+        if check_options:
+            self.centralwidget.setFixedSize(500, 425)
+            self.view_enemy()
+            self.enemy_box_update()
+            self.selected_enemy_view()
+        else:
+            self.centralwidget.setFixedSize(310, 425)
+
+    def enemy_box_update(self):
+        self.box_select_character.clear()
+        self.comboBox_del_char.clear()
+        for i in enemy_list:
+            self.box_select_character.addItem(i[1])
+            self.comboBox_del_char.addItem(i[1])
+
+    def selected_enemy_view(self):
+        for i in enemy_list:
+            if i[1] == self.box_select_character.currentText():
+                self.edit_name_redaction.setText(i[1])
+                self.edit_initiative_redaction.setText(str(i[0]))
+
+    def redaction_enemy(self):
+        for i in enemy_list:
+            if i[1] == self.box_select_character.currentText():
+                i[0] = int(self.edit_initiative_redaction.text())
+                i[1] = self.edit_name_redaction.text()
+        self.enemy_box_update()
+        self.selected_enemy_view()
+        self.view_enemy()
+        print(enemy_list)
+
+    def del_enemy(self):
+        try:
+            for i in range(len(enemy_list)):
+                if enemy_list[i][1] == self.comboBox_del_char.currentText():
+                    del_num = i
+            enemy_list.pop(del_num)
+            for i in range(len(initiative_list)):
+                if initiative_list[i][1] == self.comboBox_del_char.currentText():
+                    del_init_enemy = i
+            initiative_list.pop(del_init_enemy)
+            self.calk_initiative_view()
+        except NameError:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Противник не найден')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
+
+
+        self.enemy_box_update()
+        self.selected_enemy_view()
+        self.view_enemy()
+
+
 
     def popup_action(self, but):
         if but.text() == 'Ok':

@@ -53,6 +53,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.radioButton_hide_create.toggled.connect(self.hide_create)
         # comboBox
         self.comboBox_rules.currentTextChanged.connect(self.changed_combobox_rules)
+        #listWidget
+        self.listWidget_category.currentRowChanged.connect(self.listView_scene_update)
         # method
         self.view_character_stats()
         self.set_combobox_rules()
@@ -134,7 +136,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.textEdit_char_3.setText(data[9])
             self.view_create_hero()
             self.add_to_tracker()
-            self.music_changer_combo_box_update()
+            self.music_changer_listview_category_update()
             self.add_to_del_char_box()
         except FileNotFoundError:
             print("No such file")
@@ -1193,14 +1195,65 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         '''
         DOCKSTRING: Добавление ссылок на музыку в словарь в формате сцена: урл
         '''
-        if self.scene_edit.text() not in music.keys():
-            self.comboBox.addItem(self.scene_edit.text())
-        if self.scene_edit.text() in music.keys():
-            item = music[self.scene_edit.text()].split(' ')
-            if self.url_edit.text() in item:
+        if self.category_edit.text() in music.keys():
+            if self.scene_edit.text() in music[self.category_edit.text()].keys():
+                item = music[self.category_edit.text()][self.scene_edit.text()].split(' ')
+                if self.url_edit.text() in item:
+                    error = QMessageBox()
+                    error.setWindowTitle('Ошибка')
+                    error.setText('Такая ссылка уже есть в этой сцене')
+                    error.setIcon(QMessageBox.Icon.Warning)
+                    error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                    error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                    error.buttonClicked.connect(self.popup_action)
+
+                    error.exec()
+                else:
+                    music[self.category_edit.text()][self.scene_edit.text()] += ' ' + self.url_edit.text()
+            else:
+                music[self.category_edit.text()][self.scene_edit.text()] = self.url_edit.text()
+        else:
+            music[self.category_edit.text()] = {self.scene_edit.text(): self.url_edit.text()}
+        print(music)
+        self.listWidget_scene.clear()
+        self.music_changer_listview_category_update()
+
+
+    def music_changer_listview_category_update(self):
+        '''
+        DOCKSTRING: обновление комбо бокса, при загрузке сохранения
+        '''
+        self.listWidget_category.clear()
+        for i in music.keys():
+            self.listWidget_category.addItem(i)
+
+    def listView_scene_update(self):
+        self.listWidget_scene.clear()
+        current_index = self.listWidget_category.currentRow()
+        list_music = list(music.keys())
+        for i in music[list_music[current_index]].keys():
+            self.listWidget_scene.addItem(i)
+
+    def music_changer_play(self):
+        num_one = self.listWidget_category.currentRow()
+        num_two = self.listWidget_scene.currentRow()
+        list_music = list(music.keys())
+        list_music_deep = list(music[list_music[num_one]])
+        value = music[list_music[num_one]][list_music_deep[num_two]].split(' ')
+        for i in range(len(value)):
+            webbrowser.open(value[i])
+            time.sleep(1)
+
+    def music_changer_delete(self):
+        num_one = self.listWidget_category.currentRow()
+        num_two = self.listWidget_scene.currentRow()
+        list_music = list(music.keys())
+        if num_two == -1:
+            if len(list(music.keys())) == 1:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
-                error.setText('Такая ссылка уже есть в этой сцене')
+                error.setText('На данный момент нельзя удалить последнюю категорию')
                 error.setIcon(QMessageBox.Icon.Warning)
                 error.setStandardButtons(QMessageBox.StandardButton.Ok)
                 error.setDefaultButton(QMessageBox.StandardButton.Ok)
@@ -1209,48 +1262,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
                 error.exec()
             else:
-                value = self.url_edit.text()
-                value_result = music[self.scene_edit.text()] + ' ' + value
-                music.update({self.scene_edit.text(): value_result})
+                music.pop(list_music[num_one])
+                self.music_changer_listview_category_update()
         else:
-            music.update({self.scene_edit.text(): self.url_edit.text()})
-
-
-
+            list_music_deep = list(music[list_music[num_one]])
+            music[list_music[num_one]].pop(list_music_deep[num_two])
+            self.music_changer_listview_category_update()
+            self.listView_scene_update()
         print(music)
-
-
-    def music_changer_combo_box_update(self):
-        '''
-        DOCKSTRING: обновление комбо бокса, при загрузке сохранения
-        '''
-        for i in music.keys():
-            self.comboBox.addItem(i)
-
-    def music_changer_play(self):
-        value = music[self.comboBox.currentText()].split(' ')
-        for i in range(len(value)):
-            webbrowser.open(value[i])
-            time.sleep(1)
-
-    def music_changer_delete(self):
-        if self.comboBox.currentText() in music.keys():
-            list_key = list(music.keys())
-            music.pop(self.comboBox.currentText())
-            self.comboBox.removeItem(list_key.index(self.comboBox.currentText()))
-
-            print(music)
-        else:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Сцена не найдена')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
 
     '''
     Rules
