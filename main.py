@@ -25,1233 +25,1286 @@ music = {}
 store = {}
 npc = {}
 list_box_choose_shop = []
-class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-        self.aplication_func()
+try:
+    class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+        def __init__(self):
+            super().__init__()
+            self.setupUi(self)
+            self.aplication_func()
 
-    def aplication_func(self):
-        # Menu
-        self.actionSave.triggered.connect(self.actions_save)
-        self.actionOpen.triggered.connect(self.action_open)
-        # pushButton
-        self.pushButton.clicked.connect(self.input_chek)
-        self.pushButton_init_open.clicked.connect(self.open_init_calc)
-        self.pushButton_roll_dice.clicked.connect(self.roll_dice)
-        self.pushButton_del_char.clicked.connect(self.del_char)
-        self.pushButton_restore_spell_slots_0.clicked.connect(self.restore_slot_char0)
-        self.pushButton_restore_spell_slots_1.clicked.connect(self.restore_slot_char1)
-        self.pushButton_restore_spell_slots_2.clicked.connect(self.restore_slot_char2)
-        self.pushButton_restore_spell_slots_3.clicked.connect(self.restore_slot_char3)
-        self.pushButton_set_spell_slots_0.clicked.connect(self.set_slot_char0)
-        self.pushButton_set_spell_slots_1.clicked.connect(self.set_slot_char1)
-        self.pushButton_set_spell_slots_2.clicked.connect(self.set_slot_char2)
-        self.pushButton_set_spell_slots_3.clicked.connect(self.set_slot_char3)
-        self.pushButton_url_set.clicked.connect(self.music_changer_update)
-        self.pushButton_url_open.clicked.connect(self.music_changer_play)
-        self.pushButton_url_delete.clicked.connect(self.music_changer_delete)
-        self.pushButton_generate_shop.clicked.connect(self.sex_vendor)
-        self.pushButton_del_store.clicked.connect(self.del_store)
-        self.pushButton_generate_npc.clicked.connect(self.sex_npc)
-        self.pushButton_del_npc.clicked.connect(self.del_npc)
-        # checkBox
-        self.checkBox_lock_init.toggled.connect(self.lock_initiative)
-        self.checkBox_lock_ac.toggled.connect(self.lock_ac)
-        # radioButton
-        self.radioButton_hide_create.toggled.connect(self.hide_create)
-        # comboBox
-        self.comboBox_rules.currentTextChanged.connect(self.changed_combobox_rules)
-        self.box_choose_shop.currentTextChanged.connect(self.view_store)
-        self.box_generate_npc.currentTextChanged.connect(self.view_npc)
-        # listWidget
-        self.listWidget_category.currentRowChanged.connect(self.listView_scene_update)
-        # textEdit
-        self.text_notes.textChanged.connect(self.shop_notes_edit)
-        self.text_npc_generate.textChanged.connect(self.npc_notes_edit)
-        # method
-        self.view_character_stats()
-        self.set_combobox_rules()
-        self.add_to_tracker()
-        self.store_type_and_qualification_vendor()
+        def aplication_func(self):
+            # Menu
+            self.actionSave.triggered.connect(self.actions_save)
+            self.actionOpen.triggered.connect(self.action_open)
+            # pushButton
+            self.pushButton.clicked.connect(self.input_chek)
+            self.pushButton_init_open.clicked.connect(self.open_init_calc)
+            self.pushButton_roll_dice.clicked.connect(self.roll_dice)
+            self.pushButton_del_char.clicked.connect(self.del_char)
+            self.pushButton_restore_spell_slots_0.clicked.connect(self.restore_slot_char0)
+            self.pushButton_restore_spell_slots_1.clicked.connect(self.restore_slot_char1)
+            self.pushButton_restore_spell_slots_2.clicked.connect(self.restore_slot_char2)
+            self.pushButton_restore_spell_slots_3.clicked.connect(self.restore_slot_char3)
+            self.pushButton_set_spell_slots_0.clicked.connect(self.set_slot_char0)
+            self.pushButton_set_spell_slots_1.clicked.connect(self.set_slot_char1)
+            self.pushButton_set_spell_slots_2.clicked.connect(self.set_slot_char2)
+            self.pushButton_set_spell_slots_3.clicked.connect(self.set_slot_char3)
+            self.pushButton_url_set.clicked.connect(self.music_changer_update)
+            self.pushButton_url_open.clicked.connect(self.music_changer_play)
+            self.pushButton_url_delete.clicked.connect(self.music_changer_delete)
+            self.pushButton_generate_shop.clicked.connect(self.sex_vendor)
+            self.pushButton_del_store.clicked.connect(self.del_store)
+            self.pushButton_generate_npc.clicked.connect(self.sex_npc)
+            self.pushButton_del_npc.clicked.connect(self.del_npc)
+            # checkBox
+            self.checkBox_lock_init.toggled.connect(self.lock_initiative)
+            self.checkBox_lock_ac.toggled.connect(self.lock_ac)
+            # radioButton
+            self.radioButton_hide_create.toggled.connect(self.hide_create)
+            # comboBox
+            self.comboBox_rules.currentTextChanged.connect(self.changed_combobox_rules)
+            self.box_choose_shop.currentTextChanged.connect(self.view_store)
+            self.box_generate_npc.currentTextChanged.connect(self.view_npc)
+            # listWidget
+            self.listWidget_category.currentRowChanged.connect(self.listView_scene_update)
+            # textEdit
+            self.text_notes.textChanged.connect(self.shop_notes_edit)
+            self.text_npc_generate.textChanged.connect(self.npc_notes_edit)
+            # method
+            self.view_character_stats()
+            self.set_combobox_rules()
+            self.add_to_tracker()
+            self.store_type_and_qualification_vendor()
 
-    def view_character_stats(self):
+        def view_character_stats(self):
+            '''
+            DOCKSTRING: Обновление статов через трекер
+            '''
+            self.hp_edit_character0.editingFinished.connect(self.set_stats_character)
+            self.hp_edit_character1.editingFinished.connect(self.set_stats_character)
+            self.hp_edit_character2.editingFinished.connect(self.set_stats_character)
+            self.hp_edit_character3.editingFinished.connect(self.set_stats_character)
+            self.ac_edit_character0.editingFinished.connect(self.set_stats_character)
+            self.ac_edit_character1.editingFinished.connect(self.set_stats_character)
+            self.ac_edit_character2.editingFinished.connect(self.set_stats_character)
+            self.ac_edit_character3.editingFinished.connect(self.set_stats_character)
+            self.initiative_edit_character0.editingFinished.connect(self.set_stats_character)
+            self.initiative_edit_character1.editingFinished.connect(self.set_stats_character)
+            self.initiative_edit_character2.editingFinished.connect(self.set_stats_character)
+            self.initiative_edit_character3.editingFinished.connect(self.set_stats_character)
+
         '''
-        DOCKSTRING: Обновление статов через трекер
+        Menu
         '''
-        self.hp_edit_character0.editingFinished.connect(self.set_stats_character)
-        self.hp_edit_character1.editingFinished.connect(self.set_stats_character)
-        self.hp_edit_character2.editingFinished.connect(self.set_stats_character)
-        self.hp_edit_character3.editingFinished.connect(self.set_stats_character)
-        self.ac_edit_character0.editingFinished.connect(self.set_stats_character)
-        self.ac_edit_character1.editingFinished.connect(self.set_stats_character)
-        self.ac_edit_character2.editingFinished.connect(self.set_stats_character)
-        self.ac_edit_character3.editingFinished.connect(self.set_stats_character)
-        self.initiative_edit_character0.editingFinished.connect(self.set_stats_character)
-        self.initiative_edit_character1.editingFinished.connect(self.set_stats_character)
-        self.initiative_edit_character2.editingFinished.connect(self.set_stats_character)
-        self.initiative_edit_character3.editingFinished.connect(self.set_stats_character)
 
-    '''
-    Menu
-    '''
+        def actions_save(self):
+            '''
+            DOCKSTRING: сохранение в json файл
+            '''
+            note_zero = self.note_edit_0.toPlainText()
+            note_one = self.note_edit_1.toPlainText()
+            note_two = self.note_edit_2.toPlainText()
+            note_three = self.note_edit_3.toPlainText()
+            note_char_zero = self.textEdit_char_0.toPlainText()
+            note_char_one = self.textEdit_char_1.toPlainText()
+            note_char_two = self.textEdit_char_2.toPlainText()
+            note_char_three = self.textEdit_char_3.toPlainText()
+            save_dict = (
+                hero,
+                music,
+                note_zero,
+                note_one,
+                note_two,
+                note_three,
+                note_char_zero,
+                note_char_one,
+                note_char_two,
+                note_char_three,
+                store,
+                npc,
+            )
+            data = QFileDialog.getSaveFileName(self)[0]
 
-    def actions_save(self):
+            try:
+                with open(data, 'w') as outfile:
+                    json.dump(save_dict, outfile)
+            except FileNotFoundError:
+                print("No such file")
+
+        def action_open(self):
+            '''
+            DOCKSTRING: загрузка из json файла
+            '''
+            data = QFileDialog.getOpenFileName(self)[0]
+
+            try:
+                with open(data, 'r') as json_file:
+                    data = json.load(json_file)
+                    global hero
+                    global music
+                    global store
+                    global npc
+                    hero = data[0]
+                    music = data[1]
+                    self.note_edit_0.setText(data[2])
+                    self.note_edit_1.setText(data[3])
+                    self.note_edit_2.setText(data[4])
+                    self.note_edit_3.setText(data[5])
+                    self.textEdit_char_0.setText(data[6])
+                    self.textEdit_char_1.setText(data[7])
+                    self.textEdit_char_2.setText(data[8])
+                    self.textEdit_char_3.setText(data[9])
+                    store = data[10]
+                    npc = data[11]
+
+                self.view_create_hero()
+                self.add_to_tracker()
+                self.music_changer_listview_category_update()
+                self.add_to_del_char_box()
+                self.box_choose_shop_update()
+                self.box_generate_npc_update()
+            except FileNotFoundError:
+                print("No such file")
+
         '''
-        DOCKSTRING: сохранение в json файл
+        Main window hide
         '''
-        note_zero = self.note_edit_0.toPlainText()
-        note_one = self.note_edit_1.toPlainText()
-        note_two = self.note_edit_2.toPlainText()
-        note_three = self.note_edit_3.toPlainText()
-        note_char_zero = self.textEdit_char_0.toPlainText()
-        note_char_one = self.textEdit_char_1.toPlainText()
-        note_char_two = self.textEdit_char_2.toPlainText()
-        note_char_three = self.textEdit_char_3.toPlainText()
-        save_dict = (
-            hero,
-            music,
-            note_zero,
-            note_one,
-            note_two,
-            note_three,
-            note_char_zero,
-            note_char_one,
-            note_char_two,
-            note_char_three,
-            store,
-            npc,
-        )
-        data = QFileDialog.getSaveFileName(self)[0]
 
-        try:
-            with open(data, 'w') as outfile:
-                json.dump(save_dict, outfile)
-        except FileNotFoundError:
-            print("No such file")
+        def input_chek(self):
+            '''
+            DOCKSTRING: Проверка чисел
+            '''
+            try:
+                hp_check = int(self.hp_edit.text())
+                ac_check = int(self.ac_edit.text())
+                initiative_check = int(self.initiative_edit.text())
+                Spell_slot_chek_1 = int(self.spell_slot_edit.text())
+                Spell_slot_chek_2 = int(self.spell_slot_edit_2.text())
+                Spell_slot_chek_3 = int(self.spell_slot_edit_3.text())
+                Spell_slot_chek_4 = int(self.spell_slot_edit_4.text())
+                Spell_slot_chek_5 = int(self.spell_slot_edit_5.text())
+                Spell_slot_chek_6 = int(self.spell_slot_edit_6.text())
+                Spell_slot_chek_7 = int(self.spell_slot_edit_7.text())
+                Spell_slot_chek_8 = int(self.spell_slot_edit_8.text())
+                Spell_slot_chek_9 = int(self.spell_slot_edit_9.text())
 
-    def action_open(self):
-        '''
-        DOCKSTRING: загрузка из json файла
-        '''
-        data = QFileDialog.getOpenFileName(self)[0]
+                self.create_hero()
+            except:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Не корректный ввод!')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+                error.setDetailedText('HP и инициатива и слоты заклинаний должны состоять только из цифр')
 
-        try:
-            with open(data, 'r') as json_file:
-                data = json.load(json_file)
-                global hero
-                global music
-                global store
-                global npc
-                hero = data[0]
-                music = data[1]
-                self.note_edit_0.setText(data[2])
-                self.note_edit_1.setText(data[3])
-                self.note_edit_2.setText(data[4])
-                self.note_edit_3.setText(data[5])
-                self.textEdit_char_0.setText(data[6])
-                self.textEdit_char_1.setText(data[7])
-                self.textEdit_char_2.setText(data[8])
-                self.textEdit_char_3.setText(data[9])
-                store = data[10]
-                npc = data[11]
+                error.buttonClicked.connect(self.popup_action)
 
+                error.exec()
+
+        def create_hero(self):
+            '''
+            DOCKSTRING: Создание персонажа в редакторе и добавление его в словарь
+            '''
+            self.iter = 0
+            flag = True
+            while flag == True:
+                if 'character' + str(self.iter) in hero.keys():
+                    self.iter += 1
+                else:
+                    flag = False
+            if self.iter <= 3:
+                hero.update({
+                'character' + str(self.iter): {
+                    'name': self.name_edit.text(),
+                    'hp': self.hp_edit.text(),
+                    'ac': self.ac_edit.text(),
+                    '1': self.spell_slot_edit.text(),
+                    '2': self.spell_slot_edit_2.text(),
+                    '3': self.spell_slot_edit_3.text(),
+                    '4': self.spell_slot_edit_4.text(),
+                    '5': self.spell_slot_edit_5.text(),
+                    '6': self.spell_slot_edit_6.text(),
+                    '7': self.spell_slot_edit_7.text(),
+                    '8': self.spell_slot_edit_8.text(),
+                    '9': self.spell_slot_edit_9.text(),
+                    'initiative': self.initiative_edit.text()
+                }
+                })
+                print(hero)
+                self.add_to_del_char_box()
+            else:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Нельзя выполнить действие')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+                error.setInformativeText('На данный момент только 4 персонажа')
+                error.setDetailedText('Слишком много людей!')
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
             self.view_create_hero()
             self.add_to_tracker()
-            self.music_changer_listview_category_update()
-            self.add_to_del_char_box()
-            self.box_choose_shop_update()
-            self.box_generate_npc_update()
-        except FileNotFoundError:
-            print("No such file")
 
-    '''
-    Main window hide
-    '''
+        def view_create_hero(self):
+            '''
+            DOCKSTRING: Отображение созданых персонажей в окне рядом с редактором
+            '''
+            value = ''
+            for item in hero:
+                value += f'Name: {hero[item]["name"]}' + '\n' + \
+                        f'Hp: {hero[item]["hp"]}' + '\n' + \
+                         f'Ac: {hero[item]["ac"]}' + '\n' + \
+                         f'Initiative: {hero[item]["initiative"]}'\
+                         + '\n' + '\n'
+                self.label.setText(value)
 
-    def input_chek(self):
-        '''
-        DOCKSTRING: Проверка чисел
-        '''
-        try:
-            hp_check = int(self.hp_edit.text())
-            ac_check = int(self.ac_edit.text())
-            initiative_check = int(self.initiative_edit.text())
-            Spell_slot_chek_1 = int(self.spell_slot_edit.text())
-            Spell_slot_chek_2 = int(self.spell_slot_edit_2.text())
-            Spell_slot_chek_3 = int(self.spell_slot_edit_3.text())
-            Spell_slot_chek_4 = int(self.spell_slot_edit_4.text())
-            Spell_slot_chek_5 = int(self.spell_slot_edit_5.text())
-            Spell_slot_chek_6 = int(self.spell_slot_edit_6.text())
-            Spell_slot_chek_7 = int(self.spell_slot_edit_7.text())
-            Spell_slot_chek_8 = int(self.spell_slot_edit_8.text())
-            Spell_slot_chek_9 = int(self.spell_slot_edit_9.text())
+        def hide_create(self):
+            '''
+            DOCKSTRING: круглая кнопка. Скрыть или показать редактор персонажа
+            '''
+            self.check_radiobutton = self.radioButton_hide_create.isChecked()
+            self.check_checkbox_init = self.checkBox_lock_init.isChecked()
+            self.check_checkbox_ac = self.checkBox_lock_ac.isChecked()
+            if self.check_radiobutton == True:
+                self.pushButton_init_open.show()
+                self.dice_edit.show()
+                self.amount_dice_box.show()
+                self.modifier_box.show()
+                self.label_amount.show()
+                self.label_dice.show()
+                self.label_modifier.show()
+                self.label_amount.show()
+                self.label_roll_dice.show()
+                self.check_advantage.show()
+                self.pushButton_roll_dice.show()
+                self.label_del_char.show()
+                self.comboBox_del_char.show()
+                self.pushButton_del_char.show()
+                self.name_character0.show()
+                self.name_character1.show()
+                self.name_character2.show()
+                self.name_character3.show()
+                self.hp_character0.show()
+                self.hp_character1.show()
+                self.hp_character2.show()
+                self.hp_character3.show()
+                self.hp_edit_character0.show()
+                self.hp_edit_character1.show()
+                self.hp_edit_character2.show()
+                self.hp_edit_character3.show()
+                self.ac_character0.show()
+                self.ac_character1.show()
+                self.ac_character2.show()
+                self.ac_character3.show()
+                self.ac_edit_character0.show()
+                self.ac_edit_character1.show()
+                self.ac_edit_character2.show()
+                self.ac_edit_character3.show()
+                self.initiative_character0.show()
+                self.initiative_character1.show()
+                self.initiative_character2.show()
+                self.initiative_character3.show()
+                self.initiative_edit_character0.show()
+                self.initiative_edit_character1.show()
+                self.initiative_edit_character2.show()
+                self.initiative_edit_character3.show()
 
-            self.create_hero()
-        except:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Не корректный ввод!')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-            error.setDetailedText('HP и инициатива и слоты заклинаний должны состоять только из цифр')
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
-
-    def create_hero(self):
-        '''
-        DOCKSTRING: Создание персонажа в редакторе и добавление его в словарь
-        '''
-        self.iter = 0
-        flag = True
-        while flag == True:
-            if 'character' + str(self.iter) in hero.keys():
-                self.iter += 1
-            else:
-                flag = False
-        if self.iter <= 3:
-            hero.update({
-            'character' + str(self.iter): {
-                'name': self.name_edit.text(),
-                'hp': self.hp_edit.text(),
-                'ac': self.ac_edit.text(),
-                '1': self.spell_slot_edit.text(),
-                '2': self.spell_slot_edit_2.text(),
-                '3': self.spell_slot_edit_3.text(),
-                '4': self.spell_slot_edit_4.text(),
-                '5': self.spell_slot_edit_5.text(),
-                '6': self.spell_slot_edit_6.text(),
-                '7': self.spell_slot_edit_7.text(),
-                '8': self.spell_slot_edit_8.text(),
-                '9': self.spell_slot_edit_9.text(),
-                'initiative': self.initiative_edit.text()
-            }
-            })
-            print(hero)
-            self.add_to_del_char_box()
-        else:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Нельзя выполнить действие')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-            error.setInformativeText('На данный момент только 4 персонажа')
-            error.setDetailedText('Слишком много людей!')
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
-        self.view_create_hero()
-        self.add_to_tracker()
-
-    def view_create_hero(self):
-        '''
-        DOCKSTRING: Отображение созданых персонажей в окне рядом с редактором
-        '''
-        value = ''
-        for item in hero:
-            value += f'Name: {hero[item]["name"]}' + '\n' + \
-                    f'Hp: {hero[item]["hp"]}' + '\n' + \
-                     f'Ac: {hero[item]["ac"]}' + '\n' + \
-                     f'Initiative: {hero[item]["initiative"]}'\
-                     + '\n' + '\n'
-            self.label.setText(value)
-
-    def hide_create(self):
-        '''
-        DOCKSTRING: круглая кнопка. Скрыть или показать редактор персонажа
-        '''
-        self.check_radiobutton = self.radioButton_hide_create.isChecked()
-        self.check_checkbox_init = self.checkBox_lock_init.isChecked()
-        self.check_checkbox_ac = self.checkBox_lock_ac.isChecked()
-        if self.check_radiobutton == True:
-            self.pushButton_init_open.show()
-            self.dice_edit.show()
-            self.amount_dice_box.show()
-            self.modifier_box.show()
-            self.label_amount.show()
-            self.label_dice.show()
-            self.label_modifier.show()
-            self.label_amount.show()
-            self.label_roll_dice.show()
-            self.check_advantage.show()
-            self.pushButton_roll_dice.show()
-            self.label_del_char.show()
-            self.comboBox_del_char.show()
-            self.pushButton_del_char.show()
-            self.name_character0.show()
-            self.name_character1.show()
-            self.name_character2.show()
-            self.name_character3.show()
-            self.hp_character0.show()
-            self.hp_character1.show()
-            self.hp_character2.show()
-            self.hp_character3.show()
-            self.hp_edit_character0.show()
-            self.hp_edit_character1.show()
-            self.hp_edit_character2.show()
-            self.hp_edit_character3.show()
-            self.ac_character0.show()
-            self.ac_character1.show()
-            self.ac_character2.show()
-            self.ac_character3.show()
-            self.ac_edit_character0.show()
-            self.ac_edit_character1.show()
-            self.ac_edit_character2.show()
-            self.ac_edit_character3.show()
-            self.initiative_character0.show()
-            self.initiative_character1.show()
-            self.initiative_character2.show()
-            self.initiative_character3.show()
-            self.initiative_edit_character0.show()
-            self.initiative_edit_character1.show()
-            self.initiative_edit_character2.show()
-            self.initiative_edit_character3.show()
-
-            self.label_lock_init_char_0.hide()
-            self.label_lock_init_char_1.hide()
-            self.label_lock_init_char_2.hide()
-            self.label_lock_init_char_3.hide()
-            self.label_lock_ac_char_0.hide()
-            self.label_lock_ac_char_1.hide()
-            self.label_lock_ac_char_2.hide()
-            self.label_lock_ac_char_3.hide()
-
-            self.label_spell_slot_character0.show()
-            self.label_spell_slot_character0_2.show()
-            self.label_spell_slot_character0_3.show()
-            self.label_spell_slot_character0_4.show()
-            self.label_spell_slot_character0_5.show()
-            self.label_spell_slot_character0_6.show()
-            self.label_spell_slot_character0_7.show()
-            self.label_spell_slot_character0_8.show()
-            self.label_spell_slot_character0_9.show()
-            self.spell_slot_label_traker_char0.show()
-            self.label_spell_slot_character0_10.show()
-            self.spell_slot_label_traker_char1.show()
-            self.label_spell_slot_character0_11.show()
-            self.label_spell_slot_character0_12.show()
-            self.label_spell_slot_character0_13.show()
-            self.label_spell_slot_character0_14.show()
-            self.label_spell_slot_character0_15.show()
-            self.label_spell_slot_character0_16.show()
-            self.label_spell_slot_character0_17.show()
-            self.label_spell_slot_character0_18.show()
-            self.label_spell_slot_character0_19.show()
-            self.label_spell_slot_character0_20.show()
-            self.label_spell_slot_character0_21.show()
-            self.spell_slot_label_traker_char2.show()
-            self.label_spell_slot_character0_22.show()
-            self.label_spell_slot_character0_23.show()
-            self.label_spell_slot_character0_24.show()
-            self.label_spell_slot_character0_25.show()
-            self.label_spell_slot_character0_26.show()
-            self.label_spell_slot_character0_27.show()
-            self.label_spell_slot_character0_28.show()
-            self.label_spell_slot_character0_29.show()
-            self.label_spell_slot_character0_30.show()
-            self.spell_slot_label_traker_char3.show()
-            self.label_spell_slot_character0_31.show()
-            self.label_spell_slot_character0_32.show()
-            self.label_spell_slot_character0_33.show()
-            self.label_spell_slot_character0_34.show()
-            self.label_spell_slot_character0_35.show()
-            self.label_spell_slot_character0_36.show()
-            self.spin_spell_slot_character0.show()
-            self.spin_spell_slot_character0_2.show()
-            self.spin_spell_slot_character0_3.show()
-            self.spin_spell_slot_character0_4.show()
-            self.spin_spell_slot_character0_5.show()
-            self.spin_spell_slot_character0_6.show()
-            self.spin_spell_slot_character0_7.show()
-            self.spin_spell_slot_character0_8.show()
-            self.spin_spell_slot_character0_9.show()
-            self.spin_spell_slot_character1.show()
-            self.spin_spell_slot_character1_2.show()
-            self.spin_spell_slot_character1_3.show()
-            self.spin_spell_slot_character1_4.show()
-            self.spin_spell_slot_character1_5.show()
-            self.spin_spell_slot_character1_6.show()
-            self.spin_spell_slot_character1_7.show()
-            self.spin_spell_slot_character1_8.show()
-            self.spin_spell_slot_character1_9.show()
-            self.spin_spell_slot_character2.show()
-            self.spin_spell_slot_character2_2.show()
-            self.spin_spell_slot_character2_3.show()
-            self.spin_spell_slot_character2_4.show()
-            self.spin_spell_slot_character2_5.show()
-            self.spin_spell_slot_character2_6.show()
-            self.spin_spell_slot_character2_7.show()
-            self.spin_spell_slot_character2_8.show()
-            self.spin_spell_slot_character2_9.show()
-            self.spin_spell_slot_character3.show()
-            self.spin_spell_slot_character3_2.show()
-            self.spin_spell_slot_character3_3.show()
-            self.spin_spell_slot_character3_4.show()
-            self.spin_spell_slot_character3_5.show()
-            self.spin_spell_slot_character3_6.show()
-            self.spin_spell_slot_character3_7.show()
-            self.spin_spell_slot_character3_8.show()
-            self.spin_spell_slot_character3_9.show()
-            self.pushButton_restore_spell_slots_0.show()
-            self.pushButton_restore_spell_slots_1.show()
-            self.pushButton_restore_spell_slots_2.show()
-            self.pushButton_restore_spell_slots_3.show()
-            self.pushButton_set_spell_slots_0.show()
-            self.pushButton_set_spell_slots_1.show()
-            self.pushButton_set_spell_slots_2.show()
-            self.pushButton_set_spell_slots_3.show()
-            self.label_lock_init_char_0.show()
-            self.label_lock_init_char_1.show()
-            self.label_lock_init_char_2.show()
-            self.label_lock_init_char_3.show()
-            self.label_lock_ac_char_0.show()
-            self.label_lock_ac_char_1.show()
-            self.label_lock_ac_char_2.show()
-            self.label_lock_ac_char_3.show()
-            self.textEdit_char_0.show()
-            self.textEdit_char_1.show()
-            self.textEdit_char_2.show()
-            self.textEdit_char_3.show()
-
-            self.checkBox_lock_init.show()
-            self.checkBox_lock_ac.show()
-
-            if self.check_checkbox_init == False:
                 self.label_lock_init_char_0.hide()
                 self.label_lock_init_char_1.hide()
                 self.label_lock_init_char_2.hide()
                 self.label_lock_init_char_3.hide()
+                self.label_lock_ac_char_0.hide()
+                self.label_lock_ac_char_1.hide()
+                self.label_lock_ac_char_2.hide()
+                self.label_lock_ac_char_3.hide()
+
+                self.label_spell_slot_character0.show()
+                self.label_spell_slot_character0_2.show()
+                self.label_spell_slot_character0_3.show()
+                self.label_spell_slot_character0_4.show()
+                self.label_spell_slot_character0_5.show()
+                self.label_spell_slot_character0_6.show()
+                self.label_spell_slot_character0_7.show()
+                self.label_spell_slot_character0_8.show()
+                self.label_spell_slot_character0_9.show()
+                self.spell_slot_label_traker_char0.show()
+                self.label_spell_slot_character0_10.show()
+                self.spell_slot_label_traker_char1.show()
+                self.label_spell_slot_character0_11.show()
+                self.label_spell_slot_character0_12.show()
+                self.label_spell_slot_character0_13.show()
+                self.label_spell_slot_character0_14.show()
+                self.label_spell_slot_character0_15.show()
+                self.label_spell_slot_character0_16.show()
+                self.label_spell_slot_character0_17.show()
+                self.label_spell_slot_character0_18.show()
+                self.label_spell_slot_character0_19.show()
+                self.label_spell_slot_character0_20.show()
+                self.label_spell_slot_character0_21.show()
+                self.spell_slot_label_traker_char2.show()
+                self.label_spell_slot_character0_22.show()
+                self.label_spell_slot_character0_23.show()
+                self.label_spell_slot_character0_24.show()
+                self.label_spell_slot_character0_25.show()
+                self.label_spell_slot_character0_26.show()
+                self.label_spell_slot_character0_27.show()
+                self.label_spell_slot_character0_28.show()
+                self.label_spell_slot_character0_29.show()
+                self.label_spell_slot_character0_30.show()
+                self.spell_slot_label_traker_char3.show()
+                self.label_spell_slot_character0_31.show()
+                self.label_spell_slot_character0_32.show()
+                self.label_spell_slot_character0_33.show()
+                self.label_spell_slot_character0_34.show()
+                self.label_spell_slot_character0_35.show()
+                self.label_spell_slot_character0_36.show()
+                self.spin_spell_slot_character0.show()
+                self.spin_spell_slot_character0_2.show()
+                self.spin_spell_slot_character0_3.show()
+                self.spin_spell_slot_character0_4.show()
+                self.spin_spell_slot_character0_5.show()
+                self.spin_spell_slot_character0_6.show()
+                self.spin_spell_slot_character0_7.show()
+                self.spin_spell_slot_character0_8.show()
+                self.spin_spell_slot_character0_9.show()
+                self.spin_spell_slot_character1.show()
+                self.spin_spell_slot_character1_2.show()
+                self.spin_spell_slot_character1_3.show()
+                self.spin_spell_slot_character1_4.show()
+                self.spin_spell_slot_character1_5.show()
+                self.spin_spell_slot_character1_6.show()
+                self.spin_spell_slot_character1_7.show()
+                self.spin_spell_slot_character1_8.show()
+                self.spin_spell_slot_character1_9.show()
+                self.spin_spell_slot_character2.show()
+                self.spin_spell_slot_character2_2.show()
+                self.spin_spell_slot_character2_3.show()
+                self.spin_spell_slot_character2_4.show()
+                self.spin_spell_slot_character2_5.show()
+                self.spin_spell_slot_character2_6.show()
+                self.spin_spell_slot_character2_7.show()
+                self.spin_spell_slot_character2_8.show()
+                self.spin_spell_slot_character2_9.show()
+                self.spin_spell_slot_character3.show()
+                self.spin_spell_slot_character3_2.show()
+                self.spin_spell_slot_character3_3.show()
+                self.spin_spell_slot_character3_4.show()
+                self.spin_spell_slot_character3_5.show()
+                self.spin_spell_slot_character3_6.show()
+                self.spin_spell_slot_character3_7.show()
+                self.spin_spell_slot_character3_8.show()
+                self.spin_spell_slot_character3_9.show()
+                self.pushButton_restore_spell_slots_0.show()
+                self.pushButton_restore_spell_slots_1.show()
+                self.pushButton_restore_spell_slots_2.show()
+                self.pushButton_restore_spell_slots_3.show()
+                self.pushButton_set_spell_slots_0.show()
+                self.pushButton_set_spell_slots_1.show()
+                self.pushButton_set_spell_slots_2.show()
+                self.pushButton_set_spell_slots_3.show()
+                self.label_lock_init_char_0.show()
+                self.label_lock_init_char_1.show()
+                self.label_lock_init_char_2.show()
+                self.label_lock_init_char_3.show()
+                self.label_lock_ac_char_0.show()
+                self.label_lock_ac_char_1.show()
+                self.label_lock_ac_char_2.show()
+                self.label_lock_ac_char_3.show()
+                self.textEdit_char_0.show()
+                self.textEdit_char_1.show()
+                self.textEdit_char_2.show()
+                self.textEdit_char_3.show()
+
+                self.checkBox_lock_init.show()
+                self.checkBox_lock_ac.show()
+
+                if self.check_checkbox_init == False:
+                    self.label_lock_init_char_0.hide()
+                    self.label_lock_init_char_1.hide()
+                    self.label_lock_init_char_2.hide()
+                    self.label_lock_init_char_3.hide()
+                else:
+                    self.initiative_edit_character0.hide()
+                    self.initiative_edit_character1.hide()
+                    self.initiative_edit_character2.hide()
+                    self.initiative_edit_character3.hide()
+
+                if self.check_checkbox_ac == False:
+                    self.label_lock_ac_char_0.hide()
+                    self.label_lock_ac_char_1.hide()
+                    self.label_lock_ac_char_2.hide()
+                    self.label_lock_ac_char_3.hide()
+                else:
+                    self.ac_edit_character0.hide()
+                    self.ac_edit_character1.hide()
+                    self.ac_edit_character2.hide()
+                    self.ac_edit_character3.hide()
+
+
+
+                self.name.hide()
+                self.name_edit.hide()
+                self.hp.hide()
+                self.hp_edit.hide()
+                self.ac.hide()
+                self.ac_edit.hide()
+                self.initiative.hide()
+                self.initiative_edit.hide()
+                self.pushButton.hide()
+                self.label.hide()
+                self.spell_slot.hide()
+                self.label_spell_slot.hide()
+                self.label_spell_slot_2.hide()
+                self.label_spell_slot_3.hide()
+                self.label_spell_slot_4.hide()
+                self.label_spell_slot_5.hide()
+                self.label_spell_slot_6.hide()
+                self.label_spell_slot_7.hide()
+                self.label_spell_slot_8.hide()
+                self.label_spell_slot_9.hide()
+                self.spell_slot_edit.hide()
+                self.spell_slot_edit_2.hide()
+                self.spell_slot_edit_3.hide()
+                self.spell_slot_edit_4.hide()
+                self.spell_slot_edit_5.hide()
+                self.spell_slot_edit_6.hide()
+                self.spell_slot_edit_7.hide()
+                self.spell_slot_edit_8.hide()
+                self.spell_slot_edit_9.hide()
+
             else:
+                self.pushButton_init_open.hide()
+                self.dice_edit.hide()
+                self.amount_dice_box.hide()
+                self.modifier_box.hide()
+                self.label_amount.hide()
+                self.label_dice.hide()
+                self.label_modifier.hide()
+                self.label_roll_dice.hide()
+                self.label_amount.hide()
+                self.label_roll_dice.hide()
+                self.check_advantage.hide()
+                self.pushButton_roll_dice.hide()
+                self.label_del_char.hide()
+                self.comboBox_del_char.hide()
+                self.pushButton_del_char.hide()
+                self.name_character0.hide()
+                self.name_character1.hide()
+                self.name_character2.hide()
+                self.name_character3.hide()
+                self.hp_character0.hide()
+                self.hp_character1.hide()
+                self.hp_character2.hide()
+                self.hp_character3.hide()
+                self.hp_edit_character0.hide()
+                self.hp_edit_character1.hide()
+                self.hp_edit_character2.hide()
+                self.hp_edit_character3.hide()
+                self.ac_character0.hide()
+                self.ac_character1.hide()
+                self.ac_character2.hide()
+                self.ac_character3.hide()
+                self.ac_edit_character0.hide()
+                self.ac_edit_character1.hide()
+                self.ac_edit_character2.hide()
+                self.ac_edit_character3.hide()
+                self.initiative_character0.hide()
+                self.initiative_character1.hide()
+                self.initiative_character2.hide()
+                self.initiative_character3.hide()
                 self.initiative_edit_character0.hide()
                 self.initiative_edit_character1.hide()
                 self.initiative_edit_character2.hide()
                 self.initiative_edit_character3.hide()
 
-            if self.check_checkbox_ac == False:
-                self.label_lock_ac_char_0.hide()
-                self.label_lock_ac_char_1.hide()
-                self.label_lock_ac_char_2.hide()
-                self.label_lock_ac_char_3.hide()
-            else:
-                self.ac_edit_character0.hide()
-                self.ac_edit_character1.hide()
-                self.ac_edit_character2.hide()
-                self.ac_edit_character3.hide()
+                self.label_lock_init_char_0.show()
+                self.label_lock_init_char_1.show()
+                self.label_lock_init_char_2.show()
+                self.label_lock_init_char_3.show()
+                self.label_lock_ac_char_0.show()
+                self.label_lock_ac_char_1.show()
+                self.label_lock_ac_char_2.show()
+                self.label_lock_ac_char_3.show()
 
-
-
-            self.name.hide()
-            self.name_edit.hide()
-            self.hp.hide()
-            self.hp_edit.hide()
-            self.ac.hide()
-            self.ac_edit.hide()
-            self.initiative.hide()
-            self.initiative_edit.hide()
-            self.pushButton.hide()
-            self.label.hide()
-            self.spell_slot.hide()
-            self.label_spell_slot.hide()
-            self.label_spell_slot_2.hide()
-            self.label_spell_slot_3.hide()
-            self.label_spell_slot_4.hide()
-            self.label_spell_slot_5.hide()
-            self.label_spell_slot_6.hide()
-            self.label_spell_slot_7.hide()
-            self.label_spell_slot_8.hide()
-            self.label_spell_slot_9.hide()
-            self.spell_slot_edit.hide()
-            self.spell_slot_edit_2.hide()
-            self.spell_slot_edit_3.hide()
-            self.spell_slot_edit_4.hide()
-            self.spell_slot_edit_5.hide()
-            self.spell_slot_edit_6.hide()
-            self.spell_slot_edit_7.hide()
-            self.spell_slot_edit_8.hide()
-            self.spell_slot_edit_9.hide()
-
-        else:
-            self.pushButton_init_open.hide()
-            self.dice_edit.hide()
-            self.amount_dice_box.hide()
-            self.modifier_box.hide()
-            self.label_amount.hide()
-            self.label_dice.hide()
-            self.label_modifier.hide()
-            self.label_roll_dice.hide()
-            self.label_amount.hide()
-            self.label_roll_dice.hide()
-            self.check_advantage.hide()
-            self.pushButton_roll_dice.hide()
-            self.label_del_char.hide()
-            self.comboBox_del_char.hide()
-            self.pushButton_del_char.hide()
-            self.name_character0.hide()
-            self.name_character1.hide()
-            self.name_character2.hide()
-            self.name_character3.hide()
-            self.hp_character0.hide()
-            self.hp_character1.hide()
-            self.hp_character2.hide()
-            self.hp_character3.hide()
-            self.hp_edit_character0.hide()
-            self.hp_edit_character1.hide()
-            self.hp_edit_character2.hide()
-            self.hp_edit_character3.hide()
-            self.ac_character0.hide()
-            self.ac_character1.hide()
-            self.ac_character2.hide()
-            self.ac_character3.hide()
-            self.ac_edit_character0.hide()
-            self.ac_edit_character1.hide()
-            self.ac_edit_character2.hide()
-            self.ac_edit_character3.hide()
-            self.initiative_character0.hide()
-            self.initiative_character1.hide()
-            self.initiative_character2.hide()
-            self.initiative_character3.hide()
-            self.initiative_edit_character0.hide()
-            self.initiative_edit_character1.hide()
-            self.initiative_edit_character2.hide()
-            self.initiative_edit_character3.hide()
-
-            self.label_lock_init_char_0.show()
-            self.label_lock_init_char_1.show()
-            self.label_lock_init_char_2.show()
-            self.label_lock_init_char_3.show()
-            self.label_lock_ac_char_0.show()
-            self.label_lock_ac_char_1.show()
-            self.label_lock_ac_char_2.show()
-            self.label_lock_ac_char_3.show()
-
-            self.label_spell_slot_character0.hide()
-            self.label_spell_slot_character0_2.hide()
-            self.label_spell_slot_character0_3.hide()
-            self.label_spell_slot_character0_4.hide()
-            self.label_spell_slot_character0_5.hide()
-            self.label_spell_slot_character0_6.hide()
-            self.label_spell_slot_character0_7.hide()
-            self.label_spell_slot_character0_8.hide()
-            self.label_spell_slot_character0_9.hide()
-            self.spell_slot_label_traker_char0.hide()
-            self.label_spell_slot_character0_10.hide()
-            self.spell_slot_label_traker_char1.hide()
-            self.label_spell_slot_character0_11.hide()
-            self.label_spell_slot_character0_12.hide()
-            self.label_spell_slot_character0_13.hide()
-            self.label_spell_slot_character0_14.hide()
-            self.label_spell_slot_character0_15.hide()
-            self.label_spell_slot_character0_16.hide()
-            self.label_spell_slot_character0_17.hide()
-            self.label_spell_slot_character0_18.hide()
-            self.label_spell_slot_character0_19.hide()
-            self.label_spell_slot_character0_20.hide()
-            self.label_spell_slot_character0_21.hide()
-            self.spell_slot_label_traker_char2.hide()
-            self.label_spell_slot_character0_22.hide()
-            self.label_spell_slot_character0_23.hide()
-            self.label_spell_slot_character0_24.hide()
-            self.label_spell_slot_character0_25.hide()
-            self.label_spell_slot_character0_26.hide()
-            self.label_spell_slot_character0_27.hide()
-            self.label_spell_slot_character0_28.hide()
-            self.label_spell_slot_character0_29.hide()
-            self.label_spell_slot_character0_30.hide()
-            self.spell_slot_label_traker_char3.hide()
-            self.label_spell_slot_character0_31.hide()
-            self.label_spell_slot_character0_32.hide()
-            self.label_spell_slot_character0_33.hide()
-            self.label_spell_slot_character0_34.hide()
-            self.label_spell_slot_character0_35.hide()
-            self.label_spell_slot_character0_36.hide()
-            self.spin_spell_slot_character0.hide()
-            self.spin_spell_slot_character0_2.hide()
-            self.spin_spell_slot_character0_3.hide()
-            self.spin_spell_slot_character0_4.hide()
-            self.spin_spell_slot_character0_5.hide()
-            self.spin_spell_slot_character0_6.hide()
-            self.spin_spell_slot_character0_7.hide()
-            self.spin_spell_slot_character0_8.hide()
-            self.spin_spell_slot_character0_9.hide()
-            self.spin_spell_slot_character1.hide()
-            self.spin_spell_slot_character1_2.hide()
-            self.spin_spell_slot_character1_3.hide()
-            self.spin_spell_slot_character1_4.hide()
-            self.spin_spell_slot_character1_5.hide()
-            self.spin_spell_slot_character1_6.hide()
-            self.spin_spell_slot_character1_7.hide()
-            self.spin_spell_slot_character1_8.hide()
-            self.spin_spell_slot_character1_9.hide()
-            self.spin_spell_slot_character2.hide()
-            self.spin_spell_slot_character2_2.hide()
-            self.spin_spell_slot_character2_3.hide()
-            self.spin_spell_slot_character2_4.hide()
-            self.spin_spell_slot_character2_5.hide()
-            self.spin_spell_slot_character2_6.hide()
-            self.spin_spell_slot_character2_7.hide()
-            self.spin_spell_slot_character2_8.hide()
-            self.spin_spell_slot_character2_9.hide()
-            self.spin_spell_slot_character3.hide()
-            self.spin_spell_slot_character3_2.hide()
-            self.spin_spell_slot_character3_3.hide()
-            self.spin_spell_slot_character3_4.hide()
-            self.spin_spell_slot_character3_5.hide()
-            self.spin_spell_slot_character3_6.hide()
-            self.spin_spell_slot_character3_7.hide()
-            self.spin_spell_slot_character3_8.hide()
-            self.spin_spell_slot_character3_9.hide()
-            self.pushButton_restore_spell_slots_0.hide()
-            self.pushButton_restore_spell_slots_1.hide()
-            self.pushButton_restore_spell_slots_2.hide()
-            self.pushButton_restore_spell_slots_3.hide()
-            self.pushButton_set_spell_slots_0.hide()
-            self.pushButton_set_spell_slots_1.hide()
-            self.pushButton_set_spell_slots_2.hide()
-            self.pushButton_set_spell_slots_3.hide()
-            self.label_lock_init_char_0.hide()
-            self.label_lock_init_char_1.hide()
-            self.label_lock_init_char_2.hide()
-            self.label_lock_init_char_3.hide()
-            self.label_lock_ac_char_0.hide()
-            self.label_lock_ac_char_1.hide()
-            self.label_lock_ac_char_2.hide()
-            self.label_lock_ac_char_3.hide()
-            self.textEdit_char_0.hide()
-            self.textEdit_char_1.hide()
-            self.textEdit_char_2.hide()
-            self.textEdit_char_3.hide()
-
-            self.checkBox_lock_init.hide()
-            self.checkBox_lock_ac.hide()
-
-
-            self.name.show()
-            self.name_edit.show()
-            self.hp.show()
-            self.hp_edit.show()
-            self.ac.show()
-            self.ac_edit.show()
-            self.initiative.show()
-            self.initiative_edit.show()
-            self.pushButton.show()
-            self.label.show()
-            self.spell_slot.show()
-            self.label_spell_slot.show()
-            self.label_spell_slot_2.show()
-            self.label_spell_slot_3.show()
-            self.label_spell_slot_4.show()
-            self.label_spell_slot_5.show()
-            self.label_spell_slot_6.show()
-            self.label_spell_slot_7.show()
-            self.label_spell_slot_8.show()
-            self.label_spell_slot_9.show()
-            self.spell_slot_edit.show()
-            self.spell_slot_edit_2.show()
-            self.spell_slot_edit_3.show()
-            self.spell_slot_edit_4.show()
-            self.spell_slot_edit_5.show()
-            self.spell_slot_edit_6.show()
-            self.spell_slot_edit_7.show()
-            self.spell_slot_edit_8.show()
-            self.spell_slot_edit_9.show()
-
-    '''
-    Main window show
-    '''
-
-    def open_init_calc(self):
-        self.result_widget = InitiativeWindow(hero)
-        self.result_widget.show()
-
-    def roll_dice(self):
-        '''
-        DOCKSTRING: рандом кубика(числа) и вывод в окно
-        '''
-        check_advantage = self.check_advantage.isChecked()
-        try:
-            dice = int(self.dice_edit.text())
-            amount = int(self.amount_dice_box.text())
-            modifier = int(self.modifier_box.text())
-            value = 0
-            for roll in range(amount):
-                value += random.randint(1, dice) + modifier
-            if check_advantage == False:
-                self.label_roll_dice.setText(str(value))
-            else:
-                value_advantege = 0
-                for roll in range(amount):
-                    value_advantege += random.randint(1, dice) + modifier
-                self.label_roll_dice.setText(str(value) + ' ' + str(value_advantege))
-
-        except:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Не корректный ввод данных')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
-
-    def add_to_del_char_box(self):
-        self.comboBox_del_char.clear()
-        for i in hero:
-            self.comboBox_del_char.addItem(hero[i]['name'])
-
-    def del_char(self):
-        name_delete = ''
-        try:
-            for i in hero:
-                if self.comboBox_del_char.currentText() == hero[i]['name']:
-                    name_delete = str(i)
-            self.comboBox_del_char.removeItem(self.comboBox_del_char.currentIndex())
-            hero.pop(name_delete)
-            self.add_to_tracker()
-        except:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Поле пустое, либо этого персонажа уже нет!')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
-
-    def lock_initiative(self):
-        '''
-        DOCKSTRING: Вывод вместо lineEdit Label со значением initiative
-        '''
-        try:
-            self.check_checkbox_init = self.checkBox_lock_init.isChecked()
-            if self.check_checkbox_init:
-
-                if len(hero) != 0:
-                    if 'character0' in hero.keys():
-                        self.label_lock_init_char_0.show()
-                        self.initiative_edit_character0.hide()
-                        self.label_lock_init_char_0.setText(hero["character0"]['initiative'])
-
-                    if 'character1' in hero.keys():
-                        self.label_lock_init_char_1.show()
-                        self.initiative_edit_character1.hide()
-                        self.label_lock_init_char_1.setText(hero["character1"]['initiative'])
-
-                    if 'character2' in hero.keys():
-                        self.label_lock_init_char_2.show()
-                        self.initiative_edit_character2.hide()
-                        self.label_lock_init_char_2.setText(hero["character2"]['initiative'])
-
-                    if 'character3' in hero.keys():
-                        self.label_lock_init_char_3.show()
-                        self.initiative_edit_character3.hide()
-                        self.label_lock_init_char_3.setText(hero["character3"]['initiative'])
-
-            else:
+                self.label_spell_slot_character0.hide()
+                self.label_spell_slot_character0_2.hide()
+                self.label_spell_slot_character0_3.hide()
+                self.label_spell_slot_character0_4.hide()
+                self.label_spell_slot_character0_5.hide()
+                self.label_spell_slot_character0_6.hide()
+                self.label_spell_slot_character0_7.hide()
+                self.label_spell_slot_character0_8.hide()
+                self.label_spell_slot_character0_9.hide()
+                self.spell_slot_label_traker_char0.hide()
+                self.label_spell_slot_character0_10.hide()
+                self.spell_slot_label_traker_char1.hide()
+                self.label_spell_slot_character0_11.hide()
+                self.label_spell_slot_character0_12.hide()
+                self.label_spell_slot_character0_13.hide()
+                self.label_spell_slot_character0_14.hide()
+                self.label_spell_slot_character0_15.hide()
+                self.label_spell_slot_character0_16.hide()
+                self.label_spell_slot_character0_17.hide()
+                self.label_spell_slot_character0_18.hide()
+                self.label_spell_slot_character0_19.hide()
+                self.label_spell_slot_character0_20.hide()
+                self.label_spell_slot_character0_21.hide()
+                self.spell_slot_label_traker_char2.hide()
+                self.label_spell_slot_character0_22.hide()
+                self.label_spell_slot_character0_23.hide()
+                self.label_spell_slot_character0_24.hide()
+                self.label_spell_slot_character0_25.hide()
+                self.label_spell_slot_character0_26.hide()
+                self.label_spell_slot_character0_27.hide()
+                self.label_spell_slot_character0_28.hide()
+                self.label_spell_slot_character0_29.hide()
+                self.label_spell_slot_character0_30.hide()
+                self.spell_slot_label_traker_char3.hide()
+                self.label_spell_slot_character0_31.hide()
+                self.label_spell_slot_character0_32.hide()
+                self.label_spell_slot_character0_33.hide()
+                self.label_spell_slot_character0_34.hide()
+                self.label_spell_slot_character0_35.hide()
+                self.label_spell_slot_character0_36.hide()
+                self.spin_spell_slot_character0.hide()
+                self.spin_spell_slot_character0_2.hide()
+                self.spin_spell_slot_character0_3.hide()
+                self.spin_spell_slot_character0_4.hide()
+                self.spin_spell_slot_character0_5.hide()
+                self.spin_spell_slot_character0_6.hide()
+                self.spin_spell_slot_character0_7.hide()
+                self.spin_spell_slot_character0_8.hide()
+                self.spin_spell_slot_character0_9.hide()
+                self.spin_spell_slot_character1.hide()
+                self.spin_spell_slot_character1_2.hide()
+                self.spin_spell_slot_character1_3.hide()
+                self.spin_spell_slot_character1_4.hide()
+                self.spin_spell_slot_character1_5.hide()
+                self.spin_spell_slot_character1_6.hide()
+                self.spin_spell_slot_character1_7.hide()
+                self.spin_spell_slot_character1_8.hide()
+                self.spin_spell_slot_character1_9.hide()
+                self.spin_spell_slot_character2.hide()
+                self.spin_spell_slot_character2_2.hide()
+                self.spin_spell_slot_character2_3.hide()
+                self.spin_spell_slot_character2_4.hide()
+                self.spin_spell_slot_character2_5.hide()
+                self.spin_spell_slot_character2_6.hide()
+                self.spin_spell_slot_character2_7.hide()
+                self.spin_spell_slot_character2_8.hide()
+                self.spin_spell_slot_character2_9.hide()
+                self.spin_spell_slot_character3.hide()
+                self.spin_spell_slot_character3_2.hide()
+                self.spin_spell_slot_character3_3.hide()
+                self.spin_spell_slot_character3_4.hide()
+                self.spin_spell_slot_character3_5.hide()
+                self.spin_spell_slot_character3_6.hide()
+                self.spin_spell_slot_character3_7.hide()
+                self.spin_spell_slot_character3_8.hide()
+                self.spin_spell_slot_character3_9.hide()
+                self.pushButton_restore_spell_slots_0.hide()
+                self.pushButton_restore_spell_slots_1.hide()
+                self.pushButton_restore_spell_slots_2.hide()
+                self.pushButton_restore_spell_slots_3.hide()
+                self.pushButton_set_spell_slots_0.hide()
+                self.pushButton_set_spell_slots_1.hide()
+                self.pushButton_set_spell_slots_2.hide()
+                self.pushButton_set_spell_slots_3.hide()
                 self.label_lock_init_char_0.hide()
                 self.label_lock_init_char_1.hide()
                 self.label_lock_init_char_2.hide()
                 self.label_lock_init_char_3.hide()
-
-                self.initiative_edit_character0.show()
-                self.initiative_edit_character1.show()
-                self.initiative_edit_character2.show()
-                self.initiative_edit_character3.show()
-        except:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Непредвиденная ошибка')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
-
-
-    def lock_ac(self):
-        '''
-        DOCKSTRING: Вывод вместо lineEdit Label со значением ac
-        '''
-        try:
-            self.check_checkbox_ac = self.checkBox_lock_ac.isChecked()
-            if self.check_checkbox_ac:
-
-                if len(hero) != 0:
-                    if 'character0' in hero.keys():
-                        self.label_lock_ac_char_0.show()
-                        self.ac_edit_character0.hide()
-                        self.label_lock_ac_char_0.setText(hero["character0"]['ac'])
-
-                    if 'character1' in hero.keys():
-                        self.label_lock_ac_char_1.show()
-                        self.ac_edit_character1.hide()
-                        self.label_lock_ac_char_1.setText(hero["character1"]['ac'])
-
-                    if 'character2' in hero.keys():
-                        self.label_lock_ac_char_2.show()
-                        self.ac_edit_character2.hide()
-                        self.label_lock_ac_char_2.setText(hero["character2"]['ac'])
-
-                    if 'character3' in hero.keys():
-                        self.label_lock_ac_char_3.show()
-                        self.ac_edit_character3.hide()
-                        self.label_lock_ac_char_3.setText(hero["character3"]['ac'])
-
-            else:
                 self.label_lock_ac_char_0.hide()
                 self.label_lock_ac_char_1.hide()
                 self.label_lock_ac_char_2.hide()
                 self.label_lock_ac_char_3.hide()
+                self.textEdit_char_0.hide()
+                self.textEdit_char_1.hide()
+                self.textEdit_char_2.hide()
+                self.textEdit_char_3.hide()
 
-                self.ac_edit_character0.show()
-                self.ac_edit_character1.show()
-                self.ac_edit_character2.show()
-                self.ac_edit_character3.show()
-        except:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Непредвиденная ошибка')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
+                self.checkBox_lock_init.hide()
+                self.checkBox_lock_ac.hide()
 
 
-    def add_to_tracker(self):
+                self.name.show()
+                self.name_edit.show()
+                self.hp.show()
+                self.hp_edit.show()
+                self.ac.show()
+                self.ac_edit.show()
+                self.initiative.show()
+                self.initiative_edit.show()
+                self.pushButton.show()
+                self.label.show()
+                self.spell_slot.show()
+                self.label_spell_slot.show()
+                self.label_spell_slot_2.show()
+                self.label_spell_slot_3.show()
+                self.label_spell_slot_4.show()
+                self.label_spell_slot_5.show()
+                self.label_spell_slot_6.show()
+                self.label_spell_slot_7.show()
+                self.label_spell_slot_8.show()
+                self.label_spell_slot_9.show()
+                self.spell_slot_edit.show()
+                self.spell_slot_edit_2.show()
+                self.spell_slot_edit_3.show()
+                self.spell_slot_edit_4.show()
+                self.spell_slot_edit_5.show()
+                self.spell_slot_edit_6.show()
+                self.spell_slot_edit_7.show()
+                self.spell_slot_edit_8.show()
+                self.spell_slot_edit_9.show()
+
         '''
-        DOCKSTRING: добавление созданых персонажей в трекер и отключение полей несуществующий персонажей
+        Main window show
         '''
-        self.initiative_edit_character0.setText('')
-        self.initiative_edit_character1.setText('')
-        self.initiative_edit_character2.setText('')
-        self.initiative_edit_character3.setText('')
-        self.hp_edit_character0.setText('')
-        self.hp_edit_character1.setText('')
-        self.hp_edit_character2.setText('')
-        self.hp_edit_character3.setText('')
-        self.ac_edit_character0.setText('')
-        self.ac_edit_character1.setText('')
-        self.ac_edit_character2.setText('')
-        self.ac_edit_character3.setText('')
-        self.name_character0.setText('')
-        self.name_character1.setText('')
-        self.name_character2.setText('')
-        self.name_character3.setText('')
-        self.spin_spell_slot_character0.setValue(0)
-        self.spin_spell_slot_character0_2.setValue(0)
-        self.spin_spell_slot_character0_3.setValue(0)
-        self.spin_spell_slot_character0_4.setValue(0)
-        self.spin_spell_slot_character0_5.setValue(0)
-        self.spin_spell_slot_character0_6.setValue(0)
-        self.spin_spell_slot_character0_7.setValue(0)
-        self.spin_spell_slot_character0_8.setValue(0)
-        self.spin_spell_slot_character0_9.setValue(0)
-        self.spin_spell_slot_character1.setValue(0)
-        self.spin_spell_slot_character1_2.setValue(0)
-        self.spin_spell_slot_character1_3.setValue(0)
-        self.spin_spell_slot_character1_4.setValue(0)
-        self.spin_spell_slot_character1_5.setValue(0)
-        self.spin_spell_slot_character1_6.setValue(0)
-        self.spin_spell_slot_character1_7.setValue(0)
-        self.spin_spell_slot_character1_8.setValue(0)
-        self.spin_spell_slot_character1_9.setValue(0)
-        self.spin_spell_slot_character2.setValue(0)
-        self.spin_spell_slot_character2_2.setValue(0)
-        self.spin_spell_slot_character2_3.setValue(0)
-        self.spin_spell_slot_character2_4.setValue(0)
-        self.spin_spell_slot_character2_5.setValue(0)
-        self.spin_spell_slot_character2_6.setValue(0)
-        self.spin_spell_slot_character2_7.setValue(0)
-        self.spin_spell_slot_character2_8.setValue(0)
-        self.spin_spell_slot_character2_9.setValue(0)
-        self.spin_spell_slot_character3.setValue(0)
-        self.spin_spell_slot_character3_2.setValue(0)
-        self.spin_spell_slot_character3_3.setValue(0)
-        self.spin_spell_slot_character3_4.setValue(0)
-        self.spin_spell_slot_character3_5.setValue(0)
-        self.spin_spell_slot_character3_6.setValue(0)
-        self.spin_spell_slot_character3_7.setValue(0)
-        self.spin_spell_slot_character3_8.setValue(0)
-        self.spin_spell_slot_character3_9.setValue(0)
-        if 'character0' in hero.keys():
-            self.name_character0.setDisabled(False)
-            self.hp_edit_character0.setDisabled(False)
-            self.ac_edit_character0.setDisabled(False)
-            self.initiative_edit_character0.setDisabled(False)
-            self.spin_spell_slot_character0.setDisabled(False)
-            self.spin_spell_slot_character0.setDisabled(False)
-            self.spin_spell_slot_character0_2.setDisabled(False)
-            self.spin_spell_slot_character0_3.setDisabled(False)
-            self.spin_spell_slot_character0_4.setDisabled(False)
-            self.spin_spell_slot_character0_5.setDisabled(False)
-            self.spin_spell_slot_character0_6.setDisabled(False)
-            self.spin_spell_slot_character0_7.setDisabled(False)
-            self.spin_spell_slot_character0_8.setDisabled(False)
-            self.spin_spell_slot_character0_9.setDisabled(False)
-            self.pushButton_restore_spell_slots_0.setDisabled(False)
-            self.pushButton_set_spell_slots_0.setDisabled(False)
-            self.textEdit_char_0.setDisabled(False)
 
-            self.name_character0.setText(hero['character0']['name'])
-            self.hp_edit_character0.setText(hero['character0']['hp'])
-            self.ac_edit_character0.setText(hero['character0']['ac'])
-            self.initiative_edit_character0.setText(hero['character0']['initiative'])
-            self.spin_spell_slot_character0.setValue(int(hero['character0']['1']))
-            self.spin_spell_slot_character0.setValue(int(hero['character0']['1']))
-            self.spin_spell_slot_character0_2.setValue(int(hero['character0']['2']))
-            self.spin_spell_slot_character0_3.setValue(int(hero['character0']['3']))
-            self.spin_spell_slot_character0_4.setValue(int(hero['character0']['4']))
-            self.spin_spell_slot_character0_5.setValue(int(hero['character0']['5']))
-            self.spin_spell_slot_character0_6.setValue(int(hero['character0']['6']))
-            self.spin_spell_slot_character0_7.setValue(int(hero['character0']['7']))
-            self.spin_spell_slot_character0_8.setValue(int(hero['character0']['8']))
-            self.spin_spell_slot_character0_9.setValue(int(hero['character0']['9']))
-        else:
-            self.name_character0.setDisabled(True)
-            self.hp_edit_character0.setDisabled(True)
-            self.ac_edit_character0.setDisabled(True)
-            self.initiative_edit_character0.setDisabled(True)
-            self.spin_spell_slot_character0.setDisabled(True)
-            self.spin_spell_slot_character0.setDisabled(True)
-            self.spin_spell_slot_character0_2.setDisabled(True)
-            self.spin_spell_slot_character0_3.setDisabled(True)
-            self.spin_spell_slot_character0_4.setDisabled(True)
-            self.spin_spell_slot_character0_5.setDisabled(True)
-            self.spin_spell_slot_character0_6.setDisabled(True)
-            self.spin_spell_slot_character0_7.setDisabled(True)
-            self.spin_spell_slot_character0_8.setDisabled(True)
-            self.spin_spell_slot_character0_9.setDisabled(True)
-            self.pushButton_restore_spell_slots_0.setDisabled(True)
-            self.pushButton_set_spell_slots_0.setDisabled(True)
-            self.textEdit_char_0.setDisabled(True)
+        def open_init_calc(self):
+            self.result_widget = InitiativeWindow(hero)
+            self.result_widget.show()
 
-        if 'character1' in hero.keys():
-            self.name_character1.setDisabled(False)
-            self.hp_edit_character1.setDisabled(False)
-            self.ac_edit_character1.setDisabled(False)
-            self.initiative_edit_character1.setDisabled(False)
-            self.spin_spell_slot_character1.setDisabled(False)
-            self.spin_spell_slot_character1_2.setDisabled(False)
-            self.spin_spell_slot_character1_3.setDisabled(False)
-            self.spin_spell_slot_character1_4.setDisabled(False)
-            self.spin_spell_slot_character1_5.setDisabled(False)
-            self.spin_spell_slot_character1_6.setDisabled(False)
-            self.spin_spell_slot_character1_7.setDisabled(False)
-            self.spin_spell_slot_character1_8.setDisabled(False)
-            self.spin_spell_slot_character1_9.setDisabled(False)
-            self.pushButton_restore_spell_slots_1.setDisabled(False)
-            self.pushButton_set_spell_slots_1.setDisabled(False)
-            self.textEdit_char_1.setDisabled(False)
+        def roll_dice(self):
+            '''
+            DOCKSTRING: рандом кубика(числа) и вывод в окно
+            '''
+            check_advantage = self.check_advantage.isChecked()
+            try:
+                dice = int(self.dice_edit.text())
+                amount = int(self.amount_dice_box.text())
+                modifier = int(self.modifier_box.text())
+                value = 0
+                for roll in range(amount):
+                    value += random.randint(1, dice) + modifier
+                if check_advantage == False:
+                    self.label_roll_dice.setText(str(value))
+                else:
+                    value_advantege = 0
+                    for roll in range(amount):
+                        value_advantege += random.randint(1, dice) + modifier
+                    self.label_roll_dice.setText(str(value) + ' ' + str(value_advantege))
 
-            self.name_character1.setText(hero['character1']['name'])
-            self.hp_edit_character1.setText(hero['character1']['hp'])
-            self.ac_edit_character1.setText(hero['character1']['ac'])
-            self.initiative_edit_character1.setText(hero['character1']['initiative'])
-            self.spin_spell_slot_character1.setValue(int(hero['character1']['1']))
-            self.spin_spell_slot_character1_2.setValue(int(hero['character1']['2']))
-            self.spin_spell_slot_character1_3.setValue(int(hero['character1']['3']))
-            self.spin_spell_slot_character1_4.setValue(int(hero['character1']['4']))
-            self.spin_spell_slot_character1_5.setValue(int(hero['character1']['5']))
-            self.spin_spell_slot_character1_6.setValue(int(hero['character1']['6']))
-            self.spin_spell_slot_character1_7.setValue(int(hero['character1']['7']))
-            self.spin_spell_slot_character1_8.setValue(int(hero['character1']['8']))
-            self.spin_spell_slot_character1_9.setValue(int(hero['character1']['9']))
-        else:
-            self.name_character1.setDisabled(True)
-            self.hp_edit_character1.setDisabled(True)
-            self.ac_edit_character1.setDisabled(True)
-            self.initiative_edit_character1.setDisabled(True)
-            self.spin_spell_slot_character1.setDisabled(True)
-            self.spin_spell_slot_character1_2.setDisabled(True)
-            self.spin_spell_slot_character1_3.setDisabled(True)
-            self.spin_spell_slot_character1_4.setDisabled(True)
-            self.spin_spell_slot_character1_5.setDisabled(True)
-            self.spin_spell_slot_character1_6.setDisabled(True)
-            self.spin_spell_slot_character1_7.setDisabled(True)
-            self.spin_spell_slot_character1_8.setDisabled(True)
-            self.spin_spell_slot_character1_9.setDisabled(True)
-            self.pushButton_restore_spell_slots_1.setDisabled(True)
-            self.pushButton_set_spell_slots_1.setDisabled(True)
-            self.textEdit_char_1.setDisabled(True)
+            except:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Не корректный ввод данных')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
 
-        if 'character2' in hero.keys():
-            self.name_character2.setDisabled(False)
-            self.hp_edit_character2.setDisabled(False)
-            self.ac_edit_character2.setDisabled(False)
-            self.initiative_edit_character2.setDisabled(False)
-            self.spin_spell_slot_character2.setDisabled(False)
-            self.spin_spell_slot_character2_2.setDisabled(False)
-            self.spin_spell_slot_character2_3.setDisabled(False)
-            self.spin_spell_slot_character2_4.setDisabled(False)
-            self.spin_spell_slot_character2_5.setDisabled(False)
-            self.spin_spell_slot_character2_6.setDisabled(False)
-            self.spin_spell_slot_character2_7.setDisabled(False)
-            self.spin_spell_slot_character2_8.setDisabled(False)
-            self.spin_spell_slot_character2_9.setDisabled(False)
-            self.pushButton_restore_spell_slots_2.setDisabled(False)
-            self.pushButton_set_spell_slots_2.setDisabled(False)
-            self.textEdit_char_2.setDisabled(False)
+                error.buttonClicked.connect(self.popup_action)
 
-            self.name_character2.setText(hero['character2']['name'])
-            self.hp_edit_character2.setText(hero['character2']['hp'])
-            self.ac_edit_character2.setText(hero['character2']['ac'])
-            self.initiative_edit_character2.setText(hero['character2']['initiative'])
-            self.spin_spell_slot_character2.setValue(int(hero['character2']['1']))
-            self.spin_spell_slot_character2_2.setValue(int(hero['character2']['2']))
-            self.spin_spell_slot_character2_3.setValue(int(hero['character2']['3']))
-            self.spin_spell_slot_character2_4.setValue(int(hero['character2']['4']))
-            self.spin_spell_slot_character2_5.setValue(int(hero['character2']['5']))
-            self.spin_spell_slot_character2_6.setValue(int(hero['character2']['6']))
-            self.spin_spell_slot_character2_7.setValue(int(hero['character2']['7']))
-            self.spin_spell_slot_character2_8.setValue(int(hero['character2']['8']))
-            self.spin_spell_slot_character2_9.setValue(int(hero['character2']['9']))
-        else:
-            self.name_character2.setDisabled(True)
-            self.hp_edit_character2.setDisabled(True)
-            self.ac_edit_character2.setDisabled(True)
-            self.initiative_edit_character2.setDisabled(True)
-            self.spin_spell_slot_character2.setDisabled(True)
-            self.spin_spell_slot_character2_2.setDisabled(True)
-            self.spin_spell_slot_character2_3.setDisabled(True)
-            self.spin_spell_slot_character2_4.setDisabled(True)
-            self.spin_spell_slot_character2_5.setDisabled(True)
-            self.spin_spell_slot_character2_6.setDisabled(True)
-            self.spin_spell_slot_character2_7.setDisabled(True)
-            self.spin_spell_slot_character2_8.setDisabled(True)
-            self.spin_spell_slot_character2_9.setDisabled(True)
-            self.pushButton_restore_spell_slots_2.setDisabled(True)
-            self.pushButton_set_spell_slots_2.setDisabled(True)
-            self.textEdit_char_2.setDisabled(True)
+                error.exec()
 
-        if 'character3' in hero.keys():
-            self.name_character3.setDisabled(False)
-            self.hp_edit_character3.setDisabled(False)
-            self.ac_edit_character3.setDisabled(False)
-            self.initiative_edit_character3.setDisabled(False)
-            self.spin_spell_slot_character3.setDisabled(False)
-            self.spin_spell_slot_character3_2.setDisabled(False)
-            self.spin_spell_slot_character3_3.setDisabled(False)
-            self.spin_spell_slot_character3_4.setDisabled(False)
-            self.spin_spell_slot_character3_5.setDisabled(False)
-            self.spin_spell_slot_character3_6.setDisabled(False)
-            self.spin_spell_slot_character3_7.setDisabled(False)
-            self.spin_spell_slot_character3_8.setDisabled(False)
-            self.spin_spell_slot_character3_9.setDisabled(False)
-            self.pushButton_restore_spell_slots_3.setDisabled(False)
-            self.pushButton_set_spell_slots_3.setDisabled(False)
-            self.textEdit_char_3.setDisabled(False)
+        def add_to_del_char_box(self):
+            self.comboBox_del_char.clear()
+            for i in hero:
+                self.comboBox_del_char.addItem(hero[i]['name'])
 
-            self.name_character3.setText(hero['character3']['name'])
-            self.hp_edit_character3.setText(hero['character3']['hp'])
-            self.ac_edit_character3.setText(hero['character3']['ac'])
-            self.initiative_edit_character3.setText(hero['character3']['initiative'])
-            self.spin_spell_slot_character3.setValue(int(hero['character3']['1']))
-            self.spin_spell_slot_character3_2.setValue(int(hero['character3']['2']))
-            self.spin_spell_slot_character3_3.setValue(int(hero['character3']['3']))
-            self.spin_spell_slot_character3_4.setValue(int(hero['character3']['4']))
-            self.spin_spell_slot_character3_5.setValue(int(hero['character3']['5']))
-            self.spin_spell_slot_character3_6.setValue(int(hero['character3']['6']))
-            self.spin_spell_slot_character3_7.setValue(int(hero['character3']['7']))
-            self.spin_spell_slot_character3_8.setValue(int(hero['character3']['8']))
-            self.spin_spell_slot_character3_9.setValue(int(hero['character3']['9']))
-        else:
-            self.name_character3.setDisabled(True)
-            self.hp_edit_character3.setDisabled(True)
-            self.ac_edit_character3.setDisabled(True)
-            self.initiative_edit_character3.setDisabled(True)
-            self.spin_spell_slot_character3.setDisabled(True)
-            self.spin_spell_slot_character3_2.setDisabled(True)
-            self.spin_spell_slot_character3_3.setDisabled(True)
-            self.spin_spell_slot_character3_4.setDisabled(True)
-            self.spin_spell_slot_character3_5.setDisabled(True)
-            self.spin_spell_slot_character3_6.setDisabled(True)
-            self.spin_spell_slot_character3_7.setDisabled(True)
-            self.spin_spell_slot_character3_8.setDisabled(True)
-            self.spin_spell_slot_character3_9.setDisabled(True)
-            self.pushButton_restore_spell_slots_3.setDisabled(True)
-            self.pushButton_set_spell_slots_3.setDisabled(True)
-            self.textEdit_char_3.setDisabled(True)
+        def del_char(self):
+            name_delete = ''
+            try:
+                for i in hero:
+                    if self.comboBox_del_char.currentText() == hero[i]['name']:
+                        name_delete = str(i)
+                self.comboBox_del_char.removeItem(self.comboBox_del_char.currentIndex())
+                hero.pop(name_delete)
+                self.add_to_tracker()
+            except:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Поле пустое, либо этого персонажа уже нет!')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
 
-    def restore_slot_char0(self):
-        if 'character0' in hero:
-            self.spin_spell_slot_character0.setValue(int(hero['character0']['1']))
-            self.spin_spell_slot_character0_2.setValue(int(hero['character0']['2']))
-            self.spin_spell_slot_character0_3.setValue(int(hero['character0']['3']))
-            self.spin_spell_slot_character0_4.setValue(int(hero['character0']['4']))
-            self.spin_spell_slot_character0_5.setValue(int(hero['character0']['5']))
-            self.spin_spell_slot_character0_6.setValue(int(hero['character0']['6']))
-            self.spin_spell_slot_character0_7.setValue(int(hero['character0']['7']))
-            self.spin_spell_slot_character0_8.setValue(int(hero['character0']['8']))
-            self.spin_spell_slot_character0_9.setValue(int(hero['character0']['9']))
-        else:
-            pass
+                error.buttonClicked.connect(self.popup_action)
 
-    def restore_slot_char1(self):
-        if 'character1' in hero:
-            self.spin_spell_slot_character1.setValue(int(hero['character1']['1']))
-            self.spin_spell_slot_character1_2.setValue(int(hero['character1']['2']))
-            self.spin_spell_slot_character1_3.setValue(int(hero['character1']['3']))
-            self.spin_spell_slot_character1_4.setValue(int(hero['character1']['4']))
-            self.spin_spell_slot_character1_5.setValue(int(hero['character1']['5']))
-            self.spin_spell_slot_character1_6.setValue(int(hero['character1']['6']))
-            self.spin_spell_slot_character1_7.setValue(int(hero['character1']['7']))
-            self.spin_spell_slot_character1_8.setValue(int(hero['character1']['8']))
-            self.spin_spell_slot_character1_9.setValue(int(hero['character1']['9']))
-        else:
-            pass
+                error.exec()
 
-    def restore_slot_char2(self):
-        if 'character2' in hero:
-            self.spin_spell_slot_character2.setValue(int(hero['character2']['1']))
-            self.spin_spell_slot_character2_2.setValue(int(hero['character2']['2']))
-            self.spin_spell_slot_character2_3.setValue(int(hero['character2']['3']))
-            self.spin_spell_slot_character2_4.setValue(int(hero['character2']['4']))
-            self.spin_spell_slot_character2_5.setValue(int(hero['character2']['5']))
-            self.spin_spell_slot_character2_6.setValue(int(hero['character2']['6']))
-            self.spin_spell_slot_character2_7.setValue(int(hero['character2']['7']))
-            self.spin_spell_slot_character2_8.setValue(int(hero['character2']['8']))
-            self.spin_spell_slot_character2_9.setValue(int(hero['character2']['9']))
-        else:
-            pass
+        def lock_initiative(self):
+            '''
+            DOCKSTRING: Вывод вместо lineEdit Label со значением initiative
+            '''
+            try:
+                self.check_checkbox_init = self.checkBox_lock_init.isChecked()
+                if self.check_checkbox_init:
 
-    def restore_slot_char3(self):
-        if 'character3' in hero:
-            self.spin_spell_slot_character3.setValue(int(hero['character3']['1']))
-            self.spin_spell_slot_character3_2.setValue(int(hero['character3']['2']))
-            self.spin_spell_slot_character3_3.setValue(int(hero['character3']['3']))
-            self.spin_spell_slot_character3_4.setValue(int(hero['character3']['4']))
-            self.spin_spell_slot_character3_5.setValue(int(hero['character3']['5']))
-            self.spin_spell_slot_character3_6.setValue(int(hero['character3']['6']))
-            self.spin_spell_slot_character3_7.setValue(int(hero['character3']['7']))
-            self.spin_spell_slot_character3_8.setValue(int(hero['character3']['8']))
-            self.spin_spell_slot_character3_9.setValue(int(hero['character3']['9']))
-        else:
-            pass
-    def set_slot_char0(self):
-        if 'character0' in hero:
-            hero['character0']['1'] = self.spin_spell_slot_character0.text()
-            hero['character0']['2'] = self.spin_spell_slot_character0_2.text()
-            hero['character0']['3'] = self.spin_spell_slot_character0_3.text()
-            hero['character0']['4'] = self.spin_spell_slot_character0_4.text()
-            hero['character0']['5'] = self.spin_spell_slot_character0_5.text()
-            hero['character0']['6'] = self.spin_spell_slot_character0_6.text()
-            hero['character0']['7'] = self.spin_spell_slot_character0_7.text()
-            hero['character0']['8'] = self.spin_spell_slot_character0_8.text()
-            hero['character0']['9'] = self.spin_spell_slot_character0_9.text()
-        else:
-            pass
+                    if len(hero) != 0:
+                        if 'character0' in hero.keys():
+                            self.label_lock_init_char_0.show()
+                            self.initiative_edit_character0.hide()
+                            self.label_lock_init_char_0.setText(hero["character0"]['initiative'])
 
-    def set_slot_char1(self):
-        if 'character1' in hero:
-            hero['character1']['1'] = self.spin_spell_slot_character1.text()
-            hero['character1']['2'] = self.spin_spell_slot_character1_2.text()
-            hero['character1']['3'] = self.spin_spell_slot_character1_3.text()
-            hero['character1']['4'] = self.spin_spell_slot_character1_4.text()
-            hero['character1']['5'] = self.spin_spell_slot_character1_5.text()
-            hero['character1']['6'] = self.spin_spell_slot_character1_6.text()
-            hero['character1']['7'] = self.spin_spell_slot_character1_7.text()
-            hero['character1']['8'] = self.spin_spell_slot_character1_8.text()
-            hero['character1']['9'] = self.spin_spell_slot_character1_9.text()
-        else:
-            pass
+                        if 'character1' in hero.keys():
+                            self.label_lock_init_char_1.show()
+                            self.initiative_edit_character1.hide()
+                            self.label_lock_init_char_1.setText(hero["character1"]['initiative'])
 
-    def set_slot_char2(self):
-        if 'character2' in hero:
-            hero['character2']['1'] = self.spin_spell_slot_character2.text()
-            hero['character2']['2'] = self.spin_spell_slot_character2_2.text()
-            hero['character2']['3'] = self.spin_spell_slot_character2_3.text()
-            hero['character2']['4'] = self.spin_spell_slot_character2_4.text()
-            hero['character2']['5'] = self.spin_spell_slot_character2_5.text()
-            hero['character2']['6'] = self.spin_spell_slot_character2_6.text()
-            hero['character2']['7'] = self.spin_spell_slot_character2_7.text()
-            hero['character2']['8'] = self.spin_spell_slot_character2_8.text()
-            hero['character2']['9'] = self.spin_spell_slot_character2_9.text()
-        else:
-            pass
+                        if 'character2' in hero.keys():
+                            self.label_lock_init_char_2.show()
+                            self.initiative_edit_character2.hide()
+                            self.label_lock_init_char_2.setText(hero["character2"]['initiative'])
 
-    def set_slot_char3(self):
-        if 'character3' in hero:
-            hero['character3']['1'] = self.spin_spell_slot_character3.text()
-            hero['character3']['2'] = self.spin_spell_slot_character3_2.text()
-            hero['character3']['3'] = self.spin_spell_slot_character3_3.text()
-            hero['character3']['4'] = self.spin_spell_slot_character3_4.text()
-            hero['character3']['5'] = self.spin_spell_slot_character3_5.text()
-            hero['character3']['6'] = self.spin_spell_slot_character3_6.text()
-            hero['character3']['7'] = self.spin_spell_slot_character3_7.text()
-            hero['character3']['8'] = self.spin_spell_slot_character3_8.text()
-            hero['character3']['9'] = self.spin_spell_slot_character3_9.text()
-        else:
-            pass
+                        if 'character3' in hero.keys():
+                            self.label_lock_init_char_3.show()
+                            self.initiative_edit_character3.hide()
+                            self.label_lock_init_char_3.setText(hero["character3"]['initiative'])
+
+                else:
+                    self.label_lock_init_char_0.hide()
+                    self.label_lock_init_char_1.hide()
+                    self.label_lock_init_char_2.hide()
+                    self.label_lock_init_char_3.hide()
+
+                    self.initiative_edit_character0.show()
+                    self.initiative_edit_character1.show()
+                    self.initiative_edit_character2.show()
+                    self.initiative_edit_character3.show()
+            except:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Непредвиденная ошибка')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
 
 
-    def set_stats_character(self):
-        '''
-        DOCKSTRING: Обновление статов персонажей при их изменении в трекере
-        '''
-        try:
+        def lock_ac(self):
+            '''
+            DOCKSTRING: Вывод вместо lineEdit Label со значением ac
+            '''
+            try:
+                self.check_checkbox_ac = self.checkBox_lock_ac.isChecked()
+                if self.check_checkbox_ac:
+
+                    if len(hero) != 0:
+                        if 'character0' in hero.keys():
+                            self.label_lock_ac_char_0.show()
+                            self.ac_edit_character0.hide()
+                            self.label_lock_ac_char_0.setText(hero["character0"]['ac'])
+
+                        if 'character1' in hero.keys():
+                            self.label_lock_ac_char_1.show()
+                            self.ac_edit_character1.hide()
+                            self.label_lock_ac_char_1.setText(hero["character1"]['ac'])
+
+                        if 'character2' in hero.keys():
+                            self.label_lock_ac_char_2.show()
+                            self.ac_edit_character2.hide()
+                            self.label_lock_ac_char_2.setText(hero["character2"]['ac'])
+
+                        if 'character3' in hero.keys():
+                            self.label_lock_ac_char_3.show()
+                            self.ac_edit_character3.hide()
+                            self.label_lock_ac_char_3.setText(hero["character3"]['ac'])
+
+                else:
+                    self.label_lock_ac_char_0.hide()
+                    self.label_lock_ac_char_1.hide()
+                    self.label_lock_ac_char_2.hide()
+                    self.label_lock_ac_char_3.hide()
+
+                    self.ac_edit_character0.show()
+                    self.ac_edit_character1.show()
+                    self.ac_edit_character2.show()
+                    self.ac_edit_character3.show()
+            except:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Непредвиденная ошибка')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+
+
+        def add_to_tracker(self):
+            '''
+            DOCKSTRING: добавление созданых персонажей в трекер и отключение полей несуществующий персонажей
+            '''
+            self.initiative_edit_character0.setText('')
+            self.initiative_edit_character1.setText('')
+            self.initiative_edit_character2.setText('')
+            self.initiative_edit_character3.setText('')
+            self.hp_edit_character0.setText('')
+            self.hp_edit_character1.setText('')
+            self.hp_edit_character2.setText('')
+            self.hp_edit_character3.setText('')
+            self.ac_edit_character0.setText('')
+            self.ac_edit_character1.setText('')
+            self.ac_edit_character2.setText('')
+            self.ac_edit_character3.setText('')
+            self.name_character0.setText('')
+            self.name_character1.setText('')
+            self.name_character2.setText('')
+            self.name_character3.setText('')
+            self.spin_spell_slot_character0.setValue(0)
+            self.spin_spell_slot_character0_2.setValue(0)
+            self.spin_spell_slot_character0_3.setValue(0)
+            self.spin_spell_slot_character0_4.setValue(0)
+            self.spin_spell_slot_character0_5.setValue(0)
+            self.spin_spell_slot_character0_6.setValue(0)
+            self.spin_spell_slot_character0_7.setValue(0)
+            self.spin_spell_slot_character0_8.setValue(0)
+            self.spin_spell_slot_character0_9.setValue(0)
+            self.spin_spell_slot_character1.setValue(0)
+            self.spin_spell_slot_character1_2.setValue(0)
+            self.spin_spell_slot_character1_3.setValue(0)
+            self.spin_spell_slot_character1_4.setValue(0)
+            self.spin_spell_slot_character1_5.setValue(0)
+            self.spin_spell_slot_character1_6.setValue(0)
+            self.spin_spell_slot_character1_7.setValue(0)
+            self.spin_spell_slot_character1_8.setValue(0)
+            self.spin_spell_slot_character1_9.setValue(0)
+            self.spin_spell_slot_character2.setValue(0)
+            self.spin_spell_slot_character2_2.setValue(0)
+            self.spin_spell_slot_character2_3.setValue(0)
+            self.spin_spell_slot_character2_4.setValue(0)
+            self.spin_spell_slot_character2_5.setValue(0)
+            self.spin_spell_slot_character2_6.setValue(0)
+            self.spin_spell_slot_character2_7.setValue(0)
+            self.spin_spell_slot_character2_8.setValue(0)
+            self.spin_spell_slot_character2_9.setValue(0)
+            self.spin_spell_slot_character3.setValue(0)
+            self.spin_spell_slot_character3_2.setValue(0)
+            self.spin_spell_slot_character3_3.setValue(0)
+            self.spin_spell_slot_character3_4.setValue(0)
+            self.spin_spell_slot_character3_5.setValue(0)
+            self.spin_spell_slot_character3_6.setValue(0)
+            self.spin_spell_slot_character3_7.setValue(0)
+            self.spin_spell_slot_character3_8.setValue(0)
+            self.spin_spell_slot_character3_9.setValue(0)
             if 'character0' in hero.keys():
-                hero['character0']['hp'] = int(self.hp_edit_character0.text())
-                hero['character0']['ac'] = int(self.ac_edit_character0.text())
-                hero['character0']['initiative'] = int(self.initiative_edit_character0.text())
+                self.name_character0.setDisabled(False)
+                self.hp_edit_character0.setDisabled(False)
+                self.ac_edit_character0.setDisabled(False)
+                self.initiative_edit_character0.setDisabled(False)
+                self.spin_spell_slot_character0.setDisabled(False)
+                self.spin_spell_slot_character0.setDisabled(False)
+                self.spin_spell_slot_character0_2.setDisabled(False)
+                self.spin_spell_slot_character0_3.setDisabled(False)
+                self.spin_spell_slot_character0_4.setDisabled(False)
+                self.spin_spell_slot_character0_5.setDisabled(False)
+                self.spin_spell_slot_character0_6.setDisabled(False)
+                self.spin_spell_slot_character0_7.setDisabled(False)
+                self.spin_spell_slot_character0_8.setDisabled(False)
+                self.spin_spell_slot_character0_9.setDisabled(False)
+                self.pushButton_restore_spell_slots_0.setDisabled(False)
+                self.pushButton_set_spell_slots_0.setDisabled(False)
+                self.textEdit_char_0.setDisabled(False)
+
+                self.name_character0.setText(hero['character0']['name'])
+                self.hp_edit_character0.setText(hero['character0']['hp'])
+                self.ac_edit_character0.setText(hero['character0']['ac'])
+                self.initiative_edit_character0.setText(hero['character0']['initiative'])
+                self.spin_spell_slot_character0.setValue(int(hero['character0']['1']))
+                self.spin_spell_slot_character0.setValue(int(hero['character0']['1']))
+                self.spin_spell_slot_character0_2.setValue(int(hero['character0']['2']))
+                self.spin_spell_slot_character0_3.setValue(int(hero['character0']['3']))
+                self.spin_spell_slot_character0_4.setValue(int(hero['character0']['4']))
+                self.spin_spell_slot_character0_5.setValue(int(hero['character0']['5']))
+                self.spin_spell_slot_character0_6.setValue(int(hero['character0']['6']))
+                self.spin_spell_slot_character0_7.setValue(int(hero['character0']['7']))
+                self.spin_spell_slot_character0_8.setValue(int(hero['character0']['8']))
+                self.spin_spell_slot_character0_9.setValue(int(hero['character0']['9']))
+            else:
+                self.name_character0.setDisabled(True)
+                self.hp_edit_character0.setDisabled(True)
+                self.ac_edit_character0.setDisabled(True)
+                self.initiative_edit_character0.setDisabled(True)
+                self.spin_spell_slot_character0.setDisabled(True)
+                self.spin_spell_slot_character0.setDisabled(True)
+                self.spin_spell_slot_character0_2.setDisabled(True)
+                self.spin_spell_slot_character0_3.setDisabled(True)
+                self.spin_spell_slot_character0_4.setDisabled(True)
+                self.spin_spell_slot_character0_5.setDisabled(True)
+                self.spin_spell_slot_character0_6.setDisabled(True)
+                self.spin_spell_slot_character0_7.setDisabled(True)
+                self.spin_spell_slot_character0_8.setDisabled(True)
+                self.spin_spell_slot_character0_9.setDisabled(True)
+                self.pushButton_restore_spell_slots_0.setDisabled(True)
+                self.pushButton_set_spell_slots_0.setDisabled(True)
+                self.textEdit_char_0.setDisabled(True)
+
             if 'character1' in hero.keys():
-                hero['character1']['hp'] = int(self.hp_edit_character1.text())
-                hero['character1']['ac'] = int(self.ac_edit_character1.text())
-                hero['character1']['initiative'] = int(self.initiative_edit_character1.text())
+                self.name_character1.setDisabled(False)
+                self.hp_edit_character1.setDisabled(False)
+                self.ac_edit_character1.setDisabled(False)
+                self.initiative_edit_character1.setDisabled(False)
+                self.spin_spell_slot_character1.setDisabled(False)
+                self.spin_spell_slot_character1_2.setDisabled(False)
+                self.spin_spell_slot_character1_3.setDisabled(False)
+                self.spin_spell_slot_character1_4.setDisabled(False)
+                self.spin_spell_slot_character1_5.setDisabled(False)
+                self.spin_spell_slot_character1_6.setDisabled(False)
+                self.spin_spell_slot_character1_7.setDisabled(False)
+                self.spin_spell_slot_character1_8.setDisabled(False)
+                self.spin_spell_slot_character1_9.setDisabled(False)
+                self.pushButton_restore_spell_slots_1.setDisabled(False)
+                self.pushButton_set_spell_slots_1.setDisabled(False)
+                self.textEdit_char_1.setDisabled(False)
+
+                self.name_character1.setText(hero['character1']['name'])
+                self.hp_edit_character1.setText(hero['character1']['hp'])
+                self.ac_edit_character1.setText(hero['character1']['ac'])
+                self.initiative_edit_character1.setText(hero['character1']['initiative'])
+                self.spin_spell_slot_character1.setValue(int(hero['character1']['1']))
+                self.spin_spell_slot_character1_2.setValue(int(hero['character1']['2']))
+                self.spin_spell_slot_character1_3.setValue(int(hero['character1']['3']))
+                self.spin_spell_slot_character1_4.setValue(int(hero['character1']['4']))
+                self.spin_spell_slot_character1_5.setValue(int(hero['character1']['5']))
+                self.spin_spell_slot_character1_6.setValue(int(hero['character1']['6']))
+                self.spin_spell_slot_character1_7.setValue(int(hero['character1']['7']))
+                self.spin_spell_slot_character1_8.setValue(int(hero['character1']['8']))
+                self.spin_spell_slot_character1_9.setValue(int(hero['character1']['9']))
+            else:
+                self.name_character1.setDisabled(True)
+                self.hp_edit_character1.setDisabled(True)
+                self.ac_edit_character1.setDisabled(True)
+                self.initiative_edit_character1.setDisabled(True)
+                self.spin_spell_slot_character1.setDisabled(True)
+                self.spin_spell_slot_character1_2.setDisabled(True)
+                self.spin_spell_slot_character1_3.setDisabled(True)
+                self.spin_spell_slot_character1_4.setDisabled(True)
+                self.spin_spell_slot_character1_5.setDisabled(True)
+                self.spin_spell_slot_character1_6.setDisabled(True)
+                self.spin_spell_slot_character1_7.setDisabled(True)
+                self.spin_spell_slot_character1_8.setDisabled(True)
+                self.spin_spell_slot_character1_9.setDisabled(True)
+                self.pushButton_restore_spell_slots_1.setDisabled(True)
+                self.pushButton_set_spell_slots_1.setDisabled(True)
+                self.textEdit_char_1.setDisabled(True)
+
             if 'character2' in hero.keys():
-                hero['character2']['hp'] = int(self.hp_edit_character2.text())
-                hero['character2']['ac'] = int(self.ac_edit_character2.text())
-                hero['character2']['initiative'] = int(self.initiative_edit_character2.text())
+                self.name_character2.setDisabled(False)
+                self.hp_edit_character2.setDisabled(False)
+                self.ac_edit_character2.setDisabled(False)
+                self.initiative_edit_character2.setDisabled(False)
+                self.spin_spell_slot_character2.setDisabled(False)
+                self.spin_spell_slot_character2_2.setDisabled(False)
+                self.spin_spell_slot_character2_3.setDisabled(False)
+                self.spin_spell_slot_character2_4.setDisabled(False)
+                self.spin_spell_slot_character2_5.setDisabled(False)
+                self.spin_spell_slot_character2_6.setDisabled(False)
+                self.spin_spell_slot_character2_7.setDisabled(False)
+                self.spin_spell_slot_character2_8.setDisabled(False)
+                self.spin_spell_slot_character2_9.setDisabled(False)
+                self.pushButton_restore_spell_slots_2.setDisabled(False)
+                self.pushButton_set_spell_slots_2.setDisabled(False)
+                self.textEdit_char_2.setDisabled(False)
+
+                self.name_character2.setText(hero['character2']['name'])
+                self.hp_edit_character2.setText(hero['character2']['hp'])
+                self.ac_edit_character2.setText(hero['character2']['ac'])
+                self.initiative_edit_character2.setText(hero['character2']['initiative'])
+                self.spin_spell_slot_character2.setValue(int(hero['character2']['1']))
+                self.spin_spell_slot_character2_2.setValue(int(hero['character2']['2']))
+                self.spin_spell_slot_character2_3.setValue(int(hero['character2']['3']))
+                self.spin_spell_slot_character2_4.setValue(int(hero['character2']['4']))
+                self.spin_spell_slot_character2_5.setValue(int(hero['character2']['5']))
+                self.spin_spell_slot_character2_6.setValue(int(hero['character2']['6']))
+                self.spin_spell_slot_character2_7.setValue(int(hero['character2']['7']))
+                self.spin_spell_slot_character2_8.setValue(int(hero['character2']['8']))
+                self.spin_spell_slot_character2_9.setValue(int(hero['character2']['9']))
+            else:
+                self.name_character2.setDisabled(True)
+                self.hp_edit_character2.setDisabled(True)
+                self.ac_edit_character2.setDisabled(True)
+                self.initiative_edit_character2.setDisabled(True)
+                self.spin_spell_slot_character2.setDisabled(True)
+                self.spin_spell_slot_character2_2.setDisabled(True)
+                self.spin_spell_slot_character2_3.setDisabled(True)
+                self.spin_spell_slot_character2_4.setDisabled(True)
+                self.spin_spell_slot_character2_5.setDisabled(True)
+                self.spin_spell_slot_character2_6.setDisabled(True)
+                self.spin_spell_slot_character2_7.setDisabled(True)
+                self.spin_spell_slot_character2_8.setDisabled(True)
+                self.spin_spell_slot_character2_9.setDisabled(True)
+                self.pushButton_restore_spell_slots_2.setDisabled(True)
+                self.pushButton_set_spell_slots_2.setDisabled(True)
+                self.textEdit_char_2.setDisabled(True)
+
             if 'character3' in hero.keys():
-                hero['character3']['hp'] = int(self.hp_edit_character3.text())
-                hero['character3']['ac'] = int(self.ac_edit_character3.text())
-                hero['character3']['initiative'] = int(self.initiative_edit_character3.text())
-        except:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Не корректный ввод данных')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+                self.name_character3.setDisabled(False)
+                self.hp_edit_character3.setDisabled(False)
+                self.ac_edit_character3.setDisabled(False)
+                self.initiative_edit_character3.setDisabled(False)
+                self.spin_spell_slot_character3.setDisabled(False)
+                self.spin_spell_slot_character3_2.setDisabled(False)
+                self.spin_spell_slot_character3_3.setDisabled(False)
+                self.spin_spell_slot_character3_4.setDisabled(False)
+                self.spin_spell_slot_character3_5.setDisabled(False)
+                self.spin_spell_slot_character3_6.setDisabled(False)
+                self.spin_spell_slot_character3_7.setDisabled(False)
+                self.spin_spell_slot_character3_8.setDisabled(False)
+                self.spin_spell_slot_character3_9.setDisabled(False)
+                self.pushButton_restore_spell_slots_3.setDisabled(False)
+                self.pushButton_set_spell_slots_3.setDisabled(False)
+                self.textEdit_char_3.setDisabled(False)
 
-            error.buttonClicked.connect(self.popup_action)
+                self.name_character3.setText(hero['character3']['name'])
+                self.hp_edit_character3.setText(hero['character3']['hp'])
+                self.ac_edit_character3.setText(hero['character3']['ac'])
+                self.initiative_edit_character3.setText(hero['character3']['initiative'])
+                self.spin_spell_slot_character3.setValue(int(hero['character3']['1']))
+                self.spin_spell_slot_character3_2.setValue(int(hero['character3']['2']))
+                self.spin_spell_slot_character3_3.setValue(int(hero['character3']['3']))
+                self.spin_spell_slot_character3_4.setValue(int(hero['character3']['4']))
+                self.spin_spell_slot_character3_5.setValue(int(hero['character3']['5']))
+                self.spin_spell_slot_character3_6.setValue(int(hero['character3']['6']))
+                self.spin_spell_slot_character3_7.setValue(int(hero['character3']['7']))
+                self.spin_spell_slot_character3_8.setValue(int(hero['character3']['8']))
+                self.spin_spell_slot_character3_9.setValue(int(hero['character3']['9']))
+            else:
+                self.name_character3.setDisabled(True)
+                self.hp_edit_character3.setDisabled(True)
+                self.ac_edit_character3.setDisabled(True)
+                self.initiative_edit_character3.setDisabled(True)
+                self.spin_spell_slot_character3.setDisabled(True)
+                self.spin_spell_slot_character3_2.setDisabled(True)
+                self.spin_spell_slot_character3_3.setDisabled(True)
+                self.spin_spell_slot_character3_4.setDisabled(True)
+                self.spin_spell_slot_character3_5.setDisabled(True)
+                self.spin_spell_slot_character3_6.setDisabled(True)
+                self.spin_spell_slot_character3_7.setDisabled(True)
+                self.spin_spell_slot_character3_8.setDisabled(True)
+                self.spin_spell_slot_character3_9.setDisabled(True)
+                self.pushButton_restore_spell_slots_3.setDisabled(True)
+                self.pushButton_set_spell_slots_3.setDisabled(True)
+                self.textEdit_char_3.setDisabled(True)
 
-            error.exec()
+        def restore_slot_char0(self):
+            if 'character0' in hero:
+                self.spin_spell_slot_character0.setValue(int(hero['character0']['1']))
+                self.spin_spell_slot_character0_2.setValue(int(hero['character0']['2']))
+                self.spin_spell_slot_character0_3.setValue(int(hero['character0']['3']))
+                self.spin_spell_slot_character0_4.setValue(int(hero['character0']['4']))
+                self.spin_spell_slot_character0_5.setValue(int(hero['character0']['5']))
+                self.spin_spell_slot_character0_6.setValue(int(hero['character0']['6']))
+                self.spin_spell_slot_character0_7.setValue(int(hero['character0']['7']))
+                self.spin_spell_slot_character0_8.setValue(int(hero['character0']['8']))
+                self.spin_spell_slot_character0_9.setValue(int(hero['character0']['9']))
+            else:
+                pass
 
-    def popup_action(self, but):
+        def restore_slot_char1(self):
+            if 'character1' in hero:
+                self.spin_spell_slot_character1.setValue(int(hero['character1']['1']))
+                self.spin_spell_slot_character1_2.setValue(int(hero['character1']['2']))
+                self.spin_spell_slot_character1_3.setValue(int(hero['character1']['3']))
+                self.spin_spell_slot_character1_4.setValue(int(hero['character1']['4']))
+                self.spin_spell_slot_character1_5.setValue(int(hero['character1']['5']))
+                self.spin_spell_slot_character1_6.setValue(int(hero['character1']['6']))
+                self.spin_spell_slot_character1_7.setValue(int(hero['character1']['7']))
+                self.spin_spell_slot_character1_8.setValue(int(hero['character1']['8']))
+                self.spin_spell_slot_character1_9.setValue(int(hero['character1']['9']))
+            else:
+                pass
+
+        def restore_slot_char2(self):
+            if 'character2' in hero:
+                self.spin_spell_slot_character2.setValue(int(hero['character2']['1']))
+                self.spin_spell_slot_character2_2.setValue(int(hero['character2']['2']))
+                self.spin_spell_slot_character2_3.setValue(int(hero['character2']['3']))
+                self.spin_spell_slot_character2_4.setValue(int(hero['character2']['4']))
+                self.spin_spell_slot_character2_5.setValue(int(hero['character2']['5']))
+                self.spin_spell_slot_character2_6.setValue(int(hero['character2']['6']))
+                self.spin_spell_slot_character2_7.setValue(int(hero['character2']['7']))
+                self.spin_spell_slot_character2_8.setValue(int(hero['character2']['8']))
+                self.spin_spell_slot_character2_9.setValue(int(hero['character2']['9']))
+            else:
+                pass
+
+        def restore_slot_char3(self):
+            if 'character3' in hero:
+                self.spin_spell_slot_character3.setValue(int(hero['character3']['1']))
+                self.spin_spell_slot_character3_2.setValue(int(hero['character3']['2']))
+                self.spin_spell_slot_character3_3.setValue(int(hero['character3']['3']))
+                self.spin_spell_slot_character3_4.setValue(int(hero['character3']['4']))
+                self.spin_spell_slot_character3_5.setValue(int(hero['character3']['5']))
+                self.spin_spell_slot_character3_6.setValue(int(hero['character3']['6']))
+                self.spin_spell_slot_character3_7.setValue(int(hero['character3']['7']))
+                self.spin_spell_slot_character3_8.setValue(int(hero['character3']['8']))
+                self.spin_spell_slot_character3_9.setValue(int(hero['character3']['9']))
+            else:
+                pass
+        def set_slot_char0(self):
+            if 'character0' in hero:
+                hero['character0']['1'] = self.spin_spell_slot_character0.text()
+                hero['character0']['2'] = self.spin_spell_slot_character0_2.text()
+                hero['character0']['3'] = self.spin_spell_slot_character0_3.text()
+                hero['character0']['4'] = self.spin_spell_slot_character0_4.text()
+                hero['character0']['5'] = self.spin_spell_slot_character0_5.text()
+                hero['character0']['6'] = self.spin_spell_slot_character0_6.text()
+                hero['character0']['7'] = self.spin_spell_slot_character0_7.text()
+                hero['character0']['8'] = self.spin_spell_slot_character0_8.text()
+                hero['character0']['9'] = self.spin_spell_slot_character0_9.text()
+            else:
+                pass
+
+        def set_slot_char1(self):
+            if 'character1' in hero:
+                hero['character1']['1'] = self.spin_spell_slot_character1.text()
+                hero['character1']['2'] = self.spin_spell_slot_character1_2.text()
+                hero['character1']['3'] = self.spin_spell_slot_character1_3.text()
+                hero['character1']['4'] = self.spin_spell_slot_character1_4.text()
+                hero['character1']['5'] = self.spin_spell_slot_character1_5.text()
+                hero['character1']['6'] = self.spin_spell_slot_character1_6.text()
+                hero['character1']['7'] = self.spin_spell_slot_character1_7.text()
+                hero['character1']['8'] = self.spin_spell_slot_character1_8.text()
+                hero['character1']['9'] = self.spin_spell_slot_character1_9.text()
+            else:
+                pass
+
+        def set_slot_char2(self):
+            if 'character2' in hero:
+                hero['character2']['1'] = self.spin_spell_slot_character2.text()
+                hero['character2']['2'] = self.spin_spell_slot_character2_2.text()
+                hero['character2']['3'] = self.spin_spell_slot_character2_3.text()
+                hero['character2']['4'] = self.spin_spell_slot_character2_4.text()
+                hero['character2']['5'] = self.spin_spell_slot_character2_5.text()
+                hero['character2']['6'] = self.spin_spell_slot_character2_6.text()
+                hero['character2']['7'] = self.spin_spell_slot_character2_7.text()
+                hero['character2']['8'] = self.spin_spell_slot_character2_8.text()
+                hero['character2']['9'] = self.spin_spell_slot_character2_9.text()
+            else:
+                pass
+
+        def set_slot_char3(self):
+            if 'character3' in hero:
+                hero['character3']['1'] = self.spin_spell_slot_character3.text()
+                hero['character3']['2'] = self.spin_spell_slot_character3_2.text()
+                hero['character3']['3'] = self.spin_spell_slot_character3_3.text()
+                hero['character3']['4'] = self.spin_spell_slot_character3_4.text()
+                hero['character3']['5'] = self.spin_spell_slot_character3_5.text()
+                hero['character3']['6'] = self.spin_spell_slot_character3_6.text()
+                hero['character3']['7'] = self.spin_spell_slot_character3_7.text()
+                hero['character3']['8'] = self.spin_spell_slot_character3_8.text()
+                hero['character3']['9'] = self.spin_spell_slot_character3_9.text()
+            else:
+                pass
+
+
+        def set_stats_character(self):
+            '''
+            DOCKSTRING: Обновление статов персонажей при их изменении в трекере
+            '''
+            try:
+                if 'character0' in hero.keys():
+                    hero['character0']['hp'] = int(self.hp_edit_character0.text())
+                    hero['character0']['ac'] = int(self.ac_edit_character0.text())
+                    hero['character0']['initiative'] = int(self.initiative_edit_character0.text())
+                if 'character1' in hero.keys():
+                    hero['character1']['hp'] = int(self.hp_edit_character1.text())
+                    hero['character1']['ac'] = int(self.ac_edit_character1.text())
+                    hero['character1']['initiative'] = int(self.initiative_edit_character1.text())
+                if 'character2' in hero.keys():
+                    hero['character2']['hp'] = int(self.hp_edit_character2.text())
+                    hero['character2']['ac'] = int(self.ac_edit_character2.text())
+                    hero['character2']['initiative'] = int(self.initiative_edit_character2.text())
+                if 'character3' in hero.keys():
+                    hero['character3']['hp'] = int(self.hp_edit_character3.text())
+                    hero['character3']['ac'] = int(self.ac_edit_character3.text())
+                    hero['character3']['initiative'] = int(self.initiative_edit_character3.text())
+            except:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Не корректный ввод данных')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+
+        def popup_action(self, but):
+            '''
+            DOCKSTRING: Заглушка для ошибок
+            '''
+            if but.text() == 'Ok':
+                print('Ok')
+
         '''
-        DOCKSTRING: Заглушка для ошибок
+        Music changer
         '''
-        if but.text() == 'Ok':
-            print('Ok')
 
-    '''
-    Music changer
-    '''
+        def music_changer_update(self):
+            '''
+            DOCKSTRING: Добавление ссылок на музыку в словарь в формате сцена: урл
+            '''
+            if self.category_edit.text() in music.keys():
+                if self.scene_edit.text() in music[self.category_edit.text()].keys():
+                    item = music[self.category_edit.text()][self.scene_edit.text()].split(' ')
+                    if self.url_edit.text() in item:
+                        error = QMessageBox()
+                        error.setWindowTitle('Ошибка')
+                        error.setText('Такая ссылка уже есть в этой сцене')
+                        error.setIcon(QMessageBox.Icon.Warning)
+                        error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                        error.setDefaultButton(QMessageBox.StandardButton.Ok)
 
-    def music_changer_update(self):
-        '''
-        DOCKSTRING: Добавление ссылок на музыку в словарь в формате сцена: урл
-        '''
-        if self.category_edit.text() in music.keys():
-            if self.scene_edit.text() in music[self.category_edit.text()].keys():
-                item = music[self.category_edit.text()][self.scene_edit.text()].split(' ')
-                if self.url_edit.text() in item:
+                        error.buttonClicked.connect(self.popup_action)
+
+                        error.exec()
+                    else:
+                        music[self.category_edit.text()][self.scene_edit.text()] += ' ' + self.url_edit.text()
+                else:
+                    music[self.category_edit.text()][self.scene_edit.text()] = self.url_edit.text()
+            else:
+                music[self.category_edit.text()] = {self.scene_edit.text(): self.url_edit.text()}
+            print(music)
+            self.listWidget_scene.clear()
+            self.music_changer_listview_category_update()
+
+
+        def music_changer_listview_category_update(self):
+            '''
+            DOCKSTRING: обновление комбо бокса, при загрузке сохранения
+            '''
+            self.listWidget_category.clear()
+            for i in music.keys():
+                self.listWidget_category.addItem(i)
+
+        def listView_scene_update(self):
+            self.listWidget_scene.clear()
+            current_index = self.listWidget_category.currentRow()
+            list_music = list(music.keys())
+            for i in music[list_music[current_index]].keys():
+                self.listWidget_scene.addItem(i)
+
+        def music_changer_play(self):
+            num_one = self.listWidget_category.currentRow()
+            num_two = self.listWidget_scene.currentRow()
+            list_music = list(music.keys())
+            list_music_deep = list(music[list_music[num_one]])
+            value = music[list_music[num_one]][list_music_deep[num_two]].split(' ')
+            for i in range(len(value)):
+                webbrowser.open(value[i])
+                time.sleep(1)
+
+        def music_changer_delete(self):
+            num_one = self.listWidget_category.currentRow()
+            num_two = self.listWidget_scene.currentRow()
+            list_music = list(music.keys())
+            if num_two == -1:
+                if len(list(music.keys())) == 1:
                     error = QMessageBox()
                     error.setWindowTitle('Ошибка')
-                    error.setText('Такая ссылка уже есть в этой сцене')
+                    error.setText('На данный момент нельзя удалить последнюю категорию')
                     error.setIcon(QMessageBox.Icon.Warning)
                     error.setStandardButtons(QMessageBox.StandardButton.Ok)
                     error.setDefaultButton(QMessageBox.StandardButton.Ok)
@@ -1260,50 +1313,39 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
                     error.exec()
                 else:
-                    music[self.category_edit.text()][self.scene_edit.text()] += ' ' + self.url_edit.text()
+                    music.pop(list_music[num_one])
+                    self.music_changer_listview_category_update()
             else:
-                music[self.category_edit.text()][self.scene_edit.text()] = self.url_edit.text()
-        else:
-            music[self.category_edit.text()] = {self.scene_edit.text(): self.url_edit.text()}
-        print(music)
-        self.listWidget_scene.clear()
-        self.music_changer_listview_category_update()
+                list_music_deep = list(music[list_music[num_one]])
+                music[list_music[num_one]].pop(list_music_deep[num_two])
+                self.music_changer_listview_category_update()
+                self.listView_scene_update()
+            print(music)
 
-
-    def music_changer_listview_category_update(self):
         '''
-        DOCKSTRING: обновление комбо бокса, при загрузке сохранения
+        Rules
         '''
-        self.listWidget_category.clear()
-        for i in music.keys():
-            self.listWidget_category.addItem(i)
 
-    def listView_scene_update(self):
-        self.listWidget_scene.clear()
-        current_index = self.listWidget_category.currentRow()
-        list_music = list(music.keys())
-        for i in music[list_music[current_index]].keys():
-            self.listWidget_scene.addItem(i)
+        def set_combobox_rules(self):
+            for i in dict_rules:
+                self.comboBox_rules.addItem(i)
 
-    def music_changer_play(self):
-        num_one = self.listWidget_category.currentRow()
-        num_two = self.listWidget_scene.currentRow()
-        list_music = list(music.keys())
-        list_music_deep = list(music[list_music[num_one]])
-        value = music[list_music[num_one]][list_music_deep[num_two]].split(' ')
-        for i in range(len(value)):
-            webbrowser.open(value[i])
-            time.sleep(1)
+        def changed_combobox_rules(self):
+            self.label_rules.setText(dict_rules[self.comboBox_rules.currentText()])
 
-    def music_changer_delete(self):
-        num_one = self.listWidget_category.currentRow()
-        num_two = self.listWidget_scene.currentRow()
-        list_music = list(music.keys())
-        if num_two == -1:
-            if len(list(music.keys())) == 1:
+        '''
+        Store
+        '''
+
+        def del_store(self):
+            try:
+                store.pop(self.box_choose_shop.currentText())
+                list_box_choose_shop.remove(self.box_choose_shop.currentText())
+                self.box_choose_shop_update()
+            except ValueError:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
-                error.setText('На данный момент нельзя удалить последнюю категорию')
+                error.setText('Магазин не найден')
                 error.setIcon(QMessageBox.Icon.Warning)
                 error.setStandardButtons(QMessageBox.StandardButton.Ok)
                 error.setDefaultButton(QMessageBox.StandardButton.Ok)
@@ -1311,292 +1353,275 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
+            except KeyError:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Магазин не найден')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+
+        def store_type_and_qualification_vendor(self):
+            merchants = ['Алкоголь и напитки', 'Еда и части животных', 'Средние и тяжелые доспехи (щиты)', 'Оружие']
+            qualification = ["Ужасная", "Плохая", "Средняя", "Хорошая", "Прекрасная"]
+
+            for i in merchants:
+                self.box_generate_type.addItem(i)
+
+            for i in qualification:
+                self.box_generate_cost.addItem(i)
+
+        def sex_vendor(self):
+            sex = ["Мужчина", "Женщина"]
+            self.vendor_sex = random.choice(sex)
+            self.name_vendor()
+
+        def name_vendor(self):
+            self.vendor_name = ""
+            if self.vendor_sex == "Мужчина":
+                self.vendor_name += random.choice(name_man) + " " + random.choice(family)
             else:
-                music.pop(list_music[num_one])
-                self.music_changer_listview_category_update()
-        else:
-            list_music_deep = list(music[list_music[num_one]])
-            music[list_music[num_one]].pop(list_music_deep[num_two])
-            self.music_changer_listview_category_update()
-            self.listView_scene_update()
-        print(music)
+                self.vendor_name += random.choice(name_woman) + " " + random.choice(family)
+            self.age_vendor()
 
-    '''
-    Rules
-    '''
+        def age_vendor(self):
+            age = ["Молодой", "Средний", "Пожилой"]
+            self.vendor_age = random.choice(age)
+            self.race_vendor()
 
-    def set_combobox_rules(self):
-        for i in dict_rules:
-            self.comboBox_rules.addItem(i)
+        def race_vendor(self):
+            race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси",
+                    "Тифлинг"]
+            self.vendor_race = random.choice(race)
+            self.money_vendor()
 
-    def changed_combobox_rules(self):
-        self.label_rules.setText(dict_rules[self.comboBox_rules.currentText()])
+        def money_vendor(self):
+            self.vendor_money = 0
+            if self.box_generate_cost.currentText() == "Ужасная":
+                self.vendor_money += random.randint(1, 10) * 20
+            if self.box_generate_cost.currentText() == "Плохая":
+                self.vendor_money += random.randint(1, 10) * 50
+            if self.box_generate_cost.currentText() == "Средняя":
+                self.vendor_money += random.randint(1, 10) * 100
+            if self.box_generate_cost.currentText() == "Хорошая":
+                self.vendor_money += random.randint(1, 10) * 250
+            if self.box_generate_cost.currentText() == "Прекрасная":
+                self.vendor_money += random.randint(1, 10) * 500
+            self.assortment_store()
 
-    '''
-    Store
-    '''
+        def assortment_store(self):
+            self.store_assortment = ""
+            if self.box_generate_type.currentText() == "Алкоголь и напитки":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in alcohol_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in alcohol_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in alcohol_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in alcohol_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in alcohol_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
 
-    def del_store(self):
-        try:
-            store.pop(self.box_choose_shop.currentText())
-            list_box_choose_shop.remove(self.box_choose_shop.currentText())
+            if self.box_generate_type.currentText() == "Еда и части животных":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in eat_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in eat_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in eat_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in eat_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in eat_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Средние и тяжелые доспехи (щиты)":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in armor_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in armor_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in armor_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in armor_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in armor_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Оружие":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in weapon_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in weapon_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in weapon_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in weapon_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in weapon_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+            self.create_store()
+
+        def create_store(self):
+            self.iter_store = 0
+            flag = True
+            while flag == True:
+                if 'store_' + str(self.iter_store) in store.keys():
+                    self.iter_store += 1
+                else:
+                    flag = False
+            store.update({
+                'store_' + str(self.iter_store): {
+                    'type_store': self.box_generate_type.currentText(),
+                    'name_vendor': self.vendor_name,
+                    'sex_vendor': self.vendor_sex,
+                    'age_vendor': self.vendor_age,
+                    'race_vendor': self.vendor_race,
+                    'store_value': self.box_generate_cost.currentText(),
+                    'vendor_money': self.vendor_money,
+                    'assortment_store': self.store_assortment,
+                    'text_notes': " "}})
+            print(store)
             self.box_choose_shop_update()
-        except ValueError:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Магазин не найден')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
 
-            error.buttonClicked.connect(self.popup_action)
+        def box_choose_shop_update(self):
+            self.box_choose_shop.clear()
+            for i in store.keys():
+                self.box_choose_shop.addItem(i)
+                list_box_choose_shop.append(i)
 
-            error.exec()
-        except KeyError:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Магазин не найден')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
-
-    def store_type_and_qualification_vendor(self):
-        merchants = ['Алкоголь и напитки', 'Еда и части животных', 'Средние и тяжелые доспехи (щиты)', 'Оружие']
-        qualification = ["Ужасная", "Плохая", "Средняя", "Хорошая", "Прекрасная"]
-
-        for i in merchants:
-            self.box_generate_type.addItem(i)
-
-        for i in qualification:
-            self.box_generate_cost.addItem(i)
-
-    def sex_vendor(self):
-        sex = ["Мужчина", "Женщина"]
-        self.vendor_sex = random.choice(sex)
-        self.name_vendor()
-
-    def name_vendor(self):
-        self.vendor_name = ""
-        if self.vendor_sex == "Мужчина":
-            self.vendor_name += random.choice(name_man) + " " + random.choice(family)
-        else:
-            self.vendor_name += random.choice(name_woman) + " " + random.choice(family)
-        self.race_vendor()
-
-    def race_vendor(self):
-        race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси",
-                "Тифлинг"]
-        self.vendor_race = random.choice(race)
-        self.money_vendor()
-
-    def money_vendor(self):
-        self.vendor_money = 0
-        if self.box_generate_cost.currentText() == "Ужасная":
-            self.vendor_money += random.randint(1, 10) * 20
-        if self.box_generate_cost.currentText() == "Плохая":
-            self.vendor_money += random.randint(1, 10) * 50
-        if self.box_generate_cost.currentText() == "Средняя":
-            self.vendor_money += random.randint(1, 10) * 100
-        if self.box_generate_cost.currentText() == "Хорошая":
-            self.vendor_money += random.randint(1, 10) * 250
-        if self.box_generate_cost.currentText() == "Прекрасная":
-            self.vendor_money += random.randint(1, 10) * 500
-        self.assortment_store()
-
-    def assortment_store(self):
-        self.store_assortment = ""
-        if self.box_generate_type.currentText() == "Алкоголь и напитки":
-            if self.box_generate_cost.currentText() == "Ужасная":
-                for i in alcohol_1:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Плохая":
-                for i in alcohol_2:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Средняя":
-                for i in alcohol_3:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Хорошая":
-                for i in alcohol_4:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Прекрасная":
-                for i in alcohol_5:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-
-        if self.box_generate_type.currentText() == "Еда и части животных":
-            if self.box_generate_cost.currentText() == "Ужасная":
-                for i in eat_1:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Плохая":
-                for i in eat_2:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Средняя":
-                for i in eat_3:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Хорошая":
-                for i in eat_4:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Прекрасная":
-                for i in eat_5:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-
-        if self.box_generate_type.currentText() == "Средние и тяжелые доспехи (щиты)":
-            if self.box_generate_cost.currentText() == "Ужасная":
-                for i in armor_1:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Плохая":
-                for i in armor_2:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Средняя":
-                for i in armor_3:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Хорошая":
-                for i in armor_4:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Прекрасная":
-                for i in armor_5:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-
-        if self.box_generate_type.currentText() == "Оружие":
-            if self.box_generate_cost.currentText() == "Ужасная":
-                for i in weapon_1:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Плохая":
-                for i in weapon_2:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Средняя":
-                for i in weapon_3:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Хорошая":
-                for i in weapon_4:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-            if self.box_generate_cost.currentText() == "Прекрасная":
-                for i in weapon_5:
-                    self.store_assortment += i[0] + ": " + i[1] + "\n"
-        self.create_store()
-
-    def create_store(self):
-        self.iter_store = 0
-        flag = True
-        while flag == True:
-            if 'store_' + str(self.iter_store) in store.keys():
-                self.iter_store += 1
+        def view_store(self):
+            if self.box_choose_shop.currentText() in store.keys():
+                text = f"Имя продавца: {store[self.box_choose_shop.currentText()]['name_vendor']}\nПол продавца: {store[self.box_choose_shop.currentText()]['sex_vendor']}\nВозраст: {store[self.box_choose_shop.currentText()]['age_vendor']}\nРасса продавца: {store[self.box_choose_shop.currentText()]['race_vendor']}\nТип лавки: \n{store[self.box_choose_shop.currentText()]['type_store']}\nКвалификация продавца: {store[self.box_choose_shop.currentText()]['store_value']}\nДенег у продавца: {store[self.box_choose_shop.currentText()]['vendor_money']}зм"
+                self.label_shop_info.setText(text)
+                self.text_assortment_shop.setText(f"Ассортимент:\n{store[self.box_choose_shop.currentText()]['assortment_store']}")
+                self.text_notes.setText(store[self.box_choose_shop.currentText()]['text_notes'])
             else:
-                flag = False
-        store.update({
-            'store_' + str(self.iter_store): {
-                'type_store': self.box_generate_type.currentText(),
-                'name_vendor': self.vendor_name,
-                'sex_vendor': self.vendor_sex,
-                'race_vendor': self.vendor_race,
-                'store_value': self.box_generate_cost.currentText(),
-                'vendor_money': self.vendor_money,
-                'assortment_store': self.store_assortment,
-                'text_notes': " "}})
-        print(store)
-        self.box_choose_shop_update()
+                pass
 
-    def box_choose_shop_update(self):
-        self.box_choose_shop.clear()
-        for i in store.keys():
-            self.box_choose_shop.addItem(i)
-            list_box_choose_shop.append(i)
+        def shop_notes_edit(self):
+            if self.box_choose_shop.currentText() != "":
+                store[self.box_choose_shop.currentText()]['text_notes'] = self.text_notes.toPlainText()
 
-    def view_store(self):
-        if self.box_choose_shop.currentText() in store.keys():
-            text = f"Имя продавца: {store[self.box_choose_shop.currentText()]['name_vendor']}\nПол продавца: {store[self.box_choose_shop.currentText()]['sex_vendor']}\nРасса продавца: {store[self.box_choose_shop.currentText()]['race_vendor']}\nТип лавки: \n{store[self.box_choose_shop.currentText()]['type_store']}\nКвалификация продавца: {store[self.box_choose_shop.currentText()]['store_value']}\nДенег у продавца: {store[self.box_choose_shop.currentText()]['vendor_money']}зм"
-            self.label_shop_info.setText(text)
-            self.text_assortment_shop.setText(f"Ассортимент:\n{store[self.box_choose_shop.currentText()]['assortment_store']}")
-            self.text_notes.setText(store[self.box_choose_shop.currentText()]['text_notes'])
-        else:
-            pass
+        '''
+        NPC generator
+        '''
 
-    def shop_notes_edit(self):
-        store[self.box_choose_shop.currentText()]['text_notes'] = self.text_notes.toPlainText()
+        def del_npc(self):
+            try:
+                npc.pop(self.box_generate_npc.currentText())
+                self.box_generate_npc_update()
+            except KeyError:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('NPC не найден')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
 
-    '''
-    NPC generator
-    '''
+                error.buttonClicked.connect(self.popup_action)
 
-    def del_npc(self):
-        try:
-            npc.pop(self.box_generate_npc.currentText())
+                error.exec()
+
+        def sex_npc(self):
+            sex = ["Мужчина", "Женщина"]
+            self.npc_sex = random.choice(sex)
+            print(self.npc_sex)
+            self.name_npc()
+
+        def name_npc(self):
+            if self.npc_sex == "Мужчина":
+                self.npc_name = random.choice(name_man)
+            else:
+                self.npc_name = random.choice(name_woman)
+            self.npc_family = random.choice(family)
+            self.npc_full_name = self.npc_name + " " + self.npc_family
+            print(self.npc_full_name, self.npc_name)
+            self.race_npc()
+
+        def race_npc(self):
+            race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси", "Тифлинг"]
+            self.npc_race = random.choice(race)
+            print(self.npc_race)
+            self.age_npc()
+
+        def age_npc(self):
+            age = ["Молодой", "Средний", "Пожилой"]
+            self.npc_age = random.choice(age)
+            self.create_npc()
+
+        def create_npc(self):
+            self.iter_npc = 0
+            flag = True
+            while flag == True:
+                if 'npc_name' + str(self.iter_npc) in store.keys():
+                    self.iter_npc += 1
+                else:
+                    flag = False
+            npc.update({
+                self.npc_name + str(self.iter_npc): {
+                    'npc_name': self.npc_full_name,
+                    'npc_sex': self.npc_sex,
+                    'npc_age': self.npc_age,
+                    'nps_race': self.npc_race,
+                    'text_notes': " "}})
+            print(npc)
             self.box_generate_npc_update()
-        except KeyError:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('NPC не найден')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
 
-            error.buttonClicked.connect(self.popup_action)
+        def box_generate_npc_update(self):
+            self.box_generate_npc.clear()
+            for i in npc.keys():
+                self.box_generate_npc.addItem(i)
 
-            error.exec()
+        def npc_notes_edit(self):
+            if self.box_generate_npc.currentText() != "":
+                npc[self.box_generate_npc.currentText()]['text_notes'] = self.text_npc_generate.toPlainText()
 
-    def sex_npc(self):
-        sex = ["Мужчина", "Женщина"]
-        self.npc_sex = random.choice(sex)
-        print(self.npc_sex)
-        self.name_npc()
-
-    def name_npc(self):
-        if self.npc_sex == "Мужчина":
-            self.npc_name = random.choice(name_man)
-        else:
-            self.npc_name = random.choice(name_woman)
-        self.npc_family = random.choice(family)
-        self.npc_full_name = self.npc_name + " " + self.npc_family
-        print(self.npc_full_name, self.npc_name)
-        self.race_npc()
-
-    def race_npc(self):
-        race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси", "Тифлинг"]
-        self.npc_race = random.choice(race)
-        print(self.npc_race)
-        self.create_npc()
-
-    def create_npc(self):
-        self.iter_npc = 0
-        flag = True
-        while flag == True:
-            if 'npc_name' + str(self.iter_npc) in store.keys():
-                self.iter_npc += 1
-            else:
-                flag = False
-        npc.update({
-            self.npc_name + str(self.iter_npc): {
-                'npc_name': self.npc_full_name,
-                'npc_sex': self.npc_sex,
-                'nps_race': self.npc_race,
-                'text_notes': " "}})
-        print(npc)
-        self.box_generate_npc_update()
-
-    def box_generate_npc_update(self):
-        self.box_generate_npc.clear()
-        for i in npc.keys():
-            self.box_generate_npc.addItem(i)
-
-    def npc_notes_edit(self):
-        npc[self.box_generate_npc.currentText()]['text_notes'] = self.text_npc_generate.toPlainText()
-
-    def view_npc(self):
-        if self.box_generate_npc.currentText() != "":
-            text = f"Имя: {npc[self.box_generate_npc.currentText()]['npc_name']}\nПол: {npc[self.box_generate_npc.currentText()]['npc_sex']}\nРасса: {npc[self.box_generate_npc.currentText()]['nps_race']}"
-            self.label_generate_npc.setText(text)
-            self.text_npc_generate.setText(npc[self.box_generate_npc.currentText()]['text_notes'])
+        def view_npc(self):
+            if self.box_generate_npc.currentText() != "":
+                text = f"Имя: {npc[self.box_generate_npc.currentText()]['npc_name']}\nПол: {npc[self.box_generate_npc.currentText()]['npc_sex']}\nВозраст: {npc[self.box_generate_npc.currentText()]['npc_age']}\nРасса: {npc[self.box_generate_npc.currentText()]['nps_race']}"
+                self.label_generate_npc.setText(text)
+                self.text_npc_generate.setText(npc[self.box_generate_npc.currentText()]['text_notes'])
 
 
 
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = MainWindow()
-    MainWindow.show()
-    sys.exit(app.exec())
+    if __name__ == "__main__":
+        import sys
+        app = QtWidgets.QApplication(sys.argv)
+        MainWindow = MainWindow()
+        MainWindow.show()
+        sys.exit(app.exec())
+
+finally:
+    save_dict = (
+        hero,
+        music,
+        store,
+        npc,
+    )
+    with open("data", 'w', encoding='utf-8') as outfile:
+        outfile.write(str(save_dict))

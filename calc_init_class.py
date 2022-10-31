@@ -158,7 +158,7 @@ class Ui_MainWindow_init(object):
         self.label_set_player_dice_char_1.setText(_translate("MainWindow_init", "Character 2"))
         self.label_set_player_dice_char_2.setText(_translate("MainWindow_init", "Character 3"))
         self.label_set_player_dice_char_3.setText(_translate("MainWindow_init", "Character 4"))
-        self.pushButton_apply_player_dice.setText(_translate("MainWindow_init", "Apply"))
+        self.pushButton_apply_player_dice.setText(_translate("MainWindow_init", "Refresh"))
 
 
 
