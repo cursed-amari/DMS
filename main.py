@@ -17,9 +17,14 @@ from main_class import Ui_MainWindow
 from calc_init import InitiativeWindow
 from dict_rules import dict_rules
 
+from shop_data import *
+
 
 hero = {}
 music = {}
+store = {}
+npc = {}
+list_box_choose_shop = []
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -46,6 +51,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_url_set.clicked.connect(self.music_changer_update)
         self.pushButton_url_open.clicked.connect(self.music_changer_play)
         self.pushButton_url_delete.clicked.connect(self.music_changer_delete)
+        self.pushButton_generate_shop.clicked.connect(self.sex_vendor)
+        self.pushButton_del_store.clicked.connect(self.del_store)
+        self.pushButton_generate_npc.clicked.connect(self.sex_npc)
+        self.pushButton_del_npc.clicked.connect(self.del_npc)
         # checkBox
         self.checkBox_lock_init.toggled.connect(self.lock_initiative)
         self.checkBox_lock_ac.toggled.connect(self.lock_ac)
@@ -53,12 +62,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.radioButton_hide_create.toggled.connect(self.hide_create)
         # comboBox
         self.comboBox_rules.currentTextChanged.connect(self.changed_combobox_rules)
-        #listWidget
+        self.box_choose_shop.currentTextChanged.connect(self.view_store)
+        self.box_generate_npc.currentTextChanged.connect(self.view_npc)
+        # listWidget
         self.listWidget_category.currentRowChanged.connect(self.listView_scene_update)
+        # textEdit
+        self.text_notes.textChanged.connect(self.shop_notes_edit)
+        self.text_npc_generate.textChanged.connect(self.npc_notes_edit)
         # method
         self.view_character_stats()
         self.set_combobox_rules()
         self.add_to_tracker()
+        self.store_type_and_qualification_vendor()
 
     def view_character_stats(self):
         '''
@@ -103,7 +118,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             note_char_zero,
             note_char_one,
             note_char_two,
-            note_char_three
+            note_char_three,
+            store,
+            npc,
         )
         data = QFileDialog.getSaveFileName(self)[0]
 
@@ -124,6 +141,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 data = json.load(json_file)
                 global hero
                 global music
+                global store
+                global npc
                 hero = data[0]
                 music = data[1]
                 self.note_edit_0.setText(data[2])
@@ -134,10 +153,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.textEdit_char_1.setText(data[7])
                 self.textEdit_char_2.setText(data[8])
                 self.textEdit_char_3.setText(data[9])
+                store = data[10]
+                npc = data[11]
+
             self.view_create_hero()
             self.add_to_tracker()
             self.music_changer_listview_category_update()
             self.add_to_del_char_box()
+            self.box_choose_shop_update()
+            self.box_generate_npc_update()
         except FileNotFoundError:
             print("No such file")
 
@@ -706,79 +730,105 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         '''
         DOCKSTRING: Вывод вместо lineEdit Label со значением initiative
         '''
-        self.check_checkbox_init = self.checkBox_lock_init.isChecked()
-        if self.check_checkbox_init:
+        try:
+            self.check_checkbox_init = self.checkBox_lock_init.isChecked()
+            if self.check_checkbox_init:
 
-            if len(hero) != 0:
-                if 'character0' in hero.keys():
-                    self.label_lock_init_char_0.show()
-                    self.initiative_edit_character0.hide()
-                    self.label_lock_init_char_0.setText(hero["character0"]['initiative'])
+                if len(hero) != 0:
+                    if 'character0' in hero.keys():
+                        self.label_lock_init_char_0.show()
+                        self.initiative_edit_character0.hide()
+                        self.label_lock_init_char_0.setText(hero["character0"]['initiative'])
 
-                if 'character1' in hero.keys():
-                    self.label_lock_init_char_1.show()
-                    self.initiative_edit_character1.hide()
-                    self.label_lock_init_char_1.setText(hero["character1"]['initiative'])
+                    if 'character1' in hero.keys():
+                        self.label_lock_init_char_1.show()
+                        self.initiative_edit_character1.hide()
+                        self.label_lock_init_char_1.setText(hero["character1"]['initiative'])
 
-                if 'character2' in hero.keys():
-                    self.label_lock_init_char_2.show()
-                    self.initiative_edit_character2.hide()
-                    self.label_lock_init_char_2.setText(hero["character2"]['initiative'])
+                    if 'character2' in hero.keys():
+                        self.label_lock_init_char_2.show()
+                        self.initiative_edit_character2.hide()
+                        self.label_lock_init_char_2.setText(hero["character2"]['initiative'])
 
-                if 'character3' in hero.keys():
-                    self.label_lock_init_char_3.show()
-                    self.initiative_edit_character3.hide()
-                    self.label_lock_init_char_3.setText(hero["character3"]['initiative'])
+                    if 'character3' in hero.keys():
+                        self.label_lock_init_char_3.show()
+                        self.initiative_edit_character3.hide()
+                        self.label_lock_init_char_3.setText(hero["character3"]['initiative'])
 
-        else:
-            self.label_lock_init_char_0.hide()
-            self.label_lock_init_char_1.hide()
-            self.label_lock_init_char_2.hide()
-            self.label_lock_init_char_3.hide()
+            else:
+                self.label_lock_init_char_0.hide()
+                self.label_lock_init_char_1.hide()
+                self.label_lock_init_char_2.hide()
+                self.label_lock_init_char_3.hide()
 
-            self.initiative_edit_character0.show()
-            self.initiative_edit_character1.show()
-            self.initiative_edit_character2.show()
-            self.initiative_edit_character3.show()
+                self.initiative_edit_character0.show()
+                self.initiative_edit_character1.show()
+                self.initiative_edit_character2.show()
+                self.initiative_edit_character3.show()
+        except:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Непредвиденная ошибка')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
+
 
     def lock_ac(self):
         '''
         DOCKSTRING: Вывод вместо lineEdit Label со значением ac
         '''
-        self.check_checkbox_ac = self.checkBox_lock_ac.isChecked()
-        if self.check_checkbox_ac:
+        try:
+            self.check_checkbox_ac = self.checkBox_lock_ac.isChecked()
+            if self.check_checkbox_ac:
 
-            if len(hero) != 0:
-                if 'character0' in hero.keys():
-                    self.label_lock_ac_char_0.show()
-                    self.ac_edit_character0.hide()
-                    self.label_lock_ac_char_0.setText(hero["character0"]['ac'])
+                if len(hero) != 0:
+                    if 'character0' in hero.keys():
+                        self.label_lock_ac_char_0.show()
+                        self.ac_edit_character0.hide()
+                        self.label_lock_ac_char_0.setText(hero["character0"]['ac'])
 
-                if 'character1' in hero.keys():
-                    self.label_lock_ac_char_1.show()
-                    self.ac_edit_character1.hide()
-                    self.label_lock_ac_char_1.setText(hero["character1"]['ac'])
+                    if 'character1' in hero.keys():
+                        self.label_lock_ac_char_1.show()
+                        self.ac_edit_character1.hide()
+                        self.label_lock_ac_char_1.setText(hero["character1"]['ac'])
 
-                if 'character2' in hero.keys():
-                    self.label_lock_ac_char_2.show()
-                    self.ac_edit_character2.hide()
-                    self.label_lock_ac_char_2.setText(hero["character2"]['ac'])
+                    if 'character2' in hero.keys():
+                        self.label_lock_ac_char_2.show()
+                        self.ac_edit_character2.hide()
+                        self.label_lock_ac_char_2.setText(hero["character2"]['ac'])
 
-                if 'character3' in hero.keys():
-                    self.label_lock_ac_char_3.show()
-                    self.ac_edit_character3.hide()
-                    self.label_lock_ac_char_3.setText(hero["character3"]['ac'])
+                    if 'character3' in hero.keys():
+                        self.label_lock_ac_char_3.show()
+                        self.ac_edit_character3.hide()
+                        self.label_lock_ac_char_3.setText(hero["character3"]['ac'])
 
-        else:
-            self.label_lock_ac_char_0.hide()
-            self.label_lock_ac_char_1.hide()
-            self.label_lock_ac_char_2.hide()
-            self.label_lock_ac_char_3.hide()
+            else:
+                self.label_lock_ac_char_0.hide()
+                self.label_lock_ac_char_1.hide()
+                self.label_lock_ac_char_2.hide()
+                self.label_lock_ac_char_3.hide()
 
-            self.ac_edit_character0.show()
-            self.ac_edit_character1.show()
-            self.ac_edit_character2.show()
-            self.ac_edit_character3.show()
+                self.ac_edit_character0.show()
+                self.ac_edit_character1.show()
+                self.ac_edit_character2.show()
+                self.ac_edit_character3.show()
+        except:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Непредвиденная ошибка')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
+
 
     def add_to_tracker(self):
         '''
@@ -1281,6 +1331,267 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def changed_combobox_rules(self):
         self.label_rules.setText(dict_rules[self.comboBox_rules.currentText()])
+
+    '''
+    Store
+    '''
+
+    def del_store(self):
+        try:
+            store.pop(self.box_choose_shop.currentText())
+            list_box_choose_shop.remove(self.box_choose_shop.currentText())
+            self.box_choose_shop_update()
+        except ValueError:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Магазин не найден')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
+        except KeyError:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Магазин не найден')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
+
+    def store_type_and_qualification_vendor(self):
+        merchants = ['Алкоголь и напитки', 'Еда и части животных', 'Средние и тяжелые доспехи (щиты)', 'Оружие']
+        qualification = ["Ужасная", "Плохая", "Средняя", "Хорошая", "Прекрасная"]
+
+        for i in merchants:
+            self.box_generate_type.addItem(i)
+
+        for i in qualification:
+            self.box_generate_cost.addItem(i)
+
+    def sex_vendor(self):
+        sex = ["Мужчина", "Женщина"]
+        self.vendor_sex = random.choice(sex)
+        self.name_vendor()
+
+    def name_vendor(self):
+        self.vendor_name = ""
+        if self.vendor_sex == "Мужчина":
+            self.vendor_name += random.choice(name_man) + " " + random.choice(family)
+        else:
+            self.vendor_name += random.choice(name_woman) + " " + random.choice(family)
+        self.race_vendor()
+
+    def race_vendor(self):
+        race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси",
+                "Тифлинг"]
+        self.vendor_race = random.choice(race)
+        self.money_vendor()
+
+    def money_vendor(self):
+        self.vendor_money = 0
+        if self.box_generate_cost.currentText() == "Ужасная":
+            self.vendor_money += random.randint(1, 10) * 20
+        if self.box_generate_cost.currentText() == "Плохая":
+            self.vendor_money += random.randint(1, 10) * 50
+        if self.box_generate_cost.currentText() == "Средняя":
+            self.vendor_money += random.randint(1, 10) * 100
+        if self.box_generate_cost.currentText() == "Хорошая":
+            self.vendor_money += random.randint(1, 10) * 250
+        if self.box_generate_cost.currentText() == "Прекрасная":
+            self.vendor_money += random.randint(1, 10) * 500
+        self.assortment_store()
+
+    def assortment_store(self):
+        self.store_assortment = ""
+        if self.box_generate_type.currentText() == "Алкоголь и напитки":
+            if self.box_generate_cost.currentText() == "Ужасная":
+                for i in alcohol_1:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Плохая":
+                for i in alcohol_2:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Средняя":
+                for i in alcohol_3:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Хорошая":
+                for i in alcohol_4:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Прекрасная":
+                for i in alcohol_5:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+        if self.box_generate_type.currentText() == "Еда и части животных":
+            if self.box_generate_cost.currentText() == "Ужасная":
+                for i in eat_1:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Плохая":
+                for i in eat_2:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Средняя":
+                for i in eat_3:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Хорошая":
+                for i in eat_4:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Прекрасная":
+                for i in eat_5:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+        if self.box_generate_type.currentText() == "Средние и тяжелые доспехи (щиты)":
+            if self.box_generate_cost.currentText() == "Ужасная":
+                for i in armor_1:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Плохая":
+                for i in armor_2:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Средняя":
+                for i in armor_3:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Хорошая":
+                for i in armor_4:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Прекрасная":
+                for i in armor_5:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+        if self.box_generate_type.currentText() == "Оружие":
+            if self.box_generate_cost.currentText() == "Ужасная":
+                for i in weapon_1:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Плохая":
+                for i in weapon_2:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Средняя":
+                for i in weapon_3:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Хорошая":
+                for i in weapon_4:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+            if self.box_generate_cost.currentText() == "Прекрасная":
+                for i in weapon_5:
+                    self.store_assortment += i[0] + ": " + i[1] + "\n"
+        self.create_store()
+
+    def create_store(self):
+        self.iter_store = 0
+        flag = True
+        while flag == True:
+            if 'store_' + str(self.iter_store) in store.keys():
+                self.iter_store += 1
+            else:
+                flag = False
+        store.update({
+            'store_' + str(self.iter_store): {
+                'type_store': self.box_generate_type.currentText(),
+                'name_vendor': self.vendor_name,
+                'sex_vendor': self.vendor_sex,
+                'race_vendor': self.vendor_race,
+                'store_value': self.box_generate_cost.currentText(),
+                'vendor_money': self.vendor_money,
+                'assortment_store': self.store_assortment,
+                'text_notes': " "}})
+        print(store)
+        self.box_choose_shop_update()
+
+    def box_choose_shop_update(self):
+        self.box_choose_shop.clear()
+        for i in store.keys():
+            self.box_choose_shop.addItem(i)
+            list_box_choose_shop.append(i)
+
+    def view_store(self):
+        if self.box_choose_shop.currentText() in store.keys():
+            text = f"Имя продавца: {store[self.box_choose_shop.currentText()]['name_vendor']}\nПол продавца: {store[self.box_choose_shop.currentText()]['sex_vendor']}\nРасса продавца: {store[self.box_choose_shop.currentText()]['race_vendor']}\nТип лавки: \n{store[self.box_choose_shop.currentText()]['type_store']}\nКвалификация продавца: {store[self.box_choose_shop.currentText()]['store_value']}\nДенег у продавца: {store[self.box_choose_shop.currentText()]['vendor_money']}зм"
+            self.label_shop_info.setText(text)
+            self.text_assortment_shop.setText(f"Ассортимент:\n{store[self.box_choose_shop.currentText()]['assortment_store']}")
+            self.text_notes.setText(store[self.box_choose_shop.currentText()]['text_notes'])
+        else:
+            pass
+
+    def shop_notes_edit(self):
+        store[self.box_choose_shop.currentText()]['text_notes'] = self.text_notes.toPlainText()
+
+    '''
+    NPC generator
+    '''
+
+    def del_npc(self):
+        try:
+            npc.pop(self.box_generate_npc.currentText())
+            self.box_generate_npc_update()
+        except KeyError:
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('NPC не найден')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
+
+    def sex_npc(self):
+        sex = ["Мужчина", "Женщина"]
+        self.npc_sex = random.choice(sex)
+        print(self.npc_sex)
+        self.name_npc()
+
+    def name_npc(self):
+        if self.npc_sex == "Мужчина":
+            self.npc_name = random.choice(name_man)
+        else:
+            self.npc_name = random.choice(name_woman)
+        self.npc_family = random.choice(family)
+        self.npc_full_name = self.npc_name + " " + self.npc_family
+        print(self.npc_full_name, self.npc_name)
+        self.race_npc()
+
+    def race_npc(self):
+        race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси", "Тифлинг"]
+        self.npc_race = random.choice(race)
+        print(self.npc_race)
+        self.create_npc()
+
+    def create_npc(self):
+        self.iter_npc = 0
+        flag = True
+        while flag == True:
+            if 'npc_name' + str(self.iter_npc) in store.keys():
+                self.iter_npc += 1
+            else:
+                flag = False
+        npc.update({
+            self.npc_name + str(self.iter_npc): {
+                'npc_name': self.npc_full_name,
+                'npc_sex': self.npc_sex,
+                'nps_race': self.npc_race,
+                'text_notes': " "}})
+        print(npc)
+        self.box_generate_npc_update()
+
+    def box_generate_npc_update(self):
+        self.box_generate_npc.clear()
+        for i in npc.keys():
+            self.box_generate_npc.addItem(i)
+
+    def npc_notes_edit(self):
+        npc[self.box_generate_npc.currentText()]['text_notes'] = self.text_npc_generate.toPlainText()
+
+    def view_npc(self):
+        if self.box_generate_npc.currentText() != "":
+            text = f"Имя: {npc[self.box_generate_npc.currentText()]['npc_name']}\nПол: {npc[self.box_generate_npc.currentText()]['npc_sex']}\nРасса: {npc[self.box_generate_npc.currentText()]['nps_race']}"
+            self.label_generate_npc.setText(text)
+            self.text_npc_generate.setText(npc[self.box_generate_npc.currentText()]['text_notes'])
+
+
+
 
 
 if __name__ == "__main__":
