@@ -8,6 +8,7 @@
 
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
+from loguru import logger
 import random
 import webbrowser
 import time
@@ -25,6 +26,8 @@ music = {}
 store = {}
 npc = {}
 list_box_choose_shop = []
+
+logger.add("debug.log", format="{time}, {level}, {message}", level="DEBUG", rotation="5 MB", compression="zip")
 try:
     class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         def __init__(self):
@@ -75,6 +78,7 @@ try:
             self.set_combobox_rules()
             self.add_to_tracker()
             self.store_type_and_qualification_vendor()
+            logger.info("aplication_func")
 
         def view_character_stats(self):
             '''
@@ -92,6 +96,7 @@ try:
             self.initiative_edit_character1.editingFinished.connect(self.set_stats_character)
             self.initiative_edit_character2.editingFinished.connect(self.set_stats_character)
             self.initiative_edit_character3.editingFinished.connect(self.set_stats_character)
+            logger.info("view_character_stats")
 
         '''
         Menu
@@ -128,8 +133,10 @@ try:
             try:
                 with open(data, 'w') as outfile:
                     json.dump(save_dict, outfile)
+                logger.info("actions_save")
             except FileNotFoundError:
                 print("No such file")
+                logger.info("actions_save. except")
 
         def action_open(self):
             '''
@@ -157,6 +164,8 @@ try:
                     store = data[10]
                     npc = data[11]
 
+                logger.info("action_open")
+
                 self.view_create_hero()
                 self.add_to_tracker()
                 self.music_changer_listview_category_update()
@@ -165,6 +174,8 @@ try:
                 self.box_generate_npc_update()
             except FileNotFoundError:
                 print("No such file")
+                logger.info("action_open. except")
+
 
         '''
         Main window hide
@@ -188,6 +199,7 @@ try:
                 Spell_slot_chek_8 = int(self.spell_slot_edit_8.text())
                 Spell_slot_chek_9 = int(self.spell_slot_edit_9.text())
 
+                logger.info("input_chek")
                 self.create_hero()
             except:
                 error = QMessageBox()
@@ -201,6 +213,7 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
+                logger.info("input_chek. except")
 
         def create_hero(self):
             '''
@@ -231,7 +244,7 @@ try:
                     'initiative': self.initiative_edit.text()
                 }
                 })
-                print(hero)
+                logger.info(f"create_hero, {hero}")
                 self.add_to_del_char_box()
             else:
                 error = QMessageBox()
@@ -246,6 +259,7 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
+                logger.info(f"create_hero. except")
             self.view_create_hero()
             self.add_to_tracker()
 
@@ -261,6 +275,7 @@ try:
                          f'Initiative: {hero[item]["initiative"]}'\
                          + '\n' + '\n'
                 self.label.setText(value)
+            logger.info("view_create_hero")
 
         def hide_create(self):
             '''
@@ -660,6 +675,7 @@ try:
                 self.spell_slot_edit_7.show()
                 self.spell_slot_edit_8.show()
                 self.spell_slot_edit_9.show()
+            logger.info("hide_create")
 
         '''
         Main window show
@@ -668,6 +684,7 @@ try:
         def open_init_calc(self):
             self.result_widget = InitiativeWindow(hero)
             self.result_widget.show()
+            logger.info("open_init_calc")
 
         def roll_dice(self):
             '''
@@ -688,6 +705,7 @@ try:
                     for roll in range(amount):
                         value_advantege += random.randint(1, dice) + modifier
                     self.label_roll_dice.setText(str(value) + ' ' + str(value_advantege))
+                logger.info("roll_dice")
 
             except:
                 error = QMessageBox()
@@ -700,11 +718,13 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
+                logger.info("roll_dice. except")
 
         def add_to_del_char_box(self):
             self.comboBox_del_char.clear()
             for i in hero:
                 self.comboBox_del_char.addItem(hero[i]['name'])
+            logger.info("add_to_del_char_box")
 
         def del_char(self):
             name_delete = ''
@@ -714,7 +734,9 @@ try:
                         name_delete = str(i)
                 self.comboBox_del_char.removeItem(self.comboBox_del_char.currentIndex())
                 hero.pop(name_delete)
+                logger.info(f"del_char, {hero}")
                 self.add_to_tracker()
+
             except:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
@@ -726,6 +748,7 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
+                logger.info(f"del_char. except")
 
         def lock_initiative(self):
             '''
@@ -766,6 +789,7 @@ try:
                     self.initiative_edit_character1.show()
                     self.initiative_edit_character2.show()
                     self.initiative_edit_character3.show()
+                logger.info("lock_initiative")
             except:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
@@ -777,7 +801,7 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
-
+                logger.info("lock_initiative. except")
 
         def lock_ac(self):
             '''
@@ -818,6 +842,7 @@ try:
                     self.ac_edit_character1.show()
                     self.ac_edit_character2.show()
                     self.ac_edit_character3.show()
+                logger.info("lock_ac")
             except:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
@@ -829,7 +854,7 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
-
+                logger.info("lock_ac. except")
 
         def add_to_tracker(self):
             '''
@@ -1085,6 +1110,7 @@ try:
                 self.pushButton_restore_spell_slots_3.setDisabled(True)
                 self.pushButton_set_spell_slots_3.setDisabled(True)
                 self.textEdit_char_3.setDisabled(True)
+            logger.info("add_to_tracker")
 
         def restore_slot_char0(self):
             if 'character0' in hero:
@@ -1097,6 +1123,7 @@ try:
                 self.spin_spell_slot_character0_7.setValue(int(hero['character0']['7']))
                 self.spin_spell_slot_character0_8.setValue(int(hero['character0']['8']))
                 self.spin_spell_slot_character0_9.setValue(int(hero['character0']['9']))
+                logger.info("restore_slot_char0")
             else:
                 pass
 
@@ -1111,6 +1138,7 @@ try:
                 self.spin_spell_slot_character1_7.setValue(int(hero['character1']['7']))
                 self.spin_spell_slot_character1_8.setValue(int(hero['character1']['8']))
                 self.spin_spell_slot_character1_9.setValue(int(hero['character1']['9']))
+                logger.info("restore_slot_char1")
             else:
                 pass
 
@@ -1125,6 +1153,7 @@ try:
                 self.spin_spell_slot_character2_7.setValue(int(hero['character2']['7']))
                 self.spin_spell_slot_character2_8.setValue(int(hero['character2']['8']))
                 self.spin_spell_slot_character2_9.setValue(int(hero['character2']['9']))
+                logger.info("restore_slot_char2")
             else:
                 pass
 
@@ -1139,8 +1168,10 @@ try:
                 self.spin_spell_slot_character3_7.setValue(int(hero['character3']['7']))
                 self.spin_spell_slot_character3_8.setValue(int(hero['character3']['8']))
                 self.spin_spell_slot_character3_9.setValue(int(hero['character3']['9']))
+                logger.info("restore_slot_char3")
             else:
                 pass
+
         def set_slot_char0(self):
             if 'character0' in hero:
                 hero['character0']['1'] = self.spin_spell_slot_character0.text()
@@ -1152,6 +1183,7 @@ try:
                 hero['character0']['7'] = self.spin_spell_slot_character0_7.text()
                 hero['character0']['8'] = self.spin_spell_slot_character0_8.text()
                 hero['character0']['9'] = self.spin_spell_slot_character0_9.text()
+                logger.info("set_slot_char0")
             else:
                 pass
 
@@ -1166,6 +1198,7 @@ try:
                 hero['character1']['7'] = self.spin_spell_slot_character1_7.text()
                 hero['character1']['8'] = self.spin_spell_slot_character1_8.text()
                 hero['character1']['9'] = self.spin_spell_slot_character1_9.text()
+                logger.info("set_slot_char1")
             else:
                 pass
 
@@ -1180,6 +1213,7 @@ try:
                 hero['character2']['7'] = self.spin_spell_slot_character2_7.text()
                 hero['character2']['8'] = self.spin_spell_slot_character2_8.text()
                 hero['character2']['9'] = self.spin_spell_slot_character2_9.text()
+                logger.info("set_slot_char2")
             else:
                 pass
 
@@ -1194,6 +1228,7 @@ try:
                 hero['character3']['7'] = self.spin_spell_slot_character3_7.text()
                 hero['character3']['8'] = self.spin_spell_slot_character3_8.text()
                 hero['character3']['9'] = self.spin_spell_slot_character3_9.text()
+                logger.info("set_slot_char3")
             else:
                 pass
 
@@ -1219,6 +1254,7 @@ try:
                     hero['character3']['hp'] = int(self.hp_edit_character3.text())
                     hero['character3']['ac'] = int(self.ac_edit_character3.text())
                     hero['character3']['initiative'] = int(self.initiative_edit_character3.text())
+                logger.info("set_stats_character")
             except:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
@@ -1230,6 +1266,7 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
+                logger.info("set_stats_character. except")
 
         def popup_action(self, but):
             '''
@@ -1266,7 +1303,7 @@ try:
                     music[self.category_edit.text()][self.scene_edit.text()] = self.url_edit.text()
             else:
                 music[self.category_edit.text()] = {self.scene_edit.text(): self.url_edit.text()}
-            print(music)
+            logger.info(f"music_changer_update, {music}")
             self.listWidget_scene.clear()
             self.music_changer_listview_category_update()
 
@@ -1278,6 +1315,7 @@ try:
             self.listWidget_category.clear()
             for i in music.keys():
                 self.listWidget_category.addItem(i)
+            logger.info("music_changer_listview_category_update")
 
         def listView_scene_update(self):
             self.listWidget_scene.clear()
@@ -1285,6 +1323,7 @@ try:
             list_music = list(music.keys())
             for i in music[list_music[current_index]].keys():
                 self.listWidget_scene.addItem(i)
+            logger.info("listView_scene_update")
 
         def music_changer_play(self):
             num_one = self.listWidget_category.currentRow()
@@ -1295,6 +1334,7 @@ try:
             for i in range(len(value)):
                 webbrowser.open(value[i])
                 time.sleep(1)
+            logger.info("music_changer_play")
 
         def music_changer_delete(self):
             num_one = self.listWidget_category.currentRow()
@@ -1320,7 +1360,7 @@ try:
                 music[list_music[num_one]].pop(list_music_deep[num_two])
                 self.music_changer_listview_category_update()
                 self.listView_scene_update()
-            print(music)
+            logger.info(f"music_changer_delete, {music}")
 
         '''
         Rules
@@ -1329,9 +1369,11 @@ try:
         def set_combobox_rules(self):
             for i in dict_rules:
                 self.comboBox_rules.addItem(i)
+            logger.info("set_combobox_rules")
 
         def changed_combobox_rules(self):
             self.label_rules.setText(dict_rules[self.comboBox_rules.currentText()])
+            logger.info("changed_combobox_rules")
 
         '''
         Store
@@ -1342,6 +1384,7 @@ try:
                 store.pop(self.box_choose_shop.currentText())
                 list_box_choose_shop.remove(self.box_choose_shop.currentText())
                 self.box_choose_shop_update()
+                logger.info("del_store")
             except ValueError:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
@@ -1353,6 +1396,7 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
+                logger.info("del_store. except ValueError")
             except KeyError:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
@@ -1364,6 +1408,7 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
+                logger.info("del_store. except KeyError")
 
         def store_type_and_qualification_vendor(self):
             merchants = ['Алкоголь и напитки', 'Еда и части животных', 'Средние и тяжелые доспехи (щиты)', 'Оружие']
@@ -1374,10 +1419,12 @@ try:
 
             for i in qualification:
                 self.box_generate_cost.addItem(i)
+            logger.info("store_type_and_qualification_vendor")
 
         def sex_vendor(self):
             sex = ["Мужчина", "Женщина"]
             self.vendor_sex = random.choice(sex)
+            logger.info("sex_vendor")
             self.name_vendor()
 
         def name_vendor(self):
@@ -1386,17 +1433,20 @@ try:
                 self.vendor_name += random.choice(name_man) + " " + random.choice(family)
             else:
                 self.vendor_name += random.choice(name_woman) + " " + random.choice(family)
+            logger.info("name_vendor")
             self.age_vendor()
 
         def age_vendor(self):
             age = ["Молодой", "Средний", "Пожилой"]
             self.vendor_age = random.choice(age)
+            logger.info("age_vendor")
             self.race_vendor()
 
         def race_vendor(self):
             race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси",
                     "Тифлинг"]
             self.vendor_race = random.choice(race)
+            logger.info("race_vendor")
             self.money_vendor()
 
         def money_vendor(self):
@@ -1411,6 +1461,7 @@ try:
                 self.vendor_money += random.randint(1, 10) * 250
             if self.box_generate_cost.currentText() == "Прекрасная":
                 self.vendor_money += random.randint(1, 10) * 500
+            logger.info("money_vendor")
             self.assortment_store()
 
         def assortment_store(self):
@@ -1482,6 +1533,7 @@ try:
                 if self.box_generate_cost.currentText() == "Прекрасная":
                     for i in weapon_5:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
+            logger.info("assortment_store")
             self.create_store()
 
         def create_store(self):
@@ -1503,7 +1555,7 @@ try:
                     'vendor_money': self.vendor_money,
                     'assortment_store': self.store_assortment,
                     'text_notes': " "}})
-            print(store)
+            logger.info(f"create_store, {store}")
             self.box_choose_shop_update()
 
         def box_choose_shop_update(self):
@@ -1511,6 +1563,7 @@ try:
             for i in store.keys():
                 self.box_choose_shop.addItem(i)
                 list_box_choose_shop.append(i)
+            logger.info("box_choose_shop_update")
 
         def view_store(self):
             if self.box_choose_shop.currentText() in store.keys():
@@ -1520,10 +1573,12 @@ try:
                 self.text_notes.setText(store[self.box_choose_shop.currentText()]['text_notes'])
             else:
                 pass
+            logger.info("view_store")
 
         def shop_notes_edit(self):
             if self.box_choose_shop.currentText() != "":
                 store[self.box_choose_shop.currentText()]['text_notes'] = self.text_notes.toPlainText()
+            logger.info("shop_notes_edit")
 
         '''
         NPC generator
@@ -1532,6 +1587,7 @@ try:
         def del_npc(self):
             try:
                 npc.pop(self.box_generate_npc.currentText())
+                logger.info("del_npc")
                 self.box_generate_npc_update()
             except KeyError:
                 error = QMessageBox()
@@ -1544,11 +1600,13 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
+                logger.info("del_npc, except KeyError")
 
         def sex_npc(self):
             sex = ["Мужчина", "Женщина"]
             self.npc_sex = random.choice(sex)
             print(self.npc_sex)
+            logger.info("sex_npc")
             self.name_npc()
 
         def name_npc(self):
@@ -1559,17 +1617,20 @@ try:
             self.npc_family = random.choice(family)
             self.npc_full_name = self.npc_name + " " + self.npc_family
             print(self.npc_full_name, self.npc_name)
+            logger.info("name_npc")
             self.race_npc()
 
         def race_npc(self):
             race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси", "Тифлинг"]
             self.npc_race = random.choice(race)
             print(self.npc_race)
+            logger.info("race_npc")
             self.age_npc()
 
         def age_npc(self):
             age = ["Молодой", "Средний", "Пожилой"]
             self.npc_age = random.choice(age)
+            logger.info("age_npc")
             self.create_npc()
 
         def create_npc(self):
@@ -1587,25 +1648,26 @@ try:
                     'npc_age': self.npc_age,
                     'nps_race': self.npc_race,
                     'text_notes': " "}})
-            print(npc)
+            logger.info(f"create_npc, {npc}")
             self.box_generate_npc_update()
 
         def box_generate_npc_update(self):
             self.box_generate_npc.clear()
             for i in npc.keys():
                 self.box_generate_npc.addItem(i)
+            logger.info("box_generate_npc_update")
 
         def npc_notes_edit(self):
             if self.box_generate_npc.currentText() != "":
                 npc[self.box_generate_npc.currentText()]['text_notes'] = self.text_npc_generate.toPlainText()
+            logger.info("npc_notes_edit")
 
         def view_npc(self):
             if self.box_generate_npc.currentText() != "":
                 text = f"Имя: {npc[self.box_generate_npc.currentText()]['npc_name']}\nПол: {npc[self.box_generate_npc.currentText()]['npc_sex']}\nВозраст: {npc[self.box_generate_npc.currentText()]['npc_age']}\nРасса: {npc[self.box_generate_npc.currentText()]['nps_race']}"
                 self.label_generate_npc.setText(text)
                 self.text_npc_generate.setText(npc[self.box_generate_npc.currentText()]['text_notes'])
-
-
+            logger.info("view_npc")
 
 
 
