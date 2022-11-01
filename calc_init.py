@@ -18,8 +18,6 @@ enemy_list = []
 initiative_list = []
 enemy_dict_preset = {}
 
-logger.add("debug_init.log", format="{time}, {level}, {message}", level="DEBUG", rotation="5 MB", compression="zip")
-
 try:
     class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         def __init__(self, hero):
@@ -173,7 +171,7 @@ try:
 
         def preset_update(self):
             '''
-            DOCKSTRING: Добавление ссылок на музыку в словарь в формате сцена: урл
+            DOCKSTRING: Добавление противников в словарь в формате сцена: [противник, ]
             '''
             global enemy_dict_preset
             if self.preset_edit.text() not in enemy_dict_preset.keys():
@@ -313,8 +311,9 @@ try:
                 print('Ошибка ввода')
             pass
 finally:
+    save_dict = (enemy_dict_preset)
     with open("data_enemy", "w", encoding="utf-8") as file:
-        json.dump(enemy_dict_preset, file)
+        json.dump(save_dict, file)
 
 
 
