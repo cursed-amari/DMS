@@ -20,9 +20,11 @@ enemy_dict_preset = {}
 
 try:
     class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
-        def __init__(self, hero):
+        def __init__(self, hero, dict_preset):
+            global enemy_dict_preset
             super().__init__()
             self.setupUi(self)
+            enemy_dict_preset = dict_preset
             self.hero = hero
             self.app_func()
 
@@ -178,6 +180,7 @@ try:
                 enemy_dict_preset[self.preset_edit.text()] = enemy_list.copy()
                 logger.info(f"preset_update, {enemy_dict_preset}")
                 self.preset_combo_box_update()
+                self.save_enemy_preset()
                 self.preset_edit.setText('')
             else:
                 error = QMessageBox()
@@ -191,6 +194,12 @@ try:
 
                 error.exec()
                 logger.info("preset_update")
+
+        def save_enemy_preset(self):
+            save_dict = (enemy_dict_preset,)
+            with open("data_enemy", "w", encoding="utf-8") as file:
+                json.dump(save_dict, file)
+            logger.info("save_enemy_preset")
 
 
         def preset_combo_box_update(self):
@@ -311,9 +320,7 @@ try:
                 print('Ошибка ввода')
             pass
 finally:
-    save_dict = (enemy_dict_preset)
-    with open("data_enemy", "w", encoding="utf-8") as file:
-        json.dump(save_dict, file)
+    logger.info("calc_init off")
 
 
 

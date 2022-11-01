@@ -25,6 +25,7 @@ hero = {}
 music = {}
 store = {}
 npc = {}
+dict_preset = {}
 note_zero = ""
 note_one = ""
 note_two = ""
@@ -85,6 +86,14 @@ try:
             self.text_notes.textChanged.connect(self.shop_notes_edit)
             self.text_npc_generate.textChanged.connect(self.npc_notes_edit)
             self.search_assortment_edit.textChanged.connect(self.search_for_assortment_store)
+            self.textEdit_char_0.textChanged.connect(self.save_text)
+            self.textEdit_char_1.textChanged.connect(self.save_text)
+            self.textEdit_char_2.textChanged.connect(self.save_text)
+            self.textEdit_char_3.textChanged.connect(self.save_text)
+            self.note_edit_0.textChanged.connect(self.save_text)
+            self.note_edit_1.textChanged.connect(self.save_text)
+            self.note_edit_2.textChanged.connect(self.save_text)
+            self.note_edit_3.textChanged.connect(self.save_text)
             # method
             self.view_character_stats()
             self.set_combobox_rules()
@@ -110,6 +119,24 @@ try:
             self.initiative_edit_character3.editingFinished.connect(self.set_stats_character)
             logger.info("view_character_stats")
 
+        def save_text(self):
+            global note_zero
+            global note_one
+            global note_two
+            global note_three
+            global note_char_zero
+            global note_char_one
+            global note_char_two
+            global note_char_three
+            note_zero = self.note_edit_0.toPlainText()
+            note_one = self.note_edit_1.toPlainText()
+            note_two = self.note_edit_2.toPlainText()
+            note_three = self.note_edit_3.toPlainText()
+            note_char_zero = self.textEdit_char_0.toPlainText()
+            note_char_one = self.textEdit_char_1.toPlainText()
+            note_char_two = self.textEdit_char_2.toPlainText()
+            note_char_three = self.textEdit_char_3.toPlainText()
+
         '''
         Menu
         '''
@@ -134,6 +161,10 @@ try:
             note_char_one = self.textEdit_char_1.toPlainText()
             note_char_two = self.textEdit_char_2.toPlainText()
             note_char_three = self.textEdit_char_3.toPlainText()
+
+            with open("data_enemy", "w", encoding="utf-8") as file:
+                data = json.load(file)
+
             save_dict = (
                 hero,
                 music,
@@ -147,6 +178,7 @@ try:
                 note_char_three,
                 store,
                 npc,
+                data,
             )
             data = QFileDialog.getSaveFileName(self)[0]
 
@@ -162,6 +194,8 @@ try:
             '''
             DOCKSTRING: загрузка из json файла
             '''
+            global dict_preset
+
             data = QFileDialog.getOpenFileName(self)[0]
 
             try:
@@ -183,6 +217,7 @@ try:
                     self.textEdit_char_3.setText(data[9])
                     store = data[10]
                     npc = data[11]
+                    dict_preset = data[12]
 
                 logger.info("action_open")
 
@@ -733,7 +768,7 @@ try:
         '''
 
         def open_init_calc(self):
-            self.result_widget = InitiativeWindow(hero)
+            self.result_widget = InitiativeWindow(hero, dict_preset)
             self.result_widget.show()
             logger.info("open_init_calc")
 
