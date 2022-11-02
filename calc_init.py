@@ -169,6 +169,7 @@ try:
             for i in range(len(initiative_list)):
                 value += f'{initiative_list[i][1]}' + ' ' + f'{initiative_list[i][0]}' + '\n'
             self.label_calk_enemy.setText(value)
+            self.save_enemy_preset()
             logger.info("calk_initiative_view")
 
         def preset_update(self):
@@ -196,9 +197,8 @@ try:
                 logger.info("preset_update")
 
         def save_enemy_preset(self):
-            save_dict = (enemy_dict_preset,)
             with open("data_enemy", "w", encoding="utf-8") as file:
-                json.dump(save_dict, file)
+                json.dump(enemy_dict_preset, file)
             logger.info("save_enemy_preset")
 
 

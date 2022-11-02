@@ -162,8 +162,11 @@ try:
             note_char_two = self.textEdit_char_2.toPlainText()
             note_char_three = self.textEdit_char_3.toPlainText()
 
-            with open("data_enemy", "w", encoding="utf-8") as file:
-                data = json.load(file)
+            try:
+                with open("data_enemy", "r", encoding="utf-8") as file:
+                    data = json.load(file)
+            except FileNotFoundError:
+                data = {}
 
             save_dict = (
                 hero,
@@ -1737,7 +1740,16 @@ try:
                 logger.info("del_store. except KeyError")
 
         def store_type_and_qualification_vendor(self):
-            merchants = ['Алкоголь и напитки', 'Еда и части животных', 'Средние и тяжелые доспехи (щиты)', 'Оружие']
+            merchants = ['Алкоголь и напитки',
+                         'Доспехи',
+                         'Безделушки',
+                         'Животные',
+                         'Книги',
+                         'Еда и части животных',
+                         'Мода/одежда',
+                         'Цветы',
+                         'Оружие',
+                         ]
             qualification = ["Ужасная", "Плохая", "Средняя", "Хорошая", "Прекрасная"]
 
             for i in merchants:
@@ -1809,6 +1821,74 @@ try:
                     for i in alcohol_5:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
+            if self.box_generate_type.currentText() == "Доспехи":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in armor_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in armor_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in armor_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in armor_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in armor_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Безделушки":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in bauble_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in bauble_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in bauble_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in bauble_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in bauble_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Животные":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in beast_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in beast_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in beast_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in beast_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in beast_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Книги":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in book_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in book_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in book_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in book_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in book_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
             if self.box_generate_type.currentText() == "Еда и части животных":
                 if self.box_generate_cost.currentText() == "Ужасная":
                     for i in eat_1:
@@ -1826,21 +1906,38 @@ try:
                     for i in eat_5:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
-            if self.box_generate_type.currentText() == "Средние и тяжелые доспехи (щиты)":
+            if self.box_generate_type.currentText() == "Мода/одежда":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in armor_1:
+                    for i in fashion_1:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in armor_2:
+                    for i in fashion_2:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in armor_3:
+                    for i in fashion_3:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in armor_4:
+                    for i in fashion_4:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in armor_5:
+                    for i in fashion_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Цветы":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in flower_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in flower_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in flower_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in flower_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in flower_5:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Оружие":
@@ -2014,6 +2111,11 @@ try:
         sys.exit(app.exec())
 
 finally:
+    try:
+        with open("data_enemy", "r", encoding="utf-8") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        data = {}
     if hero:
         save_dict = (
             hero,
@@ -2028,6 +2130,7 @@ finally:
             note_char_three,
             store,
             npc,
+            data,
         )
         with open("last_session", 'w', encoding='utf-8') as outfile:
             json.dump(save_dict, outfile)
