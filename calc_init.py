@@ -37,7 +37,6 @@ try:
             self.set_preset.clicked.connect(self.preset_update)
             self.load_preset.clicked.connect(self.preset_load)
             self.del_preset.clicked.connect(self.preset_delete)
-            self.radioButton.toggled.connect(self.show_n_hide_options)
 
             self.box_select_character.currentTextChanged.connect(self.selected_enemy_view)
             self.pushButton_set_redaction.clicked.connect(self.redaction_enemy)
@@ -70,18 +69,6 @@ try:
 
                 error.exec()
                 logger.info("check_input. except")
-
-        def show_n_hide_options(self):
-            check_options = self.radioButton.isChecked()
-
-            if check_options:
-                self.centralwidget.setFixedSize(500, 425)
-                self.view_enemy()
-                self.enemy_box_update()
-                self.selected_enemy_view()
-            else:
-                self.centralwidget.setFixedSize(310, 425)
-            logger.info("show_n_hide_options")
 
         def add_enemy(self):
             global enemy_list

@@ -76,6 +76,7 @@ try:
             self.checkBox_hide_spell_slot_char_3.toggled.connect(self.hide_spell_slot_char_3)
             # radioButton
             self.radioButton_hide_create.toggled.connect(self.hide_create)
+            self.radioButton_options_store.toggled.connect(self.options_generate_store)
             # comboBox
             self.comboBox_rules.currentTextChanged.connect(self.changed_combobox_rules)
             self.box_choose_shop.currentTextChanged.connect(self.view_store)
@@ -99,6 +100,8 @@ try:
             self.set_combobox_rules()
             self.add_to_tracker()
             self.store_type_and_qualification_vendor()
+            self.options_store_box_update()
+            self.npc_box_update()
             logger.info("aplication_func")
 
         def view_character_stats(self):
@@ -1739,17 +1742,72 @@ try:
                 error.exec()
                 logger.info("del_store. except KeyError")
 
+        def options_store_box_update(self):
+            sex = ["Случайно", "Мужчина", "Женщина"]
+            age = ["Случайно", "Молодой", "Средний", "Пожилой"]
+            race = ["Случайно", "Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый",
+                    "Табакси",
+                    "Тифлинг"]
+            for i in sex:
+                self.box_sex_vendor.addItem(i)
+            for i in age:
+                self.box_age_vendor.addItem(i)
+            for i in race:
+                self.box_race_vendor.addItem(i)
+
+        def options_generate_store(self):
+            if self.radioButton_options_store.isChecked():
+                self.text_notes.hide()
+
+                self.label_store_name_2.show()
+                self.edit_store_name_2.show()
+                self.label_vendor.show()
+                self.label_name_vendor.show()
+                self.edit_name_vendor.show()
+                self.label_sex_vendor.show()
+                self.box_sex_vendor.show()
+                self.label_age_vendor.show()
+                self.box_age_vendor.show()
+                self.label_race_vendor.show()
+                self.box_race_vendor.show()
+            else:
+                self.text_notes.show()
+
+                self.label_store_name_2.hide()
+                self.edit_store_name_2.hide()
+                self.label_vendor.hide()
+                self.label_name_vendor.hide()
+                self.edit_name_vendor.hide()
+                self.label_sex_vendor.hide()
+                self.box_sex_vendor.hide()
+                self.label_age_vendor.hide()
+                self.box_age_vendor.hide()
+                self.label_race_vendor.hide()
+                self.box_race_vendor.hide()
+
         def store_type_and_qualification_vendor(self):
             merchants = ['Алкоголь и напитки',
-                         'Доспехи',
-                         'Безделушки',
-                         'Животные',
-                         'Книги',
-                         'Еда и части животных',
-                         'Мода/одежда',
-                         'Цветы',
-                         'Оружие',
-                         ]
+                        'Оружие',
+                        'Доспехи (щиты)',
+                        'Еда и части животных',
+                        'Зелья, яды и травы',
+                        'Книги заклинаний',
+                        'Песни и инструменты',
+                        'Религиозные товары',
+                        'Транспорт',
+                        'Животные',
+                        'Книги и карты',
+                        'Цветы и семена',
+                        'Мебель',
+                        'Высокая мода',
+                        'Ювелирные изделия',
+                        'Безделушки',
+                        'Изделия из кожи',
+                        'Механические пр.',
+                        'Воровские пр.',
+                        'Инструменты',
+                        ]
+
             qualification = ["Ужасная", "Плохая", "Средняя", "Хорошая", "Прекрасная"]
 
             for i in merchants:
@@ -1760,30 +1818,46 @@ try:
             logger.info("store_type_and_qualification_vendor")
 
         def sex_vendor(self):
-            sex = ["Мужчина", "Женщина"]
-            self.vendor_sex = random.choice(sex)
+            self.vendor_sex = ""
+            if self.box_sex_vendor.currentText() == "Случайно":
+                sex = ["Мужчина", "Женщина"]
+                self.vendor_sex = random.choice(sex)
+            else:
+                self.vendor_sex = self.box_sex_vendor.currentText()
             logger.info("sex_vendor")
             self.name_vendor()
 
         def name_vendor(self):
             self.vendor_name = ""
-            if self.vendor_sex == "Мужчина":
-                self.vendor_name += random.choice(name_man) + " " + random.choice(family)
+            if self.edit_name_vendor.text() == "":
+                if self.vendor_sex == "Мужчина":
+                    self.vendor_name += random.choice(name_man) + " " + random.choice(family)
+                else:
+                    self.vendor_name += random.choice(name_woman) + " " + random.choice(family)
             else:
-                self.vendor_name += random.choice(name_woman) + " " + random.choice(family)
+                self.vendor_name = self.edit_name_vendor.text()
+                self.edit_name_vendor.setText("")
             logger.info("name_vendor")
             self.age_vendor()
 
         def age_vendor(self):
-            age = ["Молодой", "Средний", "Пожилой"]
-            self.vendor_age = random.choice(age)
+            self.vendor_age = ""
+            if self.box_age_vendor.currentText() == "Случайно":
+                age = ["Молодой", "Средний", "Пожилой"]
+                self.vendor_age = random.choice(age)
+            else:
+                self.vendor_age = self.box_age_vendor.currentText()
             logger.info("age_vendor")
             self.race_vendor()
 
         def race_vendor(self):
-            race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси",
-                    "Тифлинг"]
-            self.vendor_race = random.choice(race)
+            self.vendor_race = ""
+            if self.box_race_vendor.currentText() == "Случайно":
+                race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси",
+                        "Тифлинг"]
+                self.vendor_race = random.choice(race)
+            else:
+                self.vendor_race = self.box_race_vendor.currentText()
             logger.info("race_vendor")
             self.money_vendor()
 
@@ -1821,7 +1895,24 @@ try:
                     for i in alcohol_5:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
-            if self.box_generate_type.currentText() == "Доспехи":
+            if self.box_generate_type.currentText() == "Оружие":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in weapon_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in weapon_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in weapon_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in weapon_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in weapon_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Доспехи (щиты)":
                 if self.box_generate_cost.currentText() == "Ужасная":
                     for i in armor_1:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
@@ -1836,57 +1927,6 @@ try:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
                     for i in armor_5:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-
-            if self.box_generate_type.currentText() == "Безделушки":
-                if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in bauble_1:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
-                    for i in bauble_2:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
-                    for i in bauble_3:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in bauble_4:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in bauble_5:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-
-            if self.box_generate_type.currentText() == "Животные":
-                if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in beast_1:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
-                    for i in beast_2:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
-                    for i in beast_3:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in beast_4:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in beast_5:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-
-            if self.box_generate_type.currentText() == "Книги":
-                if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in book_1:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
-                    for i in book_2:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
-                    for i in book_3:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in book_4:
-                        self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in book_5:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Еда и части животных":
@@ -1906,21 +1946,123 @@ try:
                     for i in eat_5:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
-            if self.box_generate_type.currentText() == "Мода/одежда":
+            if self.box_generate_type.currentText() == "Зелья, яды и травы":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in fashion_1:
+                    for i in poison_herbs_1:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in fashion_2:
+                    for i in poison_herbs_2:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in fashion_3:
+                    for i in poison_herbs_3:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in fashion_4:
+                    for i in poison_herbs_4:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in fashion_5:
+                    for i in poison_herbs_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Книги заклинаний":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in poison_herbs_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in poison_herbs_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in poison_herbs_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in poison_herbs_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in poison_herbs_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Песни и инструменты":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in music_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in music_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in music_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in music_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in music_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Религиозные товары":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in religion_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in religion_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in religion_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in religion_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in religion_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Транспорт":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in transport_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in transport_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in transport_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in transport_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in transport_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Животные":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in beast_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in beast_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in beast_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in beast_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in beast_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Книги и карты":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in book_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in book_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in book_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in book_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in book_5:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Цветы":
@@ -1940,47 +2082,188 @@ try:
                     for i in flower_5:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
-            if self.box_generate_type.currentText() == "Оружие":
+            if self.box_generate_type.currentText() == "Мебель":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in weapon_1:
+                    for i in furniture_1:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in weapon_2:
+                    for i in furniture_2:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in weapon_3:
+                    for i in furniture_3:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in weapon_4:
+                    for i in furniture_4:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in weapon_5:
+                    for i in furniture_5:
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Высокая мода":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in fashion_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in fashion_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in fashion_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in fashion_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in fashion_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Ювелирные изделия":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in jeweler_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in jeweler_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in jeweler_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in jeweler_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in jeweler_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Безделушки":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in bauble_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in bauble_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in bauble_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in bauble_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in bauble_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Изделия из кожи":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in leather_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in leather_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in leather_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in leather_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in leather_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Механические пр.":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in mechanics_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in mechanics_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in mechanics_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in mechanics_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in mechanics_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Воровские пр.":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in thief_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in thief_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in thief_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in thief_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in thief_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Инструменты":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in tools_1:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in tools_2:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in tools_3:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in tools_4:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in tools_5:
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
             logger.info("assortment_store")
             self.create_store()
 
         def create_store(self):
-            self.iter_store = 0
-            flag = True
-            while flag == True:
-                if 'store_' + str(self.iter_store) in store.keys():
-                    self.iter_store += 1
-                else:
-                    flag = False
-            store.update({
-                'store_' + str(self.iter_store): {
-                    'type_store': self.box_generate_type.currentText(),
-                    'name_vendor': self.vendor_name,
-                    'sex_vendor': self.vendor_sex,
-                    'age_vendor': self.vendor_age,
-                    'race_vendor': self.vendor_race,
-                    'store_value': self.box_generate_cost.currentText(),
-                    'vendor_money': self.vendor_money,
-                    'assortment_store': self.store_assortment,
-                    'text_notes': " "}})
-            logger.info(f"create_store, {store}")
+            if self.edit_store_name_2.text() == "":
+                self.iter_store = 0
+                flag = True
+                while flag == True:
+                    if 'store_' + str(self.iter_store) in store.keys():
+                        self.iter_store += 1
+                    else:
+                        flag = False
+                store.update({
+                    'store_' + str(self.iter_store): {
+                        'type_store': self.box_generate_type.currentText(),
+                        'name_vendor': self.vendor_name,
+                        'sex_vendor': self.vendor_sex,
+                        'age_vendor': self.vendor_age,
+                        'race_vendor': self.vendor_race,
+                        'store_value': self.box_generate_cost.currentText(),
+                        'vendor_money': self.vendor_money,
+                        'assortment_store': self.store_assortment,
+                        'text_notes': " "}})
+                logger.info(f"create_store, {store}")
+            else:
+                self.iter_store = 0
+                flag = True
+                while flag == True:
+                    if self.edit_store_name_2.text() + "_" + str(self.iter_store) in store.keys():
+                        self.iter_store += 1
+                    else:
+                        flag = False
+                store.update({
+                    self.edit_store_name_2.text() + "_" + str(self.iter_store): {
+                        'type_store': self.box_generate_type.currentText(),
+                        'name_vendor': self.vendor_name,
+                        'sex_vendor': self.vendor_sex,
+                        'age_vendor': self.vendor_age,
+                        'race_vendor': self.vendor_race,
+                        'store_value': self.box_generate_cost.currentText(),
+                        'vendor_money': self.vendor_money,
+                        'assortment_store': self.store_assortment,
+                        'text_notes': " "}})
+                self.edit_store_name_2.setText("")
+                logger.info(f"create_store, {store}")
             self.box_choose_shop_update()
-
         def box_choose_shop_update(self):
             self.box_choose_shop.clear()
             for i in store.keys():
@@ -2034,34 +2317,59 @@ try:
                 error.exec()
                 logger.info("del_npc, except KeyError")
 
+        def npc_box_update(self):
+            sex = ["Случайно", "Мужчина", "Женщина"]
+            age = ["Случайно", "Молодой", "Средний", "Пожилой"]
+            race = ["Случайно", "Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый",
+                    "Табакси",
+                    "Тифлинг"]
+            for i in sex:
+                self.box_sex_npc.addItem(i)
+            for i in age:
+                self.box_age_npc.addItem(i)
+            for i in race:
+                self.box_race_npc.addItem(i)
+
         def sex_npc(self):
             sex = ["Мужчина", "Женщина"]
             self.npc_sex = random.choice(sex)
-            print(self.npc_sex)
             logger.info("sex_npc")
             self.name_npc()
 
         def name_npc(self):
-            if self.npc_sex == "Мужчина":
-                self.npc_name = random.choice(name_man)
+            self.npc_name = ""
+            self.npc_full_name = ""
+            if self.edit_npc_name.text() == "":
+                if self.npc_sex == "Мужчина":
+                    self.npc_name = random.choice(name_man)
+                else:
+                    self.npc_name = random.choice(name_woman)
+                self.npc_family = random.choice(family)
+                self.npc_full_name = self.npc_name + " " + self.npc_family
             else:
-                self.npc_name = random.choice(name_woman)
-            self.npc_family = random.choice(family)
-            self.npc_full_name = self.npc_name + " " + self.npc_family
-            print(self.npc_full_name, self.npc_name)
+                self.npc_name = self.edit_npc_name.text()
+                self.npc_full_name = self.edit_npc_name.text()
+                self.edit_npc_name.setText("")
             logger.info("name_npc")
             self.race_npc()
 
         def race_npc(self):
-            race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси", "Тифлинг"]
-            self.npc_race = random.choice(race)
-            print(self.npc_race)
+            self.npc_race = ""
+            if self.box_race_npc.currentText() == "Случайно":
+                race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси", "Тифлинг"]
+                self.npc_race = random.choice(race)
+            else:
+                self.npc_race = self.box_race_npc.currentText()
             logger.info("race_npc")
             self.age_npc()
 
         def age_npc(self):
-            age = ["Молодой", "Средний", "Пожилой"]
-            self.npc_age = random.choice(age)
+            self.npc_age = ""
+            if self.box_age_npc.currentText() == "Случайно":
+                age = ["Молодой", "Средний", "Пожилой"]
+                self.npc_age = random.choice(age)
+            else:
+                self.npc_age = self.box_age_npc.currentText()
             logger.info("age_npc")
             self.create_npc()
 
