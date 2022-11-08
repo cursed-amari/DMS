@@ -7,7 +7,7 @@
 
 
 from PyQt6 import QtWidgets, QtCore
-from PyQt6.QtWidgets import QFileDialog, QMessageBox
+from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog
 from loguru import logger
 import random
 import webbrowser
@@ -25,6 +25,9 @@ hero = {}
 music = {}
 store = {}
 npc = {}
+scenario_chapter = {}
+scenario = []
+scenario_text = {}
 dict_preset = {}
 note_zero = ""
 note_one = ""
@@ -42,11 +45,13 @@ try:
             super().__init__()
             self.setupUi(self)
             self.aplication_func()
+            self.status = 0
 
         def aplication_func(self):
             # Menu
             self.actionSave.triggered.connect(self.actions_save)
             self.actionOpen.triggered.connect(self.action_open)
+            self.actionlast_session.triggered.connect(self.last_session)
             # pushButton
             self.pushButton.clicked.connect(self.input_chek)
             self.pushButton_init_open.clicked.connect(self.open_init_calc)
@@ -67,6 +72,10 @@ try:
             self.pushButton_del_store.clicked.connect(self.del_store)
             self.pushButton_generate_npc.clicked.connect(self.sex_npc)
             self.pushButton_del_npc.clicked.connect(self.del_npc)
+            self.pushButton_add_tags.clicked.connect(self.status_list_tags)
+            self.pushButton_add_chapter.clicked.connect(self.add_chapter)
+            self.pushButton_del_tags.clicked.connect(self.del_object_scenario)
+            self.pushButton_del_chapter.clicked.connect(self.del_chapter)
             # checkBox
             self.checkBox_lock_init.toggled.connect(self.lock_initiative)
             self.checkBox_lock_ac.toggled.connect(self.lock_ac)
@@ -77,12 +86,15 @@ try:
             # radioButton
             self.radioButton_hide_create.toggled.connect(self.hide_create)
             self.radioButton_options_store.toggled.connect(self.options_generate_store)
+            self.radioButton_tags_notes.toggled.connect(self.hide_chapter)
             # comboBox
             self.comboBox_rules.currentTextChanged.connect(self.changed_combobox_rules)
             self.box_choose_shop.currentTextChanged.connect(self.view_store)
             self.box_generate_npc.currentTextChanged.connect(self.view_npc)
+            self.comboBox_choose_chapter.currentTextChanged.connect(self.view_text_chapter)
             # listWidget
             self.listWidget_category.currentRowChanged.connect(self.listView_scene_update)
+            self.list_tags.clicked.connect(self.set_current_index)
             # textEdit
             self.text_notes.textChanged.connect(self.shop_notes_edit)
             self.text_npc_generate.textChanged.connect(self.npc_notes_edit)
@@ -95,6 +107,8 @@ try:
             self.note_edit_1.textChanged.connect(self.save_text)
             self.note_edit_2.textChanged.connect(self.save_text)
             self.note_edit_3.textChanged.connect(self.save_text)
+            self.text_scenario.textChanged.connect(self.set_text_to_scenario)
+            self.text_chapter.textChanged.connect(self.set_text_chapter)
             # method
             self.view_character_stats()
             self.set_combobox_rules()
@@ -185,6 +199,9 @@ try:
                 store,
                 npc,
                 data,
+                scenario,
+                scenario_text,
+                scenario_chapter,
             )
             data = QFileDialog.getSaveFileName(self)[0]
 
@@ -211,6 +228,9 @@ try:
                     global music
                     global store
                     global npc
+                    global scenario
+                    global scenario_text
+                    global scenario_chapter
                     hero = data[0]
                     music = data[1]
                     self.note_edit_0.setText(data[2])
@@ -224,6 +244,9 @@ try:
                     store = data[10]
                     npc = data[11]
                     dict_preset = data[12]
+                    scenario = data[13]
+                    scenario_text = data[14]
+                    scenario_chapter = data[15]
 
                 logger.info("action_open")
 
@@ -233,8 +256,67 @@ try:
                 self.add_to_del_char_box()
                 self.box_choose_shop_update()
                 self.box_generate_npc_update()
+                self.comboBox_choose_chapter_update()
+                self.update_list_tags()
             except FileNotFoundError:
                 print("No such file")
+                logger.info("action_open. except")
+
+        def last_session(self):
+            '''
+                        DOCKSTRING: загрузка из json файла
+                        '''
+            global dict_preset
+
+            try:
+                with open('last_session', 'r', encoding="utf-8") as json_file:
+                    data = json.load(json_file)
+                    global hero
+                    global music
+                    global store
+                    global npc
+                    global scenario
+                    global scenario_text
+                    global scenario_chapter
+                    hero = data[0]
+                    music = data[1]
+                    self.note_edit_0.setText(data[2])
+                    self.note_edit_1.setText(data[3])
+                    self.note_edit_2.setText(data[4])
+                    self.note_edit_3.setText(data[5])
+                    self.textEdit_char_0.setText(data[6])
+                    self.textEdit_char_1.setText(data[7])
+                    self.textEdit_char_2.setText(data[8])
+                    self.textEdit_char_3.setText(data[9])
+                    store = data[10]
+                    npc = data[11]
+                    dict_preset = data[12]
+                    scenario = data[13]
+                    scenario_text = data[14]
+                    scenario_chapter = data[15]
+
+                logger.info("action_open")
+
+                self.view_create_hero()
+                self.add_to_tracker()
+                self.music_changer_listview_category_update()
+                self.add_to_del_char_box()
+                self.box_choose_shop_update()
+                self.box_generate_npc_update()
+                self.comboBox_choose_chapter_update()
+                self.update_list_tags()
+            except FileNotFoundError:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Последняя сессия не обнаружена')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+                logger.info("input_chek. except")
                 logger.info("action_open. except")
 
 
@@ -1756,6 +1838,9 @@ try:
                 self.box_race_vendor.addItem(i)
 
         def options_generate_store(self):
+            '''
+            DOCKSTRING: Скрытие текстового поля заметок и вывод настроек генератора
+            '''
             if self.radioButton_options_store.isChecked():
                 self.text_notes.hide()
 
@@ -1786,7 +1871,8 @@ try:
                 self.box_race_vendor.hide()
 
         def store_type_and_qualification_vendor(self):
-            merchants = ['Алкоголь и напитки',
+            merchants = ['Таверна',
+                        'Алкоголь и напитки',
                         'Оружие',
                         'Доспехи (щиты)',
                         'Еда и части животных',
@@ -1877,345 +1963,365 @@ try:
             self.assortment_store()
 
         def assortment_store(self):
+            '''
+            DOCKSTRING: Присвоение ассортимента магазина в соответсвии с стоймостью
+            '''
             self.store_assortment = ""
-            if self.box_generate_type.currentText() == "Алкоголь и напитки":
+            if self.box_generate_type.currentText() == "Таверна":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in alcohol_1:
+                    for i in sorted(tavern_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in alcohol_2:
+                    for i in sorted(tavern_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in alcohol_3:
+                    for i in sorted(tavern_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in alcohol_4:
+                    for i in sorted(tavern_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in alcohol_5:
+                    for i in sorted(tavern_5):
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+
+            if self.box_generate_type.currentText() == "Алкоголь и напитки":
+                if self.box_generate_cost.currentText() == "Ужасная":
+                    for i in sorted(alcohol_1):
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Плохая":
+                    for i in sorted(alcohol_2):
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Средняя":
+                    for i in sorted(alcohol_3):
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Хорошая":
+                    for i in sorted(alcohol_4):
+                        self.store_assortment += i[0] + ": " + i[1] + "\n"
+                if self.box_generate_cost.currentText() == "Прекрасная":
+                    for i in sorted(alcohol_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Оружие":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in weapon_1:
+                    for i in sorted(weapon_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in weapon_2:
+                    for i in sorted(weapon_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in weapon_3:
+                    for i in sorted(weapon_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in weapon_4:
+                    for i in sorted(weapon_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in weapon_5:
+                    for i in sorted(weapon_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Доспехи (щиты)":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in armor_1:
+                    for i in sorted(armor_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in armor_2:
+                    for i in sorted(armor_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in armor_3:
+                    for i in sorted(armor_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in armor_4:
+                    for i in sorted(armor_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in armor_5:
+                    for i in sorted(armor_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Еда и части животных":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in eat_1:
+                    for i in sorted(eat_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in eat_2:
+                    for i in sorted(eat_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in eat_3:
+                    for i in sorted(eat_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in eat_4:
+                    for i in sorted(eat_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in eat_5:
+                    for i in sorted(eat_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Зелья, яды и травы":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in poison_herbs_1:
+                    for i in sorted(poison_herbs_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in poison_herbs_2:
+                    for i in sorted(poison_herbs_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in poison_herbs_3:
+                    for i in sorted(poison_herbs_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in poison_herbs_4:
+                    for i in sorted(poison_herbs_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in poison_herbs_5:
+                    for i in sorted(poison_herbs_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Книги заклинаний":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in poison_herbs_1:
+                    for i in sorted(poison_herbs_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in poison_herbs_2:
+                    for i in sorted(poison_herbs_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in poison_herbs_3:
+                    for i in sorted(poison_herbs_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in poison_herbs_4:
+                    for i in sorted(poison_herbs_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in poison_herbs_5:
+                    for i in sorted(poison_herbs_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Песни и инструменты":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in music_1:
+                    for i in sorted(music_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in music_2:
+                    for i in sorted(music_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in music_3:
+                    for i in sorted(music_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in music_4:
+                    for i in sorted(music_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in music_5:
+                    for i in sorted(music_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Религиозные товары":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in religion_1:
+                    for i in sorted(religion_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in religion_2:
+                    for i in sorted(religion_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in religion_3:
+                    for i in sorted(religion_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in religion_4:
+                    for i in sorted(religion_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in religion_5:
+                    for i in sorted(religion_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Транспорт":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in transport_1:
+                    for i in sorted(transport_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in transport_2:
+                    for i in sorted(transport_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in transport_3:
+                    for i in sorted(transport_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in transport_4:
+                    for i in sorted(transport_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in transport_5:
+                    for i in sorted(transport_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Животные":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in beast_1:
+                    for i in sorted(beast_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in beast_2:
+                    for i in sorted(beast_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in beast_3:
+                    for i in sorted(beast_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in beast_4:
+                    for i in sorted(beast_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in beast_5:
+                    for i in sorted(beast_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Книги и карты":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in book_1:
+                    for i in sorted(book_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in book_2:
+                    for i in sorted(book_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in book_3:
+                    for i in sorted(book_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in book_4:
+                    for i in sorted(book_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in book_5:
+                    for i in sorted(book_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Цветы":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in flower_1:
+                    for i in sorted(flower_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in flower_2:
+                    for i in sorted(flower_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in flower_3:
+                    for i in sorted(flower_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in flower_4:
+                    for i in sorted(flower_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in flower_5:
+                    for i in sorted(flower_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Мебель":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in furniture_1:
+                    for i in sorted(furniture_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in furniture_2:
+                    for i in sorted(furniture_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in furniture_3:
+                    for i in sorted(furniture_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in furniture_4:
+                    for i in sorted(furniture_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in furniture_5:
+                    for i in sorted(furniture_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Высокая мода":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in fashion_1:
+                    for i in sorted(fashion_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in fashion_2:
+                    for i in sorted(fashion_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in fashion_3:
+                    for i in sorted(fashion_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in fashion_4:
+                    for i in sorted(fashion_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in fashion_5:
+                    for i in sorted(fashion_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Ювелирные изделия":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in jeweler_1:
+                    for i in sorted(jeweler_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in jeweler_2:
+                    for i in sorted(jeweler_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in jeweler_3:
+                    for i in sorted(jeweler_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in jeweler_4:
+                    for i in sorted(jeweler_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in jeweler_5:
+                    for i in sorted(jeweler_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Безделушки":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in bauble_1:
+                    for i in sorted(bauble_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in bauble_2:
+                    for i in sorted(bauble_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in bauble_3:
+                    for i in sorted(bauble_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in bauble_4:
+                    for i in sorted(bauble_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in bauble_5:
+                    for i in sorted(bauble_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Изделия из кожи":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in leather_1:
+                    for i in sorted(leather_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in leather_2:
+                    for i in sorted(leather_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in leather_3:
+                    for i in sorted(leather_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in leather_4:
+                    for i in sorted(leather_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in leather_5:
+                    for i in sorted(leather_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Механические пр.":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in mechanics_1:
+                    for i in sorted(mechanics_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in mechanics_2:
+                    for i in sorted(mechanics_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in mechanics_3:
+                    for i in sorted(mechanics_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in mechanics_4:
+                    for i in sorted(mechanics_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in mechanics_5:
+                    for i in sorted(mechanics_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Воровские пр.":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in thief_1:
+                    for i in sorted(thief_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in thief_2:
+                    for i in sorted(thief_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in thief_3:
+                    for i in sorted(thief_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in thief_4:
+                    for i in sorted(thief_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in thief_5:
+                    for i in sorted(thief_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Инструменты":
                 if self.box_generate_cost.currentText() == "Ужасная":
-                    for i in tools_1:
+                    for i in sorted(tools_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Плохая":
-                    for i in tools_2:
+                    for i in sorted(tools_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Средняя":
-                    for i in tools_3:
+                    for i in sorted(tools_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Хорошая":
-                    for i in tools_4:
+                    for i in sorted(tools_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
                 if self.box_generate_cost.currentText() == "Прекрасная":
-                    for i in tools_5:
+                    for i in sorted(tools_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             logger.info("assortment_store")
@@ -2331,8 +2437,12 @@ try:
                 self.box_race_npc.addItem(i)
 
         def sex_npc(self):
-            sex = ["Мужчина", "Женщина"]
-            self.npc_sex = random.choice(sex)
+            self.npc_sex = ""
+            if self.box_sex_npc.currentText() == "Случайно":
+                sex = ["Мужчина", "Женщина"]
+                self.npc_sex = random.choice(sex)
+            else:
+                self.npc_sex = self.box_sex_npc.currentText()
             logger.info("sex_npc")
             self.name_npc()
 
@@ -2409,6 +2519,187 @@ try:
                 self.text_npc_generate.setText(npc[self.box_generate_npc.currentText()]['text_notes'])
             logger.info("view_npc")
 
+        '''
+        Scenario
+        '''
+
+        def del_chapter(self):
+            global scenario_chapter
+            try:
+                scenario_chapter.pop(self.comboBox_choose_chapter.currentText())
+                self.comboBox_choose_chapter_update()
+                logger.info("del_chapter")
+            except KeyError:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Объект для удаления не найден')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+                logger.info("del_chapter. except")
+
+        def hide_chapter(self):
+            '''
+            DOCKSTRING: Скрытие основного окна сценария и вывод тэгов
+            '''
+            if self.radioButton_tags_notes.isChecked():
+                self.pushButton_add_tags.show()
+                self.pushButton_del_tags.show()
+                self.list_tags.show()
+                self.text_scenario.show()
+
+                self.comboBox_choose_chapter.hide()
+                self.text_chapter.hide()
+                self.edit_add_chapter.hide()
+                self.pushButton_add_chapter.hide()
+                self.pushButton_del_chapter.hide()
+            else:
+                self.comboBox_choose_chapter.show()
+                self.text_chapter.show()
+                self.edit_add_chapter.show()
+                self.pushButton_add_chapter.show()
+                self.pushButton_del_chapter.show()
+
+                self.pushButton_add_tags.hide()
+                self.pushButton_del_tags.hide()
+                self.list_tags.hide()
+                self.text_scenario.hide()
+
+            logger.info("hide_chapter")
+
+        def add_chapter(self):
+            global scenario_chapter
+            if self.edit_add_chapter.text() in scenario_chapter.keys():
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Такая глава уже есть')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+                logger.info("add_chapter. redo entry")
+            else:
+                if self.edit_add_chapter.text() != "":
+                    scenario_chapter[self.edit_add_chapter.text()] = ''
+                print(scenario_chapter)
+                logger.info("add_chapter")
+                self.comboBox_choose_chapter_update()
+
+        def comboBox_choose_chapter_update(self):
+            self.comboBox_choose_chapter.clear()
+
+            for i in scenario_chapter.keys():
+                self.comboBox_choose_chapter.addItem(i)
+            logger.info("comboBox_choose_chapter_update")
+
+        def view_text_chapter(self):
+            try:
+                self.text_chapter.setText(scenario_chapter[self.comboBox_choose_chapter.currentText()])
+                logger.info("view_text_chapter")
+            except KeyError:
+                logger.info("view_text_chapter. except KeyError")
+                pass
+
+        def set_text_chapter(self):
+            scenario_chapter[self.comboBox_choose_chapter.currentText()] = self.text_chapter.toPlainText()
+            logger.info("set_text_chapter")
+
+        def status_list_tags(self):
+            if self.status == 0:
+                self.add_scenario_category()
+            else:
+                self.add_scenario_object()
+            logger.info("status_list_tags")
+
+        def del_object_scenario(self):
+            global scenario
+            global scenario_text
+            try:
+                if self.list_tags.currentItem():
+                    scenario[self.current_index.row()][1].pop(self.list_tags.currentRow() - 1)
+                    scenario_text.pop(self.list_tags.currentItem().text())
+                    logger.info(f"del_object_scenario {scenario}\n {scenario_text}")
+                    self.update_list_tags_object()
+            except AttributeError:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Выберите объект для удаления')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+                logger.info("del_object_scenario. except AttributeError")
+
+        def add_scenario_category(self):
+            global scenario
+            text, val = QInputDialog.getText(self, "Enter", "Add category")
+            scenario.append([text, []])
+            logger.info(f"add_scenario_category {scenario}")
+            self.update_list_tags()
+
+        def add_scenario_object(self):
+            global scenario
+            global scenario_text
+            text, val = QInputDialog.getText(self, "Enter", "Add object")
+            scenario[self.current_index.row()][-1].append(text)
+            scenario_text[text] = ""
+            logger.info(f"add_scenario_object {scenario}\n {scenario_text}")
+            self.update_list_tags_object()
+
+        def update_list_tags(self):
+            self.list_tags.clear()
+            self.status = 0
+
+            for i in scenario:
+                self.list_tags.addItem(i[0])
+            logger.info(f"update_list_tags")
+
+        def set_current_index(self):
+            if self.status == 0 or self.list_tags.currentItem().text() == "...":
+                self.current_index = self.list_tags.currentIndex()
+                logger.info(f"set_current_index")
+                self.back_category_list_tags()
+            else:
+                if self.list_tags.currentItem().text() in scenario_text.keys():
+                    self.text_scenario.setText(scenario_text[self.list_tags.currentItem().text()])
+                    logger.info(f"set_current_index. else")
+
+        def back_category_list_tags(self):
+            if self.list_tags.currentItem().text() == "...":
+                logger.info(f"back_category_list_tags")
+                self.update_list_tags()
+            else:
+                logger.info(f"back_category_list_tags. else")
+                self.update_list_tags_object()
+
+        def update_list_tags_object(self):
+            self.list_tags.clear()
+            self.status = 1
+            self.list_tags.addItem("...")
+            if scenario[self.current_index.row()][1]:
+                for i in scenario[self.current_index.row()][1]:
+                    self.list_tags.addItem(i)
+                logger.info(f"update_list_tags_object")
+            else:
+                pass
+
+        def set_text_to_scenario(self):
+            if self.list_tags.currentItem():
+                if self.list_tags.currentItem().text() in scenario_text.keys():
+                    scenario_text[self.list_tags.currentItem().text()] = self.text_scenario.toPlainText()
+                    logger.info(f"set_text_to_scenario")
+                else:
+                    pass
 
 
     if __name__ == "__main__":
@@ -2439,6 +2730,9 @@ finally:
             store,
             npc,
             data,
+            scenario,
+            scenario_text,
+            scenario_chapter,
         )
         with open("last_session", 'w', encoding='utf-8') as outfile:
             json.dump(save_dict, outfile)
