@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         self.pushButton.setGeometry(QtCore.QRect(0, 315, 120, 25))
         self.pushButton.setObjectName("pushButton")
         self.label = QtWidgets.QLabel(self.tab)
-        self.label.setGeometry(QtCore.QRect(130, 10, 151, 311))
+        self.label.setGeometry(QtCore.QRect(130, 10, 151, 341))
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
@@ -934,7 +934,7 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_6, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -1081,8 +1081,8 @@ class Ui_MainWindow(object):
         self.label_rules.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:7.8pt;\"><br /></p></body></html>"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Rules"))
         self.label_shop_info.setText(_translate("MainWindow", "Shop_info"))
         self.pushButton_generate_shop.setText(_translate("MainWindow", "Generate"))
