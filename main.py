@@ -136,24 +136,6 @@ try:
             self.initiative_edit_character3.editingFinished.connect(self.set_stats_character)
             logger.info("view_character_stats")
 
-        def save_text(self):
-            global note_zero
-            global note_one
-            global note_two
-            global note_three
-            global note_char_zero
-            global note_char_one
-            global note_char_two
-            global note_char_three
-            note_zero = self.note_edit_0.toPlainText()
-            note_one = self.note_edit_1.toPlainText()
-            note_two = self.note_edit_2.toPlainText()
-            note_three = self.note_edit_3.toPlainText()
-            note_char_zero = self.textEdit_char_0.toPlainText()
-            note_char_one = self.textEdit_char_1.toPlainText()
-            note_char_two = self.textEdit_char_2.toPlainText()
-            note_char_three = self.textEdit_char_3.toPlainText()
-
         '''
         Menu
         '''
@@ -344,7 +326,7 @@ try:
 
                 logger.info("input_chek")
                 self.create_hero()
-            except:
+            except ValueError:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
                 error.setText('Не корректный ввод!')
@@ -364,29 +346,28 @@ try:
             '''
             self.iter = 0
             flag = True
-            while flag == True:
+            while flag is True:
                 if 'character' + str(self.iter) in hero.keys():
                     self.iter += 1
                 else:
                     flag = False
             if self.iter <= 3:
                 hero.update({
-                'character' + str(self.iter): {
-                    'name': self.name_edit.text(),
-                    'hp': self.hp_edit.text(),
-                    'ac': self.ac_edit.text(),
-                    '1': self.spell_slot_edit.text(),
-                    '2': self.spell_slot_edit_2.text(),
-                    '3': self.spell_slot_edit_3.text(),
-                    '4': self.spell_slot_edit_4.text(),
-                    '5': self.spell_slot_edit_5.text(),
-                    '6': self.spell_slot_edit_6.text(),
-                    '7': self.spell_slot_edit_7.text(),
-                    '8': self.spell_slot_edit_8.text(),
-                    '9': self.spell_slot_edit_9.text(),
-                    'initiative': self.initiative_edit.text()
-                }
-                })
+                    'character' + str(self.iter): {
+                        'name': self.name_edit.text(),
+                        'hp': self.hp_edit.text(),
+                        'ac': self.ac_edit.text(),
+                        '1': self.spell_slot_edit.text(),
+                        '2': self.spell_slot_edit_2.text(),
+                        '3': self.spell_slot_edit_3.text(),
+                        '4': self.spell_slot_edit_4.text(),
+                        '5': self.spell_slot_edit_5.text(),
+                        '6': self.spell_slot_edit_6.text(),
+                        '7': self.spell_slot_edit_7.text(),
+                        '8': self.spell_slot_edit_8.text(),
+                        '9': self.spell_slot_edit_9.text(),
+                        'initiative': self.initiative_edit.text()
+                    }})
                 logger.info(f"create_hero, {hero}")
                 self.add_to_del_char_box()
             else:
@@ -431,7 +412,7 @@ try:
             self.check_char_1 = self.checkBox_hide_spell_slot_char_1.isChecked()
             self.check_char_2 = self.checkBox_hide_spell_slot_char_2.isChecked()
             self.check_char_3 = self.checkBox_hide_spell_slot_char_3.isChecked()
-            if self.check_radiobutton == True:
+            if self.check_radiobutton is True:
                 self.pushButton_init_open.show()
                 self.dice_edit.show()
                 self.amount_dice_box.show()
@@ -490,7 +471,7 @@ try:
                 self.spell_slot_label_traker_char1.show()
                 self.spell_slot_label_traker_char2.show()
                 self.spell_slot_label_traker_char3.show()
-                if self.check_char_0 == False:
+                if self.check_char_0 is False:
                     self.spin_spell_slot_character0.show()
                     self.spin_spell_slot_character0_2.show()
                     self.spin_spell_slot_character0_3.show()
@@ -515,7 +496,7 @@ try:
                     self.pushButton_set_spell_slots_0.show()
                 else:
                     pass
-                if self.check_char_1 == False:
+                if self.check_char_1 is False:
                     self.spin_spell_slot_character1.show()
                     self.spin_spell_slot_character1_2.show()
                     self.spin_spell_slot_character1_3.show()
@@ -540,7 +521,7 @@ try:
                     self.pushButton_set_spell_slots_1.show()
                 else:
                     pass
-                if self.check_char_2 == False:
+                if self.check_char_2 is False:
                     self.spin_spell_slot_character2.show()
                     self.spin_spell_slot_character2_2.show()
                     self.spin_spell_slot_character2_3.show()
@@ -565,7 +546,7 @@ try:
                     self.pushButton_set_spell_slots_2.show()
                 else:
                     pass
-                if self.check_char_3 == False:
+                if self.check_char_3 is False:
                     self.spin_spell_slot_character3.show()
                     self.spin_spell_slot_character3_2.show()
                     self.spin_spell_slot_character3_3.show()
@@ -607,7 +588,7 @@ try:
                 self.checkBox_lock_init.show()
                 self.checkBox_lock_ac.show()
 
-                if self.check_checkbox_init == False:
+                if self.check_checkbox_init is False:
                     self.label_lock_init_char_0.hide()
                     self.label_lock_init_char_1.hide()
                     self.label_lock_init_char_2.hide()
@@ -618,7 +599,7 @@ try:
                     self.initiative_edit_character2.hide()
                     self.initiative_edit_character3.hide()
 
-                if self.check_checkbox_ac == False:
+                if self.check_checkbox_ac is False:
                     self.label_lock_ac_char_0.hide()
                     self.label_lock_ac_char_1.hide()
                     self.label_lock_ac_char_2.hide()
@@ -872,7 +853,7 @@ try:
                 value = 0
                 for roll in range(amount):
                     value += random.randint(1, dice) + modifier
-                if check_advantage == False:
+                if check_advantage is False:
                     self.label_roll_dice.setText(str(value))
                 else:
                     value_advantege = 0
@@ -881,7 +862,7 @@ try:
                     self.label_roll_dice.setText(str(value) + ' ' + str(value_advantege))
                 logger.info("roll_dice")
 
-            except:
+            except ValueError:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
                 error.setText('Не корректный ввод данных')
@@ -911,7 +892,7 @@ try:
                 logger.info(f"del_char, {hero}")
                 self.add_to_tracker()
 
-            except:
+            except KeyError:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
                 error.setText('Поле пустое, либо этого персонажа уже нет!')
@@ -924,111 +905,79 @@ try:
                 error.exec()
                 logger.info(f"del_char. except")
 
-        def lock_initiative(self):
+        def lock_initiative(self, val_init):
             '''
-            DOCKSTRING: Вывод вместо lineEdit Label со значением initiative
+            DOCKSTRING: Вывод вместо lineEdit, Label со значением initiative
             '''
-            try:
-                self.check_checkbox_init = self.checkBox_lock_init.isChecked()
-                if self.check_checkbox_init:
+            if val_init:
+                if len(hero) != 0:
+                    if 'character0' in hero.keys():
+                        self.label_lock_init_char_0.show()
+                        self.initiative_edit_character0.hide()
+                        self.label_lock_init_char_0.setText(hero["character0"]['initiative'])
 
-                    if len(hero) != 0:
-                        if 'character0' in hero.keys():
-                            self.label_lock_init_char_0.show()
-                            self.initiative_edit_character0.hide()
-                            self.label_lock_init_char_0.setText(hero["character0"]['initiative'])
+                    if 'character1' in hero.keys():
+                        self.label_lock_init_char_1.show()
+                        self.initiative_edit_character1.hide()
+                        self.label_lock_init_char_1.setText(hero["character1"]['initiative'])
 
-                        if 'character1' in hero.keys():
-                            self.label_lock_init_char_1.show()
-                            self.initiative_edit_character1.hide()
-                            self.label_lock_init_char_1.setText(hero["character1"]['initiative'])
+                    if 'character2' in hero.keys():
+                        self.label_lock_init_char_2.show()
+                        self.initiative_edit_character2.hide()
+                        self.label_lock_init_char_2.setText(hero["character2"]['initiative'])
 
-                        if 'character2' in hero.keys():
-                            self.label_lock_init_char_2.show()
-                            self.initiative_edit_character2.hide()
-                            self.label_lock_init_char_2.setText(hero["character2"]['initiative'])
+                    if 'character3' in hero.keys():
+                        self.label_lock_init_char_3.show()
+                        self.initiative_edit_character3.hide()
+                        self.label_lock_init_char_3.setText(hero["character3"]['initiative'])
+            else:
+                self.label_lock_init_char_0.hide()
+                self.label_lock_init_char_1.hide()
+                self.label_lock_init_char_2.hide()
+                self.label_lock_init_char_3.hide()
 
-                        if 'character3' in hero.keys():
-                            self.label_lock_init_char_3.show()
-                            self.initiative_edit_character3.hide()
-                            self.label_lock_init_char_3.setText(hero["character3"]['initiative'])
+                self.initiative_edit_character0.show()
+                self.initiative_edit_character1.show()
+                self.initiative_edit_character2.show()
+                self.initiative_edit_character3.show()
+            logger.info("lock_initiative")
 
-                else:
-                    self.label_lock_init_char_0.hide()
-                    self.label_lock_init_char_1.hide()
-                    self.label_lock_init_char_2.hide()
-                    self.label_lock_init_char_3.hide()
-
-                    self.initiative_edit_character0.show()
-                    self.initiative_edit_character1.show()
-                    self.initiative_edit_character2.show()
-                    self.initiative_edit_character3.show()
-                logger.info("lock_initiative")
-            except:
-                error = QMessageBox()
-                error.setWindowTitle('Ошибка')
-                error.setText('Непредвиденная ошибка')
-                error.setIcon(QMessageBox.Icon.Warning)
-                error.setStandardButtons(QMessageBox.StandardButton.Ok)
-                error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-                error.buttonClicked.connect(self.popup_action)
-
-                error.exec()
-                logger.info("lock_initiative. except")
-
-        def lock_ac(self):
+        def lock_ac(self, val_ac):
             '''
-            DOCKSTRING: Вывод вместо lineEdit Label со значением ac
+            DOCKSTRING: Вывод вместо lineEdit, Label со значением ac
             '''
-            try:
-                self.check_checkbox_ac = self.checkBox_lock_ac.isChecked()
-                if self.check_checkbox_ac:
+            if val_ac:
+                if len(hero) != 0:
+                    if 'character0' in hero.keys():
+                        self.label_lock_ac_char_0.show()
+                        self.ac_edit_character0.hide()
+                        self.label_lock_ac_char_0.setText(hero["character0"]['ac'])
 
-                    if len(hero) != 0:
-                        if 'character0' in hero.keys():
-                            self.label_lock_ac_char_0.show()
-                            self.ac_edit_character0.hide()
-                            self.label_lock_ac_char_0.setText(hero["character0"]['ac'])
+                    if 'character1' in hero.keys():
+                        self.label_lock_ac_char_1.show()
+                        self.ac_edit_character1.hide()
+                        self.label_lock_ac_char_1.setText(hero["character1"]['ac'])
 
-                        if 'character1' in hero.keys():
-                            self.label_lock_ac_char_1.show()
-                            self.ac_edit_character1.hide()
-                            self.label_lock_ac_char_1.setText(hero["character1"]['ac'])
+                    if 'character2' in hero.keys():
+                        self.label_lock_ac_char_2.show()
+                        self.ac_edit_character2.hide()
+                        self.label_lock_ac_char_2.setText(hero["character2"]['ac'])
 
-                        if 'character2' in hero.keys():
-                            self.label_lock_ac_char_2.show()
-                            self.ac_edit_character2.hide()
-                            self.label_lock_ac_char_2.setText(hero["character2"]['ac'])
+                    if 'character3' in hero.keys():
+                        self.label_lock_ac_char_3.show()
+                        self.ac_edit_character3.hide()
+                        self.label_lock_ac_char_3.setText(hero["character3"]['ac'])
+            else:
+                self.label_lock_ac_char_0.hide()
+                self.label_lock_ac_char_1.hide()
+                self.label_lock_ac_char_2.hide()
+                self.label_lock_ac_char_3.hide()
 
-                        if 'character3' in hero.keys():
-                            self.label_lock_ac_char_3.show()
-                            self.ac_edit_character3.hide()
-                            self.label_lock_ac_char_3.setText(hero["character3"]['ac'])
-
-                else:
-                    self.label_lock_ac_char_0.hide()
-                    self.label_lock_ac_char_1.hide()
-                    self.label_lock_ac_char_2.hide()
-                    self.label_lock_ac_char_3.hide()
-
-                    self.ac_edit_character0.show()
-                    self.ac_edit_character1.show()
-                    self.ac_edit_character2.show()
-                    self.ac_edit_character3.show()
-                logger.info("lock_ac")
-            except:
-                error = QMessageBox()
-                error.setWindowTitle('Ошибка')
-                error.setText('Непредвиденная ошибка')
-                error.setIcon(QMessageBox.Icon.Warning)
-                error.setStandardButtons(QMessageBox.StandardButton.Ok)
-                error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-                error.buttonClicked.connect(self.popup_action)
-
-                error.exec()
-                logger.info("lock_ac. except")
+                self.ac_edit_character0.show()
+                self.ac_edit_character1.show()
+                self.ac_edit_character2.show()
+                self.ac_edit_character3.show()
+            logger.info("lock_ac")
 
         def hide_spell_slot_char_0(self):
             self.check_char_0 = self.checkBox_hide_spell_slot_char_0.isChecked()
@@ -1343,7 +1292,6 @@ try:
                 self.hp_edit_character0.setText(hero['character0']['hp'])
                 self.ac_edit_character0.setText(hero['character0']['ac'])
                 self.initiative_edit_character0.setText(hero['character0']['initiative'])
-                self.spin_spell_slot_character0.setValue(int(hero['character0']['1']))
                 self.spin_spell_slot_character0.setValue(int(hero['character0']['1']))
                 self.spin_spell_slot_character0_2.setValue(int(hero['character0']['2']))
                 self.spin_spell_slot_character0_3.setValue(int(hero['character0']['3']))
@@ -1670,10 +1618,11 @@ try:
                     hero['character3']['ac'] = int(self.ac_edit_character3.text())
                     hero['character3']['initiative'] = int(self.initiative_edit_character3.text())
                 logger.info("set_stats_character")
-            except:
+            except ValueError:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
                 error.setText('Не корректный ввод данных')
+                error.setDetailedText('HP и инициатива и слоты заклинаний должны состоять только из цифр')
                 error.setIcon(QMessageBox.Icon.Warning)
                 error.setStandardButtons(QMessageBox.StandardButton.Ok)
                 error.setDefaultButton(QMessageBox.StandardButton.Ok)
@@ -1689,6 +1638,210 @@ try:
             '''
             if but.text() == 'Ok':
                 print('Ok')
+
+        '''
+        Scenario
+        '''
+
+        def del_chapter(self):
+            global scenario_chapter
+            try:
+                scenario_chapter.pop(self.comboBox_choose_chapter.currentText())
+                self.comboBox_choose_chapter_update()
+                logger.info("del_chapter")
+            except KeyError:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Объект для удаления не найден')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+                logger.info("del_chapter. except")
+
+        def hide_chapter(self):
+            '''
+            DOCKSTRING: Скрытие основного окна сценария и вывод тэгов
+            '''
+            if self.radioButton_tags_notes.isChecked():
+                self.pushButton_add_tags.show()
+                self.pushButton_del_tags.show()
+                self.list_tags.show()
+                self.text_scenario.show()
+
+                self.comboBox_choose_chapter.hide()
+                self.text_chapter.hide()
+                self.edit_add_chapter.hide()
+                self.pushButton_add_chapter.hide()
+                self.pushButton_del_chapter.hide()
+            else:
+                self.comboBox_choose_chapter.show()
+                self.text_chapter.show()
+                self.edit_add_chapter.show()
+                self.pushButton_add_chapter.show()
+                self.pushButton_del_chapter.show()
+
+                self.pushButton_add_tags.hide()
+                self.pushButton_del_tags.hide()
+                self.list_tags.hide()
+                self.text_scenario.hide()
+
+            logger.info("hide_chapter")
+
+        def add_chapter(self):
+            global scenario_chapter
+            if self.edit_add_chapter.text() in scenario_chapter.keys():
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Такая глава уже есть')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+                logger.info("add_chapter. redo entry")
+            else:
+                if self.edit_add_chapter.text() != "":
+                    scenario_chapter[self.edit_add_chapter.text()] = ''
+                print(scenario_chapter)
+                logger.info("add_chapter")
+                self.comboBox_choose_chapter_update()
+
+        def comboBox_choose_chapter_update(self):
+            self.comboBox_choose_chapter.clear()
+
+            for i in scenario_chapter.keys():
+                self.comboBox_choose_chapter.addItem(i)
+            logger.info("comboBox_choose_chapter_update")
+
+        def view_text_chapter(self):
+            try:
+                self.text_chapter.setText(scenario_chapter[self.comboBox_choose_chapter.currentText()])
+                logger.info("view_text_chapter")
+            except KeyError:
+                logger.info("view_text_chapter. except KeyError")
+                pass
+
+        def set_text_chapter(self):
+            scenario_chapter[self.comboBox_choose_chapter.currentText()] = self.text_chapter.toPlainText()
+            logger.info("set_text_chapter")
+
+        def status_list_tags(self):
+            if self.status == 0:
+                self.add_scenario_category()
+            else:
+                self.add_scenario_object()
+            logger.info("status_list_tags")
+
+        def del_object_scenario(self):
+            global scenario
+            global scenario_text
+            try:
+                if self.list_tags.currentItem():
+                    scenario[self.current_index.row()][1].pop(self.list_tags.currentRow() - 1)
+                    scenario_text.pop(self.list_tags.currentItem().text())
+                    logger.info(f"del_object_scenario {scenario}\n {scenario_text}")
+                    self.update_list_tags_object()
+            except AttributeError:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Выберите объект для удаления')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+                logger.info("del_object_scenario. except AttributeError")
+
+        def add_scenario_category(self):
+            global scenario
+            text, val = QInputDialog.getText(self, "Enter", "Add category")
+            scenario.append([text, []])
+            logger.info(f"add_scenario_category {scenario}")
+            self.update_list_tags()
+
+        def add_scenario_object(self):
+            global scenario
+            global scenario_text
+            text, val = QInputDialog.getText(self, "Enter", "Add object")
+            scenario[self.current_index.row()][-1].append(text)
+            scenario_text[text] = ""
+            logger.info(f"add_scenario_object {scenario}\n {scenario_text}")
+            self.update_list_tags_object()
+
+        def update_list_tags(self):
+            self.list_tags.clear()
+            self.status = 0
+
+            for i in scenario:
+                self.list_tags.addItem(i[0])
+            logger.info(f"update_list_tags")
+
+        def set_current_index(self):
+            if self.status == 0 or self.list_tags.currentItem().text() == "...":
+                self.current_index = self.list_tags.currentIndex()
+                logger.info(f"set_current_index")
+                self.back_category_list_tags()
+            else:
+                if self.list_tags.currentItem().text() in scenario_text.keys():
+                    self.text_scenario.setText(scenario_text[self.list_tags.currentItem().text()])
+                    logger.info(f"set_current_index. else")
+
+        def back_category_list_tags(self):
+            if self.list_tags.currentItem().text() == "...":
+                logger.info(f"back_category_list_tags")
+                self.update_list_tags()
+            else:
+                logger.info(f"back_category_list_tags. else")
+                self.update_list_tags_object()
+
+        def update_list_tags_object(self):
+            self.list_tags.clear()
+            self.status = 1
+            self.list_tags.addItem("...")
+            if scenario[self.current_index.row()][1]:
+                for i in scenario[self.current_index.row()][1]:
+                    self.list_tags.addItem(i)
+                logger.info(f"update_list_tags_object")
+            else:
+                pass
+
+        def set_text_to_scenario(self):
+            if self.list_tags.currentItem():
+                if self.list_tags.currentItem().text() in scenario_text.keys():
+                    scenario_text[self.list_tags.currentItem().text()] = self.text_scenario.toPlainText()
+                    logger.info(f"set_text_to_scenario")
+                else:
+                    pass
+
+        '''
+        Notes
+        '''
+
+        def save_text(self):
+            global note_zero
+            global note_one
+            global note_two
+            global note_three
+            global note_char_zero
+            global note_char_one
+            global note_char_two
+            global note_char_three
+            note_zero = self.note_edit_0.toPlainText()
+            note_one = self.note_edit_1.toPlainText()
+            note_two = self.note_edit_2.toPlainText()
+            note_three = self.note_edit_3.toPlainText()
+            note_char_zero = self.textEdit_char_0.toPlainText()
+            note_char_one = self.textEdit_char_1.toPlainText()
+            note_char_two = self.textEdit_char_2.toPlainText()
+            note_char_three = self.textEdit_char_3.toPlainText()
 
         '''
         Music changer
@@ -1746,8 +1899,8 @@ try:
             list_music = list(music.keys())
             list_music_deep = list(music[list_music[num_one]])
             value = music[list_music[num_one]][list_music_deep[num_two]].split(' ')
-            for i in range(len(value)):
-                webbrowser.open(value[i])
+            for i in enumerate(value):
+                webbrowser.open(value[i[0]])
                 time.sleep(1)
             logger.info("music_changer_play")
 
@@ -1827,9 +1980,6 @@ try:
         def options_store_box_update(self):
             sex = ["Случайно", "Мужчина", "Женщина"]
             age = ["Случайно", "Молодой", "Средний", "Пожилой"]
-            race = ["Случайно", "Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый",
-                    "Табакси",
-                    "Тифлинг"]
             for i in sex:
                 self.box_sex_vendor.addItem(i)
             for i in age:
@@ -1871,31 +2021,6 @@ try:
                 self.box_race_vendor.hide()
 
         def store_type_and_qualification_vendor(self):
-            merchants = ['Таверна',
-                        'Алкоголь и напитки',
-                        'Оружие',
-                        'Доспехи (щиты)',
-                        'Еда и части животных',
-                        'Зелья, яды и травы',
-                        'Книги заклинаний',
-                        'Песни и инструменты',
-                        'Религиозные товары',
-                        'Транспорт',
-                        'Животные',
-                        'Книги и карты',
-                        'Цветы и семена',
-                        'Мебель',
-                        'Высокая мода',
-                        'Ювелирные изделия',
-                        'Безделушки',
-                        'Изделия из кожи',
-                        'Механические пр.',
-                        'Воровские пр.',
-                        'Инструменты',
-                        ]
-
-            qualification = ["Ужасная", "Плохая", "Средняя", "Хорошая", "Прекрасная"]
-
             for i in merchants:
                 self.box_generate_type.addItem(i)
 
@@ -1939,8 +2064,6 @@ try:
         def race_vendor(self):
             self.vendor_race = ""
             if self.box_race_vendor.currentText() == "Случайно":
-                race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси",
-                        "Тифлинг"]
                 self.vendor_race = random.choice(race)
             else:
                 self.vendor_race = self.box_race_vendor.currentText()
@@ -2331,7 +2454,7 @@ try:
             if self.edit_store_name_2.text() == "":
                 self.iter_store = 0
                 flag = True
-                while flag == True:
+                while flag is True:
                     if 'store_' + str(self.iter_store) in store.keys():
                         self.iter_store += 1
                     else:
@@ -2351,7 +2474,7 @@ try:
             else:
                 self.iter_store = 0
                 flag = True
-                while flag == True:
+                while flag is True:
                     if self.edit_store_name_2.text() + "_" + str(self.iter_store) in store.keys():
                         self.iter_store += 1
                     else:
@@ -2378,7 +2501,13 @@ try:
 
         def view_store(self):
             if self.box_choose_shop.currentText() in store.keys():
-                text = f"Имя продавца: {store[self.box_choose_shop.currentText()]['name_vendor']}\nПол продавца: {store[self.box_choose_shop.currentText()]['sex_vendor']}\nВозраст: {store[self.box_choose_shop.currentText()]['age_vendor']}\nРасса продавца: {store[self.box_choose_shop.currentText()]['race_vendor']}\nТип лавки: \n{store[self.box_choose_shop.currentText()]['type_store']}\nКвалификация продавца: {store[self.box_choose_shop.currentText()]['store_value']}\nДенег у продавца: {store[self.box_choose_shop.currentText()]['vendor_money']}зм"
+                text = f"Имя продавца: {store[self.box_choose_shop.currentText()]['name_vendor']}\n" \
+                       f"Пол продавца: {store[self.box_choose_shop.currentText()]['sex_vendor']}\n" \
+                       f"Возраст: {store[self.box_choose_shop.currentText()]['age_vendor']}\n" \
+                       f"Расса продавца: {store[self.box_choose_shop.currentText()]['race_vendor']}\n" \
+                       f"Тип лавки: \n{store[self.box_choose_shop.currentText()]['type_store']}\n" \
+                       f"Квалификация продавца: {store[self.box_choose_shop.currentText()]['store_value']}\n" \
+                       f"Денег у продавца: {store[self.box_choose_shop.currentText()]['vendor_money']}зм"
                 self.label_shop_info.setText(text)
                 self.text_assortment_shop.setText(f"Ассортимент:\n{store[self.box_choose_shop.currentText()]['assortment_store']}")
                 self.text_notes.setText(store[self.box_choose_shop.currentText()]['text_notes'])
@@ -2426,9 +2555,6 @@ try:
         def npc_box_update(self):
             sex = ["Случайно", "Мужчина", "Женщина"]
             age = ["Случайно", "Молодой", "Средний", "Пожилой"]
-            race = ["Случайно", "Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый",
-                    "Табакси",
-                    "Тифлинг"]
             for i in sex:
                 self.box_sex_npc.addItem(i)
             for i in age:
@@ -2466,7 +2592,6 @@ try:
         def race_npc(self):
             self.npc_race = ""
             if self.box_race_npc.currentText() == "Случайно":
-                race = ["Человек", "Дварф", "Эльф", "Полу-эльф", "Орк", "Полу-орк", "Полурослик", "Драконорождённый", "Табакси", "Тифлинг"]
                 self.npc_race = random.choice(race)
             else:
                 self.npc_race = self.box_race_npc.currentText()
@@ -2486,7 +2611,7 @@ try:
         def create_npc(self):
             self.iter_npc = 0
             flag = True
-            while flag == True:
+            while flag is True:
                 if 'npc_name' + str(self.iter_npc) in store.keys():
                     self.iter_npc += 1
                 else:
@@ -2514,192 +2639,13 @@ try:
 
         def view_npc(self):
             if self.box_generate_npc.currentText() != "":
-                text = f"Имя: {npc[self.box_generate_npc.currentText()]['npc_name']}\nПол: {npc[self.box_generate_npc.currentText()]['npc_sex']}\nВозраст: {npc[self.box_generate_npc.currentText()]['npc_age']}\nРасса: {npc[self.box_generate_npc.currentText()]['nps_race']}"
+                text = f"Имя: {npc[self.box_generate_npc.currentText()]['npc_name']}\n" \
+                       f"Пол: {npc[self.box_generate_npc.currentText()]['npc_sex']}\n" \
+                       f"Возраст: {npc[self.box_generate_npc.currentText()]['npc_age']}\n" \
+                       f"Расса: {npc[self.box_generate_npc.currentText()]['nps_race']}"
                 self.label_generate_npc.setText(text)
                 self.text_npc_generate.setText(npc[self.box_generate_npc.currentText()]['text_notes'])
             logger.info("view_npc")
-
-        '''
-        Scenario
-        '''
-
-        def del_chapter(self):
-            global scenario_chapter
-            try:
-                scenario_chapter.pop(self.comboBox_choose_chapter.currentText())
-                self.comboBox_choose_chapter_update()
-                logger.info("del_chapter")
-            except KeyError:
-                error = QMessageBox()
-                error.setWindowTitle('Ошибка')
-                error.setText('Объект для удаления не найден')
-                error.setIcon(QMessageBox.Icon.Warning)
-                error.setStandardButtons(QMessageBox.StandardButton.Ok)
-                error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-                error.buttonClicked.connect(self.popup_action)
-
-                error.exec()
-                logger.info("del_chapter. except")
-
-        def hide_chapter(self):
-            '''
-            DOCKSTRING: Скрытие основного окна сценария и вывод тэгов
-            '''
-            if self.radioButton_tags_notes.isChecked():
-                self.pushButton_add_tags.show()
-                self.pushButton_del_tags.show()
-                self.list_tags.show()
-                self.text_scenario.show()
-
-                self.comboBox_choose_chapter.hide()
-                self.text_chapter.hide()
-                self.edit_add_chapter.hide()
-                self.pushButton_add_chapter.hide()
-                self.pushButton_del_chapter.hide()
-            else:
-                self.comboBox_choose_chapter.show()
-                self.text_chapter.show()
-                self.edit_add_chapter.show()
-                self.pushButton_add_chapter.show()
-                self.pushButton_del_chapter.show()
-
-                self.pushButton_add_tags.hide()
-                self.pushButton_del_tags.hide()
-                self.list_tags.hide()
-                self.text_scenario.hide()
-
-            logger.info("hide_chapter")
-
-        def add_chapter(self):
-            global scenario_chapter
-            if self.edit_add_chapter.text() in scenario_chapter.keys():
-                error = QMessageBox()
-                error.setWindowTitle('Ошибка')
-                error.setText('Такая глава уже есть')
-                error.setIcon(QMessageBox.Icon.Warning)
-                error.setStandardButtons(QMessageBox.StandardButton.Ok)
-                error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-                error.buttonClicked.connect(self.popup_action)
-
-                error.exec()
-                logger.info("add_chapter. redo entry")
-            else:
-                if self.edit_add_chapter.text() != "":
-                    scenario_chapter[self.edit_add_chapter.text()] = ''
-                print(scenario_chapter)
-                logger.info("add_chapter")
-                self.comboBox_choose_chapter_update()
-
-        def comboBox_choose_chapter_update(self):
-            self.comboBox_choose_chapter.clear()
-
-            for i in scenario_chapter.keys():
-                self.comboBox_choose_chapter.addItem(i)
-            logger.info("comboBox_choose_chapter_update")
-
-        def view_text_chapter(self):
-            try:
-                self.text_chapter.setText(scenario_chapter[self.comboBox_choose_chapter.currentText()])
-                logger.info("view_text_chapter")
-            except KeyError:
-                logger.info("view_text_chapter. except KeyError")
-                pass
-
-        def set_text_chapter(self):
-            scenario_chapter[self.comboBox_choose_chapter.currentText()] = self.text_chapter.toPlainText()
-            logger.info("set_text_chapter")
-
-        def status_list_tags(self):
-            if self.status == 0:
-                self.add_scenario_category()
-            else:
-                self.add_scenario_object()
-            logger.info("status_list_tags")
-
-        def del_object_scenario(self):
-            global scenario
-            global scenario_text
-            try:
-                if self.list_tags.currentItem():
-                    scenario[self.current_index.row()][1].pop(self.list_tags.currentRow() - 1)
-                    scenario_text.pop(self.list_tags.currentItem().text())
-                    logger.info(f"del_object_scenario {scenario}\n {scenario_text}")
-                    self.update_list_tags_object()
-            except AttributeError:
-                error = QMessageBox()
-                error.setWindowTitle('Ошибка')
-                error.setText('Выберите объект для удаления')
-                error.setIcon(QMessageBox.Icon.Warning)
-                error.setStandardButtons(QMessageBox.StandardButton.Ok)
-                error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-                error.buttonClicked.connect(self.popup_action)
-
-                error.exec()
-                logger.info("del_object_scenario. except AttributeError")
-
-        def add_scenario_category(self):
-            global scenario
-            text, val = QInputDialog.getText(self, "Enter", "Add category")
-            scenario.append([text, []])
-            logger.info(f"add_scenario_category {scenario}")
-            self.update_list_tags()
-
-        def add_scenario_object(self):
-            global scenario
-            global scenario_text
-            text, val = QInputDialog.getText(self, "Enter", "Add object")
-            scenario[self.current_index.row()][-1].append(text)
-            scenario_text[text] = ""
-            logger.info(f"add_scenario_object {scenario}\n {scenario_text}")
-            self.update_list_tags_object()
-
-        def update_list_tags(self):
-            self.list_tags.clear()
-            self.status = 0
-
-            for i in scenario:
-                self.list_tags.addItem(i[0])
-            logger.info(f"update_list_tags")
-
-        def set_current_index(self):
-            if self.status == 0 or self.list_tags.currentItem().text() == "...":
-                self.current_index = self.list_tags.currentIndex()
-                logger.info(f"set_current_index")
-                self.back_category_list_tags()
-            else:
-                if self.list_tags.currentItem().text() in scenario_text.keys():
-                    self.text_scenario.setText(scenario_text[self.list_tags.currentItem().text()])
-                    logger.info(f"set_current_index. else")
-
-        def back_category_list_tags(self):
-            if self.list_tags.currentItem().text() == "...":
-                logger.info(f"back_category_list_tags")
-                self.update_list_tags()
-            else:
-                logger.info(f"back_category_list_tags. else")
-                self.update_list_tags_object()
-
-        def update_list_tags_object(self):
-            self.list_tags.clear()
-            self.status = 1
-            self.list_tags.addItem("...")
-            if scenario[self.current_index.row()][1]:
-                for i in scenario[self.current_index.row()][1]:
-                    self.list_tags.addItem(i)
-                logger.info(f"update_list_tags_object")
-            else:
-                pass
-
-        def set_text_to_scenario(self):
-            if self.list_tags.currentItem():
-                if self.list_tags.currentItem().text() in scenario_text.keys():
-                    scenario_text[self.list_tags.currentItem().text()] = self.text_scenario.toPlainText()
-                    logger.info(f"set_text_to_scenario")
-                else:
-                    pass
 
 
     if __name__ == "__main__":

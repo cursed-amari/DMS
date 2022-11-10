@@ -1,12 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-from PyQt6 import QtCore, QtGui, QtWidgets
-
-
-from PyQt6 import QtCore, QtGui, QtWidgets
-
-
 class Ui_MainWindow_init(object):
     def setupUi(self, MainWindow_init):
         MainWindow_init.setObjectName("MainWindow_init")

@@ -80,13 +80,13 @@ try:
                 if not enemy_list:
                     name = 'Enemy_0'
                 else:
-                    for i in range(len(enemy_list)):
-                        name = 'Enemy_' + str(i+1)
-            for item in range(len(enemy_list)):
-                if name in enemy_list[item]:
+                    for i in enumerate(enemy_list):
+                        name = 'Enemy_' + str(i[0]+1)
+            for item in enumerate(enemy_list):
+                if name in enemy_list[item[0]]:
                     in_enemy_list = True
             if in_enemy_list == True:
-                name += '_' + str(item)
+                name += '_' + str(item[0])
             enemy_list += [initiative, name],
             logger.info("add_enemy")
             self.view_enemy()
@@ -94,8 +94,8 @@ try:
 
         def view_enemy(self):
             value = ''
-            for i in range(len(enemy_list)):
-                value += f'{enemy_list[i][1]}' + ' ' + f'{enemy_list[i][0]}' + '\n'
+            for i in enumerate(enemy_list):
+                value += f'{enemy_list[i[0]][1]}' + ' ' + f'{enemy_list[i[0]][0]}' + '\n'
             self.label_enemy.setText(value)
             logger.info("view_enemy")
 
@@ -130,21 +130,21 @@ try:
             initiative_list = []
 
 
-            for i in range(len(self.hero)):
-                if i == 0:
+            for i in enumerate(self.hero):
+                if i[0] == 0:
                     t = int(self.set_player_dice_edit_char_0.text())
-                if i == 1:
+                if i[0] == 1:
                     t = int(self.set_player_dice_edit_char_1.text())
-                if i == 2:
+                if i[0] == 2:
                     t = int(self.set_player_dice_edit_char_2.text())
-                if i == 3:
+                if i[0] == 3:
                     t = int(self.set_player_dice_edit_char_3.text())
-                n = self.hero['character' + str(i)]['name']
+                n = self.hero['character' + str(i[0])]['name']
                 initiative_list += [t, n],
 
-            for i in range(len(enemy_list)):
-                init = int(enemy_list[i][0]) + random.randint(1, 20)
-                n = enemy_list[i][1]
+            for i in enumerate(enemy_list):
+                init = int(enemy_list[i[0]][0]) + random.randint(1, 20)
+                n = enemy_list[i[0]][1]
                 initiative_list += [init, n],
 
             initiative_list.sort(key=lambda x: (x[0], x[1]), reverse=True)
@@ -153,8 +153,8 @@ try:
             self.calk_initiative_view()
         def calk_initiative_view(self):
             value = ''
-            for i in range(len(initiative_list)):
-                value += f'{initiative_list[i][1]}' + ' ' + f'{initiative_list[i][0]}' + '\n'
+            for i in enumerate(initiative_list):
+                value += f'{initiative_list[i[0]][1]}' + ' ' + f'{initiative_list[i[0]][0]}' + '\n'
             self.label_calk_enemy.setText(value)
             self.save_enemy_preset()
             logger.info("calk_initiative_view")
@@ -272,14 +272,16 @@ try:
 
         def del_enemy(self):
             try:
-                for i in range(len(enemy_list)):
-                    if enemy_list[i][1] == self.comboBox_del_char.currentText():
-                        del_num = i
+                for i in enumerate(enemy_list):
+                    if enemy_list[i[0]][1] == self.comboBox_del_char.currentText():
+                        del_num = i[0]
                 enemy_list.pop(del_num)
-                for i in range(len(initiative_list)):
-                    if initiative_list[i][1] == self.comboBox_del_char.currentText():
-                        del_init_enemy = i
-                initiative_list.pop(del_init_enemy)
+                for enemy in initiative_list:
+                    if self.comboBox_del_char.currentText() in enemy[1]:
+                        for i in enumerate(initiative_list):
+                            if initiative_list[i[0]][1] == self.comboBox_del_char.currentText():
+                                del_init_enemy = i[0]
+                        initiative_list.pop(del_init_enemy)
                 logger.info("del_enemy")
                 self.calk_initiative_view()
             except NameError:
@@ -308,6 +310,3 @@ try:
             pass
 finally:
     logger.info("calc_init off")
-
-
-
