@@ -9,7 +9,7 @@
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QMessageBox
 from loguru import logger
-from calc_init_class import Ui_MainWindow_init
+from initiative_class import Ui_MainWindow_init
 import json
 import random
 

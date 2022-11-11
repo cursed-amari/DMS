@@ -15,7 +15,7 @@ import time
 import json
 
 from main_class import Ui_MainWindow
-from calc_init import InitiativeWindow
+from initiative import InitiativeWindow
 
 from dict_rules import dict_rules
 from shop_data import *
