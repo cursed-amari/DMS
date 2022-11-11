@@ -27,8 +27,9 @@ try:
             enemy_dict_preset = dict_preset
             self.hero = hero
             self.app_func()
+            logger.info("start initiative")
 
-
+        @logger.catch
         def app_func(self):
             self.pushButton_initiative.clicked.connect(self.calk_initiative)
             self.pushButton_add.clicked.connect(self.check_input)
@@ -43,7 +44,6 @@ try:
             self.del_character.clicked.connect(self.del_enemy)
             self.pushButton_apply_player_dice.clicked.connect(self.view_player_initiative)
 
-            logger.info("app_func")
             self.view_player_initiative()
             self.view_enemy()
             self.preset_combo_box_update()
@@ -52,11 +52,11 @@ try:
         Main
         '''
 
-        def check_input(self):
+        @logger.catch
+        def check_input(self, bool_val):
             try:
                 initiative = int(self.enemy_initiative_edit.text())
                 self.add_enemy()
-                logger.info("check_input")
             except:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
@@ -70,6 +70,7 @@ try:
                 error.exec()
                 logger.info("check_input. except")
 
+        @logger.catch
         def add_enemy(self):
             global enemy_list
             value = ''
@@ -88,26 +89,26 @@ try:
             if in_enemy_list == True:
                 name += '_' + str(item[0])
             enemy_list += [initiative, name],
-            logger.info("add_enemy")
             self.view_enemy()
 
 
+        @logger.catch
         def view_enemy(self):
             value = ''
             for i in enumerate(enemy_list):
                 value += f'{enemy_list[i[0]][1]}' + ' ' + f'{enemy_list[i[0]][0]}' + '\n'
             self.label_enemy.setText(value)
-            logger.info("view_enemy")
 
-        def clean_enemy(self):
+        @logger.catch
+        def clean_enemy(self, bool_val):
             global enemy_list
             enemy_list = []
             self.label_enemy.setText('')
-            logger.info("clean_enemy")
             self.enemy_box_update()
             self.selected_enemy_view()
 
-        def view_player_initiative(self):
+        @logger.catch
+        def view_player_initiative(self, bool_val=False):
             if "character0" in self.hero.keys():
                 self.set_player_dice_edit_char_0.setText(str(int(self.hero["character0"]["initiative"]) + random.randint(1, 20)))
                 self.initiative_chr_0 = self.hero["character0"]["initiative"]
@@ -120,9 +121,9 @@ try:
             if "character3" in self.hero.keys():
                 self.set_player_dice_edit_char_3.setText(str(int(self.hero["character3"]["initiative"]) + random.randint(1, 20)))
                 self.initiative_chr_3 = self.hero["character3"]["initiative"]
-            logger.info("view_player_initiative")
 
-        def calk_initiative(self):
+        @logger.catch
+        def calk_initiative(self, bool_val):
             '''
             DOCKSTRING: подсчёт инициативы
             '''
@@ -149,24 +150,24 @@ try:
 
             initiative_list.sort(key=lambda x: (x[0], x[1]), reverse=True)
 
-            logger.info("calk_initiative")
             self.calk_initiative_view()
+
+        @logger.catch
         def calk_initiative_view(self):
             value = ''
             for i in enumerate(initiative_list):
                 value += f'{initiative_list[i[0]][1]}' + ' ' + f'{initiative_list[i[0]][0]}' + '\n'
             self.label_calk_enemy.setText(value)
             self.save_enemy_preset()
-            logger.info("calk_initiative_view")
 
-        def preset_update(self):
+        @logger.catch
+        def preset_update(self, bool_val):
             '''
             DOCKSTRING: Добавление противников в словарь в формате сцена: [противник, ]
             '''
             global enemy_dict_preset
             if self.preset_edit.text() not in enemy_dict_preset.keys():
                 enemy_dict_preset[self.preset_edit.text()] = enemy_list.copy()
-                logger.info(f"preset_update, {enemy_dict_preset}")
                 self.preset_combo_box_update()
                 self.save_enemy_preset()
                 self.preset_edit.setText('')
@@ -181,14 +182,13 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
-                logger.info("preset_update")
 
+        @logger.catch
         def save_enemy_preset(self):
             with open("data_enemy", "w", encoding="utf-8") as file:
                 json.dump(enemy_dict_preset, file)
-            logger.info("save_enemy_preset")
 
-
+        @logger.catch
         def preset_combo_box_update(self):
             '''
             DOCKSTRING: обновление комбо бокса, при загрузке сохранения
@@ -196,15 +196,13 @@ try:
             self.comboBox_preset.clear()
             for i in enemy_dict_preset.keys():
                 self.comboBox_preset.addItem(i)
-            logger.info("preset_combo_box_update")
 
-        def preset_load(self):
+        @logger.catch
+        def preset_load(self, bool_val):
             try:
                 enemy_list.clear()
-                print(enemy_dict_preset)
                 for i in list(enemy_dict_preset[self.comboBox_preset.currentText()]):
                     enemy_list.append(i)
-                logger.info("preset_load")
                 self.view_enemy()
                 self.enemy_box_update()
                 self.selected_enemy_view()
@@ -222,12 +220,12 @@ try:
                 error.exec()
                 logger.info("preset_load, except NameError")
 
-        def preset_delete(self):
+        @logger.catch
+        def preset_delete(self, bool_val):
             if self.comboBox_preset.currentText() in enemy_dict_preset.keys():
                 list_key = list(enemy_dict_preset.keys())
                 enemy_dict_preset.pop(self.comboBox_preset.currentText())
                 self.comboBox_preset.removeItem(list_key.index(self.comboBox_preset.currentText()))
-                logger.info("preset_delete")
             else:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
@@ -239,38 +237,34 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
-                logger.info("preset_delete. except")
 
-        '''
-        Options
-        '''
-
-        def enemy_box_update(self):
+        @logger.catch
+        def enemy_box_update(self, bool_val=False):
             self.box_select_character.clear()
             self.comboBox_del_char.clear()
             for i in enemy_list:
                 self.box_select_character.addItem(i[1])
                 self.comboBox_del_char.addItem(i[1])
-            logger.info("enemy_box_update")
 
-        def selected_enemy_view(self):
+        @logger.catch
+        def selected_enemy_view(self, enemy_name=0):
             for i in enemy_list:
                 if i[1] == self.box_select_character.currentText():
                     self.edit_name_redaction.setText(i[1])
                     self.edit_initiative_redaction.setText(str(i[0]))
-            logger.info("selected_enemy_view")
 
-        def redaction_enemy(self):
+        @logger.catch
+        def redaction_enemy(self, bool_val):
             for i in enemy_list:
                 if i[1] == self.box_select_character.currentText():
                     i[0] = int(self.edit_initiative_redaction.text())
                     i[1] = self.edit_name_redaction.text()
-            logger.info(f"redaction_enemy, {enemy_list}")
             self.enemy_box_update()
             self.selected_enemy_view()
             self.view_enemy()
 
-        def del_enemy(self):
+        @logger.catch
+        def del_enemy(self, bool_val):
             try:
                 for i in enumerate(enemy_list):
                     if enemy_list[i[0]][1] == self.comboBox_del_char.currentText():
@@ -282,7 +276,6 @@ try:
                             if initiative_list[i[0]][1] == self.comboBox_del_char.currentText():
                                 del_init_enemy = i[0]
                         initiative_list.pop(del_init_enemy)
-                logger.info("del_enemy")
                 self.calk_initiative_view()
             except NameError:
                 error = QMessageBox()
@@ -302,11 +295,10 @@ try:
             self.selected_enemy_view()
             self.view_enemy()
 
-
-
+        @logger.catch
         def popup_action(self, but):
             if but.text() == 'Ok':
-                print('Ошибка ввода')
+                logger.info("popup_action")
             pass
 finally:
-    logger.info("calc_init off")
+    logger.info("calc_init read")

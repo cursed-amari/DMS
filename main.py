@@ -16,8 +16,8 @@ import json
 
 from main_class import Ui_MainWindow
 from calc_init import InitiativeWindow
-from dict_rules import dict_rules
 
+from dict_rules import dict_rules
 from shop_data import *
 
 
@@ -46,7 +46,9 @@ try:
             self.setupUi(self)
             self.aplication_func()
             self.status = 0
+            logger.info("Start")
 
+        @logger.catch
         def aplication_func(self):
             # Menu
             self.actionSave.triggered.connect(self.actions_save)
@@ -116,8 +118,8 @@ try:
             self.store_type_and_qualification_vendor()
             self.options_store_box_update()
             self.npc_box_update()
-            logger.info("aplication_func")
 
+        @logger.catch
         def view_character_stats(self):
             '''
             DOCKSTRING: Обновление статов через трекер
@@ -134,13 +136,13 @@ try:
             self.initiative_edit_character1.editingFinished.connect(self.set_stats_character)
             self.initiative_edit_character2.editingFinished.connect(self.set_stats_character)
             self.initiative_edit_character3.editingFinished.connect(self.set_stats_character)
-            logger.info("view_character_stats")
 
         '''
         Menu
         '''
 
-        def actions_save(self):
+        @logger.catch
+        def actions_save(self, val):
             '''
             DOCKSTRING: сохранение в json файл
             '''
@@ -190,12 +192,11 @@ try:
             try:
                 with open(data, 'w') as outfile:
                     json.dump(save_dict, outfile)
-                logger.info("actions_save")
             except FileNotFoundError:
                 print("No such file")
-                logger.info("actions_save. except")
 
-        def action_open(self):
+        @logger.catch
+        def action_open(self, val):
             '''
             DOCKSTRING: загрузка из json файла
             '''
@@ -230,8 +231,6 @@ try:
                     scenario_text = data[14]
                     scenario_chapter = data[15]
 
-                logger.info("action_open")
-
                 self.view_create_hero()
                 self.add_to_tracker()
                 self.music_changer_listview_category_update()
@@ -241,13 +240,13 @@ try:
                 self.comboBox_choose_chapter_update()
                 self.update_list_tags()
             except FileNotFoundError:
-                print("No such file")
                 logger.info("action_open. except")
 
-        def last_session(self):
+        @logger.catch
+        def last_session(self, val):
             '''
-                        DOCKSTRING: загрузка из json файла
-                        '''
+            DOCKSTRING: загрузка из json файла
+            '''
             global dict_preset
 
             try:
@@ -277,8 +276,6 @@ try:
                     scenario_text = data[14]
                     scenario_chapter = data[15]
 
-                logger.info("action_open")
-
                 self.view_create_hero()
                 self.add_to_tracker()
                 self.music_changer_listview_category_update()
@@ -298,14 +295,14 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
-                logger.info("input_chek. except")
-                logger.info("action_open. except")
+                logger.info("last_session. except")
 
 
         '''
         Main window hide
         '''
 
+        @logger.catch
         def input_chek(self):
             '''
             DOCKSTRING: Проверка чисел
@@ -324,7 +321,6 @@ try:
                 Spell_slot_chek_8 = int(self.spell_slot_edit_8.text())
                 Spell_slot_chek_9 = int(self.spell_slot_edit_9.text())
 
-                logger.info("input_chek")
                 self.create_hero()
             except ValueError:
                 error = QMessageBox()
@@ -340,6 +336,7 @@ try:
                 error.exec()
                 logger.info("input_chek. except")
 
+        @logger.catch
         def create_hero(self):
             '''
             DOCKSTRING: Создание персонажа в редакторе и добавление его в словарь
@@ -368,7 +365,6 @@ try:
                         '9': self.spell_slot_edit_9.text(),
                         'initiative': self.initiative_edit.text()
                     }})
-                logger.info(f"create_hero, {hero}")
                 self.add_to_del_char_box()
             else:
                 error = QMessageBox()
@@ -387,6 +383,7 @@ try:
             self.view_create_hero()
             self.add_to_tracker()
 
+        @logger.catch
         def view_create_hero(self):
             '''
             DOCKSTRING: Отображение созданых персонажей в окне рядом с редактором
@@ -399,20 +396,19 @@ try:
                          f'Initiative: {hero[item]["initiative"]}'\
                          + '\n' + '\n'
                 self.label.setText(value)
-            logger.info("view_create_hero")
 
-        def hide_create(self):
+        @logger.catch
+        def hide_create(self, check_radiobutton):
             '''
             DOCKSTRING: круглая кнопка. Скрыть или показать редактор персонажа
             '''
-            self.check_radiobutton = self.radioButton_hide_create.isChecked()
             self.check_checkbox_init = self.checkBox_lock_init.isChecked()
             self.check_checkbox_ac = self.checkBox_lock_ac.isChecked()
             self.check_char_0 = self.checkBox_hide_spell_slot_char_0.isChecked()
             self.check_char_1 = self.checkBox_hide_spell_slot_char_1.isChecked()
             self.check_char_2 = self.checkBox_hide_spell_slot_char_2.isChecked()
             self.check_char_3 = self.checkBox_hide_spell_slot_char_3.isChecked()
-            if self.check_radiobutton is True:
+            if check_radiobutton is True:
                 self.pushButton_init_open.show()
                 self.dice_edit.show()
                 self.amount_dice_box.show()
@@ -830,7 +826,6 @@ try:
                 self.spell_slot_edit_7.show()
                 self.spell_slot_edit_8.show()
                 self.spell_slot_edit_9.show()
-            logger.info("hide_create")
 
         '''
         Main window show
@@ -839,9 +834,9 @@ try:
         def open_init_calc(self):
             self.result_widget = InitiativeWindow(hero, dict_preset)
             self.result_widget.show()
-            logger.info("open_init_calc")
 
-        def roll_dice(self):
+        @logger.catch
+        def roll_dice(self, bool_val):
             '''
             DOCKSTRING: рандом кубика(числа) и вывод в окно
             '''
@@ -860,7 +855,6 @@ try:
                     for roll in range(amount):
                         value_advantege += random.randint(1, dice) + modifier
                     self.label_roll_dice.setText(str(value) + ' ' + str(value_advantege))
-                logger.info("roll_dice")
 
             except ValueError:
                 error = QMessageBox()
@@ -875,13 +869,14 @@ try:
                 error.exec()
                 logger.info("roll_dice. except")
 
+        @logger.catch
         def add_to_del_char_box(self):
             self.comboBox_del_char.clear()
             for i in hero:
                 self.comboBox_del_char.addItem(hero[i]['name'])
-            logger.info("add_to_del_char_box")
 
-        def del_char(self):
+        @logger.catch
+        def del_char(self, bool_val):
             name_delete = ''
             try:
                 for i in hero:
@@ -889,7 +884,6 @@ try:
                         name_delete = str(i)
                 self.comboBox_del_char.removeItem(self.comboBox_del_char.currentIndex())
                 hero.pop(name_delete)
-                logger.info(f"del_char, {hero}")
                 self.add_to_tracker()
 
             except KeyError:
@@ -905,6 +899,7 @@ try:
                 error.exec()
                 logger.info(f"del_char. except")
 
+        @logger.catch
         def lock_initiative(self, val_init):
             '''
             DOCKSTRING: Вывод вместо lineEdit, Label со значением initiative
@@ -940,8 +935,8 @@ try:
                 self.initiative_edit_character1.show()
                 self.initiative_edit_character2.show()
                 self.initiative_edit_character3.show()
-            logger.info("lock_initiative")
 
+        @logger.catch
         def lock_ac(self, val_ac):
             '''
             DOCKSTRING: Вывод вместо lineEdit, Label со значением ac
@@ -977,11 +972,10 @@ try:
                 self.ac_edit_character1.show()
                 self.ac_edit_character2.show()
                 self.ac_edit_character3.show()
-            logger.info("lock_ac")
 
-        def hide_spell_slot_char_0(self):
-            self.check_char_0 = self.checkBox_hide_spell_slot_char_0.isChecked()
-            if self.check_char_0:
+        @logger.catch
+        def hide_spell_slot_char_0(self, check_hide_slot_char_0):
+            if check_hide_slot_char_0:
                 self.label_spell_slot_character0.hide()
                 self.label_spell_slot_character0_2.hide()
                 self.label_spell_slot_character0_3.hide()
@@ -1035,11 +1029,10 @@ try:
                 self.initiative_edit_character0.setGeometry(QtCore.QRect(230, 260, 51, 25))
                 self.label_lock_init_char_0.setGeometry(QtCore.QRect(230, 260, 51, 25))
                 self.textEdit_char_0.setGeometry(QtCore.QRect(160, 290, 120, 70))
-            logger.info("hide_spell_slot_char_0")
 
-        def hide_spell_slot_char_1(self):
-            self.check_char_1 = self.checkBox_hide_spell_slot_char_1.isChecked()
-            if self.check_char_1:
+        @logger.catch
+        def hide_spell_slot_char_1(self, check_hide_slot_char_1):
+            if check_hide_slot_char_1:
                 self.label_spell_slot_character0_10.hide()
                 self.label_spell_slot_character0_11.hide()
                 self.label_spell_slot_character0_12.hide()
@@ -1093,11 +1086,10 @@ try:
                 self.initiative_edit_character1.setGeometry(QtCore.QRect(390, 260, 51, 25))
                 self.label_lock_init_char_1.setGeometry(QtCore.QRect(390, 260, 51, 25))
                 self.textEdit_char_1.setGeometry(QtCore.QRect(320, 290, 120, 70))
-            logger.info("hide_spell_slot_char_1")
 
-        def hide_spell_slot_char_2(self):
-            self.check_char_2 = self.checkBox_hide_spell_slot_char_2.isChecked()
-            if self.check_char_2:
+        @logger.catch
+        def hide_spell_slot_char_2(self, check_hide_slot_char_2):
+            if check_hide_slot_char_2:
                 self.label_spell_slot_character0_19.hide()
                 self.label_spell_slot_character0_20.hide()
                 self.label_spell_slot_character0_21.hide()
@@ -1151,11 +1143,10 @@ try:
                 self.initiative_edit_character2.setGeometry(QtCore.QRect(550, 260, 51, 25))
                 self.label_lock_init_char_2.setGeometry(QtCore.QRect(550, 260, 51, 25))
                 self.textEdit_char_2.setGeometry(QtCore.QRect(480, 290, 120, 70))
-            logger.info("hide_spell_slot_char_2")
 
-        def hide_spell_slot_char_3(self):
-            self.check_char_3 = self.checkBox_hide_spell_slot_char_3.isChecked()
-            if self.check_char_3:
+        @logger.catch
+        def hide_spell_slot_char_3(self, check_hide_slot_char_3):
+            if check_hide_slot_char_3:
                 self.label_spell_slot_character0_28.hide()
                 self.label_spell_slot_character0_29.hide()
                 self.label_spell_slot_character0_30.hide()
@@ -1209,9 +1200,8 @@ try:
                 self.initiative_edit_character3.setGeometry(QtCore.QRect(710, 260, 51, 25))
                 self.label_lock_init_char_3.setGeometry(QtCore.QRect(710, 260, 51, 25))
                 self.textEdit_char_3.setGeometry(QtCore.QRect(640, 290, 120, 70))
-            logger.info("hide_spell_slot_char_3")
 
-
+        @logger.catch
         def add_to_tracker(self):
             '''
             DOCKSTRING: добавление созданых персонажей в трекер и отключение полей несуществующий персонажей
@@ -1473,9 +1463,9 @@ try:
                 self.pushButton_restore_spell_slots_3.setDisabled(True)
                 self.pushButton_set_spell_slots_3.setDisabled(True)
                 self.textEdit_char_3.setDisabled(True)
-            logger.info("add_to_tracker")
 
-        def restore_slot_char0(self):
+        @logger.catch
+        def restore_slot_char0(self, bool_val):
             if 'character0' in hero:
                 self.spin_spell_slot_character0.setValue(int(hero['character0']['1']))
                 self.spin_spell_slot_character0_2.setValue(int(hero['character0']['2']))
@@ -1486,11 +1476,11 @@ try:
                 self.spin_spell_slot_character0_7.setValue(int(hero['character0']['7']))
                 self.spin_spell_slot_character0_8.setValue(int(hero['character0']['8']))
                 self.spin_spell_slot_character0_9.setValue(int(hero['character0']['9']))
-                logger.info("restore_slot_char0")
             else:
                 pass
 
-        def restore_slot_char1(self):
+        @logger.catch
+        def restore_slot_char1(self, bool_val):
             if 'character1' in hero:
                 self.spin_spell_slot_character1.setValue(int(hero['character1']['1']))
                 self.spin_spell_slot_character1_2.setValue(int(hero['character1']['2']))
@@ -1501,11 +1491,11 @@ try:
                 self.spin_spell_slot_character1_7.setValue(int(hero['character1']['7']))
                 self.spin_spell_slot_character1_8.setValue(int(hero['character1']['8']))
                 self.spin_spell_slot_character1_9.setValue(int(hero['character1']['9']))
-                logger.info("restore_slot_char1")
             else:
                 pass
 
-        def restore_slot_char2(self):
+        @logger.catch
+        def restore_slot_char2(self, bool_val):
             if 'character2' in hero:
                 self.spin_spell_slot_character2.setValue(int(hero['character2']['1']))
                 self.spin_spell_slot_character2_2.setValue(int(hero['character2']['2']))
@@ -1516,11 +1506,11 @@ try:
                 self.spin_spell_slot_character2_7.setValue(int(hero['character2']['7']))
                 self.spin_spell_slot_character2_8.setValue(int(hero['character2']['8']))
                 self.spin_spell_slot_character2_9.setValue(int(hero['character2']['9']))
-                logger.info("restore_slot_char2")
             else:
                 pass
 
-        def restore_slot_char3(self):
+        @logger.catch
+        def restore_slot_char3(self, bool_val):
             if 'character3' in hero:
                 self.spin_spell_slot_character3.setValue(int(hero['character3']['1']))
                 self.spin_spell_slot_character3_2.setValue(int(hero['character3']['2']))
@@ -1531,11 +1521,11 @@ try:
                 self.spin_spell_slot_character3_7.setValue(int(hero['character3']['7']))
                 self.spin_spell_slot_character3_8.setValue(int(hero['character3']['8']))
                 self.spin_spell_slot_character3_9.setValue(int(hero['character3']['9']))
-                logger.info("restore_slot_char3")
             else:
                 pass
 
-        def set_slot_char0(self):
+        @logger.catch
+        def set_slot_char0(self, bool_val):
             if 'character0' in hero:
                 hero['character0']['1'] = self.spin_spell_slot_character0.text()
                 hero['character0']['2'] = self.spin_spell_slot_character0_2.text()
@@ -1546,11 +1536,11 @@ try:
                 hero['character0']['7'] = self.spin_spell_slot_character0_7.text()
                 hero['character0']['8'] = self.spin_spell_slot_character0_8.text()
                 hero['character0']['9'] = self.spin_spell_slot_character0_9.text()
-                logger.info("set_slot_char0")
             else:
                 pass
 
-        def set_slot_char1(self):
+        @logger.catch
+        def set_slot_char1(self, bool_val):
             if 'character1' in hero:
                 hero['character1']['1'] = self.spin_spell_slot_character1.text()
                 hero['character1']['2'] = self.spin_spell_slot_character1_2.text()
@@ -1561,11 +1551,11 @@ try:
                 hero['character1']['7'] = self.spin_spell_slot_character1_7.text()
                 hero['character1']['8'] = self.spin_spell_slot_character1_8.text()
                 hero['character1']['9'] = self.spin_spell_slot_character1_9.text()
-                logger.info("set_slot_char1")
             else:
                 pass
 
-        def set_slot_char2(self):
+        @logger.catch
+        def set_slot_char2(self, bool_val):
             if 'character2' in hero:
                 hero['character2']['1'] = self.spin_spell_slot_character2.text()
                 hero['character2']['2'] = self.spin_spell_slot_character2_2.text()
@@ -1576,11 +1566,11 @@ try:
                 hero['character2']['7'] = self.spin_spell_slot_character2_7.text()
                 hero['character2']['8'] = self.spin_spell_slot_character2_8.text()
                 hero['character2']['9'] = self.spin_spell_slot_character2_9.text()
-                logger.info("set_slot_char2")
             else:
                 pass
 
-        def set_slot_char3(self):
+        @logger.catch
+        def set_slot_char3(self, bool_val):
             if 'character3' in hero:
                 hero['character3']['1'] = self.spin_spell_slot_character3.text()
                 hero['character3']['2'] = self.spin_spell_slot_character3_2.text()
@@ -1591,11 +1581,10 @@ try:
                 hero['character3']['7'] = self.spin_spell_slot_character3_7.text()
                 hero['character3']['8'] = self.spin_spell_slot_character3_8.text()
                 hero['character3']['9'] = self.spin_spell_slot_character3_9.text()
-                logger.info("set_slot_char3")
             else:
                 pass
 
-
+        @logger.catch
         def set_stats_character(self):
             '''
             DOCKSTRING: Обновление статов персонажей при их изменении в трекере
@@ -1617,7 +1606,6 @@ try:
                     hero['character3']['hp'] = int(self.hp_edit_character3.text())
                     hero['character3']['ac'] = int(self.ac_edit_character3.text())
                     hero['character3']['initiative'] = int(self.initiative_edit_character3.text())
-                logger.info("set_stats_character")
             except ValueError:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
@@ -1632,23 +1620,24 @@ try:
                 error.exec()
                 logger.info("set_stats_character. except")
 
+        @logger.catch
         def popup_action(self, but):
             '''
             DOCKSTRING: Заглушка для ошибок
             '''
             if but.text() == 'Ok':
-                print('Ok')
+                logger.info("popup_action")
 
         '''
         Scenario
         '''
 
-        def del_chapter(self):
+        @logger.catch
+        def del_chapter(self, bool_val):
             global scenario_chapter
             try:
                 scenario_chapter.pop(self.comboBox_choose_chapter.currentText())
                 self.comboBox_choose_chapter_update()
-                logger.info("del_chapter")
             except KeyError:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
@@ -1662,11 +1651,12 @@ try:
                 error.exec()
                 logger.info("del_chapter. except")
 
-        def hide_chapter(self):
+        @logger.catch
+        def hide_chapter(self, radioButton_tags_notes):
             '''
             DOCKSTRING: Скрытие основного окна сценария и вывод тэгов
             '''
-            if self.radioButton_tags_notes.isChecked():
+            if radioButton_tags_notes:
                 self.pushButton_add_tags.show()
                 self.pushButton_del_tags.show()
                 self.list_tags.show()
@@ -1689,9 +1679,9 @@ try:
                 self.list_tags.hide()
                 self.text_scenario.hide()
 
-            logger.info("hide_chapter")
 
-        def add_chapter(self):
+        @logger.catch
+        def add_chapter(self, bool_val):
             global scenario_chapter
             if self.edit_add_chapter.text() in scenario_chapter.keys():
                 error = QMessageBox()
@@ -1704,48 +1694,46 @@ try:
                 error.buttonClicked.connect(self.popup_action)
 
                 error.exec()
-                logger.info("add_chapter. redo entry")
             else:
                 if self.edit_add_chapter.text() != "":
                     scenario_chapter[self.edit_add_chapter.text()] = ''
                 print(scenario_chapter)
-                logger.info("add_chapter")
                 self.comboBox_choose_chapter_update()
 
+        @logger.catch
         def comboBox_choose_chapter_update(self):
             self.comboBox_choose_chapter.clear()
 
             for i in scenario_chapter.keys():
                 self.comboBox_choose_chapter.addItem(i)
-            logger.info("comboBox_choose_chapter_update")
 
-        def view_text_chapter(self):
+        @logger.catch
+        def view_text_chapter(self, bool_val):
             try:
                 self.text_chapter.setText(scenario_chapter[self.comboBox_choose_chapter.currentText()])
-                logger.info("view_text_chapter")
             except KeyError:
                 logger.info("view_text_chapter. except KeyError")
                 pass
 
+        @logger.catch
         def set_text_chapter(self):
             scenario_chapter[self.comboBox_choose_chapter.currentText()] = self.text_chapter.toPlainText()
-            logger.info("set_text_chapter")
 
-        def status_list_tags(self):
+        @logger.catch
+        def status_list_tags(self, bool_val):
             if self.status == 0:
                 self.add_scenario_category()
             else:
                 self.add_scenario_object()
-            logger.info("status_list_tags")
 
-        def del_object_scenario(self):
+        @logger.catch
+        def del_object_scenario(self, bool_val):
             global scenario
             global scenario_text
             try:
                 if self.list_tags.currentItem():
                     scenario[self.current_index.row()][1].pop(self.list_tags.currentRow() - 1)
                     scenario_text.pop(self.list_tags.currentItem().text())
-                    logger.info(f"del_object_scenario {scenario}\n {scenario_text}")
                     self.update_list_tags_object()
             except AttributeError:
                 error = QMessageBox()
@@ -1760,48 +1748,47 @@ try:
                 error.exec()
                 logger.info("del_object_scenario. except AttributeError")
 
+        @logger.catch
         def add_scenario_category(self):
             global scenario
             text, val = QInputDialog.getText(self, "Enter", "Add category")
             scenario.append([text, []])
-            logger.info(f"add_scenario_category {scenario}")
             self.update_list_tags()
 
+        @logger.catch
         def add_scenario_object(self):
             global scenario
             global scenario_text
             text, val = QInputDialog.getText(self, "Enter", "Add object")
             scenario[self.current_index.row()][-1].append(text)
             scenario_text[text] = ""
-            logger.info(f"add_scenario_object {scenario}\n {scenario_text}")
             self.update_list_tags_object()
 
+        @logger.catch
         def update_list_tags(self):
             self.list_tags.clear()
             self.status = 0
 
             for i in scenario:
                 self.list_tags.addItem(i[0])
-            logger.info(f"update_list_tags")
 
-        def set_current_index(self):
+        @logger.catch
+        def set_current_index(self, value):
             if self.status == 0 or self.list_tags.currentItem().text() == "...":
                 self.current_index = self.list_tags.currentIndex()
-                logger.info(f"set_current_index")
                 self.back_category_list_tags()
             else:
                 if self.list_tags.currentItem().text() in scenario_text.keys():
                     self.text_scenario.setText(scenario_text[self.list_tags.currentItem().text()])
-                    logger.info(f"set_current_index. else")
 
+        @logger.catch
         def back_category_list_tags(self):
             if self.list_tags.currentItem().text() == "...":
-                logger.info(f"back_category_list_tags")
                 self.update_list_tags()
             else:
-                logger.info(f"back_category_list_tags. else")
                 self.update_list_tags_object()
 
+        @logger.catch
         def update_list_tags_object(self):
             self.list_tags.clear()
             self.status = 1
@@ -1809,15 +1796,14 @@ try:
             if scenario[self.current_index.row()][1]:
                 for i in scenario[self.current_index.row()][1]:
                     self.list_tags.addItem(i)
-                logger.info(f"update_list_tags_object")
             else:
                 pass
 
+        @logger.catch
         def set_text_to_scenario(self):
             if self.list_tags.currentItem():
                 if self.list_tags.currentItem().text() in scenario_text.keys():
                     scenario_text[self.list_tags.currentItem().text()] = self.text_scenario.toPlainText()
-                    logger.info(f"set_text_to_scenario")
                 else:
                     pass
 
@@ -1825,6 +1811,7 @@ try:
         Notes
         '''
 
+        @logger.catch
         def save_text(self):
             global note_zero
             global note_one
@@ -1847,7 +1834,8 @@ try:
         Music changer
         '''
 
-        def music_changer_update(self):
+        @logger.catch
+        def music_changer_update(self, bool_val):
             '''
             DOCKSTRING: Добавление ссылок на музыку в словарь в формате сцена: урл
             '''
@@ -1871,11 +1859,11 @@ try:
                     music[self.category_edit.text()][self.scene_edit.text()] = self.url_edit.text()
             else:
                 music[self.category_edit.text()] = {self.scene_edit.text(): self.url_edit.text()}
-            logger.info(f"music_changer_update, {music}")
             self.listWidget_scene.clear()
             self.music_changer_listview_category_update()
 
 
+        @logger.catch
         def music_changer_listview_category_update(self):
             '''
             DOCKSTRING: обновление комбо бокса, при загрузке сохранения
@@ -1883,17 +1871,17 @@ try:
             self.listWidget_category.clear()
             for i in music.keys():
                 self.listWidget_category.addItem(i)
-            logger.info("music_changer_listview_category_update")
 
-        def listView_scene_update(self):
+        @logger.catch
+        def listView_scene_update(self, val=0):
             self.listWidget_scene.clear()
             current_index = self.listWidget_category.currentRow()
             list_music = list(music.keys())
             for i in music[list_music[current_index]].keys():
                 self.listWidget_scene.addItem(i)
-            logger.info("listView_scene_update")
 
-        def music_changer_play(self):
+        @logger.catch
+        def music_changer_play(self, bool_val):
             num_one = self.listWidget_category.currentRow()
             num_two = self.listWidget_scene.currentRow()
             list_music = list(music.keys())
@@ -1902,9 +1890,9 @@ try:
             for i in enumerate(value):
                 webbrowser.open(value[i[0]])
                 time.sleep(1)
-            logger.info("music_changer_play")
 
-        def music_changer_delete(self):
+        @logger.catch
+        def music_changer_delete(self, bool_val):
             num_one = self.listWidget_category.currentRow()
             num_two = self.listWidget_scene.currentRow()
             list_music = list(music.keys())
@@ -1928,30 +1916,29 @@ try:
                 music[list_music[num_one]].pop(list_music_deep[num_two])
                 self.music_changer_listview_category_update()
                 self.listView_scene_update()
-            logger.info(f"music_changer_delete, {music}")
 
         '''
         Rules
         '''
 
+        @logger.catch
         def set_combobox_rules(self):
             for i in dict_rules:
                 self.comboBox_rules.addItem(i)
-            logger.info("set_combobox_rules")
 
-        def changed_combobox_rules(self):
-            self.label_rules.setText(dict_rules[self.comboBox_rules.currentText()])
-            logger.info("changed_combobox_rules")
+        @logger.catch
+        def changed_combobox_rules(self, rules_name):
+            self.label_rules.setText(dict_rules[rules_name])
 
         '''
         Store
         '''
 
+        @logger.catch
         def del_store(self):
             try:
                 store.pop(self.box_choose_shop.currentText())
                 self.box_choose_shop_update()
-                logger.info("del_store")
             except ValueError:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
@@ -1977,6 +1964,7 @@ try:
                 error.exec()
                 logger.info("del_store. except KeyError")
 
+        @logger.catch
         def options_store_box_update(self):
             sex = ["Случайно", "Мужчина", "Женщина"]
             age = ["Случайно", "Молодой", "Средний", "Пожилой"]
@@ -1987,11 +1975,12 @@ try:
             for i in race:
                 self.box_race_vendor.addItem(i)
 
-        def options_generate_store(self):
+        @logger.catch
+        def options_generate_store(self, radioButton_options_store):
             '''
             DOCKSTRING: Скрытие текстового поля заметок и вывод настроек генератора
             '''
-            if self.radioButton_options_store.isChecked():
+            if radioButton_options_store:
                 self.text_notes.hide()
 
                 self.label_store_name_2.show()
@@ -2020,24 +2009,25 @@ try:
                 self.label_race_vendor.hide()
                 self.box_race_vendor.hide()
 
+        @logger.catch
         def store_type_and_qualification_vendor(self):
             for i in merchants:
                 self.box_generate_type.addItem(i)
 
             for i in qualification:
                 self.box_generate_cost.addItem(i)
-            logger.info("store_type_and_qualification_vendor")
 
-        def sex_vendor(self):
+        @logger.catch
+        def sex_vendor(self, bool_val):
             self.vendor_sex = ""
             if self.box_sex_vendor.currentText() == "Случайно":
                 sex = ["Мужчина", "Женщина"]
                 self.vendor_sex = random.choice(sex)
             else:
                 self.vendor_sex = self.box_sex_vendor.currentText()
-            logger.info("sex_vendor")
             self.name_vendor()
 
+        @logger.catch
         def name_vendor(self):
             self.vendor_name = ""
             if self.edit_name_vendor.text() == "":
@@ -2048,9 +2038,9 @@ try:
             else:
                 self.vendor_name = self.edit_name_vendor.text()
                 self.edit_name_vendor.setText("")
-            logger.info("name_vendor")
             self.age_vendor()
 
+        @logger.catch
         def age_vendor(self):
             self.vendor_age = ""
             if self.box_age_vendor.currentText() == "Случайно":
@@ -2058,18 +2048,18 @@ try:
                 self.vendor_age = random.choice(age)
             else:
                 self.vendor_age = self.box_age_vendor.currentText()
-            logger.info("age_vendor")
             self.race_vendor()
 
+        @logger.catch
         def race_vendor(self):
             self.vendor_race = ""
             if self.box_race_vendor.currentText() == "Случайно":
                 self.vendor_race = random.choice(race)
             else:
                 self.vendor_race = self.box_race_vendor.currentText()
-            logger.info("race_vendor")
             self.money_vendor()
 
+        @logger.catch
         def money_vendor(self):
             self.vendor_money = 0
             if self.box_generate_cost.currentText() == "Ужасная":
@@ -2082,9 +2072,9 @@ try:
                 self.vendor_money += random.randint(1, 10) * 250
             if self.box_generate_cost.currentText() == "Прекрасная":
                 self.vendor_money += random.randint(1, 10) * 500
-            logger.info("money_vendor")
             self.assortment_store()
 
+        @logger.catch
         def assortment_store(self):
             '''
             DOCKSTRING: Присвоение ассортимента магазина в соответсвии с стоймостью
@@ -2447,9 +2437,9 @@ try:
                     for i in sorted(tools_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
-            logger.info("assortment_store")
             self.create_store()
 
+        @logger.catch
         def create_store(self):
             if self.edit_store_name_2.text() == "":
                 self.iter_store = 0
@@ -2470,7 +2460,6 @@ try:
                         'vendor_money': self.vendor_money,
                         'assortment_store': self.store_assortment,
                         'text_notes': " "}})
-                logger.info(f"create_store, {store}")
             else:
                 self.iter_store = 0
                 flag = True
@@ -2491,16 +2480,17 @@ try:
                         'assortment_store': self.store_assortment,
                         'text_notes': " "}})
                 self.edit_store_name_2.setText("")
-                logger.info(f"create_store, {store}")
             self.box_choose_shop_update()
+
+        @logger.catch
         def box_choose_shop_update(self):
             self.box_choose_shop.clear()
             for i in store.keys():
                 self.box_choose_shop.addItem(i)
-            logger.info("box_choose_shop_update")
 
-        def view_store(self):
-            if self.box_choose_shop.currentText() in store.keys():
+        @logger.catch
+        def view_store(self, store_name):
+            if store_name in store.keys():
                 text = f"Имя продавца: {store[self.box_choose_shop.currentText()]['name_vendor']}\n" \
                        f"Пол продавца: {store[self.box_choose_shop.currentText()]['sex_vendor']}\n" \
                        f"Возраст: {store[self.box_choose_shop.currentText()]['age_vendor']}\n" \
@@ -2513,8 +2503,8 @@ try:
                 self.text_notes.setText(store[self.box_choose_shop.currentText()]['text_notes'])
             else:
                 pass
-            logger.info("view_store")
 
+        @logger.catch
         def search_for_assortment_store(self):
             if self.search_assortment_edit.text() == "":
                 self.text_assortment_shop.setText(f"Ассортимент:\n{store[self.box_choose_shop.currentText()]['assortment_store']}")
@@ -2525,19 +2515,19 @@ try:
                         message_new += i + "\n"
                 self.text_assortment_shop.setText(f"Ассортимент:\n{message_new}")
 
+        @logger.catch
         def shop_notes_edit(self):
             if self.box_choose_shop.currentText() != "":
                 store[self.box_choose_shop.currentText()]['text_notes'] = self.text_notes.toPlainText()
-            logger.info("shop_notes_edit")
 
         '''
         NPC generator
         '''
 
-        def del_npc(self):
+        @logger.catch
+        def del_npc(self, bool_val):
             try:
                 npc.pop(self.box_generate_npc.currentText())
-                logger.info("del_npc")
                 self.box_generate_npc_update()
             except KeyError:
                 error = QMessageBox()
@@ -2552,6 +2542,7 @@ try:
                 error.exec()
                 logger.info("del_npc, except KeyError")
 
+        @logger.catch
         def npc_box_update(self):
             sex = ["Случайно", "Мужчина", "Женщина"]
             age = ["Случайно", "Молодой", "Средний", "Пожилой"]
@@ -2562,16 +2553,17 @@ try:
             for i in race:
                 self.box_race_npc.addItem(i)
 
-        def sex_npc(self):
+        @logger.catch
+        def sex_npc(self, bool_val):
             self.npc_sex = ""
             if self.box_sex_npc.currentText() == "Случайно":
                 sex = ["Мужчина", "Женщина"]
                 self.npc_sex = random.choice(sex)
             else:
                 self.npc_sex = self.box_sex_npc.currentText()
-            logger.info("sex_npc")
             self.name_npc()
 
+        @logger.catch
         def name_npc(self):
             self.npc_name = ""
             self.npc_full_name = ""
@@ -2586,18 +2578,18 @@ try:
                 self.npc_name = self.edit_npc_name.text()
                 self.npc_full_name = self.edit_npc_name.text()
                 self.edit_npc_name.setText("")
-            logger.info("name_npc")
             self.race_npc()
 
+        @logger.catch
         def race_npc(self):
             self.npc_race = ""
             if self.box_race_npc.currentText() == "Случайно":
                 self.npc_race = random.choice(race)
             else:
                 self.npc_race = self.box_race_npc.currentText()
-            logger.info("race_npc")
             self.age_npc()
 
+        @logger.catch
         def age_npc(self):
             self.npc_age = ""
             if self.box_age_npc.currentText() == "Случайно":
@@ -2605,9 +2597,9 @@ try:
                 self.npc_age = random.choice(age)
             else:
                 self.npc_age = self.box_age_npc.currentText()
-            logger.info("age_npc")
             self.create_npc()
 
+        @logger.catch
         def create_npc(self):
             self.iter_npc = 0
             flag = True
@@ -2623,29 +2615,28 @@ try:
                     'npc_age': self.npc_age,
                     'nps_race': self.npc_race,
                     'text_notes': " "}})
-            logger.info(f"create_npc, {npc}")
             self.box_generate_npc_update()
 
+        @logger.catch
         def box_generate_npc_update(self):
             self.box_generate_npc.clear()
             for i in npc.keys():
                 self.box_generate_npc.addItem(i)
-            logger.info("box_generate_npc_update")
 
+        @logger.catch
         def npc_notes_edit(self):
             if self.box_generate_npc.currentText() != "":
                 npc[self.box_generate_npc.currentText()]['text_notes'] = self.text_npc_generate.toPlainText()
-            logger.info("npc_notes_edit")
 
-        def view_npc(self):
+        @logger.catch
+        def view_npc(self, npc_name):
             if self.box_generate_npc.currentText() != "":
-                text = f"Имя: {npc[self.box_generate_npc.currentText()]['npc_name']}\n" \
-                       f"Пол: {npc[self.box_generate_npc.currentText()]['npc_sex']}\n" \
-                       f"Возраст: {npc[self.box_generate_npc.currentText()]['npc_age']}\n" \
-                       f"Расса: {npc[self.box_generate_npc.currentText()]['nps_race']}"
+                text = f"Имя: {npc[npc_name]['npc_name']}\n" \
+                       f"Пол: {npc[npc_name]['npc_sex']}\n" \
+                       f"Возраст: {npc[npc_name]['npc_age']}\n" \
+                       f"Расса: {npc[npc_name]['nps_race']}"
                 self.label_generate_npc.setText(text)
-                self.text_npc_generate.setText(npc[self.box_generate_npc.currentText()]['text_notes'])
-            logger.info("view_npc")
+                self.text_npc_generate.setText(npc[npc_name]['text_notes'])
 
 
     if __name__ == "__main__":
@@ -2682,3 +2673,4 @@ finally:
         )
         with open("last_session", 'w', encoding='utf-8') as outfile:
             json.dump(save_dict, outfile)
+    logger.info("End")
