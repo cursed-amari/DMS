@@ -13,7 +13,6 @@ import random
 import webbrowser
 import time
 import json
-import sys
 
 from main_class import Ui_MainWindow
 from initiative import InitiativeWindow
@@ -52,11 +51,9 @@ try:
         @logger.catch
         def aplication_func(self):
             # Menu
-            self.pushButton_save.clicked.connect(self.actions_save)
-            self.pushButton_load.clicked.connect(self.action_open)
-            self.pushButton_last_session.clicked.connect(self.last_session)
-            self.pushButton_turn_window.clicked.connect(self.action_minimized)
-            self.pushButton_close_window.clicked.connect(self.action_close)
+            self.actionSave.triggered.connect(self.actions_save)
+            self.actionOpen.triggered.connect(self.action_open)
+            self.actionlast_session.triggered.connect(self.last_session)
             # pushButton
             self.pushButton.clicked.connect(self.input_chek)
             self.pushButton_init_open.clicked.connect(self.open_init_calc)
@@ -300,20 +297,13 @@ try:
                 error.exec()
                 logger.info("last_session. except")
 
-        @logger.catch
-        def action_minimized(self, bool_val):
-            self.showMinimized()
-
-        @logger.catch
-        def action_close(self, bool_val):
-            sys.exit(app.exec())
 
         '''
         Main window hide
         '''
 
         @logger.catch
-        def input_chek(self):
+        def input_chek(self, bool_val):
             '''
             DOCKSTRING: Проверка чисел
             '''
@@ -1707,7 +1697,6 @@ try:
             else:
                 if self.edit_add_chapter.text() != "":
                     scenario_chapter[self.edit_add_chapter.text()] = ''
-                print(scenario_chapter)
                 self.comboBox_choose_chapter_update()
 
         @logger.catch
@@ -1762,17 +1751,19 @@ try:
         def add_scenario_category(self):
             global scenario
             text, val = QInputDialog.getText(self, "Enter", "Add category")
-            scenario.append([text, []])
-            self.update_list_tags()
+            if text != "":
+                scenario.append([text, []])
+                self.update_list_tags()
 
         @logger.catch
         def add_scenario_object(self):
             global scenario
             global scenario_text
             text, val = QInputDialog.getText(self, "Enter", "Add object")
-            scenario[self.current_index.row()][-1].append(text)
-            scenario_text[text] = ""
-            self.update_list_tags_object()
+            if text != "":
+                scenario[self.current_index.row()][-1].append(text)
+                scenario_text[text] = ""
+                self.update_list_tags_object()
 
         @logger.catch
         def update_list_tags(self):
@@ -1849,28 +1840,29 @@ try:
             '''
             DOCKSTRING: Добавление ссылок на музыку в словарь в формате сцена: урл
             '''
-            if self.category_edit.text() in music.keys():
-                if self.scene_edit.text() in music[self.category_edit.text()].keys():
-                    item = music[self.category_edit.text()][self.scene_edit.text()].split(' ')
-                    if self.url_edit.text() in item:
-                        error = QMessageBox()
-                        error.setWindowTitle('Ошибка')
-                        error.setText('Такая ссылка уже есть в этой сцене')
-                        error.setIcon(QMessageBox.Icon.Warning)
-                        error.setStandardButtons(QMessageBox.StandardButton.Ok)
-                        error.setDefaultButton(QMessageBox.StandardButton.Ok)
+            if self.category_edit.text() and self.scene_edit.text() != "":
+                if self.category_edit.text() in music.keys():
+                    if self.scene_edit.text() in music[self.category_edit.text()].keys():
+                        item = music[self.category_edit.text()][self.scene_edit.text()].split(' ')
+                        if self.url_edit.text() in item:
+                            error = QMessageBox()
+                            error.setWindowTitle('Ошибка')
+                            error.setText('Такая ссылка уже есть в этой сцене')
+                            error.setIcon(QMessageBox.Icon.Warning)
+                            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                            error.setDefaultButton(QMessageBox.StandardButton.Ok)
 
-                        error.buttonClicked.connect(self.popup_action)
+                            error.buttonClicked.connect(self.popup_action)
 
-                        error.exec()
+                            error.exec()
+                        else:
+                            music[self.category_edit.text()][self.scene_edit.text()] += ' ' + self.url_edit.text()
                     else:
-                        music[self.category_edit.text()][self.scene_edit.text()] += ' ' + self.url_edit.text()
+                        music[self.category_edit.text()][self.scene_edit.text()] = self.url_edit.text()
                 else:
-                    music[self.category_edit.text()][self.scene_edit.text()] = self.url_edit.text()
-            else:
-                music[self.category_edit.text()] = {self.scene_edit.text(): self.url_edit.text()}
-            self.listWidget_scene.clear()
-            self.music_changer_listview_category_update()
+                    music[self.category_edit.text()] = {self.scene_edit.text(): self.url_edit.text()}
+                self.listWidget_scene.clear()
+                self.music_changer_listview_category_update()
 
 
         @logger.catch
@@ -1906,7 +1898,7 @@ try:
         def music_changer_delete(self, bool_val):
             num_one = self.listWidget_category.currentRow()
             num_two = self.listWidget_scene.currentRow()
-            if num_one and num_two != -1:
+            if num_one != -1:
                 list_music = list(music.keys())
                 if num_two == -1:
                     if len(list(music.keys())) == 1:
@@ -2652,6 +2644,7 @@ try:
 
 
     if __name__ == "__main__":
+        import sys
         app = QtWidgets.QApplication(sys.argv)
         MainWindow = MainWindow()
         MainWindow.show()

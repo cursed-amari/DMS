@@ -12,7 +12,6 @@ from loguru import logger
 from initiative_class import Ui_MainWindow_init
 import json
 import random
-import sys
 
 
 enemy_list = []
@@ -32,9 +31,6 @@ try:
 
         @logger.catch
         def app_func(self):
-            self.pushButton_turn.clicked.connect(self.action_minimized)
-            self.pushButton_close.clicked.connect(self.action_close)
-
             self.pushButton_initiative.clicked.connect(self.calk_initiative)
             self.pushButton_add.clicked.connect(self.check_input)
             self.pushButton_add.clicked.connect(self.enemy_box_update)
@@ -51,14 +47,6 @@ try:
             self.view_player_initiative()
             self.view_enemy()
             self.preset_combo_box_update()
-
-        @logger.catch
-        def action_minimized(self, bool_val):
-            self.showMinimized()
-
-        @logger.catch
-        def action_close(self, bool_val):
-            self.close()
 
         '''
         Main
