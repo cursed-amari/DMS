@@ -8,12 +8,12 @@
 
 from PyQt6 import QtWidgets, QtCore
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog
-from PyQt6.QtCore import Qt
 from loguru import logger
 import random
 import webbrowser
 import time
 import json
+import sys
 
 from main_class import Ui_MainWindow
 from initiative import InitiativeWindow
@@ -47,17 +47,16 @@ try:
             self.setupUi(self)
             self.aplication_func()
             self.status = 0
-            # self.setStyleSheet('.QWidget {background-image: url(fon.png);}')
-
-            # self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.FramelessWindowHint)
             logger.info("Start")
 
         @logger.catch
         def aplication_func(self):
             # Menu
-            self.actionSave.triggered.connect(self.actions_save)
-            self.actionOpen.triggered.connect(self.action_open)
-            self.actionlast_session.triggered.connect(self.last_session)
+            self.pushButton_save.clicked.connect(self.actions_save)
+            self.pushButton_load.clicked.connect(self.action_open)
+            self.pushButton_last_session.clicked.connect(self.last_session)
+            self.pushButton_turn_window.clicked.connect(self.action_minimized)
+            self.pushButton_close_window.clicked.connect(self.action_close)
             # pushButton
             self.pushButton.clicked.connect(self.input_chek)
             self.pushButton_init_open.clicked.connect(self.open_init_calc)
@@ -301,6 +300,13 @@ try:
                 error.exec()
                 logger.info("last_session. except")
 
+        @logger.catch
+        def action_minimized(self, bool_val):
+            self.showMinimized()
+
+        @logger.catch
+        def action_close(self, bool_val):
+            sys.exit(app.exec())
 
         '''
         Main window hide
@@ -2646,7 +2652,6 @@ try:
 
 
     if __name__ == "__main__":
-        import sys
         app = QtWidgets.QApplication(sys.argv)
         MainWindow = MainWindow()
         MainWindow.show()

@@ -1,15 +1,20 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+from PyQt6.QtCore import Qt
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 425)
-        MainWindow.setWindowOpacity(1.0)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(0, 0, 800, 399))
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setGeometry(QtCore.QRect(0, 0, 801, 431))
+        self.frame.setMouseTracking(False)
+        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame.setObjectName("frame")
+        self.tabWidget = QtWidgets.QTabWidget(self.frame)
+        self.tabWidget.setGeometry(QtCore.QRect(0, 30, 800, 399))
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
@@ -932,23 +937,37 @@ class Ui_MainWindow(object):
         self.box_race_npc.setGeometry(QtCore.QRect(10, 240, 161, 22))
         self.box_race_npc.setObjectName("box_race_npc")
         self.tabWidget.addTab(self.tab_6, "")
+        self.pushButton_turn_window = QtWidgets.QPushButton(self.frame)
+        self.pushButton_turn_window.setGeometry(QtCore.QRect(730, 6, 31, 23))
+        self.pushButton_turn_window.setText("")
+        self.pushButton_turn_window.setObjectName("pushButton_turn_window")
+        self.pushButton_close_window = QtWidgets.QPushButton(self.frame)
+        self.pushButton_close_window.setGeometry(QtCore.QRect(760, 6, 31, 23))
+        self.pushButton_close_window.setText("")
+        self.pushButton_close_window.setObjectName("pushButton_close_window")
+        self.pushButton_save = QtWidgets.QPushButton(self.frame)
+        self.pushButton_save.setGeometry(QtCore.QRect(0, 6, 51, 23))
+        self.pushButton_save.setObjectName("pushButton_save")
+        self.pushButton_load = QtWidgets.QPushButton(self.frame)
+        self.pushButton_load.setGeometry(QtCore.QRect(50, 6, 51, 23))
+        self.pushButton_load.setObjectName("pushButton_load")
+        self.pushButton_last_session = QtWidgets.QPushButton(self.frame)
+        self.pushButton_last_session.setGeometry(QtCore.QRect(100, 6, 81, 23))
+        self.pushButton_last_session.setObjectName("pushButton_last_session")
+        self.frame_2 = QtWidgets.QFrame(self.frame)
+        self.frame_2.setGeometry(QtCore.QRect(-1, 2, 801, 81))
+        self.frame_2.setStyleSheet("background-color:  rgb(85, 85, 85);")
+        self.frame_2.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_2.setObjectName("frame_2")
+        self.frame_2.raise_()
+        self.tabWidget.raise_()
+        self.pushButton_turn_window.raise_()
+        self.pushButton_close_window.raise_()
+        self.pushButton_save.raise_()
+        self.pushButton_load.raise_()
+        self.pushButton_last_session.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
-        self.menubar.setObjectName("menubar")
-        self.menuFile = QtWidgets.QMenu(self.menubar)
-        self.menuFile.setObjectName("menuFile")
-        MainWindow.setMenuBar(self.menubar)
-        self.actionOpen = QtGui.QAction(MainWindow)
-        self.actionOpen.setObjectName("actionOpen")
-        self.actionSave = QtGui.QAction(MainWindow)
-        self.actionSave.setObjectName("actionSave")
-        self.actionlast_session = QtGui.QAction(MainWindow)
-        self.actionlast_session.setObjectName("actionlast_session")
-        self.menuFile.addAction(self.actionOpen)
-        self.menuFile.addAction(self.actionSave)
-        self.menuFile.addAction(self.actionlast_session)
-        self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
@@ -956,7 +975,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "DnD Master support"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.hp.setText(_translate("MainWindow", "Hp"))
         self.pushButton.setText(_translate("MainWindow", "Create"))
         self.name.setText(_translate("MainWindow", "Name"))
@@ -1106,45 +1125,55 @@ class Ui_MainWindow(object):
         self.label_age_npc.setText(_translate("MainWindow", "Age"))
         self.label_race_npc.setText(_translate("MainWindow", "Race"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_6), _translate("MainWindow", "NPC generator"))
-        self.menuFile.setTitle(_translate("MainWindow", "File"))
-        self.actionOpen.setText(_translate("MainWindow", "Open"))
-        self.actionSave.setText(_translate("MainWindow", "Save"))
-        self.actionlast_session.setText(_translate("MainWindow", "last session"))
+        self.pushButton_save.setText(_translate("MainWindow", "Save"))
+        self.pushButton_load.setText(_translate("MainWindow", "Load"))
+        self.pushButton_last_session.setText(_translate("MainWindow", "Last session"))
 
 
         self.set_style()
         self.hide_aplications()
 
     def set_style(self):
-        self.pushButton_add_chapter.setStyleSheet("QPushButton {background-image: url(plus.svg);\n"
-                                                  " background-position: center center;\n"
-                                                  "background-repeat: no-repeat;\n"
-                                                  "}")
-        self.pushButton_del_chapter.setStyleSheet("QPushButton {background-image: url(minus.svg);\n"
-                                                  " background-position: center center;\n"
-                                                  "background-repeat: no-repeat;\n"
-                                                  "}")
-        self.pushButton_url_set.setStyleSheet("QPushButton {background-image: url(plus.svg);\n"
-                                                  " background-position: center center;\n"
-                                                  "background-repeat: no-repeat;\n"
-                                                  "}")
-        self.pushButton_url_open.setStyleSheet("QPushButton {background-image: url(play.svg);\n"
-                                                  " background-position: center center;\n"
-                                                  "background-repeat: no-repeat;\n"
-                                                  "}")
-        self.pushButton_url_delete.setStyleSheet("QPushButton {background-image: url(minus.svg);\n"
-                                                  " background-position: center center;\n"
-                                                  "background-repeat: no-repeat;\n"
-                                                  "}")
-        self.pushButton_add_tags.setStyleSheet("QPushButton {background-image: url(plus.svg);\n"
-                                                  " background-position: center center;\n"
-                                                  "background-repeat: no-repeat;\n"
-                                                  "}")
-        self.pushButton_del_tags.setStyleSheet("QPushButton {background-image: url(minus.svg);\n"
+        self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
+
+        self.pushButton_turn_window.setStyleSheet("QPushButton {background-image: url(img/minus.svg);\n"
                                                  " background-position: center center;\n"
                                                  "background-repeat: no-repeat;\n"
                                                  "}")
-        self.centralwidget.setStyleSheet(".QWidget {background-image: url(fon.png);}\n"
+        self.pushButton_close_window.setStyleSheet("QPushButton {background-image: url(img/x.svg);\n"
+                                                 " background-position: center center;\n"
+                                                 "background-repeat: no-repeat;\n"
+                                                 "}")
+        self.pushButton_add_chapter.setStyleSheet("QPushButton {background-image: url(img/plus.svg);\n"
+                                                  " background-position: center center;\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "}")
+        self.pushButton_del_chapter.setStyleSheet("QPushButton {background-image: url(img/minus.svg);\n"
+                                                  " background-position: center center;\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "}")
+        self.pushButton_url_set.setStyleSheet("QPushButton {background-image: url(img/plus.svg);\n"
+                                                  " background-position: center center;\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "}")
+        self.pushButton_url_open.setStyleSheet("QPushButton {background-image: url(img/play.svg);\n"
+                                                  " background-position: center center;\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "}")
+        self.pushButton_url_delete.setStyleSheet("QPushButton {background-image: url(img/minus.svg);\n"
+                                                  " background-position: center center;\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "}")
+        self.pushButton_add_tags.setStyleSheet("QPushButton {background-image: url(img/plus.svg);\n"
+                                                  " background-position: center center;\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "}")
+        self.pushButton_del_tags.setStyleSheet("QPushButton {background-image: url(img/minus.svg);\n"
+                                                 " background-position: center center;\n"
+                                                 "background-repeat: no-repeat;\n"
+                                                 "}")
+        self.centralwidget.setStyleSheet(".QWidget {background-image: url(img/fon.png);}\n"
                                          "QLabel {\n"
                                          "    color: white;\n"
                                          "}\n"
@@ -1382,3 +1411,12 @@ class Ui_MainWindow(object):
         self.initiative_edit.show()
         self.pushButton.show()
         self.label.show()
+
+    def mousePressEvent(self, event):
+        self.dragPos = event.globalPosition().toPoint()
+
+
+    def mouseMoveEvent(self, event):
+      self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos )
+      self.dragPos = event.globalPosition().toPoint()
+      event.accept()
