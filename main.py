@@ -8,6 +8,7 @@
 
 from PyQt6 import QtWidgets, QtCore
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog
+from PyQt6.QtCore import Qt
 from loguru import logger
 import random
 import webbrowser
@@ -46,6 +47,9 @@ try:
             self.setupUi(self)
             self.aplication_func()
             self.status = 0
+            # self.setStyleSheet('.QWidget {background-image: url(fon.png);}')
+
+            # self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.FramelessWindowHint)
             logger.info("Start")
 
         @logger.catch
@@ -1884,38 +1888,40 @@ try:
         def music_changer_play(self, bool_val):
             num_one = self.listWidget_category.currentRow()
             num_two = self.listWidget_scene.currentRow()
-            list_music = list(music.keys())
-            list_music_deep = list(music[list_music[num_one]])
-            value = music[list_music[num_one]][list_music_deep[num_two]].split(' ')
-            for i in enumerate(value):
-                webbrowser.open(value[i[0]])
-                time.sleep(1)
+            if num_one and num_two != -1:
+                list_music = list(music.keys())
+                list_music_deep = list(music[list_music[num_one]])
+                value = music[list_music[num_one]][list_music_deep[num_two]].split(' ')
+                for i in enumerate(value):
+                    webbrowser.open(value[i[0]])
+                    time.sleep(1)
 
         @logger.catch
         def music_changer_delete(self, bool_val):
             num_one = self.listWidget_category.currentRow()
             num_two = self.listWidget_scene.currentRow()
-            list_music = list(music.keys())
-            if num_two == -1:
-                if len(list(music.keys())) == 1:
-                    error = QMessageBox()
-                    error.setWindowTitle('Ошибка')
-                    error.setText('На данный момент нельзя удалить последнюю категорию')
-                    error.setIcon(QMessageBox.Icon.Warning)
-                    error.setStandardButtons(QMessageBox.StandardButton.Ok)
-                    error.setDefaultButton(QMessageBox.StandardButton.Ok)
+            if num_one and num_two != -1:
+                list_music = list(music.keys())
+                if num_two == -1:
+                    if len(list(music.keys())) == 1:
+                        error = QMessageBox()
+                        error.setWindowTitle('Ошибка')
+                        error.setText('На данный момент нельзя удалить последнюю категорию')
+                        error.setIcon(QMessageBox.Icon.Warning)
+                        error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                        error.setDefaultButton(QMessageBox.StandardButton.Ok)
 
-                    error.buttonClicked.connect(self.popup_action)
+                        error.buttonClicked.connect(self.popup_action)
 
-                    error.exec()
+                        error.exec()
+                    else:
+                        music.pop(list_music[num_one])
+                        self.music_changer_listview_category_update()
                 else:
-                    music.pop(list_music[num_one])
+                    list_music_deep = list(music[list_music[num_one]])
+                    music[list_music[num_one]].pop(list_music_deep[num_two])
                     self.music_changer_listview_category_update()
-            else:
-                list_music_deep = list(music[list_music[num_one]])
-                music[list_music[num_one]].pop(list_music_deep[num_two])
-                self.music_changer_listview_category_update()
-                self.listView_scene_update()
+                    self.listView_scene_update()
 
         '''
         Rules
@@ -1935,7 +1941,7 @@ try:
         '''
 
         @logger.catch
-        def del_store(self):
+        def del_store(self, bool_val):
             try:
                 store.pop(self.box_choose_shop.currentText())
                 self.box_choose_shop_update()

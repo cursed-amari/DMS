@@ -730,7 +730,7 @@ class Ui_MainWindow(object):
         self.text_chapter.setGeometry(QtCore.QRect(10, 40, 771, 311))
         self.text_chapter.setObjectName("text_chapter")
         self.pushButton_del_chapter = QtWidgets.QPushButton(self.tab_7)
-        self.pushButton_del_chapter.setGeometry(QtCore.QRect(290, 10, 41, 28))
+        self.pushButton_del_chapter.setGeometry(QtCore.QRect(285, 10, 41, 28))
         self.pushButton_del_chapter.setObjectName("pushButton_del_chapter")
         self.tabWidget.addTab(self.tab_7, "")
         self.tab_4 = QtWidgets.QWidget()
@@ -1062,16 +1062,16 @@ class Ui_MainWindow(object):
         self.checkBox_hide_spell_slot_char_2.setText(_translate("MainWindow", "hide"))
         self.checkBox_hide_spell_slot_char_3.setText(_translate("MainWindow", "hide"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tracker"))
-        self.pushButton_add_tags.setText(_translate("MainWindow", "Add"))
-        self.pushButton_del_tags.setText(_translate("MainWindow", "delete"))
+        self.pushButton_add_tags.setText(_translate("MainWindow", ""))
+        self.pushButton_del_tags.setText(_translate("MainWindow", ""))
         self.radioButton_tags_notes.setText(_translate("MainWindow", "tags notes"))
-        self.pushButton_add_chapter.setText(_translate("MainWindow", "add"))
-        self.pushButton_del_chapter.setText(_translate("MainWindow", "del"))
+        self.pushButton_add_chapter.setText(_translate("MainWindow", ""))
+        self.pushButton_del_chapter.setText(_translate("MainWindow", ""))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_7), _translate("MainWindow", "Scenario"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Notes"))
-        self.pushButton_url_set.setText(_translate("MainWindow", "set"))
-        self.pushButton_url_open.setText(_translate("MainWindow", "open"))
-        self.pushButton_url_delete.setText(_translate("MainWindow", "delete"))
+        self.pushButton_url_set.setText(_translate("MainWindow", ""))
+        self.pushButton_url_open.setText(_translate("MainWindow", ""))
+        self.pushButton_url_delete.setText(_translate("MainWindow", ""))
         self.label_scene.setText(_translate("MainWindow", "Scene name"))
         self.label_scene_url.setText(_translate("MainWindow", "URL music"))
         self.label_scene_url_2.setText(_translate("MainWindow", "Choose scene"))
@@ -1111,8 +1111,116 @@ class Ui_MainWindow(object):
         self.actionSave.setText(_translate("MainWindow", "Save"))
         self.actionlast_session.setText(_translate("MainWindow", "last session"))
 
+
+        self.set_style()
         self.hide_aplications()
 
+    def set_style(self):
+        self.pushButton_add_chapter.setStyleSheet("QPushButton {background-image: url(plus.svg);\n"
+                                                  " background-position: center center;\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "}")
+        self.pushButton_del_chapter.setStyleSheet("QPushButton {background-image: url(minus.svg);\n"
+                                                  " background-position: center center;\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "}")
+        self.pushButton_url_set.setStyleSheet("QPushButton {background-image: url(plus.svg);\n"
+                                                  " background-position: center center;\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "}")
+        self.pushButton_url_open.setStyleSheet("QPushButton {background-image: url(play.svg);\n"
+                                                  " background-position: center center;\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "}")
+        self.pushButton_url_delete.setStyleSheet("QPushButton {background-image: url(minus.svg);\n"
+                                                  " background-position: center center;\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "}")
+        self.pushButton_add_tags.setStyleSheet("QPushButton {background-image: url(plus.svg);\n"
+                                                  " background-position: center center;\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "}")
+        self.pushButton_del_tags.setStyleSheet("QPushButton {background-image: url(minus.svg);\n"
+                                                 " background-position: center center;\n"
+                                                 "background-repeat: no-repeat;\n"
+                                                 "}")
+        self.centralwidget.setStyleSheet(".QWidget {background-image: url(fon.png);}\n"
+                                         "QLabel {\n"
+                                         "    color: white;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QRadioButton {\n"
+                                         "    color: white;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QCheckBox {\n"
+                                         "    color: white;\n"
+                                         "}\n"
+                                         "QLineEdit {\n"
+                                         "    border-radius:  5px;\n"
+                                         "    background-color:  rgb(120, 120, 120);\n"
+                                         "    color: white;\n"
+                                         "}\n"
+                                         "QTextEdit {\n"
+                                         "    border-radius:  5px;\n"
+                                         "    background-color:  rgb(120, 120, 120);\n"
+                                         "    color: white;\n"
+                                         "}\n"
+                                         "QSpinBox {\n"
+                                         "    border-radius:  5px;\n"
+                                         "    background-color:  rgb(120, 120, 120);\n"
+                                         "    color: white;\n"
+                                         "}\n"
+                                         "QComboBox {\n"
+                                         "    border-radius:  5px;\n"
+                                         "    background-color:  rgb(120, 120, 120);\n"
+                                         "    color: white;\n"
+                                         "}\n"
+                                         "QComboBox:on {\n"
+                                         "    background-color:  rgb(95, 95, 95);\n"
+                                         "}\n"
+                                         "QComboBox QAbstractItemView {\n"
+                                         "    background-color:  rgb(120, 120, 120);\n"
+                                         "    color: white;\n"
+                                         "}\n"
+                                         "QListWidget {\n"
+                                         "    border-radius:  5px;\n"
+                                         "    background-color:  rgb(120, 120, 120);\n"
+                                         "    color: white;\n"
+                                         "}\n"
+                                         )
+        self.setStyleSheet("QPushButton {\n"
+                           "    border-radius:  10px;\n"
+                           "    background-color:  rgb(55, 55, 55);\n"
+                           "    color:  rgb(255, 255, 255);\n"
+                           "    font-size:  12px;\n"
+                           "}\n"
+                           "\n"
+                           "QPushButton:pressed {\n"
+                           "    background-color:  rgb(118, 118, 118);\n"
+                           "}\n"
+                           "QMainWindow {background-color:  rgb(85, 85, 85);}\n")
+        self.tabWidget.setStyleSheet("QTabWidget::pane\n"
+                                     "{\n"
+                                     "    border: 1px;\n"
+                                     "    background: rgb(85,85,85);\n"
+                                     "}\n"
+                                     "\n"
+                                     "QTabBar::tab\n"
+                                     "{\n"
+                                     "    background: rgb(65,65,65);\n"
+                                     "color: white;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QTabBar::tab::selected\n"
+                                     "{\n"
+                                     "    background: rgb(85,85,85);\n"
+                                     "}\n"
+                                     "\n"
+                                     "QTabBar::tab::hover\n"
+                                     "{\n"
+                                     "    background: rgb(105,105,105);\n"
+                                     "}")
 
     def hide_aplications(self):
         self.pushButton_init_open.hide()
