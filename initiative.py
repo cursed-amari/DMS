@@ -165,7 +165,6 @@ try:
                 else:
                     value += f'{initiative_list[i[0]][2]}' + ' ' + f'{initiative_list[i[0]][1]}' + ' ' + f'{initiative_list[i[0]][0]}' + '\n'
             self.label_calk_enemy.setText(value)
-            self.save_enemy_preset()
 
         @logger.catch
         def preset_update(self, bool_val):
@@ -259,14 +258,12 @@ try:
             for i in enemy_list:
                 if i[1] == self.box_select_character.currentText():
                     self.edit_name_redaction.setText(i[1])
-                    self.edit_initiative_redaction.setText(str(i[0]))
                     self.edit_hp_redaction.setText((str(i[2])))
 
         @logger.catch
         def redaction_enemy(self, bool_val):
             for i in enemy_list:
                 if i[1] == self.box_select_character.currentText():
-                    i[0] = int(self.edit_initiative_redaction.text())
                     i[1] = self.edit_name_redaction.text()
                     i[2] = self.edit_hp_redaction.text()
             self.selected_enemy_view()
@@ -277,7 +274,6 @@ try:
             global initiative_list
             for i in initiative_list:
                 if i[1] == self.box_select_character.currentText():
-                    i[0] = int(self.edit_initiative_redaction.text())
                     i[1] = self.edit_name_redaction.text()
                     i[2] = self.edit_hp_redaction.text()
             self.calk_initiative_view()
@@ -314,7 +310,6 @@ try:
             self.enemy_box_update()
             self.selected_enemy_view()
             self.view_enemy()
-            self.save_enemy_preset()
 
         @logger.catch
         def popup_action(self, but):

@@ -909,22 +909,22 @@ try:
                     if 'character0' in hero.keys():
                         self.label_lock_init_char_0.show()
                         self.initiative_edit_character0.hide()
-                        self.label_lock_init_char_0.setText(hero["character0"]['initiative'])
+                        self.label_lock_init_char_0.setText(str(hero["character0"]['initiative']))
 
                     if 'character1' in hero.keys():
                         self.label_lock_init_char_1.show()
                         self.initiative_edit_character1.hide()
-                        self.label_lock_init_char_1.setText(hero["character1"]['initiative'])
+                        self.label_lock_init_char_1.setText(str(hero["character1"]['initiative']))
 
                     if 'character2' in hero.keys():
                         self.label_lock_init_char_2.show()
                         self.initiative_edit_character2.hide()
-                        self.label_lock_init_char_2.setText(hero["character2"]['initiative'])
+                        self.label_lock_init_char_2.setText(str(hero["character2"]['initiative']))
 
                     if 'character3' in hero.keys():
                         self.label_lock_init_char_3.show()
                         self.initiative_edit_character3.hide()
-                        self.label_lock_init_char_3.setText(hero["character3"]['initiative'])
+                        self.label_lock_init_char_3.setText(str(hero["character3"]['initiative']))
             else:
                 self.label_lock_init_char_0.hide()
                 self.label_lock_init_char_1.hide()
@@ -946,22 +946,22 @@ try:
                     if 'character0' in hero.keys():
                         self.label_lock_ac_char_0.show()
                         self.ac_edit_character0.hide()
-                        self.label_lock_ac_char_0.setText(hero["character0"]['ac'])
+                        self.label_lock_ac_char_0.setText(str(hero["character0"]['ac']))
 
                     if 'character1' in hero.keys():
                         self.label_lock_ac_char_1.show()
                         self.ac_edit_character1.hide()
-                        self.label_lock_ac_char_1.setText(hero["character1"]['ac'])
+                        self.label_lock_ac_char_1.setText(str(hero["character1"]['ac']))
 
                     if 'character2' in hero.keys():
                         self.label_lock_ac_char_2.show()
                         self.ac_edit_character2.hide()
-                        self.label_lock_ac_char_2.setText(hero["character2"]['ac'])
+                        self.label_lock_ac_char_2.setText(str(hero["character2"]['ac']))
 
                     if 'character3' in hero.keys():
                         self.label_lock_ac_char_3.show()
                         self.ac_edit_character3.hide()
-                        self.label_lock_ac_char_3.setText(hero["character3"]['ac'])
+                        self.label_lock_ac_char_3.setText(str(hero["character3"]['ac']))
             else:
                 self.label_lock_ac_char_0.hide()
                 self.label_lock_ac_char_1.hide()

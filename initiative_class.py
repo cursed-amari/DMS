@@ -24,10 +24,6 @@ class Ui_MainWindow_init(object):
         self.set_player_dice_edit_char_3 = QtWidgets.QLineEdit(self.frame)
         self.set_player_dice_edit_char_3.setGeometry(QtCore.QRect(100, 360, 51, 25))
         self.set_player_dice_edit_char_3.setObjectName("set_player_dice_edit_char_3")
-        self.label_enemy_initiative_redaction = QtWidgets.QLabel(self.frame)
-        self.label_enemy_initiative_redaction.setGeometry(QtCore.QRect(10, 110, 61, 25))
-        self.label_enemy_initiative_redaction.setStyleSheet("font-weight:bold")
-        self.label_enemy_initiative_redaction.setObjectName("label_enemy_initiative_redaction")
         self.label_set_player_dice_char_3 = QtWidgets.QLabel(self.frame)
         self.label_set_player_dice_char_3.setGeometry(QtCore.QRect(10, 360, 81, 25))
         self.label_set_player_dice_char_3.setStyleSheet("font-weight:bold")
@@ -99,9 +95,6 @@ class Ui_MainWindow_init(object):
         self.set_player_dice_edit_char_2 = QtWidgets.QLineEdit(self.frame)
         self.set_player_dice_edit_char_2.setGeometry(QtCore.QRect(100, 330, 51, 25))
         self.set_player_dice_edit_char_2.setObjectName("set_player_dice_edit_char_2")
-        self.edit_initiative_redaction = QtWidgets.QLineEdit(self.frame)
-        self.edit_initiative_redaction.setGeometry(QtCore.QRect(10, 140, 51, 25))
-        self.edit_initiative_redaction.setObjectName("edit_initiative_redaction")
         self.label_enemy_name_redaction = QtWidgets.QLabel(self.frame)
         self.label_enemy_name_redaction.setGeometry(QtCore.QRect(10, 40, 115, 25))
         self.label_enemy_name_redaction.setStyleSheet("font-weight:bold")
@@ -135,11 +128,11 @@ class Ui_MainWindow_init(object):
         self.enemy_hp_edit.setGeometry(QtCore.QRect(510, 100, 61, 25))
         self.enemy_hp_edit.setObjectName("enemy_hp_edit")
         self.label_enemy_hp_redaction = QtWidgets.QLabel(self.frame)
-        self.label_enemy_hp_redaction.setGeometry(QtCore.QRect(70, 110, 61, 25))
+        self.label_enemy_hp_redaction.setGeometry(QtCore.QRect(10, 110, 61, 25))
         self.label_enemy_hp_redaction.setStyleSheet("font-weight:bold")
         self.label_enemy_hp_redaction.setObjectName("label_enemy_hp_redaction")
         self.edit_hp_redaction = QtWidgets.QLineEdit(self.frame)
-        self.edit_hp_redaction.setGeometry(QtCore.QRect(70, 140, 51, 25))
+        self.edit_hp_redaction.setGeometry(QtCore.QRect(10, 140, 115, 25))
         self.edit_hp_redaction.setObjectName("edit_hp_redaction")
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -151,7 +144,6 @@ class Ui_MainWindow_init(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_delete_character.setText(_translate("MainWindow", "Delete enemy"))
         self.load_preset_2.setText(_translate("MainWindow", "Load preset"))
-        self.label_enemy_initiative_redaction.setText(_translate("MainWindow", "Initiative"))
         self.label_set_player_dice_char_3.setText(_translate("MainWindow", "Character 4"))
         self.label_set_player_dice_char_0.setText(_translate("MainWindow", "Character 1"))
         self.pushButton_apply_player_dice.setText(_translate("MainWindow", "Refresh"))
@@ -170,6 +162,14 @@ class Ui_MainWindow_init(object):
         self.pushButton_add.setText(_translate("MainWindow", "add"))
         self.enemy_hp.setText(_translate("MainWindow", "HP"))
         self.label_enemy_hp_redaction.setText(_translate("MainWindow", "HP"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
 
 
 
