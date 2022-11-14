@@ -1278,10 +1278,10 @@ try:
                 self.pushButton_set_spell_slots_0.setDisabled(False)
                 self.textEdit_char_0.setDisabled(False)
 
-                self.name_character0.setText(hero['character0']['name'])
-                self.hp_edit_character0.setText(hero['character0']['hp'])
-                self.ac_edit_character0.setText(hero['character0']['ac'])
-                self.initiative_edit_character0.setText(hero['character0']['initiative'])
+                self.name_character0.setText(str(hero['character0']['name']))
+                self.hp_edit_character0.setText(str(hero['character0']['hp']))
+                self.ac_edit_character0.setText(str(hero['character0']['ac']))
+                self.initiative_edit_character0.setText(str(hero['character0']['initiative']))
                 self.spin_spell_slot_character0.setValue(int(hero['character0']['1']))
                 self.spin_spell_slot_character0_2.setValue(int(hero['character0']['2']))
                 self.spin_spell_slot_character0_3.setValue(int(hero['character0']['3']))
@@ -1330,10 +1330,10 @@ try:
                 self.pushButton_set_spell_slots_1.setDisabled(False)
                 self.textEdit_char_1.setDisabled(False)
 
-                self.name_character1.setText(hero['character1']['name'])
-                self.hp_edit_character1.setText(hero['character1']['hp'])
-                self.ac_edit_character1.setText(hero['character1']['ac'])
-                self.initiative_edit_character1.setText(hero['character1']['initiative'])
+                self.name_character1.setText(str(hero['character1']['name']))
+                self.hp_edit_character1.setText(str(hero['character1']['hp']))
+                self.ac_edit_character1.setText(str(hero['character1']['ac']))
+                self.initiative_edit_character1.setText(str(hero['character1']['initiative']))
                 self.spin_spell_slot_character1.setValue(int(hero['character1']['1']))
                 self.spin_spell_slot_character1_2.setValue(int(hero['character1']['2']))
                 self.spin_spell_slot_character1_3.setValue(int(hero['character1']['3']))
@@ -1381,10 +1381,10 @@ try:
                 self.pushButton_set_spell_slots_2.setDisabled(False)
                 self.textEdit_char_2.setDisabled(False)
 
-                self.name_character2.setText(hero['character2']['name'])
-                self.hp_edit_character2.setText(hero['character2']['hp'])
-                self.ac_edit_character2.setText(hero['character2']['ac'])
-                self.initiative_edit_character2.setText(hero['character2']['initiative'])
+                self.name_character2.setText(str(hero['character2']['name']))
+                self.hp_edit_character2.setText(str(hero['character2']['hp']))
+                self.ac_edit_character2.setText(str(hero['character2']['ac']))
+                self.initiative_edit_character2.setText(str(hero['character2']['initiative']))
                 self.spin_spell_slot_character2.setValue(int(hero['character2']['1']))
                 self.spin_spell_slot_character2_2.setValue(int(hero['character2']['2']))
                 self.spin_spell_slot_character2_3.setValue(int(hero['character2']['3']))
@@ -1432,10 +1432,10 @@ try:
                 self.pushButton_set_spell_slots_3.setDisabled(False)
                 self.textEdit_char_3.setDisabled(False)
 
-                self.name_character3.setText(hero['character3']['name'])
-                self.hp_edit_character3.setText(hero['character3']['hp'])
-                self.ac_edit_character3.setText(hero['character3']['ac'])
-                self.initiative_edit_character3.setText(hero['character3']['initiative'])
+                self.name_character3.setText(str(hero['character3']['name']))
+                self.hp_edit_character3.setText(str(hero['character3']['hp']))
+                self.ac_edit_character3.setText(str(hero['character3']['ac']))
+                self.initiative_edit_character3.setText(str(hero['character3']['initiative']))
                 self.spin_spell_slot_character3.setValue(int(hero['character3']['1']))
                 self.spin_spell_slot_character3_2.setValue(int(hero['character3']['2']))
                 self.spin_spell_slot_character3_3.setValue(int(hero['character3']['3']))
@@ -1886,7 +1886,7 @@ try:
         def music_changer_play(self, bool_val):
             num_one = self.listWidget_category.currentRow()
             num_two = self.listWidget_scene.currentRow()
-            if num_one and num_two != -1:
+            if num_one != -1:
                 list_music = list(music.keys())
                 list_music_deep = list(music[list_music[num_one]])
                 value = music[list_music[num_one]][list_music_deep[num_two]].split(' ')
@@ -2058,7 +2058,16 @@ try:
         def race_vendor(self):
             self.vendor_race = ""
             if self.box_race_vendor.currentText() == "Случайно":
-                self.vendor_race = random.choice(race)
+                self.vendor_race = random.choice(["Человек",
+                                                  "Дварф",
+                                                  "Эльф",
+                                                  "Полу-эльф",
+                                                  "Орк",
+                                                  "Полу-орк",
+                                                  "Полурослик",
+                                                  "Драконорождённый",
+                                                  "Табакси",
+                                                  "Тифлинг"])
             else:
                 self.vendor_race = self.box_race_vendor.currentText()
             self.money_vendor()
@@ -2509,13 +2518,13 @@ try:
                 pass
 
         @logger.catch
-        def search_for_assortment_store(self):
+        def search_for_assortment_store(self, bool_val):
             if self.search_assortment_edit.text() == "":
                 self.text_assortment_shop.setText(f"Ассортимент:\n{store[self.box_choose_shop.currentText()]['assortment_store']}")
             else:
                 message_new = ""
                 for i in store[self.box_choose_shop.currentText()]['assortment_store'].split("\n"):
-                    if self.search_assortment_edit.text() in i:
+                    if bool_val in i:
                         message_new += i + "\n"
                 self.text_assortment_shop.setText(f"Ассортимент:\n{message_new}")
 
@@ -2588,7 +2597,16 @@ try:
         def race_npc(self):
             self.npc_race = ""
             if self.box_race_npc.currentText() == "Случайно":
-                self.npc_race = random.choice(race)
+                self.npc_race = random.choice(["Человек",
+                                               "Дварф",
+                                               "Эльф",
+                                               "Полу-эльф",
+                                               "Орк",
+                                               "Полу-орк",
+                                               "Полурослик",
+                                               "Драконорождённый",
+                                               "Табакси",
+                                               "Тифлинг"])
             else:
                 self.npc_race = self.box_race_npc.currentText()
             self.age_npc()

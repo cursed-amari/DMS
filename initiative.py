@@ -77,6 +77,7 @@ try:
             in_enemy_list = False
             name = self.enemy_name_edit.text()
             initiative = int(self.enemy_initiative_edit.text())
+            hp = int(self.enemy_hp_edit.text())
             if name == '':
                 if not enemy_list:
                     name = 'Enemy_0'
@@ -88,7 +89,7 @@ try:
                     in_enemy_list = True
             if in_enemy_list == True:
                 name += '_' + str(item[0])
-            enemy_list += [initiative, name],
+            enemy_list += [initiative, name, hp],
             self.view_enemy()
 
 
@@ -96,7 +97,7 @@ try:
         def view_enemy(self):
             value = ''
             for i in enumerate(enemy_list):
-                value += f'{enemy_list[i[0]][1]}' + ' ' + f'{enemy_list[i[0]][0]}' + '\n'
+                value += f'{enemy_list[i[0]][2]}' + ' ' + f'{enemy_list[i[0]][1]}' + ' ' + f'{enemy_list[i[0]][0]}' + '\n'
             self.label_enemy.setText(value)
 
         @logger.catch
@@ -129,6 +130,7 @@ try:
             '''
             global initiative_list
             initiative_list = []
+            self.hero_list = []
 
 
             for i in enumerate(self.hero):
@@ -142,11 +144,13 @@ try:
                     t = int(self.set_player_dice_edit_char_3.text())
                 n = self.hero['character' + str(i[0])]['name']
                 initiative_list += [t, n],
+                self.hero_list.append(n)
 
             for i in enumerate(enemy_list):
                 init = int(enemy_list[i[0]][0]) + random.randint(1, 20)
                 n = enemy_list[i[0]][1]
-                initiative_list += [init, n],
+                hp = enemy_list[i[0]][2]
+                initiative_list += [init, n, hp],
 
             initiative_list.sort(key=lambda x: (x[0], x[1]), reverse=True)
 
@@ -156,7 +160,10 @@ try:
         def calk_initiative_view(self):
             value = ''
             for i in enumerate(initiative_list):
-                value += f'{initiative_list[i[0]][1]}' + ' ' + f'{initiative_list[i[0]][0]}' + '\n'
+                if initiative_list[i[0]][1] in self.hero_list:
+                    value += f'{initiative_list[i[0]][1]}' + ' ' + f'{initiative_list[i[0]][0]}' + '\n'
+                else:
+                    value += f'{initiative_list[i[0]][2]}' + ' ' + f'{initiative_list[i[0]][1]}' + ' ' + f'{initiative_list[i[0]][0]}' + '\n'
             self.label_calk_enemy.setText(value)
             self.save_enemy_preset()
 
@@ -226,6 +233,7 @@ try:
                 list_key = list(enemy_dict_preset.keys())
                 enemy_dict_preset.pop(self.comboBox_preset.currentText())
                 self.comboBox_preset.removeItem(list_key.index(self.comboBox_preset.currentText()))
+                self.save_enemy_preset()
             else:
                 error = QMessageBox()
                 error.setWindowTitle('Ошибка')
@@ -252,6 +260,7 @@ try:
                 if i[1] == self.box_select_character.currentText():
                     self.edit_name_redaction.setText(i[1])
                     self.edit_initiative_redaction.setText(str(i[0]))
+                    self.edit_hp_redaction.setText((str(i[2])))
 
         @logger.catch
         def redaction_enemy(self, bool_val):
@@ -259,9 +268,20 @@ try:
                 if i[1] == self.box_select_character.currentText():
                     i[0] = int(self.edit_initiative_redaction.text())
                     i[1] = self.edit_name_redaction.text()
-            self.enemy_box_update()
+                    i[2] = self.edit_hp_redaction.text()
             self.selected_enemy_view()
             self.view_enemy()
+            self.redaction_enemy_view()
+
+        def redaction_enemy_view(self):
+            global initiative_list
+            for i in initiative_list:
+                if i[1] == self.box_select_character.currentText():
+                    i[0] = int(self.edit_initiative_redaction.text())
+                    i[1] = self.edit_name_redaction.text()
+                    i[2] = self.edit_hp_redaction.text()
+            self.calk_initiative_view()
+            self.enemy_box_update()
 
         @logger.catch
         def del_enemy(self, bool_val):
@@ -294,6 +314,7 @@ try:
             self.enemy_box_update()
             self.selected_enemy_view()
             self.view_enemy()
+            self.save_enemy_preset()
 
         @logger.catch
         def popup_action(self, but):
