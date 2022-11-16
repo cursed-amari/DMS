@@ -34,6 +34,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         self.pushButton_clear_list.clicked.connect(self.clear_list)
         self.pushButton_load_preset.clicked.connect(self.load_preset)
         self.pushButton_del_preset.clicked.connect(self.del_preset)
+        self.pushButton_apply_player_dice.clicked.connect(self.view_player_initiative)
         #lineEdit
 
         #method
@@ -120,19 +121,40 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         self.initiative_list = []
         self.hero_list = []
 
-        for i in enumerate(self.hero):
-            if i[0] == 0:
-                initiative = int(self.set_player_dice_edit_char_0.text())
-            if i[0] == 1:
-                initiative = int(self.set_player_dice_edit_char_1.text())
-            if i[0] == 2:
-                initiative = int(self.set_player_dice_edit_char_2.text())
-            if i[0] == 3:
-                initiative = int(self.set_player_dice_edit_char_3.text())
-            name = self.hero['character' + str(i[0])]['name']
-            hp = self.hero['character' + str(i[0])]['hp']
-            self.initiative_list += [initiative, name, hp],
-            self.hero_list.append(name, )
+        for i in self.hero.keys():
+            initiative = "NotFound"
+            if i == "character0":
+                key_hero = "character0"
+                if self.set_player_dice_edit_char_0.text() == "":
+                    initiative = "NOT"
+                else:
+                    initiative = int(self.set_player_dice_edit_char_0.text())
+            if i == "character1":
+                key_hero = "character1"
+                if self.set_player_dice_edit_char_1.text() == "":
+                    initiative = "NOT"
+                else:
+                    initiative = int(self.set_player_dice_edit_char_1.text())
+            if i == "character2":
+                key_hero = "character2"
+                if self.set_player_dice_edit_char_2.text() == "":
+                    initiative = "NOT"
+                else:
+                    initiative = int(self.set_player_dice_edit_char_2.text())
+            if i == "character3":
+                key_hero = "character3"
+                if self.set_player_dice_edit_char_3.text() == "":
+                    initiative = "NOT"
+                else:
+                    initiative = int(self.set_player_dice_edit_char_3.text())
+
+            if initiative != "NOT" and initiative != "NotFound":
+                name = self.hero[i]['name']
+                hp = self.hero[i]['hp']
+                self.initiative_list += [initiative, name, hp],
+                self.hero_list.append(name, )
+            else:
+                pass
 
         for i in enumerate(self.enemy_list):
             initiative = int(self.enemy_list[i[0]][0]) + random.randint(1, 20)
@@ -159,13 +181,13 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
     @logger.catch
     def del_enemy(self, bool_val=True):
-        value = self.listWidget_initiative.currentItem().text().split(" ")
-        if value[1] not in self.hero_list:
+        value = " ".join(self.listWidget_initiative.currentItem().text().split(" ")[1:-1])
+        if value not in self.hero_list:
             for i in enumerate(self.initiative_list):
-                if value[1] == self.initiative_list[i[0]][1]:
+                if value == self.initiative_list[i[0]][1]:
                     self.initiative_list.pop(i[0])
             for i in enumerate(self.enemy_list):
-                if value[1] == self.enemy_list[i[0]][1]:
+                if value == self.enemy_list[i[0]][1]:
                     self.enemy_list.pop(i[0])
             if self.status_initiative == "initiative":
                 self.initiative_sort_view()
@@ -198,9 +220,9 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
             self.Dialog_redaction_enemy_in_enemy = QtWidgets.QDialog()
             self.ui_redaction_enemy_in_enemy = Ui_Dialog_redaction_enemy_in_enemy()
             self.ui_redaction_enemy_in_enemy.setupUi(self.Dialog_redaction_enemy_in_enemy)
-            self.ui_redaction_enemy_in_enemy.enemy_name_edit.setText(self.listWidget_initiative.currentItem().text().split(" ")[1])
+            self.ui_redaction_enemy_in_enemy.enemy_name_edit.setText(" ".join(self.listWidget_initiative.currentItem().text().split(" ")[1:-1]))
             self.ui_redaction_enemy_in_enemy.enemy_initiative_edit.setText(self.listWidget_initiative.currentItem().text().split(" ")[0])
-            self.ui_redaction_enemy_in_enemy.enemy_hp_edit.setText(self.listWidget_initiative.currentItem().text().split(" ")[2])
+            self.ui_redaction_enemy_in_enemy.enemy_hp_edit.setText(self.listWidget_initiative.currentItem().text().split(" ")[-1])
 
             self.app_func_for_redaction_enemy_in_enemy()
 
@@ -247,7 +269,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
     @logger.catch
     def set_redaction_enemy_in_enemy(self):
         for i in self.enemy_list:
-            if i[1] == self.listWidget_initiative.currentItem().text().split(" ")[1]:
+            if i[1] == " ".join(self.listWidget_initiative.currentItem().text().split(" ")[1:-1]):
                 i[0] = self.ui_redaction_enemy_in_enemy.enemy_initiative_edit.text()
                 i[1] = self.ui_redaction_enemy_in_enemy.enemy_name_edit.text()
                 i[2] = self.ui_redaction_enemy_in_enemy.enemy_hp_edit.text()
@@ -259,8 +281,8 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
             self.Dialog_redaction_enemy_in_initiative = QtWidgets.QDialog()
             self.ui_redaction_enemy_in_initiative = Ui_Dialog_redaction_enemy_in_initiative()
             self.ui_redaction_enemy_in_initiative.setupUi(self.Dialog_redaction_enemy_in_initiative)
-            self.ui_redaction_enemy_in_initiative.enemy_name_edit.setText(self.listWidget_initiative.currentItem().text().split(" ")[1])
-            self.ui_redaction_enemy_in_initiative.enemy_hp_edit.setText(self.listWidget_initiative.currentItem().text().split(" ")[2])
+            self.ui_redaction_enemy_in_initiative.enemy_name_edit.setText(" ".join(self.listWidget_initiative.currentItem().text().split(" ")[1:-1]))
+            self.ui_redaction_enemy_in_initiative.enemy_hp_edit.setText(self.listWidget_initiative.currentItem().text().split(" ")[-1])
 
             self.app_func_for_redaction_enemy_in_initiative()
 
@@ -309,7 +331,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
     @logger.catch
     def set_redaction_enemy_in_initiative(self):
         for i in self.initiative_list:
-            if i[1] == self.listWidget_initiative.currentItem().text().split(" ")[1]:
+            if i[1] == " ".join(self.listWidget_initiative.currentItem().text().split(" ")[1:-1]):
                 i[1] = self.ui_redaction_enemy_in_initiative.enemy_name_edit.text()
                 i[2] = self.ui_redaction_enemy_in_initiative.enemy_hp_edit.text()
         self.initiative_sort_view()
@@ -324,7 +346,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
     """
 
     @logger.catch
-    def view_player_initiative(self):
+    def view_player_initiative(self, bool_val=False):
         if "character0" in self.hero.keys():
             self.set_player_dice_edit_char_0.setText(
                 str(int(self.hero["character0"]["initiative"]) + random.randint(1, 20)))

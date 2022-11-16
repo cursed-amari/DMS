@@ -829,7 +829,22 @@ try:
         def open_initiative(self, bool_val):
             self.initiative_window = InitiativeWindow(hero, dict_preset)
             self.initiative_window.show()
+            self.app_func_initiative_window()
+
+
+        @logger.catch
+        def app_func_initiative_window(self):
+            #chekClose
             self.initiative_window.windowClose.connect(self.set_stat_after_fight)
+            #Label
+            if "character0" in hero.keys():
+                self.initiative_window.label_set_player_dice_char_0.setText(hero["character0"]["name"])
+            if "character1" in hero.keys():
+                self.initiative_window.label_set_player_dice_char_1.setText(hero["character1"]["name"])
+            if "character2" in hero.keys():
+                self.initiative_window.label_set_player_dice_char_2.setText(hero["character2"]["name"])
+            if "character3" in hero.keys():
+                self.initiative_window.label_set_player_dice_char_3.setText(hero["character3"]["name"])
 
         @logger.catch
         def set_stat_after_fight(self):
@@ -2680,11 +2695,6 @@ try:
         sys.exit(app.exec())
 
 finally:
-    try:
-        with open("data_enemy", "r", encoding="utf-8") as file:
-            data = json.load(file)
-    except FileNotFoundError:
-        data = {}
     if hero:
         save_dict = (
             hero,
@@ -2699,7 +2709,7 @@ finally:
             note_char_three,
             store,
             npc,
-            data,
+            dict_preset,
             scenario,
             scenario_text,
             scenario_chapter,
