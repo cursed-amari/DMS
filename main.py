@@ -56,7 +56,7 @@ try:
             self.actionlast_session.triggered.connect(self.last_session)
             # pushButton
             self.pushButton.clicked.connect(self.input_chek)
-            self.pushButton_init_open.clicked.connect(self.open_init_calc)
+            self.pushButton_init_open.clicked.connect(self.open_initiative)
             self.pushButton_roll_dice.clicked.connect(self.roll_dice)
             self.pushButton_del_char.clicked.connect(self.del_char)
             self.pushButton_restore_spell_slots_0.clicked.connect(self.restore_slot_char0)
@@ -163,12 +163,6 @@ try:
             note_char_two = self.textEdit_char_2.toPlainText()
             note_char_three = self.textEdit_char_3.toPlainText()
 
-            try:
-                with open("data_enemy", "r", encoding="utf-8") as file:
-                    data = json.load(file)
-            except FileNotFoundError:
-                data = {}
-
             save_dict = (
                 hero,
                 music,
@@ -182,7 +176,7 @@ try:
                 note_char_three,
                 store,
                 npc,
-                data,
+                dict_preset,
                 scenario,
                 scenario_text,
                 scenario_chapter,
@@ -831,9 +825,26 @@ try:
         Main window show
         '''
 
-        def open_init_calc(self):
-            self.result_widget = InitiativeWindow(hero, dict_preset)
-            self.result_widget.show()
+        @logger.catch
+        def open_initiative(self, bool_val):
+            self.initiative_window = InitiativeWindow(hero, dict_preset)
+            self.initiative_window.show()
+            self.initiative_window.windowClose.connect(self.set_stat_after_fight)
+
+        @logger.catch
+        def set_stat_after_fight(self):
+            global hero
+            for i in hero.keys():
+                for item in self.initiative_window.initiative_list:
+                    if item[1] == hero[i]["name"]:
+                        hero[i]["hp"] = item[2]
+            self.save_dict_preset()
+            self.add_to_tracker()
+
+        def save_dict_preset(self):
+            global dict_preset
+            dict_preset = self.initiative_window.enemy_dict_preset
+
 
         @logger.catch
         def roll_dice(self, bool_val):
