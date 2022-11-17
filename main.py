@@ -16,9 +16,11 @@ import json
 
 from main_class import Ui_MainWindow
 from initiative import InitiativeWindow
+from too_many_generators import MainWindow_too_many_generators
 
 from dict_rules import dict_rules
 from shop_data import *
+from generators_data import *
 
 
 hero = {}
@@ -54,6 +56,7 @@ try:
             self.actionSave.triggered.connect(self.actions_save)
             self.actionOpen.triggered.connect(self.action_open)
             self.actionlast_session.triggered.connect(self.last_session)
+            self.actionGenerators.triggered.connect(self.open_generators)
             # pushButton
             self.pushButton.clicked.connect(self.input_chek)
             self.pushButton_init_open.clicked.connect(self.open_initiative)
@@ -291,6 +294,10 @@ try:
                 error.exec()
                 logger.info("last_session. except")
 
+        @logger.catch
+        def open_generators(self, val):
+            self.generators_window = MainWindow_too_many_generators()
+            self.generators_window.show()
 
         '''
         Main window hide

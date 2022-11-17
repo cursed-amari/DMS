@@ -6,7 +6,9 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 425)
         MainWindow.setWindowOpacity(1.0)
+        MainWindow.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setStyleSheet("background-image: url(fon.png);")
         self.centralwidget.setObjectName("centralwidget")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setGeometry(QtCore.QRect(0, 0, 800, 399))
@@ -730,7 +732,7 @@ class Ui_MainWindow(object):
         self.text_chapter.setGeometry(QtCore.QRect(10, 40, 771, 311))
         self.text_chapter.setObjectName("text_chapter")
         self.pushButton_del_chapter = QtWidgets.QPushButton(self.tab_7)
-        self.pushButton_del_chapter.setGeometry(QtCore.QRect(290, 10, 41, 28))
+        self.pushButton_del_chapter.setGeometry(QtCore.QRect(285, 10, 41, 28))
         self.pushButton_del_chapter.setObjectName("pushButton_del_chapter")
         self.tabWidget.addTab(self.tab_7, "")
         self.tab_4 = QtWidgets.QWidget()
@@ -938,6 +940,8 @@ class Ui_MainWindow(object):
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
+        self.menuModules = QtWidgets.QMenu(self.menubar)
+        self.menuModules.setObjectName("menuModules")
         MainWindow.setMenuBar(self.menubar)
         self.actionOpen = QtGui.QAction(MainWindow)
         self.actionOpen.setObjectName("actionOpen")
@@ -945,10 +949,14 @@ class Ui_MainWindow(object):
         self.actionSave.setObjectName("actionSave")
         self.actionlast_session = QtGui.QAction(MainWindow)
         self.actionlast_session.setObjectName("actionlast_session")
+        self.actionGenerators = QtGui.QAction(MainWindow)
+        self.actionGenerators.setObjectName("actionGenerators")
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSave)
         self.menuFile.addAction(self.actionlast_session)
+        self.menuModules.addAction(self.actionGenerators)
         self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuModules.menuAction())
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
@@ -1078,11 +1086,12 @@ class Ui_MainWindow(object):
         self.label_category.setText(_translate("MainWindow", "Category name"))
         self.label_category_open.setText(_translate("MainWindow", "Category name"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Music changer"))
-        self.label_rules.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:7.8pt;\"><br /></p></body></html>"))
+        self.label_rules.setHtml(_translate("MainWindow",
+                                            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                            "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                            "p, li { white-space: pre-wrap; }\n"
+                                            "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+                                            "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:7.8pt;\"><br /></p></body></html>"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Rules"))
         self.label_shop_info.setText(_translate("MainWindow", "Shop_info"))
         self.pushButton_generate_shop.setText(_translate("MainWindow", "Generate"))
@@ -1107,9 +1116,11 @@ class Ui_MainWindow(object):
         self.label_race_npc.setText(_translate("MainWindow", "Race"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_6), _translate("MainWindow", "NPC generator"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
+        self.menuModules.setTitle(_translate("MainWindow", "Modules"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionSave.setText(_translate("MainWindow", "Save"))
         self.actionlast_session.setText(_translate("MainWindow", "last session"))
+        self.actionGenerators.setText(_translate("MainWindow", "Generators"))
 
         self.hide_aplications()
 
