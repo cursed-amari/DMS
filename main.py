@@ -69,15 +69,12 @@ try:
             self.frame_scenario.mousePressEvent = self.slide_menu_hide
             self.text_chapter.mousePressEvent = self.slide_menu_hide
             self.text_scenario.mousePressEvent = self.slide_menu_hide
-            self.list_tags.mousePressEvent = self.slide_menu_hide
             self.frame_notes.mousePressEvent = self.slide_menu_hide
             self.note_edit_0.mousePressEvent = self.slide_menu_hide
             self.note_edit_1.mousePressEvent = self.slide_menu_hide
             self.note_edit_2.mousePressEvent = self.slide_menu_hide
             self.note_edit_3.mousePressEvent = self.slide_menu_hide
             self.frame_music_changer.mousePressEvent = self.slide_menu_hide
-            self.listWidget_scene.mousePressEvent = self.slide_menu_hide
-            self.listWidget_category.mousePressEvent = self.slide_menu_hide
             self.frame_rules.mousePressEvent = self.slide_menu_hide
             self.label_rules.mousePressEvent = self.slide_menu_hide
             self.frame_generate_store.mousePressEvent = self.slide_menu_hide
