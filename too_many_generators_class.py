@@ -17,21 +17,94 @@ class Ui_MainWindow_too_many_generators(object):
         self.centralwidget.setObjectName("centralwidget")
         self.frame = QtWidgets.QFrame(self.centralwidget)
         self.frame.setGeometry(QtCore.QRect(0, 0, 581, 421))
+        self.frame.setStyleSheet("QFrame {\n"
+                                 "    background-color: rgb(85, 85, 85);\n"
+                                 "    opacity: 0.3;\n"
+                                 "    color: rgb(247, 147, 30);\n"
+                                 "    border: none;\n"
+                                 "}\n"
+                                 "\n"
+                                 "QTextEdit {\n"
+                                 "    background-color: rgb(55, 55, 55);\n"
+                                 "    color: rgb(247, 147, 30);\n"
+                                 "    border: none;\n"
+                                 "}\n"
+                                 "\n"
+                                 "QPushButton {\n"
+                                 "    background: rgb(55, 55, 55);\n"
+                                 "    border-radius: 5px;\n"
+                                 "    color: rgb(247, 147, 30);\n"
+                                 "}\n"
+                                 "\n"
+                                 "QPushButton:pressed {\n"
+                                 "    background-color: rgb(105, 105, 105);\n"
+                                 "}\n"
+                                 "\n"
+                                 "QComboBox {\n"
+                                 "    background-color: rgb(55, 55, 55);\n"
+                                 "    color: rgb(247, 147, 30);\n"
+                                 "    border: none;\n"
+                                 "}\n"
+                                 "")
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
         self.comboBox_choose_generater = QtWidgets.QComboBox(self.frame)
-        self.comboBox_choose_generater.setGeometry(QtCore.QRect(10, 10, 331, 20))
+        self.comboBox_choose_generater.setGeometry(QtCore.QRect(10, 40, 331, 20))
         self.comboBox_choose_generater.setObjectName("comboBox_choose_generater")
         self.pushButton_open_full_txt = QtWidgets.QPushButton(self.frame)
-        self.pushButton_open_full_txt.setGeometry(QtCore.QRect(520, 10, 51, 23))
+        self.pushButton_open_full_txt.setGeometry(QtCore.QRect(520, 40, 51, 23))
         self.pushButton_open_full_txt.setObjectName("pushButton_open_full_txt")
         self.textEdit_text_generator = QtWidgets.QTextEdit(self.frame)
-        self.textEdit_text_generator.setGeometry(QtCore.QRect(10, 40, 561, 381))
+        self.textEdit_text_generator.setGeometry(QtCore.QRect(10, 70, 561, 351))
         self.textEdit_text_generator.setObjectName("textEdit_text_generator")
         self.pushButton_random = QtWidgets.QPushButton(self.frame)
-        self.pushButton_random.setGeometry(QtCore.QRect(450, 10, 51, 23))
+        self.pushButton_random.setGeometry(QtCore.QRect(450, 40, 51, 23))
         self.pushButton_random.setObjectName("pushButton_random")
+        self.frame_frame = QtWidgets.QFrame(self.frame)
+        self.frame_frame.setGeometry(QtCore.QRect(0, 0, 581, 31))
+        self.frame_frame.setStyleSheet("*{\n"
+                                       "    color: rgb(255, 255, 255);\n"
+                                       "    background: rgb(35, 35, 35);\n"
+                                       "    border: none;\n"
+                                       "}\n"
+                                       "QPushButton{\n"
+                                       "    color: rgb(85, 85, 85);\n"
+                                       "    background: transparent;\n"
+                                       "    border: none;\n"
+                                       "}\n"
+                                       "QPushButton:hover{\n"
+                                       "    background: rgb(105, 105, 105);\n"
+                                       "    border: none;\n"
+                                       "}")
+        self.frame_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_frame.setObjectName("frame_frame")
+        self.label = QtWidgets.QLabel(self.frame_frame)
+        self.label.setGeometry(QtCore.QRect(0, 10, 211, 16))
+        font = QtGui.QFont()
+        font.setFamily("MS PGothic")
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label.setFont(font)
+        self.label.setObjectName("label")
+        self.pushButton_hide = QtWidgets.QPushButton(self.frame_frame)
+        self.pushButton_hide.setGeometry(QtCore.QRect(510, 5, 31, 23))
+        self.pushButton_hide.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("img/new_icon/ico/minimized.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.pushButton_hide.setIcon(icon)
+        self.pushButton_hide.setIconSize(QtCore.QSize(20, 20))
+        self.pushButton_hide.setObjectName("pushButton_hide")
+        self.pushButton_close = QtWidgets.QPushButton(self.frame_frame)
+        self.pushButton_close.setGeometry(QtCore.QRect(540, 5, 31, 23))
+        self.pushButton_close.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("img/new_icon/ico/x.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.pushButton_close.setIcon(icon1)
+        self.pushButton_close.setIconSize(QtCore.QSize(20, 20))
+        self.pushButton_close.setObjectName("pushButton_close")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -42,3 +115,29 @@ class Ui_MainWindow_too_many_generators(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton_open_full_txt.setText(_translate("MainWindow", "Open all"))
         self.pushButton_random.setText(_translate("MainWindow", "Random"))
+        self.label.setText(_translate("MainWindow", "DnD Master support random"))
+
+        self.app_func_initiative_class()
+
+    def app_func_initiative_class(self):
+        self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
+
+        self.pushButton_close.clicked.connect(self.close)
+        self.pushButton_hide.clicked.connect(self.showMinimized)
+
+        self.frame_frame.mousePressEvent = self.press_window
+        self.label.mousePressEvent = self.press_window
+        self.frame_frame.mouseMoveEvent = self.move_window
+        self.label.mouseMoveEvent = self.move_window
+
+    def press_window(self, event):
+        self.dragPos = event.globalPosition().toPoint()
+
+    def move_window(self, event):
+        try:
+            self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
+            self.dragPos = event.globalPosition().toPoint()
+            event.accept()
+        except AttributeError:
+            pass

@@ -7,14 +7,43 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QDialog
+
 
 class Ui_Dialog_add_enemy(object):
     def setupUi(self, Dialog_add_enemy):
         Dialog_add_enemy.setObjectName("Dialog_add_enemy")
-        Dialog_add_enemy.resize(132, 191)
+        Dialog_add_enemy.resize(131, 191)
         self.frame = QtWidgets.QFrame(Dialog_add_enemy)
         self.frame.setGeometry(QtCore.QRect(0, 0, 131, 191))
+        self.frame.setStyleSheet("QFrame {\n"
+"    background-color: rgb(85, 85, 85);\n"
+"    opacity: 0.3;\n"
+"    color: rgb(247, 147, 30);\n"
+"    border: none;\n"
+"}\n"
+"\n"
+"QLineEdit {\n"
+"    background-color: rgb(55, 55, 55);\n"
+"    color: rgb(247, 147, 30);\n"
+"    border: none;\n"
+"}\n"
+"\n"
+"QPushButton {\n"
+"    background: rgb(55, 55, 55);\n"
+"    border-radius: 5px;\n"
+"    color: rgb(247, 147, 30);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(105, 105, 105);\n"
+"}\n"
+"\n"
+"QSpinBox {\n"
+"    background-color: rgb(55, 55, 55);\n"
+"    color: rgb(247, 147, 30);\n"
+"    border: none;\n"
+"}\n"
+"")
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
@@ -23,10 +52,10 @@ class Ui_Dialog_add_enemy(object):
         self.enemy_name.setStyleSheet("font-weight:bold")
         self.enemy_name.setObjectName("enemy_name")
         self.enemy_initiative_edit = QtWidgets.QLineEdit(self.frame)
-        self.enemy_initiative_edit.setGeometry(QtCore.QRect(0, 100, 61, 25))
+        self.enemy_initiative_edit.setGeometry(QtCore.QRect(0, 100, 51, 25))
         self.enemy_initiative_edit.setObjectName("enemy_initiative_edit")
         self.enemy_hp_edit = QtWidgets.QLineEdit(self.frame)
-        self.enemy_hp_edit.setGeometry(QtCore.QRect(60, 100, 61, 25))
+        self.enemy_hp_edit.setGeometry(QtCore.QRect(70, 100, 51, 25))
         self.enemy_hp_edit.setObjectName("enemy_hp_edit")
         self.enemy_initiative = QtWidgets.QLabel(self.frame)
         self.enemy_initiative.setGeometry(QtCore.QRect(0, 70, 61, 25))
@@ -50,15 +79,17 @@ class Ui_Dialog_add_enemy(object):
         self.pushButton_ok.setGeometry(QtCore.QRect(90, 130, 31, 23))
         self.pushButton_ok.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("img/plus.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("img/new_icon/ico/plus.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_ok.setIcon(icon)
+        self.pushButton_ok.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_ok.setObjectName("pushButton_ok")
         self.pushButton_cansel = QtWidgets.QPushButton(self.frame)
         self.pushButton_cansel.setGeometry(QtCore.QRect(90, 160, 31, 23))
         self.pushButton_cansel.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("img/x.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon1.addPixmap(QtGui.QPixmap("img/new_icon/ico/x.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_cansel.setIcon(icon1)
+        self.pushButton_cansel.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_cansel.setObjectName("pushButton_cansel")
 
         self.pushButton_ok.clicked.connect(Dialog_add_enemy.close)
@@ -74,6 +105,3 @@ class Ui_Dialog_add_enemy(object):
         self.enemy_initiative.setText(_translate("Dialog_add_enemy", "Initiative"))
         self.enemy_hp.setText(_translate("Dialog_add_enemy", "HP"))
         self.enemy_amount.setText(_translate("Dialog_add_enemy", "Amount"))
-
-    # self.pushButton_ok.clicked.connect(Dialog_add_enemy.close)
-    # self.pushButton_cansel.clicked.connect(Dialog_add_enemy.close)

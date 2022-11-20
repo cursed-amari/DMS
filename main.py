@@ -7,7 +7,8 @@
 
 
 from PyQt6 import QtWidgets, QtCore
-from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog
+from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QMenu
+from PyQt6.QtCore import QEvent, Qt
 from loguru import logger
 import random
 import webbrowser
@@ -49,15 +50,46 @@ try:
             self.aplication_func()
             self.status = 0
             logger.info("Start")
+            self.slide_menu_num = 0
 
         @logger.catch
         def aplication_func(self):
             # Menu
-            self.actionSave.triggered.connect(self.actions_save)
-            self.actionOpen.triggered.connect(self.action_open)
-            self.actionlast_session.triggered.connect(self.last_session)
-            self.actionGenerators.triggered.connect(self.open_generators)
+            self.toolButton_logo_app.clicked.connect(self.main_menu)
+            self.toolButton_menu.clicked.connect(self.slide_menu)
+            self.toolButton_tracker.clicked.connect(self.show_tracker)
+            self.toolButton_scenario.clicked.connect(self.show_scenario)
+            self.toolButton_notes.clicked.connect(self.show_notes)
+            self.toolButton_music_changer.clicked.connect(self.show_music_changer)
+            self.toolButton_rules.clicked.connect(self.show_rules)
+            self.toolButton_generate_store.clicked.connect(self.show_generate_store)
+            self.toolButton_npc_generator.clicked.connect(self.show_npc_generator)
+
+            self.frame_tracker.mousePressEvent = self.slide_menu_hide
+            self.frame_scenario.mousePressEvent = self.slide_menu_hide
+            self.text_chapter.mousePressEvent = self.slide_menu_hide
+            self.text_scenario.mousePressEvent = self.slide_menu_hide
+            self.list_tags.mousePressEvent = self.slide_menu_hide
+            self.frame_notes.mousePressEvent = self.slide_menu_hide
+            self.note_edit_0.mousePressEvent = self.slide_menu_hide
+            self.note_edit_1.mousePressEvent = self.slide_menu_hide
+            self.note_edit_2.mousePressEvent = self.slide_menu_hide
+            self.note_edit_3.mousePressEvent = self.slide_menu_hide
+            self.frame_music_changer.mousePressEvent = self.slide_menu_hide
+            self.listWidget_scene.mousePressEvent = self.slide_menu_hide
+            self.listWidget_category.mousePressEvent = self.slide_menu_hide
+            self.frame_rules.mousePressEvent = self.slide_menu_hide
+            self.label_rules.mousePressEvent = self.slide_menu_hide
+            self.frame_generate_store.mousePressEvent = self.slide_menu_hide
+            self.text_notes.mousePressEvent = self.slide_menu_hide
+            self.label_shop_info.mousePressEvent = self.slide_menu_hide
+            self.text_assortment_shop.mousePressEvent = self.slide_menu_hide
+            self.frame_npc_generator.mousePressEvent = self.slide_menu_hide
+            self.label_generate_npc.mousePressEvent = self.slide_menu_hide
+            self.text_npc_generate.mousePressEvent = self.slide_menu_hide
             # pushButton
+            self.pushButton_exit.clicked.connect(lambda: MainApp.exit())
+            self.pushButton_minimized.clicked.connect(self.showMinimized)
             self.pushButton.clicked.connect(self.input_chek)
             self.pushButton_init_open.clicked.connect(self.open_initiative)
             self.pushButton_roll_dice.clicked.connect(self.roll_dice)
@@ -145,7 +177,21 @@ try:
         '''
 
         @logger.catch
-        def actions_save(self, val):
+        def main_menu(self, bool_val):
+            menu = QMenu()
+            menu.setStyleSheet("QMenu    {background-color: rgb(55, 55, 55);\n"
+                                       "    color: rgb(247, 147, 30);}\n"
+                               "QMenu::item {background-color: transparent;}\n"
+                               "QMenu::item:selected {background-color: rgb(85, 85, 85);}")
+            action_save = menu.addAction("Save", self.actions_save)
+            action_load = menu.addAction("Load", self.action_open)
+            action_last_session = menu.addAction("Last session", self.last_session)
+            action_generators = menu.addAction("Generators", self.open_generators)
+
+            menu.exec(self.pos())
+
+        @logger.catch
+        def actions_save(self):
             '''
             DOCKSTRING: сохранение в json файл
             '''
@@ -193,7 +239,7 @@ try:
                 print("No such file")
 
         @logger.catch
-        def action_open(self, val):
+        def action_open(self):
             '''
             DOCKSTRING: загрузка из json файла
             '''
@@ -240,7 +286,7 @@ try:
                 logger.info("action_open. except")
 
         @logger.catch
-        def last_session(self, val):
+        def last_session(self):
             '''
             DOCKSTRING: загрузка из json файла
             '''
@@ -295,9 +341,135 @@ try:
                 logger.info("last_session. except")
 
         @logger.catch
-        def open_generators(self, val):
+        def open_generators(self):
             self.generators_window = MainWindow_too_many_generators()
             self.generators_window.show()
+
+        @logger.catch
+        def slide_menu(self, bool_val):
+            if self.slide_menu_num == 0:
+                self.animation1 = QtCore.QPropertyAnimation(self.frame_menu, b"maximumWidth")
+                self.animation1.setDuration(500)
+                self.animation1.setStartValue(41)
+                self.animation1.setEndValue(150)
+                self.animation1.setEasingCurve(QtCore.QEasingCurve.Type.InOutQuart)
+                self.animation1.start()
+
+                self.animation2 = QtCore.QPropertyAnimation(self.frame_menu, b"minimumWidth")
+                self.animation2.setDuration(500)
+                self.animation2.setStartValue(41)
+                self.animation2.setEndValue(150)
+                self.animation2.setEasingCurve(QtCore.QEasingCurve.Type.InOutQuart)
+                self.animation2.start()
+
+                self.slide_menu_num = 1
+            else:
+                self.animation1 = QtCore.QPropertyAnimation(self.frame_menu, b"maximumWidth")
+                self.animation1.setDuration(500)
+                self.animation1.setStartValue(150)
+                self.animation1.setEndValue(41)
+                self.animation1.setEasingCurve(QtCore.QEasingCurve.Type.InOutQuart)
+                self.animation1.start()
+
+                self.animation2 = QtCore.QPropertyAnimation(self.frame_menu, b"minimumWidth")
+                self.animation2.setDuration(500)
+                self.animation2.setStartValue(150)
+                self.animation2.setEndValue(41)
+                self.animation2.setEasingCurve(QtCore.QEasingCurve.Type.InOutQuart)
+                self.animation2.start()
+
+                self.slide_menu_num = 0
+
+        @logger.catch
+        def slide_menu_hide(self, event):
+            if event.button() == Qt.MouseButton.LeftButton:
+                if self.slide_menu_num == 1:
+                    self.animation1 = QtCore.QPropertyAnimation(self.frame_menu, b"maximumWidth")
+                    self.animation1.setDuration(500)
+                    self.animation1.setStartValue(150)
+                    self.animation1.setEndValue(41)
+                    self.animation1.setEasingCurve(QtCore.QEasingCurve.Type.InOutQuart)
+                    self.animation1.start()
+
+                    self.animation2 = QtCore.QPropertyAnimation(self.frame_menu, b"minimumWidth")
+                    self.animation2.setDuration(500)
+                    self.animation2.setStartValue(150)
+                    self.animation2.setEndValue(41)
+                    self.animation2.setEasingCurve(QtCore.QEasingCurve.Type.InOutQuart)
+                    self.animation2.start()
+
+                    self.slide_menu_num = 0
+
+
+        @logger.catch
+        def show_tracker(self, bool_val):
+            self.frame_tracker.show()
+            self.frame_scenario.hide()
+            self.frame_notes.hide()
+            self.frame_music_changer.hide()
+            self.frame_rules.hide()
+            self.frame_generate_store.hide()
+            self.frame_npc_generator.hide()
+
+        @logger.catch
+        def show_scenario(self, bool_val):
+            self.frame_tracker.hide()
+            self.frame_scenario.show()
+            self.frame_notes.hide()
+            self.frame_music_changer.hide()
+            self.frame_rules.hide()
+            self.frame_generate_store.hide()
+            self.frame_npc_generator.hide()
+
+        @logger.catch
+        def show_notes(self, bool_val):
+            self.frame_tracker.hide()
+            self.frame_scenario.hide()
+            self.frame_notes.show()
+            self.frame_music_changer.hide()
+            self.frame_rules.hide()
+            self.frame_generate_store.hide()
+            self.frame_npc_generator.hide()
+
+        @logger.catch
+        def show_music_changer(self, bool_val):
+            self.frame_tracker.hide()
+            self.frame_scenario.hide()
+            self.frame_notes.hide()
+            self.frame_music_changer.show()
+            self.frame_rules.hide()
+            self.frame_generate_store.hide()
+            self.frame_npc_generator.hide()
+
+        @logger.catch
+        def show_rules(self, bool_val):
+            self.frame_tracker.hide()
+            self.frame_scenario.hide()
+            self.frame_notes.hide()
+            self.frame_music_changer.hide()
+            self.frame_rules.show()
+            self.frame_generate_store.hide()
+            self.frame_npc_generator.hide()
+
+        @logger.catch
+        def show_generate_store(self, bool_val):
+            self.frame_tracker.hide()
+            self.frame_scenario.hide()
+            self.frame_notes.hide()
+            self.frame_music_changer.hide()
+            self.frame_rules.hide()
+            self.frame_generate_store.show()
+            self.frame_npc_generator.hide()
+
+        @logger.catch
+        def show_npc_generator(self, bool_val):
+            self.frame_tracker.hide()
+            self.frame_scenario.hide()
+            self.frame_notes.hide()
+            self.frame_music_changer.hide()
+            self.frame_rules.hide()
+            self.frame_generate_store.hide()
+            self.frame_npc_generator.show()
 
         '''
         Main window hide
@@ -1031,10 +1203,10 @@ try:
                 self.pushButton_restore_spell_slots_0.hide()
                 self.pushButton_set_spell_slots_0.hide()
 
-                self.initiative_character0.setGeometry(QtCore.QRect(160, 110, 61, 25))
-                self.initiative_edit_character0.setGeometry(QtCore.QRect(230, 110, 51, 25))
-                self.label_lock_init_char_0.setGeometry(QtCore.QRect(230, 110, 51, 25))
-                self.textEdit_char_0.setGeometry(QtCore.QRect(160, 150, 120, 210))
+                self.initiative_character0.setGeometry(QtCore.QRect(20, 130, 61, 25))
+                self.initiative_edit_character0.setGeometry(QtCore.QRect(90, 130, 51, 25))
+                self.label_lock_init_char_0.setGeometry(QtCore.QRect(90, 130, 51, 25))
+                self.textEdit_char_0.setGeometry(QtCore.QRect(20, 160, 120, 210))
             else:
                 self.label_spell_slot_character0.show()
                 self.label_spell_slot_character0_2.show()
@@ -1058,10 +1230,10 @@ try:
                 self.pushButton_restore_spell_slots_0.show()
                 self.pushButton_set_spell_slots_0.show()
 
-                self.initiative_character0.setGeometry(QtCore.QRect(160, 260, 61, 25))
-                self.initiative_edit_character0.setGeometry(QtCore.QRect(230, 260, 51, 25))
-                self.label_lock_init_char_0.setGeometry(QtCore.QRect(230, 260, 51, 25))
-                self.textEdit_char_0.setGeometry(QtCore.QRect(160, 290, 120, 70))
+                self.initiative_character0.setGeometry(QtCore.QRect(20, 280, 61, 25))
+                self.initiative_edit_character0.setGeometry(QtCore.QRect(90, 280, 51, 25))
+                self.label_lock_init_char_0.setGeometry(QtCore.QRect(90, 280, 51, 25))
+                self.textEdit_char_0.setGeometry(QtCore.QRect(20, 310, 120, 70))
 
         @logger.catch
         def hide_spell_slot_char_1(self, check_hide_slot_char_1):
@@ -1088,10 +1260,10 @@ try:
                 self.pushButton_restore_spell_slots_1.hide()
                 self.pushButton_set_spell_slots_1.hide()
 
-                self.initiative_character1.setGeometry(QtCore.QRect(320, 110, 61, 25))
-                self.initiative_edit_character1.setGeometry(QtCore.QRect(390, 110, 51, 25))
-                self.label_lock_init_char_1.setGeometry(QtCore.QRect(390, 110, 51, 25))
-                self.textEdit_char_1.setGeometry(QtCore.QRect(320, 150, 120, 210))
+                self.initiative_character1.setGeometry(QtCore.QRect(20, 130, 61, 25))
+                self.initiative_edit_character1.setGeometry(QtCore.QRect(90, 130, 51, 25))
+                self.label_lock_init_char_1.setGeometry(QtCore.QRect(90, 130, 51, 25))
+                self.textEdit_char_1.setGeometry(QtCore.QRect(20, 160, 120, 210))
             else:
                 self.label_spell_slot_character0_10.show()
                 self.label_spell_slot_character0_11.show()
@@ -1115,10 +1287,10 @@ try:
                 self.pushButton_restore_spell_slots_1.show()
                 self.pushButton_set_spell_slots_1.show()
 
-                self.initiative_character1.setGeometry(QtCore.QRect(320, 260, 61, 25))
-                self.initiative_edit_character1.setGeometry(QtCore.QRect(390, 260, 51, 25))
-                self.label_lock_init_char_1.setGeometry(QtCore.QRect(390, 260, 51, 25))
-                self.textEdit_char_1.setGeometry(QtCore.QRect(320, 290, 120, 70))
+                self.initiative_character1.setGeometry(QtCore.QRect(20, 280, 61, 25))
+                self.initiative_edit_character1.setGeometry(QtCore.QRect(90, 280, 51, 25))
+                self.label_lock_init_char_1.setGeometry(QtCore.QRect(90, 280, 51, 25))
+                self.textEdit_char_1.setGeometry(QtCore.QRect(20, 310, 120, 70))
 
         @logger.catch
         def hide_spell_slot_char_2(self, check_hide_slot_char_2):
@@ -1145,10 +1317,10 @@ try:
                 self.pushButton_restore_spell_slots_2.hide()
                 self.pushButton_set_spell_slots_2.hide()
 
-                self.initiative_character2.setGeometry(QtCore.QRect(480, 110, 61, 25))
-                self.initiative_edit_character2.setGeometry(QtCore.QRect(550, 110, 51, 25))
-                self.label_lock_init_char_2.setGeometry(QtCore.QRect(550, 110, 51, 25))
-                self.textEdit_char_2.setGeometry(QtCore.QRect(480, 150, 120, 210))
+                self.initiative_character2.setGeometry(QtCore.QRect(20, 130, 61, 25))
+                self.initiative_edit_character2.setGeometry(QtCore.QRect(90, 130, 51, 25))
+                self.label_lock_init_char_2.setGeometry(QtCore.QRect(90, 130, 51, 25))
+                self.textEdit_char_2.setGeometry(QtCore.QRect(20, 160, 120, 210))
             else:
                 self.label_spell_slot_character0_19.show()
                 self.label_spell_slot_character0_20.show()
@@ -1172,10 +1344,10 @@ try:
                 self.pushButton_restore_spell_slots_2.show()
                 self.pushButton_set_spell_slots_2.show()
 
-                self.initiative_character2.setGeometry(QtCore.QRect(480, 260, 61, 25))
-                self.initiative_edit_character2.setGeometry(QtCore.QRect(550, 260, 51, 25))
-                self.label_lock_init_char_2.setGeometry(QtCore.QRect(550, 260, 51, 25))
-                self.textEdit_char_2.setGeometry(QtCore.QRect(480, 290, 120, 70))
+                self.initiative_character2.setGeometry(QtCore.QRect(20, 280, 61, 25))
+                self.initiative_edit_character2.setGeometry(QtCore.QRect(90, 280, 51, 25))
+                self.label_lock_init_char_2.setGeometry(QtCore.QRect(90, 280, 51, 25))
+                self.textEdit_char_2.setGeometry(QtCore.QRect(20, 310, 120, 70))
 
         @logger.catch
         def hide_spell_slot_char_3(self, check_hide_slot_char_3):
@@ -1202,10 +1374,10 @@ try:
                 self.pushButton_restore_spell_slots_3.hide()
                 self.pushButton_set_spell_slots_3.hide()
 
-                self.initiative_character3.setGeometry(QtCore.QRect(640, 110, 61, 25))
-                self.initiative_edit_character3.setGeometry(QtCore.QRect(710, 110, 51, 25))
-                self.label_lock_init_char_3.setGeometry(QtCore.QRect(710, 110, 51, 25))
-                self.textEdit_char_3.setGeometry(QtCore.QRect(640, 150, 120, 210))
+                self.initiative_character3.setGeometry(QtCore.QRect(20, 130, 61, 25))
+                self.initiative_edit_character3.setGeometry(QtCore.QRect(90, 130, 51, 25))
+                self.label_lock_init_char_3.setGeometry(QtCore.QRect(90, 130, 51, 25))
+                self.textEdit_char_3.setGeometry(QtCore.QRect(20, 160, 120, 210))
             else:
                 self.label_spell_slot_character0_28.show()
                 self.label_spell_slot_character0_29.show()
@@ -1229,10 +1401,10 @@ try:
                 self.pushButton_restore_spell_slots_3.show()
                 self.pushButton_set_spell_slots_3.show()
 
-                self.initiative_character3.setGeometry(QtCore.QRect(640, 260, 61, 25))
-                self.initiative_edit_character3.setGeometry(QtCore.QRect(710, 260, 51, 25))
-                self.label_lock_init_char_3.setGeometry(QtCore.QRect(710, 260, 51, 25))
-                self.textEdit_char_3.setGeometry(QtCore.QRect(640, 290, 120, 70))
+                self.initiative_character3.setGeometry(QtCore.QRect(20, 280, 61, 25))
+                self.initiative_edit_character3.setGeometry(QtCore.QRect(90, 280, 51, 25))
+                self.label_lock_init_char_3.setGeometry(QtCore.QRect(90, 280, 51, 25))
+                self.textEdit_char_3.setGeometry(QtCore.QRect(20, 310, 120, 70))
 
         @logger.catch
         def add_to_tracker(self):

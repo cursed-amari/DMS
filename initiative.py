@@ -181,30 +181,43 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
     @logger.catch
     def del_enemy(self, bool_val=True):
-        value = " ".join(self.listWidget_initiative.currentItem().text().split(" ")[1:-1])
-        if value not in self.hero_list:
-            for i in enumerate(self.initiative_list):
-                if value == self.initiative_list[i[0]][1]:
-                    self.initiative_list.pop(i[0])
-            for i in enumerate(self.enemy_list):
-                if value == self.enemy_list[i[0]][1]:
-                    self.enemy_list.pop(i[0])
-            if self.status_initiative == "initiative":
-                self.initiative_sort_view()
+        try:
+            value = " ".join(self.listWidget_initiative.currentItem().text().split(" ")[1:-1])
+            if value not in self.hero_list:
+                for i in enumerate(self.initiative_list):
+                    if value == self.initiative_list[i[0]][1]:
+                        self.initiative_list.pop(i[0])
+                for i in enumerate(self.enemy_list):
+                    if value == self.enemy_list[i[0]][1]:
+                        self.enemy_list.pop(i[0])
+                if self.status_initiative == "initiative":
+                    self.initiative_sort_view()
+                else:
+                    self.initiative_enemy_view()
             else:
-                self.initiative_enemy_view()
-        else:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Нельзя удалить героя из битвы')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+                logger.info("input_chek. except")
+        except AttributeError:
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
-            error.setText('Нельзя удалить героя из битвы')
+            error.setText('Выберите объект для удаления!')
             error.setIcon(QMessageBox.Icon.Warning)
             error.setStandardButtons(QMessageBox.StandardButton.Ok)
             error.setDefaultButton(QMessageBox.StandardButton.Ok)
 
             error.buttonClicked.connect(self.popup_action)
 
-            error.exec()
-            logger.info("input_chek. except")
+        error.exec()
+        logger.info("input_chek. except")
 
     @logger.catch
     def choose_redaction(self, bool_val):

@@ -12,6 +12,7 @@ from generators_data import *
 
 from too_many_generators_class import Ui_MainWindow_too_many_generators
 
+
 class MainWindow_too_many_generators(QtWidgets.QMainWindow, Ui_MainWindow_too_many_generators):
     def __init__(self):
         super().__init__()
@@ -20,16 +21,16 @@ class MainWindow_too_many_generators(QtWidgets.QMainWindow, Ui_MainWindow_too_ma
         self.status = 0
 
     def aplication_func(self):
-        #pushButton
+        # pushButton
         self.pushButton_random.clicked.connect(self.random_choice)
         self.pushButton_open_full_txt.clicked.connect(self.full_test_open)
-        #method
+        # method
         self.update_choose_generater()
 
     def update_choose_generater(self):
         generators = (
-        "100 случайных событий", "666 идей энкаутеров", "101 идея локаций и приключений", "150 сюжетных поворотов",
-        "100 механик босов")
+            "100 случайных событий", "666 идей энкаутеров", "101 идея локаций и приключений", "150 сюжетных поворотов",
+            "100 механик босов")
         for i in generators:
             self.comboBox_choose_generater.addItem(i)
 
@@ -44,7 +45,7 @@ class MainWindow_too_many_generators(QtWidgets.QMainWindow, Ui_MainWindow_too_ma
             self.textEdit_text_generator.setText(random.choice(scenario_twist))
         if self.comboBox_choose_generater.currentText() == "100 механик босов":
             self.textEdit_text_generator.setText(random.choice(boss_mechancs))
-            
+
     def full_test_open(self):
         if self.comboBox_choose_generater.currentText() == "100 случайных событий":
             self.textEdit_text_generator.setText("\n".join(random_event))

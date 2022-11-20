@@ -15,6 +15,28 @@ class Ui_Dialog_save_preset_enemy(object):
         Dialog_save_preset_enemy.resize(121, 91)
         self.frame = QtWidgets.QFrame(Dialog_save_preset_enemy)
         self.frame.setGeometry(QtCore.QRect(0, 0, 121, 91))
+        self.frame.setStyleSheet("QFrame {\n"
+"    background-color: rgb(85, 85, 85);\n"
+"    opacity: 0.3;\n"
+"    color: rgb(247, 147, 30);\n"
+"    border: none;\n"
+"}\n"
+"\n"
+"QLineEdit {\n"
+"    background-color: rgb(55, 55, 55);\n"
+"    color: rgb(247, 147, 30);\n"
+"    border: none;\n"
+"}\n"
+"\n"
+"QPushButton {\n"
+"    background: rgb(55, 55, 55);\n"
+"    border-radius: 5px;\n"
+"    color: rgb(247, 147, 30);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(105, 105, 105);\n"
+"}")
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
@@ -29,15 +51,17 @@ class Ui_Dialog_save_preset_enemy(object):
         self.pushButton_cansel.setGeometry(QtCore.QRect(70, 60, 31, 23))
         self.pushButton_cansel.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("img/x.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("img/new_icon/ico/x.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_cansel.setIcon(icon)
+        self.pushButton_cansel.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_cansel.setObjectName("pushButton_cansel")
         self.pushButton_ok = QtWidgets.QPushButton(self.frame)
         self.pushButton_ok.setGeometry(QtCore.QRect(10, 60, 31, 23))
         self.pushButton_ok.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("img/plus.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon1.addPixmap(QtGui.QPixmap("img/new_icon/ico/plus.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_ok.setIcon(icon1)
+        self.pushButton_ok.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_ok.setObjectName("pushButton_ok")
 
         self.pushButton_ok.clicked.connect(Dialog_save_preset_enemy.close)
@@ -50,6 +74,3 @@ class Ui_Dialog_save_preset_enemy(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog_save_preset_enemy.setWindowTitle(_translate("Dialog_save_preset_enemy", "Dialog"))
         self.enemy_name.setText(_translate("Dialog_save_preset_enemy", "Preset name"))
-
-    # self.pushButton_ok.clicked.connect(Dialog_save_preset_enemy.close)
-    # self.pushButton_cansel.clicked.connect(Dialog_save_preset_enemy.close)

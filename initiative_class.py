@@ -14,34 +14,95 @@ class Ui_MainWindow_init(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(580, 425)
+        MainWindow.resize(580, 431)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.main_frame = QtWidgets.QFrame(self.centralwidget)
-        self.main_frame.setGeometry(QtCore.QRect(0, 0, 581, 421))
+        self.main_frame.setGeometry(QtCore.QRect(0, 0, 581, 431))
+        self.main_frame.setStyleSheet("#main_frame {background-image: url(img/fon_initiative.png) no-repeat;}\n"
+                                      "QFrame {\n"
+                                      "    background-color: rgb(85, 85, 85);\n"
+                                      "    opacity: 0.3;\n"
+                                      "    color: rgb(247, 147, 30);\n"
+                                      "    border: none;\n"
+                                      "}\n"
+                                      "\n"
+                                      "QLineEdit {\n"
+                                      "    background-color: rgb(55, 55, 55);\n"
+                                      "    color: rgb(247, 147, 30);\n"
+                                      "    border: none;\n"
+                                      "}\n"
+                                      "\n"
+                                      "QTextEdit {\n"
+                                      "    background-color: rgb(55, 55, 55);\n"
+                                      "    color: rgb(247, 147, 30);\n"
+                                      "    border: none;\n"
+                                      "}\n"
+                                      "\n"
+                                      "QListWidget {\n"
+                                      "    background-color: rgb(55, 55, 55);\n"
+                                      "    color: rgb(247, 147, 30);\n"
+                                      "    border: none;\n"
+                                      "}\n"
+                                      "\n"
+                                      "QPushButton {\n"
+                                      "    background: rgb(55, 55, 55);\n"
+                                      "    border-radius: 5px;\n"
+                                      "    color: rgb(247, 147, 30);\n"
+                                      "}\n"
+                                      "\n"
+                                      "QPushButton:pressed {\n"
+                                      "    background-color: rgb(105, 105, 105);\n"
+                                      "}\n"
+                                      "\n"
+                                      "QSpinBox {\n"
+                                      "    background-color: rgb(55, 55, 55);\n"
+                                      "    color: rgb(247, 147, 30);\n"
+                                      "    border: none;\n"
+                                      "}\n"
+                                      "\n"
+                                      "QComboBox {\n"
+                                      "    background-color: rgb(55, 55, 55);\n"
+                                      "    color: rgb(247, 147, 30);\n"
+                                      "    border: none;\n"
+                                      "}\n"
+                                      "\n"
+                                      "QRadioButton {\n"
+                                      "    color: rgb(247, 147, 30);\n"
+                                      "    border-radius:  10px;\n"
+                                      "}\n"
+                                      "\n"
+                                      "QCheckBox {\n"
+                                      "    color: rgb(247, 147, 30);\n"
+                                      "    border: none;\n"
+                                      "}")
         self.main_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.main_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.main_frame.setObjectName("main_frame")
         self.pushButton_add_enemy = QtWidgets.QPushButton(self.main_frame)
-        self.pushButton_add_enemy.setGeometry(QtCore.QRect(150, 400, 31, 23))
+        self.pushButton_add_enemy.setGeometry(QtCore.QRect(150, 405, 31, 23))
         self.pushButton_add_enemy.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("img/plus.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("img/new_icon/ico/plus.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_add_enemy.setIcon(icon)
+        self.pushButton_add_enemy.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_add_enemy.setObjectName("pushButton_add_enemy")
         self.pushButton_del_enemy = QtWidgets.QPushButton(self.main_frame)
-        self.pushButton_del_enemy.setGeometry(QtCore.QRect(190, 400, 31, 23))
+        self.pushButton_del_enemy.setGeometry(QtCore.QRect(190, 405, 31, 23))
         self.pushButton_del_enemy.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("img/minus.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon1.addPixmap(QtGui.QPixmap("img/new_icon/minus.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_del_enemy.setIcon(icon1)
+        self.pushButton_del_enemy.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_del_enemy.setObjectName("pushButton_del_enemy")
         self.pushButton_redaction_enemy = QtWidgets.QPushButton(self.main_frame)
-        self.pushButton_redaction_enemy.setGeometry(QtCore.QRect(370, 400, 31, 23))
+        self.pushButton_redaction_enemy.setGeometry(QtCore.QRect(370, 405, 31, 23))
         self.pushButton_redaction_enemy.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("img/option.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon2.addPixmap(QtGui.QPixmap("img/new_icon/ico/options.ico"), QtGui.QIcon.Mode.Normal,
+                        QtGui.QIcon.State.Off)
         self.pushButton_redaction_enemy.setIcon(icon2)
+        self.pushButton_redaction_enemy.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_redaction_enemy.setObjectName("pushButton_redaction_enemy")
         self.listWidget_initiative = QtWidgets.QListWidget(self.main_frame)
         self.listWidget_initiative.setGeometry(QtCore.QRect(150, 30, 256, 371))
@@ -49,14 +110,71 @@ class Ui_MainWindow_init(object):
         self.listWidget_initiative.setStyleSheet("text-align: center;")
         self.listWidget_initiative.setObjectName("listWidget_initiative")
         self.pushButton_roll_initiative = QtWidgets.QPushButton(self.main_frame)
-        self.pushButton_roll_initiative.setGeometry(QtCore.QRect(230, 400, 31, 23))
+        self.pushButton_roll_initiative.setGeometry(QtCore.QRect(230, 405, 31, 23))
         self.pushButton_roll_initiative.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("img/dice.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon3.addPixmap(QtGui.QPixmap("img/new_icon/ico/dice.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_roll_initiative.setIcon(icon3)
+        self.pushButton_roll_initiative.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_roll_initiative.setObjectName("pushButton_roll_initiative")
         self.preset_frame = QtWidgets.QFrame(self.main_frame)
         self.preset_frame.setGeometry(QtCore.QRect(409, 30, 171, 371))
+        self.preset_frame.setStyleSheet("QFrame {\n"
+                                        "    background-color: rgb(85, 85, 85);\n"
+                                        "    opacity: 0.3;\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QLineEdit {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QTextEdit {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QListWidget {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton {\n"
+                                        "    background: rgb(55, 55, 55);\n"
+                                        "    border-radius: 5px;\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton:pressed {\n"
+                                        "    background-color: rgb(105, 105, 105);\n"
+                                        "}\n"
+                                        "\n"
+                                        "QSpinBox {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QComboBox {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QRadioButton {\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border-radius:  10px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QCheckBox {\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}")
         self.preset_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.preset_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.preset_frame.setObjectName("preset_frame")
@@ -67,24 +185,88 @@ class Ui_MainWindow_init(object):
         self.pushButton_del_preset.setGeometry(QtCore.QRect(140, 340, 31, 23))
         self.pushButton_del_preset.setText("")
         self.pushButton_del_preset.setIcon(icon1)
+        self.pushButton_del_preset.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_del_preset.setObjectName("pushButton_del_preset")
         self.pushButton_add_preset = QtWidgets.QPushButton(self.preset_frame)
         self.pushButton_add_preset.setGeometry(QtCore.QRect(0, 340, 31, 23))
         self.pushButton_add_preset.setText("")
         self.pushButton_add_preset.setIcon(icon)
+        self.pushButton_add_preset.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_add_preset.setObjectName("pushButton_add_preset")
         self.pushButton_load_preset = QtWidgets.QPushButton(self.preset_frame)
         self.pushButton_load_preset.setGeometry(QtCore.QRect(40, 340, 31, 23))
         self.pushButton_load_preset.setText("")
-        self.pushButton_load_preset.setIcon(icon2)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("img/new_icon/ico/load.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.pushButton_load_preset.setIcon(icon4)
+        self.pushButton_load_preset.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_load_preset.setObjectName("pushButton_load_preset")
         self.options_frame = QtWidgets.QFrame(self.main_frame)
         self.options_frame.setGeometry(QtCore.QRect(-1, 30, 151, 371))
+        self.options_frame.setStyleSheet("QFrame {\n"
+                                         "    background-color: rgb(85, 85, 85);\n"
+                                         "    opacity: 0.3;\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QLineEdit {\n"
+                                         "    background-color: rgb(55, 55, 55);\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QTextEdit {\n"
+                                         "    background-color: rgb(55, 55, 55);\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QListWidget {\n"
+                                         "    background-color: rgb(55, 55, 55);\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QPushButton {\n"
+                                         "    background: rgb(55, 55, 55);\n"
+                                         "    border-radius: 5px;\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "}\n"
+                                         "\n"
+                                         "QPushButton:pressed {\n"
+                                         "    background-color: rgb(105, 105, 105);\n"
+                                         "}\n"
+                                         "\n"
+                                         "QSpinBox {\n"
+                                         "    background-color: rgb(55, 55, 55);\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QComboBox {\n"
+                                         "    background-color: rgb(55, 55, 55);\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QRadioButton {\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border-radius:  10px;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QCheckBox {\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}")
         self.options_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.options_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.options_frame.setObjectName("options_frame")
         self.pushButton_apply_player_dice = QtWidgets.QPushButton(self.options_frame)
-        self.pushButton_apply_player_dice.setGeometry(QtCore.QRect(40, 340, 93, 28))
+        self.pushButton_apply_player_dice.setGeometry(QtCore.QRect(40, 340, 31, 28))
+        self.pushButton_apply_player_dice.setText("")
+        self.pushButton_apply_player_dice.setIcon(icon3)
+        self.pushButton_apply_player_dice.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_apply_player_dice.setObjectName("pushButton_apply_player_dice")
         self.set_player_dice_edit_char_2 = QtWidgets.QLineEdit(self.options_frame)
         self.set_player_dice_edit_char_2.setGeometry(QtCore.QRect(90, 280, 51, 25))
@@ -116,25 +298,47 @@ class Ui_MainWindow_init(object):
         self.label_set_player_dice_char_0.setObjectName("label_set_player_dice_char_0")
         self.frame_frame = QtWidgets.QFrame(self.main_frame)
         self.frame_frame.setGeometry(QtCore.QRect(0, 0, 581, 31))
+        self.frame_frame.setStyleSheet("*{\n"
+                                       "    color: rgb(255, 255, 255);\n"
+                                       "    background: rgb(35, 35, 35);\n"
+                                       "    border: none;\n"
+                                       "}\n"
+                                       "QPushButton{\n"
+                                       "    color: rgb(85, 85, 85);\n"
+                                       "    background: transparent;\n"
+                                       "    border: none;\n"
+                                       "}\n"
+                                       "QPushButton:hover{\n"
+                                       "    background: rgb(105, 105, 105);\n"
+                                       "    border: none;\n"
+                                       "}")
         self.frame_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_frame.setObjectName("frame_frame")
         self.label = QtWidgets.QLabel(self.frame_frame)
-        self.label.setGeometry(QtCore.QRect(10, 10, 171, 16))
+        self.label.setGeometry(QtCore.QRect(0, 10, 221, 16))
+        font = QtGui.QFont()
+        font.setFamily("MS PGothic")
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label.setFont(font)
         self.label.setObjectName("label")
         self.pushButton_hide = QtWidgets.QPushButton(self.frame_frame)
-        self.pushButton_hide.setGeometry(QtCore.QRect(510, 0, 31, 23))
+        self.pushButton_hide.setGeometry(QtCore.QRect(510, 5, 31, 23))
         self.pushButton_hide.setText("")
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("img/minus.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.pushButton_hide.setIcon(icon4)
+        icon_minimized = QtGui.QIcon()
+        icon_minimized.addPixmap(QtGui.QPixmap("img/new_icon/ico/minimized.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.pushButton_hide.setIcon(icon_minimized)
+        self.pushButton_hide.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_hide.setObjectName("pushButton_hide")
         self.pushButton_close = QtWidgets.QPushButton(self.frame_frame)
-        self.pushButton_close.setGeometry(QtCore.QRect(540, 0, 31, 23))
+        self.pushButton_close.setGeometry(QtCore.QRect(540, 5, 31, 23))
         self.pushButton_close.setText("")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("img/x.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon5.addPixmap(QtGui.QPixmap("img/new_icon/ico/x.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_close.setIcon(icon5)
+        self.pushButton_close.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_close.setObjectName("pushButton_close")
         self.checkBox_left_menu = QtWidgets.QCheckBox(self.main_frame)
         self.checkBox_left_menu.setGeometry(QtCore.QRect(0, 400, 70, 17))
@@ -143,11 +347,10 @@ class Ui_MainWindow_init(object):
         self.checkBox_right_menu.setGeometry(QtCore.QRect(520, 400, 51, 17))
         self.checkBox_right_menu.setObjectName("checkBox_right_menu")
         self.pushButton_clear_list = QtWidgets.QPushButton(self.main_frame)
-        self.pushButton_clear_list.setGeometry(QtCore.QRect(320, 400, 31, 23))
+        self.pushButton_clear_list.setGeometry(QtCore.QRect(320, 405, 31, 23))
         self.pushButton_clear_list.setText("")
-        icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap("img/double_minus.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.pushButton_clear_list.setIcon(icon6)
+        self.pushButton_clear_list.setIcon(icon5)
+        self.pushButton_clear_list.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_clear_list.setObjectName("pushButton_clear_list")
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -157,7 +360,6 @@ class Ui_MainWindow_init(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton_apply_player_dice.setText(_translate("MainWindow", "Refresh"))
         self.label_set_player_dice_char_1.setText(_translate("MainWindow", "Character 2"))
         self.label_set_player_dice_char_2.setText(_translate("MainWindow", "Character 3"))
         self.label_set_player_dice_char_3.setText(_translate("MainWindow", "Character 4"))
@@ -171,8 +373,129 @@ class Ui_MainWindow_init(object):
         self.set_style()
 
     def app_func_initiative_class(self):
+        self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
+
         self.pushButton_close.clicked.connect(self.close)
         self.pushButton_hide.clicked.connect(self.showMinimized)
+
+        self.frame_frame.mousePressEvent = self.press_window
+        self.label.mousePressEvent = self.press_window
+        self.frame_frame.mouseMoveEvent = self.move_window
+        self.label.mouseMoveEvent = self.move_window
+
+        self.preset_frame.setStyleSheet("QFrame {\n"
+                                        "    background: none;\n"
+                                        "    opacity: 0.3;\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QLineEdit {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QTextEdit {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QListWidget {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton {\n"
+                                        "    background: rgb(55, 55, 55);\n"
+                                        "    border-radius: 5px;\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton:pressed {\n"
+                                        "    background-color: rgb(105, 105, 105);\n"
+                                        "}\n"
+                                        "\n"
+                                        "QSpinBox {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QComboBox {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QRadioButton {\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border-radius:  10px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QCheckBox {\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}")
+        self.options_frame.setStyleSheet("QFrame {\n"
+                                         "    background: none;\n"
+                                         "    opacity: 0.3;\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QLineEdit {\n"
+                                         "    background-color: rgb(55, 55, 55);\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QTextEdit {\n"
+                                         "    background-color: rgb(55, 55, 55);\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QListWidget {\n"
+                                         "    background-color: rgb(55, 55, 55);\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QPushButton {\n"
+                                         "    background: rgb(55, 55, 55);\n"
+                                         "    border-radius: 5px;\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "}\n"
+                                         "\n"
+                                         "QPushButton:pressed {\n"
+                                         "    background-color: rgb(105, 105, 105);\n"
+                                         "}\n"
+                                         "\n"
+                                         "QSpinBox {\n"
+                                         "    background-color: rgb(55, 55, 55);\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QComboBox {\n"
+                                         "    background-color: rgb(55, 55, 55);\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QRadioButton {\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border-radius:  10px;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QCheckBox {\n"
+                                         "    color: rgb(247, 147, 30);\n"
+                                         "    border: none;\n"
+                                         "}")
 
     def hide_func(self):
         self.options_frame.hide()
@@ -185,6 +508,13 @@ class Ui_MainWindow_init(object):
         self.windowClose.emit()
         event.accept()
 
-    # windowClose = QtCore.pyqtSignal()
-    # self.pushButton_close.clicked.connect(MainWindow.close)
-    # self.pushButton_hide.clicked.connect(MainWindow.showMinimized)
+    def press_window(self, event):
+        self.dragPos = event.globalPosition().toPoint()
+
+    def move_window(self, event):
+        try:
+            self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
+            self.dragPos = event.globalPosition().toPoint()
+            event.accept()
+        except AttributeError:
+            pass
