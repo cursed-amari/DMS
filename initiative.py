@@ -216,7 +216,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
             error.buttonClicked.connect(self.popup_action)
 
-        error.exec()
+            error.exec()
         logger.info("input_chek. except")
 
     @logger.catch

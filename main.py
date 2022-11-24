@@ -17,6 +17,7 @@ import json
 
 from main_class import Ui_MainWindow
 from initiative import InitiativeWindow
+from redaction_hp_tracker import Ui_Dialog_redaction_hp_tracker
 from too_many_generators import MainWindow_too_many_generators
 
 from dict_rules import dict_rules
@@ -25,6 +26,7 @@ from generators_data import *
 
 
 hero = {}
+hero_in_game = {}
 music = {}
 store = {}
 npc = {}
@@ -67,25 +69,17 @@ try:
 
             self.frame_tracker.mousePressEvent = self.slide_menu_hide
             self.frame_scenario.mousePressEvent = self.slide_menu_hide
-            self.text_chapter.mousePressEvent = self.slide_menu_hide
-            self.text_scenario.mousePressEvent = self.slide_menu_hide
             self.frame_notes.mousePressEvent = self.slide_menu_hide
-            self.note_edit_0.mousePressEvent = self.slide_menu_hide
-            self.note_edit_1.mousePressEvent = self.slide_menu_hide
-            self.note_edit_2.mousePressEvent = self.slide_menu_hide
-            self.note_edit_3.mousePressEvent = self.slide_menu_hide
             self.frame_music_changer.mousePressEvent = self.slide_menu_hide
             self.frame_rules.mousePressEvent = self.slide_menu_hide
             self.label_rules.mousePressEvent = self.slide_menu_hide
             self.frame_generate_store.mousePressEvent = self.slide_menu_hide
-            self.text_notes.mousePressEvent = self.slide_menu_hide
             self.label_shop_info.mousePressEvent = self.slide_menu_hide
             self.text_assortment_shop.mousePressEvent = self.slide_menu_hide
             self.frame_npc_generator.mousePressEvent = self.slide_menu_hide
             self.label_generate_npc.mousePressEvent = self.slide_menu_hide
-            self.text_npc_generate.mousePressEvent = self.slide_menu_hide
             # pushButton
-            self.pushButton_exit.clicked.connect(lambda: MainApp.exit())
+            self.pushButton_exit.clicked.connect(lambda: exit())
             self.pushButton_minimized.clicked.connect(self.showMinimized)
             self.pushButton.clicked.connect(self.input_chek)
             self.pushButton_init_open.clicked.connect(self.open_initiative)
@@ -156,10 +150,10 @@ try:
             '''
             DOCKSTRING: Обновление статов через трекер
             '''
-            self.hp_edit_character0.editingFinished.connect(self.set_stats_character)
-            self.hp_edit_character1.editingFinished.connect(self.set_stats_character)
-            self.hp_edit_character2.editingFinished.connect(self.set_stats_character)
-            self.hp_edit_character3.editingFinished.connect(self.set_stats_character)
+            self.hp_edit_character0.clicked.connect(self.hero0_hp_edit)
+            self.hp_edit_character1.clicked.connect(self.hero1_hp_edit)
+            self.hp_edit_character2.clicked.connect(self.hero2_hp_edit)
+            self.hp_edit_character3.clicked.connect(self.hero3_hp_edit)
             self.ac_edit_character0.editingFinished.connect(self.set_stats_character)
             self.ac_edit_character1.editingFinished.connect(self.set_stats_character)
             self.ac_edit_character2.editingFinished.connect(self.set_stats_character)
@@ -168,6 +162,8 @@ try:
             self.initiative_edit_character1.editingFinished.connect(self.set_stats_character)
             self.initiative_edit_character2.editingFinished.connect(self.set_stats_character)
             self.initiative_edit_character3.editingFinished.connect(self.set_stats_character)
+
+
 
         '''
         Menu
@@ -211,6 +207,7 @@ try:
 
             save_dict = (
                 hero,
+                hero_in_game,
                 music,
                 note_zero,
                 note_one,
@@ -248,6 +245,7 @@ try:
                 with open(data, 'r', encoding="utf-8") as json_file:
                     data = json.load(json_file)
                     global hero
+                    global hero_in_game
                     global music
                     global store
                     global npc
@@ -255,21 +253,22 @@ try:
                     global scenario_text
                     global scenario_chapter
                     hero = data[0]
-                    music = data[1]
-                    self.note_edit_0.setText(data[2])
-                    self.note_edit_1.setText(data[3])
-                    self.note_edit_2.setText(data[4])
-                    self.note_edit_3.setText(data[5])
-                    self.textEdit_char_0.setText(data[6])
-                    self.textEdit_char_1.setText(data[7])
-                    self.textEdit_char_2.setText(data[8])
-                    self.textEdit_char_3.setText(data[9])
-                    store = data[10]
-                    npc = data[11]
-                    dict_preset = data[12]
-                    scenario = data[13]
-                    scenario_text = data[14]
-                    scenario_chapter = data[15]
+                    hero_in_game = data[1]
+                    music = data[2]
+                    self.note_edit_0.setText(data[3])
+                    self.note_edit_1.setText(data[4])
+                    self.note_edit_2.setText(data[5])
+                    self.note_edit_3.setText(data[6])
+                    self.textEdit_char_0.setText(data[7])
+                    self.textEdit_char_1.setText(data[8])
+                    self.textEdit_char_2.setText(data[9])
+                    self.textEdit_char_3.setText(data[10])
+                    store = data[11]
+                    npc = data[12]
+                    dict_preset = data[13]
+                    scenario = data[14]
+                    scenario_text = data[15]
+                    scenario_chapter = data[16]
 
                 self.view_create_hero()
                 self.add_to_tracker()
@@ -293,6 +292,7 @@ try:
                 with open('last_session', 'r', encoding="utf-8") as json_file:
                     data = json.load(json_file)
                     global hero
+                    global hero_in_game
                     global music
                     global store
                     global npc
@@ -300,21 +300,22 @@ try:
                     global scenario_text
                     global scenario_chapter
                     hero = data[0]
-                    music = data[1]
-                    self.note_edit_0.setText(data[2])
-                    self.note_edit_1.setText(data[3])
-                    self.note_edit_2.setText(data[4])
-                    self.note_edit_3.setText(data[5])
-                    self.textEdit_char_0.setText(data[6])
-                    self.textEdit_char_1.setText(data[7])
-                    self.textEdit_char_2.setText(data[8])
-                    self.textEdit_char_3.setText(data[9])
-                    store = data[10]
-                    npc = data[11]
-                    dict_preset = data[12]
-                    scenario = data[13]
-                    scenario_text = data[14]
-                    scenario_chapter = data[15]
+                    hero_in_game = data[1]
+                    music = data[2]
+                    self.note_edit_0.setText(data[3])
+                    self.note_edit_1.setText(data[4])
+                    self.note_edit_2.setText(data[5])
+                    self.note_edit_3.setText(data[6])
+                    self.textEdit_char_0.setText(data[7])
+                    self.textEdit_char_1.setText(data[8])
+                    self.textEdit_char_2.setText(data[9])
+                    self.textEdit_char_3.setText(data[10])
+                    store = data[11]
+                    npc = data[12]
+                    dict_preset = data[13]
+                    scenario = data[14]
+                    scenario_text = data[15]
+                    scenario_chapter = data[16]
 
                 self.view_create_hero()
                 self.add_to_tracker()
@@ -535,6 +536,20 @@ try:
                         '9': self.spell_slot_edit_9.text(),
                         'initiative': self.initiative_edit.text()
                     }})
+                hero_in_game.update({
+                    'character' + str(self.iter): {
+                        'name': self.name_edit.text(),
+                        'hp': self.hp_edit.text(),
+                        '1': self.spell_slot_edit.text(),
+                        '2': self.spell_slot_edit_2.text(),
+                        '3': self.spell_slot_edit_3.text(),
+                        '4': self.spell_slot_edit_4.text(),
+                        '5': self.spell_slot_edit_5.text(),
+                        '6': self.spell_slot_edit_6.text(),
+                        '7': self.spell_slot_edit_7.text(),
+                        '8': self.spell_slot_edit_8.text(),
+                        '9': self.spell_slot_edit_9.text(),
+                }})
                 self.add_to_del_char_box()
             else:
                 error = QMessageBox()
@@ -560,11 +575,10 @@ try:
             '''
             value = ''
             for item in hero:
-                value += f'Name: {hero[item]["name"]}' + '\n' + \
-                        f'Hp: {hero[item]["hp"]}' + '\n' + \
-                         f'Ac: {hero[item]["ac"]}' + '\n' + \
-                         f'Initiative: {hero[item]["initiative"]}'\
-                         + '\n' + '\n'
+                value += f'Name: {hero[item]["name"]}\n' + \
+                        f'Hp: {hero[item]["hp"]}/{hero_in_game[item]["hp"]}\n' + \
+                         f'Ac: {hero[item]["ac"]}\n' + \
+                         f'Initiative: {hero[item]["initiative"]}\n\n'
                 self.label.setText(value)
 
         @logger.catch
@@ -1025,10 +1039,10 @@ try:
         @logger.catch
         def set_stat_after_fight(self):
             global hero
-            for i in hero.keys():
+            for i in hero_in_game.keys():
                 for item in self.initiative_window.initiative_list:
-                    if item[1] == hero[i]["name"]:
-                        hero[i]["hp"] = item[2]
+                    if item[1] == hero_in_game[i]["name"]:
+                        hero_in_game[i]["hp"] = item[2]
             self.save_dict_preset()
             self.add_to_tracker()
 
@@ -1079,13 +1093,15 @@ try:
 
         @logger.catch
         def del_char(self, bool_val):
-            name_delete = ''
             try:
                 for i in hero:
                     if self.comboBox_del_char.currentText() == hero[i]['name']:
-                        name_delete = str(i)
+                        hero.pop(str(i))
+                for i in hero_in_game:
+                    if self.comboBox_del_char.currentText() == hero_in_game[i]['name']:
+                        hero_in_game.pop(str(i))
+
                 self.comboBox_del_char.removeItem(self.comboBox_del_char.currentIndex())
-                hero.pop(name_delete)
                 self.add_to_tracker()
 
             except KeyError:
@@ -1481,7 +1497,7 @@ try:
                 self.textEdit_char_0.setDisabled(False)
 
                 self.name_character0.setText(str(hero['character0']['name']))
-                self.hp_edit_character0.setText(str(hero['character0']['hp']))
+                self.hp_edit_character0.setText(f"{str(hero['character0']['hp'])}/{str(hero_in_game['character0']['hp'])}")
                 self.ac_edit_character0.setText(str(hero['character0']['ac']))
                 self.initiative_edit_character0.setText(str(hero['character0']['initiative']))
                 self.spin_spell_slot_character0.setValue(int(hero['character0']['1']))
@@ -1533,7 +1549,7 @@ try:
                 self.textEdit_char_1.setDisabled(False)
 
                 self.name_character1.setText(str(hero['character1']['name']))
-                self.hp_edit_character1.setText(str(hero['character1']['hp']))
+                self.hp_edit_character1.setText(f"{str(hero['character1']['hp'])}/{str(hero_in_game['character1']['hp'])}")
                 self.ac_edit_character1.setText(str(hero['character1']['ac']))
                 self.initiative_edit_character1.setText(str(hero['character1']['initiative']))
                 self.spin_spell_slot_character1.setValue(int(hero['character1']['1']))
@@ -1584,7 +1600,7 @@ try:
                 self.textEdit_char_2.setDisabled(False)
 
                 self.name_character2.setText(str(hero['character2']['name']))
-                self.hp_edit_character2.setText(str(hero['character2']['hp']))
+                self.hp_edit_character2.setText(f"{str(hero['character2']['hp'])}/{str(hero_in_game['character2']['hp'])}")
                 self.ac_edit_character2.setText(str(hero['character2']['ac']))
                 self.initiative_edit_character2.setText(str(hero['character2']['initiative']))
                 self.spin_spell_slot_character2.setValue(int(hero['character2']['1']))
@@ -1635,7 +1651,7 @@ try:
                 self.textEdit_char_3.setDisabled(False)
 
                 self.name_character3.setText(str(hero['character3']['name']))
-                self.hp_edit_character3.setText(str(hero['character3']['hp']))
+                self.hp_edit_character3.setText(f"{str(hero['character3']['hp'])}/{str(hero_in_game['character3']['hp'])}")
                 self.ac_edit_character3.setText(str(hero['character3']['ac']))
                 self.initiative_edit_character3.setText(str(hero['character3']['initiative']))
                 self.spin_spell_slot_character3.setValue(int(hero['character3']['1']))
@@ -1665,6 +1681,128 @@ try:
                 self.pushButton_restore_spell_slots_3.setDisabled(True)
                 self.pushButton_set_spell_slots_3.setDisabled(True)
                 self.textEdit_char_3.setDisabled(True)
+
+        def hero0_hp_edit(self, bool_val):
+            Dialog_redaction_hp = QtWidgets.QDialog()
+            self.ui_redaction_hp_hero0 = Ui_Dialog_redaction_hp_tracker()
+            self.ui_redaction_hp_hero0.setupUi(Dialog_redaction_hp)
+            Dialog_redaction_hp.show()
+            self.ui_redaction_hp_hero0.label_current_hp.setText(f'{hero["character0"]["name"]}')
+            self.ui_redaction_hp_hero0.label_view_current_hp.setText(f'Hp: {hero["character0"]["hp"]}/{hero_in_game["character0"]["hp"]}')
+
+            self.name_call_hero = "character0"
+
+            self.ui_redaction_hp_hero0.pushButton_add_hp.clicked.connect(self.add_hp_hero)
+            self.ui_redaction_hp_hero0.pushButton_minus_hp.clicked.connect(self.minus_hp_hero)
+            self.ui_redaction_hp_hero0.pushButton_set_hp.clicked.connect(self.set_hp_hero)
+            self.ui_redaction_hp_hero0.pushButton_restore_hp.clicked.connect(self.restore_hp_hero)
+            Dialog_redaction_hp.exec()
+
+        @logger.catch
+        def hero1_hp_edit(self, bool_val):
+            Dialog_redaction_hp = QtWidgets.QDialog()
+            self.ui_redaction_hp_hero1 = Ui_Dialog_redaction_hp_tracker()
+            self.ui_redaction_hp_hero1.setupUi(Dialog_redaction_hp)
+            Dialog_redaction_hp.show()
+            self.ui_redaction_hp_hero1.label_current_hp.setText(
+                f'{hero["character1"]["name"]}')
+            self.ui_redaction_hp_hero1.label_view_current_hp.setText(f'Hp: {hero["character1"]["hp"]}/{hero_in_game["character1"]["hp"]}')
+
+            self.name_call_hero = "character1"
+
+            self.ui_redaction_hp_hero1.pushButton_add_hp.clicked.connect(self.add_hp_hero)
+            self.ui_redaction_hp_hero1.pushButton_minus_hp.clicked.connect(self.minus_hp_hero)
+            self.ui_redaction_hp_hero1.pushButton_set_hp.clicked.connect(self.set_hp_hero)
+            self.ui_redaction_hp_hero1.pushButton_restore_hp.clicked.connect(self.restore_hp_hero)
+            Dialog_redaction_hp.exec()
+
+        @logger.catch
+        def hero2_hp_edit(self, bool_val):
+            Dialog_redaction_hp = QtWidgets.QDialog()
+            self.ui_redaction_hp_hero2 = Ui_Dialog_redaction_hp_tracker()
+            self.ui_redaction_hp_hero2.setupUi(Dialog_redaction_hp)
+            Dialog_redaction_hp.show()
+            self.ui_redaction_hp_hero2.label_current_hp.setText(
+                f'{hero["character2"]["name"]}')
+            self.ui_redaction_hp_hero2.label_view_current_hp.setText(f'Hp: {hero["character2"]["hp"]}/{hero_in_game["character2"]["hp"]}')
+
+            self.name_call_hero = "character2"
+
+            self.ui_redaction_hp_hero2.pushButton_add_hp.clicked.connect(self.add_hp_hero)
+            self.ui_redaction_hp_hero2.pushButton_minus_hp.clicked.connect(self.minus_hp_hero)
+            self.ui_redaction_hp_hero2.pushButton_set_hp.clicked.connect(self.set_hp_hero)
+            self.ui_redaction_hp_hero2.pushButton_restore_hp.clicked.connect(self.restore_hp_hero)
+            Dialog_redaction_hp.exec()
+
+        @logger.catch
+        def hero3_hp_edit(self, bool_val):
+            Dialog_redaction_hp = QtWidgets.QDialog()
+            self.ui_redaction_hp_hero3 = Ui_Dialog_redaction_hp_tracker()
+            self.ui_redaction_hp_hero3.setupUi(Dialog_redaction_hp)
+            Dialog_redaction_hp.show()
+            self.ui_redaction_hp_hero3.label_current_hp.setText(
+                f'{hero["character3"]["name"]}')
+            self.ui_redaction_hp_hero3.label_view_current_hp.setText(f'Hp: {hero["character3"]["hp"]}/{hero_in_game["character3"]["hp"]}')
+
+            self.name_call_hero = "character3"
+
+            self.ui_redaction_hp_hero3.pushButton_add_hp.clicked.connect(self.add_hp_hero)
+            self.ui_redaction_hp_hero3.pushButton_minus_hp.clicked.connect(self.minus_hp_hero)
+            self.ui_redaction_hp_hero3.pushButton_set_hp.clicked.connect(self.set_hp_hero)
+            self.ui_redaction_hp_hero3.pushButton_restore_hp.clicked.connect(self.restore_hp_hero)
+            Dialog_redaction_hp.exec()
+
+        @logger.catch
+        def add_hp_hero(self, bool_val):
+            if self.name_call_hero == "character0":
+                hero_in_game["character0"]["hp"] = int(hero_in_game["character0"]["hp"]) + int(self.ui_redaction_hp_hero0.edit_new_hp.text())
+            elif self.name_call_hero == "character1":
+                hero_in_game["character1"]["hp"] = int(hero_in_game["character1"]["hp"]) + int(self.ui_redaction_hp_hero1.edit_new_hp.text())
+            elif self.name_call_hero == "character2":
+                hero_in_game["character2"]["hp"] = int(hero_in_game["character2"]["hp"]) + int(self.ui_redaction_hp_hero2.edit_new_hp.text())
+            elif self.name_call_hero == "character3":
+                hero_in_game["character3"]["hp"] = int(hero_in_game["character3"]["hp"]) + int(self.ui_redaction_hp_hero3.edit_new_hp.text())
+
+            self.add_to_tracker()
+
+        @logger.catch
+        def minus_hp_hero(self, bool_val):
+            if self.name_call_hero == "character0":
+                hero_in_game["character0"]["hp"] = int(hero_in_game["character0"]["hp"]) - int(self.ui_redaction_hp_hero0.edit_new_hp.text())
+            elif self.name_call_hero == "character1":
+                hero_in_game["character1"]["hp"] = int(hero_in_game["character1"]["hp"]) - int(self.ui_redaction_hp_hero1.edit_new_hp.text())
+            elif self.name_call_hero == "character2":
+                hero_in_game["character2"]["hp"] = int(hero_in_game["character2"]["hp"]) - int(self.ui_redaction_hp_hero2.edit_new_hp.text())
+            elif self.name_call_hero == "character3":
+                hero_in_game["character3"]["hp"] = int(hero_in_game["character3"]["hp"]) - int(self.ui_redaction_hp_hero3.edit_new_hp.text())
+
+            self.add_to_tracker()
+
+        @logger.catch
+        def set_hp_hero(self, bool_val):
+            if self.name_call_hero == "character0":
+                hero["character0"]["hp"] = int(self.ui_redaction_hp_hero0.edit_new_hp.text())
+            elif self.name_call_hero == "character1":
+                hero["character1"]["hp"] = int(self.ui_redaction_hp_hero1.edit_new_hp.text())
+            elif self.name_call_hero == "character2":
+                hero["character2"]["hp"] = int(self.ui_redaction_hp_hero2.edit_new_hp.text())
+            elif self.name_call_hero == "character3":
+                hero["character3"]["hp"] = int(self.ui_redaction_hp_hero3.edit_new_hp.text())
+
+            self.add_to_tracker()
+
+        @logger.catch
+        def restore_hp_hero(self, bool_val):
+            if self.name_call_hero == "character0":
+                hero_in_game["character0"]["hp"] = hero["character0"]["hp"]
+            elif self.name_call_hero == "character1":
+                hero_in_game["character1"]["hp"] = hero["character1"]["hp"]
+            elif self.name_call_hero == "character2":
+                hero_in_game["character2"]["hp"] = hero["character2"]["hp"]
+            elif self.name_call_hero == "character3":
+                hero_in_game["character3"]["hp"] = hero["character3"]["hp"]
+
+            self.add_to_tracker()
 
         @logger.catch
         def restore_slot_char0(self, bool_val):
@@ -1792,20 +1930,20 @@ try:
             DOCKSTRING: Обновление статов персонажей при их изменении в трекере
             '''
             try:
-                if 'character0' in hero.keys():
-                    hero['character0']['hp'] = int(self.hp_edit_character0.text())
+                if 'character0' in hero.keys() and 'character0' in hero_in_game.keys():
+                    hero_in_game['character0']['hp'] = int(self.hp_edit_character0.text())
                     hero['character0']['ac'] = int(self.ac_edit_character0.text())
                     hero['character0']['initiative'] = int(self.initiative_edit_character0.text())
-                if 'character1' in hero.keys():
-                    hero['character1']['hp'] = int(self.hp_edit_character1.text())
+                if 'character1' in hero.keys() and 'character1' in hero_in_game.keys():
+                    hero_in_game['character1']['hp'] = int(self.hp_edit_character1.text())
                     hero['character1']['ac'] = int(self.ac_edit_character1.text())
                     hero['character1']['initiative'] = int(self.initiative_edit_character1.text())
-                if 'character2' in hero.keys():
-                    hero['character2']['hp'] = int(self.hp_edit_character2.text())
+                if 'character2' in hero.keys() and 'character2' in hero_in_game.keys():
+                    hero_in_game['character2']['hp'] = int(self.hp_edit_character2.text())
                     hero['character2']['ac'] = int(self.ac_edit_character2.text())
                     hero['character2']['initiative'] = int(self.initiative_edit_character2.text())
-                if 'character3' in hero.keys():
-                    hero['character3']['hp'] = int(self.hp_edit_character3.text())
+                if 'character3' in hero.keys() and 'character3' in hero_in_game.keys():
+                    hero_in_game['character3']['hp'] = int(self.hp_edit_character3.text())
                     hero['character3']['ac'] = int(self.ac_edit_character3.text())
                     hero['character3']['initiative'] = int(self.initiative_edit_character3.text())
             except ValueError:

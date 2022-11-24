@@ -452,7 +452,7 @@ class Ui_MainWindow(object):
         self.label_spell_slot_character0.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_spell_slot_character0.setObjectName("label_spell_slot_character0")
         self.ac_character0 = QtWidgets.QLabel(self.frame_character0)
-        self.ac_character0.setGeometry(QtCore.QRect(70, 70, 25, 25))
+        self.ac_character0.setGeometry(QtCore.QRect(80, 70, 21, 25))
         self.ac_character0.setStyleSheet("font-weight:bold")
         self.ac_character0.setObjectName("ac_character0")
         self.hp_character0 = QtWidgets.QLabel(self.frame_character0)
@@ -535,8 +535,8 @@ class Ui_MainWindow(object):
         self.spin_spell_slot_character0_2 = QtWidgets.QSpinBox(self.frame_character0)
         self.spin_spell_slot_character0_2.setGeometry(QtCore.QRect(60, 130, 42, 22))
         self.spin_spell_slot_character0_2.setObjectName("spin_spell_slot_character0_2")
-        self.hp_edit_character0 = QtWidgets.QLineEdit(self.frame_character0)
-        self.hp_edit_character0.setGeometry(QtCore.QRect(39, 70, 31, 25))
+        self.hp_edit_character0 = QtWidgets.QPushButton(self.frame_character0)
+        self.hp_edit_character0.setGeometry(QtCore.QRect(30, 70, 41, 25))
         self.hp_edit_character0.setText("")
         self.hp_edit_character0.setObjectName("hp_edit_character0")
         self.spin_spell_slot_character0_4 = QtWidgets.QSpinBox(self.frame_character0)
@@ -646,8 +646,8 @@ class Ui_MainWindow(object):
         self.hp_character1.setGeometry(QtCore.QRect(10, 70, 25, 25))
         self.hp_character1.setStyleSheet("font-weight:bold")
         self.hp_character1.setObjectName("hp_character1")
-        self.hp_edit_character1 = QtWidgets.QLineEdit(self.frame_character1)
-        self.hp_edit_character1.setGeometry(QtCore.QRect(39, 70, 31, 25))
+        self.hp_edit_character1 = QtWidgets.QPushButton(self.frame_character1)
+        self.hp_edit_character1.setGeometry(QtCore.QRect(30, 70, 41, 25))
         self.hp_edit_character1.setObjectName("hp_edit_character1")
         self.spin_spell_slot_character1_8 = QtWidgets.QSpinBox(self.frame_character1)
         self.spin_spell_slot_character1_8.setGeometry(QtCore.QRect(60, 210, 42, 22))
@@ -727,7 +727,7 @@ class Ui_MainWindow(object):
         self.label_lock_init_char_1.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_lock_init_char_1.setObjectName("label_lock_init_char_1")
         self.ac_character1 = QtWidgets.QLabel(self.frame_character1)
-        self.ac_character1.setGeometry(QtCore.QRect(70, 70, 25, 25))
+        self.ac_character1.setGeometry(QtCore.QRect(80, 70, 21, 25))
         self.ac_character1.setStyleSheet("font-weight:bold")
         self.ac_character1.setObjectName("ac_character1")
         self.spin_spell_slot_character1 = QtWidgets.QSpinBox(self.frame_character1)
@@ -795,7 +795,7 @@ class Ui_MainWindow(object):
         self.spell_slot_label_traker_char2.setStyleSheet("font-weight:bold")
         self.spell_slot_label_traker_char2.setObjectName("spell_slot_label_traker_char2")
         self.ac_character2 = QtWidgets.QLabel(self.frame_character2)
-        self.ac_character2.setGeometry(QtCore.QRect(70, 70, 25, 25))
+        self.ac_character2.setGeometry(QtCore.QRect(80, 70, 21, 25))
         self.ac_character2.setStyleSheet("font-weight:bold")
         self.ac_character2.setObjectName("ac_character2")
         self.spin_spell_slot_character2_3 = QtWidgets.QSpinBox(self.frame_character2)
@@ -817,8 +817,8 @@ class Ui_MainWindow(object):
         self.initiative_character2.setGeometry(QtCore.QRect(10, 280, 61, 25))
         self.initiative_character2.setStyleSheet("font-weight:bold")
         self.initiative_character2.setObjectName("initiative_character2")
-        self.hp_edit_character2 = QtWidgets.QLineEdit(self.frame_character2)
-        self.hp_edit_character2.setGeometry(QtCore.QRect(39, 70, 31, 25))
+        self.hp_edit_character2 = QtWidgets.QPushButton(self.frame_character2)
+        self.hp_edit_character2.setGeometry(QtCore.QRect(30, 70, 41, 25))
         self.hp_edit_character2.setObjectName("hp_edit_character2")
         self.label_spell_slot_character0_25 = QtWidgets.QLabel(self.frame_character2)
         self.label_spell_slot_character0_25.setGeometry(QtCore.QRect(70, 190, 20, 20))
@@ -972,8 +972,8 @@ class Ui_MainWindow(object):
         self.label_spell_slot_character0_35.setStyleSheet("font-weight:bold")
         self.label_spell_slot_character0_35.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_spell_slot_character0_35.setObjectName("label_spell_slot_character0_35")
-        self.hp_edit_character3 = QtWidgets.QLineEdit(self.frame_character3)
-        self.hp_edit_character3.setGeometry(QtCore.QRect(39, 70, 31, 25))
+        self.hp_edit_character3 = QtWidgets.QPushButton(self.frame_character3)
+        self.hp_edit_character3.setGeometry(QtCore.QRect(30, 70, 41, 25))
         self.hp_edit_character3.setObjectName("hp_edit_character3")
         self.label_spell_slot_character0_31 = QtWidgets.QLabel(self.frame_character3)
         self.label_spell_slot_character0_31.setGeometry(QtCore.QRect(70, 230, 20, 20))
@@ -1012,7 +1012,7 @@ class Ui_MainWindow(object):
         self.spin_spell_slot_character3_4.setGeometry(QtCore.QRect(10, 170, 42, 22))
         self.spin_spell_slot_character3_4.setObjectName("spin_spell_slot_character3_4")
         self.ac_character3 = QtWidgets.QLabel(self.frame_character3)
-        self.ac_character3.setGeometry(QtCore.QRect(70, 70, 25, 25))
+        self.ac_character3.setGeometry(QtCore.QRect(80, 70, 21, 25))
         self.ac_character3.setStyleSheet("font-weight:bold")
         self.ac_character3.setObjectName("ac_character3")
         self.hp_character3 = QtWidgets.QLabel(self.frame_character3)
@@ -2161,6 +2161,38 @@ class Ui_MainWindow(object):
                                                "    color: rgb(247, 147, 30);\n"
                                                "    border: none;\n"
                                                "}")
+        self.setStyleSheet("QInputDialog {\n"
+                           "    background-color: rgb(85, 85, 85);\n"
+                           "    opacity: 0.3;\n"
+                           "    color: rgb(247, 147, 30);\n"
+                           "    border: none;\n"
+                           "}\n"
+                           "\n"
+                           "QLineEdit {\n"
+                           "    background-color: rgb(55, 55, 55);\n"
+                           "    color: rgb(247, 147, 30);\n"
+                           "    border: none;\n"
+                           "}\n"
+                           "\n"
+                           "QPushButton {\n"
+                           "    background: rgb(55, 55, 55);\n"
+                           "    border-radius: 5px;\n"
+                           "    color: rgb(247, 147, 30);\n"
+                           "}\n"
+                           "\n"
+                           "QPushButton:pressed {\n"
+                           "    background-color: rgb(105, 105, 105);\n"
+                           "}\n"
+                           "\n"
+                           "QSpinBox {\n"
+                           "    background-color: rgb(55, 55, 55);\n"
+                           "    color: rgb(247, 147, 30);\n"
+                           "    border: none;\n"
+                           "}\n"
+                           "QLabel{\n"
+                           "    background-color: rgb(55, 55, 55);\n"
+                           "    color: rgb(247, 147, 30);\n"
+                           "}\n")
 
     @logger.catch
     def app_func(self):
