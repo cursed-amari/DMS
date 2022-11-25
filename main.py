@@ -2870,14 +2870,16 @@ try:
         def create_store(self):
             if self.edit_store_name_2.text() == "":
                 self.iter_store = 0
+                store_name = 'store ' + self.vendor_name
                 flag = True
                 while flag is True:
-                    if 'store_' + str(self.iter_store) in store.keys():
+                    if store_name in store.keys():
+                        store_name = f'store {self.vendor_name}_{str(self.iter_store)}'
                         self.iter_store += 1
                     else:
                         flag = False
                 store.update({
-                    'store_' + str(self.iter_store): {
+                    store_name: {
                         'type_store': self.box_generate_type.currentText(),
                         'name_vendor': self.vendor_name,
                         'sex_vendor': self.vendor_sex,
