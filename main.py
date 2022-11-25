@@ -3040,14 +3040,16 @@ try:
         @logger.catch
         def create_npc(self):
             self.iter_npc = 0
+            npc_name_req = self.npc_name
             flag = True
             while flag is True:
-                if 'npc_name' + str(self.iter_npc) in store.keys():
+                if npc_name_req in npc.keys():
+                    npc_name_req = f"{self.npc_name} {self.iter_npc}"
                     self.iter_npc += 1
                 else:
                     flag = False
             npc.update({
-                self.npc_name + str(self.iter_npc): {
+                npc_name_req: {
                     'npc_name': self.npc_full_name,
                     'npc_sex': self.npc_sex,
                     'npc_age': self.npc_age,
