@@ -79,7 +79,7 @@ try:
             self.frame_npc_generator.mousePressEvent = self.slide_menu_hide
             self.label_generate_npc.mousePressEvent = self.slide_menu_hide
             # pushButton
-            self.pushButton_exit.clicked.connect(lambda: exit())
+            self.pushButton_exit.clicked.connect(self.close)
             self.pushButton_minimized.clicked.connect(self.showMinimized)
             self.pushButton.clicked.connect(self.input_chek)
             self.pushButton_init_open.clicked.connect(self.open_initiative)
@@ -162,8 +162,42 @@ try:
             self.initiative_edit_character1.editingFinished.connect(self.set_stats_character)
             self.initiative_edit_character2.editingFinished.connect(self.set_stats_character)
             self.initiative_edit_character3.editingFinished.connect(self.set_stats_character)
-
-
+            self.spin_spell_slot_character0.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character0_2.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character0_3.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character0_4.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character0_5.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character0_6.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character0_7.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character0_8.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character0_9.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character1.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character1_2.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character1_3.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character1_4.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character1_5.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character1_6.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character1_7.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character1_8.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character1_9.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character2.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character2_2.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character2_3.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character2_4.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character2_5.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character2_6.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character2_7.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character2_8.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character2_9.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character3.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character3_2.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character3_3.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character3_4.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character3_5.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character3_6.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character3_7.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character3_8.editingFinished.connect(self.set_stats_character)
+            self.spin_spell_slot_character3_9.editingFinished.connect(self.set_stats_character)
 
         '''
         Menu
@@ -1500,15 +1534,15 @@ try:
                 self.hp_edit_character0.setText(f"{str(hero['character0']['hp'])}/{str(hero_in_game['character0']['hp'])}")
                 self.ac_edit_character0.setText(str(hero['character0']['ac']))
                 self.initiative_edit_character0.setText(str(hero['character0']['initiative']))
-                self.spin_spell_slot_character0.setValue(int(hero['character0']['1']))
-                self.spin_spell_slot_character0_2.setValue(int(hero['character0']['2']))
-                self.spin_spell_slot_character0_3.setValue(int(hero['character0']['3']))
-                self.spin_spell_slot_character0_4.setValue(int(hero['character0']['4']))
-                self.spin_spell_slot_character0_5.setValue(int(hero['character0']['5']))
-                self.spin_spell_slot_character0_6.setValue(int(hero['character0']['6']))
-                self.spin_spell_slot_character0_7.setValue(int(hero['character0']['7']))
-                self.spin_spell_slot_character0_8.setValue(int(hero['character0']['8']))
-                self.spin_spell_slot_character0_9.setValue(int(hero['character0']['9']))
+                self.spin_spell_slot_character0.setValue(int(hero_in_game['character0']['1']))
+                self.spin_spell_slot_character0_2.setValue(int(hero_in_game['character0']['2']))
+                self.spin_spell_slot_character0_3.setValue(int(hero_in_game['character0']['3']))
+                self.spin_spell_slot_character0_4.setValue(int(hero_in_game['character0']['4']))
+                self.spin_spell_slot_character0_5.setValue(int(hero_in_game['character0']['5']))
+                self.spin_spell_slot_character0_6.setValue(int(hero_in_game['character0']['6']))
+                self.spin_spell_slot_character0_7.setValue(int(hero_in_game['character0']['7']))
+                self.spin_spell_slot_character0_8.setValue(int(hero_in_game['character0']['8']))
+                self.spin_spell_slot_character0_9.setValue(int(hero_in_game['character0']['9']))
             else:
                 self.name_character0.setDisabled(True)
                 self.hp_edit_character0.setDisabled(True)
@@ -1552,15 +1586,15 @@ try:
                 self.hp_edit_character1.setText(f"{str(hero['character1']['hp'])}/{str(hero_in_game['character1']['hp'])}")
                 self.ac_edit_character1.setText(str(hero['character1']['ac']))
                 self.initiative_edit_character1.setText(str(hero['character1']['initiative']))
-                self.spin_spell_slot_character1.setValue(int(hero['character1']['1']))
-                self.spin_spell_slot_character1_2.setValue(int(hero['character1']['2']))
-                self.spin_spell_slot_character1_3.setValue(int(hero['character1']['3']))
-                self.spin_spell_slot_character1_4.setValue(int(hero['character1']['4']))
-                self.spin_spell_slot_character1_5.setValue(int(hero['character1']['5']))
-                self.spin_spell_slot_character1_6.setValue(int(hero['character1']['6']))
-                self.spin_spell_slot_character1_7.setValue(int(hero['character1']['7']))
-                self.spin_spell_slot_character1_8.setValue(int(hero['character1']['8']))
-                self.spin_spell_slot_character1_9.setValue(int(hero['character1']['9']))
+                self.spin_spell_slot_character1.setValue(int(hero_in_game['character1']['1']))
+                self.spin_spell_slot_character1_2.setValue(int(hero_in_game['character1']['2']))
+                self.spin_spell_slot_character1_3.setValue(int(hero_in_game['character1']['3']))
+                self.spin_spell_slot_character1_4.setValue(int(hero_in_game['character1']['4']))
+                self.spin_spell_slot_character1_5.setValue(int(hero_in_game['character1']['5']))
+                self.spin_spell_slot_character1_6.setValue(int(hero_in_game['character1']['6']))
+                self.spin_spell_slot_character1_7.setValue(int(hero_in_game['character1']['7']))
+                self.spin_spell_slot_character1_8.setValue(int(hero_in_game['character1']['8']))
+                self.spin_spell_slot_character1_9.setValue(int(hero_in_game['character1']['9']))
             else:
                 self.name_character1.setDisabled(True)
                 self.hp_edit_character1.setDisabled(True)
@@ -1603,15 +1637,15 @@ try:
                 self.hp_edit_character2.setText(f"{str(hero['character2']['hp'])}/{str(hero_in_game['character2']['hp'])}")
                 self.ac_edit_character2.setText(str(hero['character2']['ac']))
                 self.initiative_edit_character2.setText(str(hero['character2']['initiative']))
-                self.spin_spell_slot_character2.setValue(int(hero['character2']['1']))
-                self.spin_spell_slot_character2_2.setValue(int(hero['character2']['2']))
-                self.spin_spell_slot_character2_3.setValue(int(hero['character2']['3']))
-                self.spin_spell_slot_character2_4.setValue(int(hero['character2']['4']))
-                self.spin_spell_slot_character2_5.setValue(int(hero['character2']['5']))
-                self.spin_spell_slot_character2_6.setValue(int(hero['character2']['6']))
-                self.spin_spell_slot_character2_7.setValue(int(hero['character2']['7']))
-                self.spin_spell_slot_character2_8.setValue(int(hero['character2']['8']))
-                self.spin_spell_slot_character2_9.setValue(int(hero['character2']['9']))
+                self.spin_spell_slot_character2.setValue(int(hero_in_game['character2']['1']))
+                self.spin_spell_slot_character2_2.setValue(int(hero_in_game['character2']['2']))
+                self.spin_spell_slot_character2_3.setValue(int(hero_in_game['character2']['3']))
+                self.spin_spell_slot_character2_4.setValue(int(hero_in_game['character2']['4']))
+                self.spin_spell_slot_character2_5.setValue(int(hero_in_game['character2']['5']))
+                self.spin_spell_slot_character2_6.setValue(int(hero_in_game['character2']['6']))
+                self.spin_spell_slot_character2_7.setValue(int(hero_in_game['character2']['7']))
+                self.spin_spell_slot_character2_8.setValue(int(hero_in_game['character2']['8']))
+                self.spin_spell_slot_character2_9.setValue(int(hero_in_game['character2']['9']))
             else:
                 self.name_character2.setDisabled(True)
                 self.hp_edit_character2.setDisabled(True)
@@ -1654,15 +1688,15 @@ try:
                 self.hp_edit_character3.setText(f"{str(hero['character3']['hp'])}/{str(hero_in_game['character3']['hp'])}")
                 self.ac_edit_character3.setText(str(hero['character3']['ac']))
                 self.initiative_edit_character3.setText(str(hero['character3']['initiative']))
-                self.spin_spell_slot_character3.setValue(int(hero['character3']['1']))
-                self.spin_spell_slot_character3_2.setValue(int(hero['character3']['2']))
-                self.spin_spell_slot_character3_3.setValue(int(hero['character3']['3']))
-                self.spin_spell_slot_character3_4.setValue(int(hero['character3']['4']))
-                self.spin_spell_slot_character3_5.setValue(int(hero['character3']['5']))
-                self.spin_spell_slot_character3_6.setValue(int(hero['character3']['6']))
-                self.spin_spell_slot_character3_7.setValue(int(hero['character3']['7']))
-                self.spin_spell_slot_character3_8.setValue(int(hero['character3']['8']))
-                self.spin_spell_slot_character3_9.setValue(int(hero['character3']['9']))
+                self.spin_spell_slot_character3.setValue(int(hero_in_game['character3']['1']))
+                self.spin_spell_slot_character3_2.setValue(int(hero_in_game['character3']['2']))
+                self.spin_spell_slot_character3_3.setValue(int(hero_in_game['character3']['3']))
+                self.spin_spell_slot_character3_4.setValue(int(hero_in_game['character3']['4']))
+                self.spin_spell_slot_character3_5.setValue(int(hero_in_game['character3']['5']))
+                self.spin_spell_slot_character3_6.setValue(int(hero_in_game['character3']['6']))
+                self.spin_spell_slot_character3_7.setValue(int(hero_in_game['character3']['7']))
+                self.spin_spell_slot_character3_8.setValue(int(hero_in_game['character3']['8']))
+                self.spin_spell_slot_character3_9.setValue(int(hero_in_game['character3']['9']))
             else:
                 self.name_character3.setDisabled(True)
                 self.hp_edit_character3.setDisabled(True)
@@ -1816,6 +1850,7 @@ try:
                 self.spin_spell_slot_character0_7.setValue(int(hero['character0']['7']))
                 self.spin_spell_slot_character0_8.setValue(int(hero['character0']['8']))
                 self.spin_spell_slot_character0_9.setValue(int(hero['character0']['9']))
+                self.set_stats_character()
             else:
                 pass
 
@@ -1831,6 +1866,7 @@ try:
                 self.spin_spell_slot_character1_7.setValue(int(hero['character1']['7']))
                 self.spin_spell_slot_character1_8.setValue(int(hero['character1']['8']))
                 self.spin_spell_slot_character1_9.setValue(int(hero['character1']['9']))
+                self.set_stats_character()
             else:
                 pass
 
@@ -1846,6 +1882,7 @@ try:
                 self.spin_spell_slot_character2_7.setValue(int(hero['character2']['7']))
                 self.spin_spell_slot_character2_8.setValue(int(hero['character2']['8']))
                 self.spin_spell_slot_character2_9.setValue(int(hero['character2']['9']))
+                self.set_stats_character()
             else:
                 pass
 
@@ -1861,6 +1898,7 @@ try:
                 self.spin_spell_slot_character3_7.setValue(int(hero['character3']['7']))
                 self.spin_spell_slot_character3_8.setValue(int(hero['character3']['8']))
                 self.spin_spell_slot_character3_9.setValue(int(hero['character3']['9']))
+                self.set_stats_character()
             else:
                 pass
 
@@ -1925,26 +1963,62 @@ try:
                 pass
 
         @logger.catch
-        def set_stats_character(self):
+        def set_stats_character(self, bool_val=False):
             '''
             DOCKSTRING: Обновление статов персонажей при их изменении в трекере
             '''
             try:
                 if 'character0' in hero.keys() and 'character0' in hero_in_game.keys():
-                    hero_in_game['character0']['hp'] = int(self.hp_edit_character0.text())
+                    hero_in_game['character0']['hp'] = int(self.hp_edit_character0.text().split("/")[1])
                     hero['character0']['ac'] = int(self.ac_edit_character0.text())
+                    hero_in_game['character0']['1'] = self.spin_spell_slot_character0.text()
+                    hero_in_game['character0']['2'] = self.spin_spell_slot_character0_2.text()
+                    hero_in_game['character0']['3'] = self.spin_spell_slot_character0_3.text()
+                    hero_in_game['character0']['4'] = self.spin_spell_slot_character0_4.text()
+                    hero_in_game['character0']['5'] = self.spin_spell_slot_character0_5.text()
+                    hero_in_game['character0']['6'] = self.spin_spell_slot_character0_6.text()
+                    hero_in_game['character0']['7'] = self.spin_spell_slot_character0_7.text()
+                    hero_in_game['character0']['8'] = self.spin_spell_slot_character0_8.text()
+                    hero_in_game['character0']['9'] = self.spin_spell_slot_character0_9.text()
                     hero['character0']['initiative'] = int(self.initiative_edit_character0.text())
                 if 'character1' in hero.keys() and 'character1' in hero_in_game.keys():
-                    hero_in_game['character1']['hp'] = int(self.hp_edit_character1.text())
+                    hero_in_game['character1']['hp'] = int(self.hp_edit_character1.text().split("/")[1])
                     hero['character1']['ac'] = int(self.ac_edit_character1.text())
+                    hero_in_game['character1']['1'] = self.spin_spell_slot_character1.text()
+                    hero_in_game['character1']['2'] = self.spin_spell_slot_character1_2.text()
+                    hero_in_game['character1']['3'] = self.spin_spell_slot_character1_3.text()
+                    hero_in_game['character1']['4'] = self.spin_spell_slot_character1_4.text()
+                    hero_in_game['character1']['5'] = self.spin_spell_slot_character1_5.text()
+                    hero_in_game['character1']['6'] = self.spin_spell_slot_character1_6.text()
+                    hero_in_game['character1']['7'] = self.spin_spell_slot_character1_7.text()
+                    hero_in_game['character1']['8'] = self.spin_spell_slot_character1_8.text()
+                    hero_in_game['character1']['9'] = self.spin_spell_slot_character1_9.text()
                     hero['character1']['initiative'] = int(self.initiative_edit_character1.text())
                 if 'character2' in hero.keys() and 'character2' in hero_in_game.keys():
-                    hero_in_game['character2']['hp'] = int(self.hp_edit_character2.text())
+                    hero_in_game['character2']['hp'] = int(self.hp_edit_character2.text().split("/")[1])
                     hero['character2']['ac'] = int(self.ac_edit_character2.text())
+                    hero_in_game['character2']['1'] = self.spin_spell_slot_character2.text()
+                    hero_in_game['character2']['2'] = self.spin_spell_slot_character2_2.text()
+                    hero_in_game['character2']['3'] = self.spin_spell_slot_character2_3.text()
+                    hero_in_game['character2']['4'] = self.spin_spell_slot_character2_4.text()
+                    hero_in_game['character2']['5'] = self.spin_spell_slot_character2_5.text()
+                    hero_in_game['character2']['6'] = self.spin_spell_slot_character2_6.text()
+                    hero_in_game['character2']['7'] = self.spin_spell_slot_character2_7.text()
+                    hero_in_game['character2']['8'] = self.spin_spell_slot_character2_8.text()
+                    hero_in_game['character2']['9'] = self.spin_spell_slot_character2_9.text()
                     hero['character2']['initiative'] = int(self.initiative_edit_character2.text())
                 if 'character3' in hero.keys() and 'character3' in hero_in_game.keys():
-                    hero_in_game['character3']['hp'] = int(self.hp_edit_character3.text())
+                    hero_in_game['character3']['hp'] = int(self.hp_edit_character3.text().split("/")[1])
                     hero['character3']['ac'] = int(self.ac_edit_character3.text())
+                    hero_in_game['character3']['1'] = self.spin_spell_slot_character3.text()
+                    hero_in_game['character3']['2'] = self.spin_spell_slot_character3_2.text()
+                    hero_in_game['character3']['3'] = self.spin_spell_slot_character3_3.text()
+                    hero_in_game['character3']['4'] = self.spin_spell_slot_character3_4.text()
+                    hero_in_game['character3']['5'] = self.spin_spell_slot_character3_5.text()
+                    hero_in_game['character3']['6'] = self.spin_spell_slot_character3_6.text()
+                    hero_in_game['character3']['7'] = self.spin_spell_slot_character3_7.text()
+                    hero_in_game['character3']['8'] = self.spin_spell_slot_character3_8.text()
+                    hero_in_game['character3']['9'] = self.spin_spell_slot_character3_9.text()
                     hero['character3']['initiative'] = int(self.initiative_edit_character3.text())
             except ValueError:
                 error = QMessageBox()
@@ -3012,6 +3086,7 @@ finally:
     if hero:
         save_dict = (
             hero,
+            hero_in_game,
             music,
             note_zero,
             note_one,
