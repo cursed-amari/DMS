@@ -1710,6 +1710,15 @@ class Ui_MainWindow(object):
         self.text_npc_generate.setGeometry(QtCore.QRect(0, 70, 371, 340))
         self.text_npc_generate.setObjectName("text_npc_generate")
         self.horizontalLayout_12.addWidget(self.frame_text_npc)
+        self.info = QtWidgets.QTextEdit(self.frame_main_app)
+        self.info.setGeometry(QtCore.QRect(10, 4, 781, 411))
+        self.info.setStyleSheet("QTextEdit {\n"
+                                "    background-color: rgb(55, 55, 55);\n"
+                                "    color: rgb(247, 147, 30);\n"
+                                "    border: none;\n"
+                                "}")
+        self.info.setObjectName("info")
+        self.info.raise_()
         self.frame_scenario.raise_()
         self.frame_notes.raise_()
         self.frame_music_changer.raise_()
@@ -1890,6 +1899,18 @@ class Ui_MainWindow(object):
         self.label_npc_name.setText(_translate("MainWindow", "Name"))
         self.label_generate_npc.setText(_translate("MainWindow", "Text NPC"))
 
+        self.info.setHtml(_translate("MainWindow",
+                                     "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                     "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                     "p, li { white-space: pre-wrap; }\n"
+                                     "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+                                     "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt;\">More info --&gt; https://github.com/cursed-amari/DMS</span></p>\n"
+                                     "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:20pt;\"><br /></p>\n"
+                                     "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt;\">Запрещено любое коммерческое использование!</span></p>\n"
+                                     "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt;\">Распространяется исключительно на бесплатной основе!</span></p>\n"
+                                     "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:20pt;\"><br /></p>\n"
+                                     "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt;\">Any commercial use is prohibited!</span></p>\n"
+                                     "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt;\">Distributed exclusively on a free basis!</span></p></body></html>"))
         self.frame_name_app.mousePressEvent = self.press_window
         self.label_name_app.mousePressEvent = self.press_window
         self.frame_name_app.mouseMoveEvent = self.move_window
@@ -2359,6 +2380,8 @@ class Ui_MainWindow(object):
         self.pushButton_del_tags.hide()
         self.list_tags.hide()
         self.text_scenario.hide()
+
+        self.info.hide()
 
         self.name.show()
         self.name_edit.show()

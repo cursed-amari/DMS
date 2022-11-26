@@ -215,18 +215,27 @@ try:
             icon_save.addPixmap(QtGui.QPixmap("img/new_icon/ico/save.ico"), QtGui.QIcon.Mode.Normal,
                                 QtGui.QIcon.State.Off)
             action_save.setIcon(icon_save)
+
             action_load = menu.addAction("Load", self.action_open)
             icon_load = QtGui.QIcon()
             icon_load.addPixmap(QtGui.QPixmap("img/new_icon/ico/load.ico"), QtGui.QIcon.Mode.Normal,
                                 QtGui.QIcon.State.Off)
             action_load.setIcon(icon_load)
+
             action_last_session = menu.addAction("Last session", self.last_session)
             action_last_session.setIcon(icon_load)
+
             action_generators = menu.addAction("Generators", self.open_generators)
             icon_generators = QtGui.QIcon()
             icon_generators.addPixmap(QtGui.QPixmap("img/new_icon/ico/dice.ico"), QtGui.QIcon.Mode.Normal,
                                 QtGui.QIcon.State.Off)
             action_generators.setIcon(icon_generators)
+
+            action_info = menu.addAction("Info", self.open_info)
+            icon_info = QtGui.QIcon()
+            icon_info.addPixmap(QtGui.QPixmap("img/new_icon/!.png"), QtGui.QIcon.Mode.Normal,
+                                      QtGui.QIcon.State.Off)
+            action_info.setIcon(icon_info)
 
             menu.exec(self.pos())
 
@@ -455,6 +464,7 @@ try:
             self.frame_rules.hide()
             self.frame_generate_store.hide()
             self.frame_npc_generator.hide()
+            self.info.hide()
 
         @logger.catch
         def show_scenario(self, bool_val):
@@ -465,6 +475,7 @@ try:
             self.frame_rules.hide()
             self.frame_generate_store.hide()
             self.frame_npc_generator.hide()
+            self.info.hide()
 
         @logger.catch
         def show_notes(self, bool_val):
@@ -475,6 +486,7 @@ try:
             self.frame_rules.hide()
             self.frame_generate_store.hide()
             self.frame_npc_generator.hide()
+            self.info.hide()
 
         @logger.catch
         def show_music_changer(self, bool_val):
@@ -485,6 +497,7 @@ try:
             self.frame_rules.hide()
             self.frame_generate_store.hide()
             self.frame_npc_generator.hide()
+            self.info.hide()
 
         @logger.catch
         def show_rules(self, bool_val):
@@ -495,6 +508,7 @@ try:
             self.frame_rules.show()
             self.frame_generate_store.hide()
             self.frame_npc_generator.hide()
+            self.info.hide()
 
         @logger.catch
         def show_generate_store(self, bool_val):
@@ -505,6 +519,7 @@ try:
             self.frame_rules.hide()
             self.frame_generate_store.show()
             self.frame_npc_generator.hide()
+            self.info.hide()
 
         @logger.catch
         def show_npc_generator(self, bool_val):
@@ -515,6 +530,18 @@ try:
             self.frame_rules.hide()
             self.frame_generate_store.hide()
             self.frame_npc_generator.show()
+            self.info.hide()
+
+        @logger.catch
+        def open_info(self):
+            self.frame_tracker.hide()
+            self.frame_scenario.hide()
+            self.frame_notes.hide()
+            self.frame_music_changer.hide()
+            self.frame_rules.hide()
+            self.frame_generate_store.hide()
+            self.frame_npc_generator.hide()
+            self.info.show()
 
         '''
         Main window hide
