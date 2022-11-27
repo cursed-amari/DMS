@@ -341,13 +341,16 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
     @logger.catch
     def minus_hp_enemy_in_initiative(self, bool_val):
-        for i in self.initiative_list:
-            if i[1] == " ".join(self.listWidget_initiative.currentItem().text().split(" ")[1:-1]):
-                i[2] = int(i[2]) - int(self.ui_redaction_enemy_in_initiative.enemy_hp_edit.text())
-                if i[2] <= 0 and " ".join(
-                        self.listWidget_initiative.currentItem().text().split(" ")[1:-1]) not in self.hero_list:
-                    self.del_enemy()
-        self.initiative_sort_view()
+        try:
+            for i in self.initiative_list:
+                if i[1] == " ".join(self.listWidget_initiative.currentItem().text().split(" ")[1:-1]):
+                    i[2] = int(i[2]) - int(self.ui_redaction_enemy_in_initiative.enemy_hp_edit.text())
+                    if i[2] <= 0 and " ".join(
+                            self.listWidget_initiative.currentItem().text().split(" ")[1:-1]) not in self.hero_list:
+                        self.del_enemy()
+            self.initiative_sort_view()
+        except AttributeError:
+            pass
 
     @logger.catch
     def set_hp_enemy_in_initiative(self, bool_val):
