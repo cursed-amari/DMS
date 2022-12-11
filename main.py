@@ -137,6 +137,8 @@ try:
             self.note_edit_3.textChanged.connect(self.save_text)
             self.text_scenario.textChanged.connect(self.set_text_to_scenario)
             self.text_chapter.textChanged.connect(self.set_text_chapter)
+            # hotkeys
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+L"), self, self.lock_window)
             # method
             self.view_character_stats()
             self.set_combobox_rules()
@@ -212,13 +214,13 @@ try:
                                "QMenu::item:selected {background-color: rgb(85, 85, 85);}")
             action_save = menu.addAction("Save", self.actions_save)
             icon_save = QtGui.QIcon()
-            icon_save.addPixmap(QtGui.QPixmap("img/new_icon/ico/save.ico"), QtGui.QIcon.Mode.Normal,
+            icon_save.addPixmap(QtGui.QPixmap("img/icon/save.ico"), QtGui.QIcon.Mode.Normal,
                                 QtGui.QIcon.State.Off)
             action_save.setIcon(icon_save)
 
             action_load = menu.addAction("Load", self.action_open)
             icon_load = QtGui.QIcon()
-            icon_load.addPixmap(QtGui.QPixmap("img/new_icon/ico/load.ico"), QtGui.QIcon.Mode.Normal,
+            icon_load.addPixmap(QtGui.QPixmap("img/icon/load.ico"), QtGui.QIcon.Mode.Normal,
                                 QtGui.QIcon.State.Off)
             action_load.setIcon(icon_load)
 
@@ -227,13 +229,13 @@ try:
 
             action_generators = menu.addAction("Generators", self.open_generators)
             icon_generators = QtGui.QIcon()
-            icon_generators.addPixmap(QtGui.QPixmap("img/new_icon/ico/dice.ico"), QtGui.QIcon.Mode.Normal,
+            icon_generators.addPixmap(QtGui.QPixmap("img/icon/dice.ico"), QtGui.QIcon.Mode.Normal,
                                 QtGui.QIcon.State.Off)
             action_generators.setIcon(icon_generators)
 
             action_info = menu.addAction("Info", self.open_info)
             icon_info = QtGui.QIcon()
-            icon_info.addPixmap(QtGui.QPixmap("img/new_icon/!.png"), QtGui.QIcon.Mode.Normal,
+            icon_info.addPixmap(QtGui.QPixmap("img/icon/!.png"), QtGui.QIcon.Mode.Normal,
                                       QtGui.QIcon.State.Off)
             action_info.setIcon(icon_info)
 
@@ -543,6 +545,17 @@ try:
             self.frame_npc_generator.hide()
             self.info.show()
 
+        @logger.catch
+        def lock_window(self):
+            self.frame_tracker.hide()
+            self.frame_scenario.hide()
+            self.frame_notes.hide()
+            self.frame_music_changer.hide()
+            self.frame_rules.hide()
+            self.frame_generate_store.hide()
+            self.frame_npc_generator.hide()
+            self.info.hide()
+
         '''
         Main window hide
         '''
@@ -653,7 +666,7 @@ try:
                         f'Hp: {hero[item]["hp"]}/{hero_in_game[item]["hp"]}\n' + \
                          f'Ac: {hero[item]["ac"]}\n' + \
                          f'Initiative: {hero[item]["initiative"]}\n\n'
-                self.label.setText(value)
+            self.label.setText(value)
 
         @logger.catch
         def hide_create(self, check_radiobutton):

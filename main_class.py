@@ -101,7 +101,7 @@ class Ui_MainWindow(object):
         self.pushButton_minimized = QtWidgets.QPushButton(self.frame_navigations)
         self.pushButton_minimized.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("img/new_icon/ico/minimized.ico"), QtGui.QIcon.Mode.Normal,
+        icon1.addPixmap(QtGui.QPixmap("img/icon/minimized.ico"), QtGui.QIcon.Mode.Normal,
                         QtGui.QIcon.State.Off)
         self.pushButton_minimized.setIcon(icon1)
         self.pushButton_minimized.setIconSize(QtCore.QSize(20, 20))
@@ -110,7 +110,7 @@ class Ui_MainWindow(object):
         self.pushButton_exit = QtWidgets.QPushButton(self.frame_navigations)
         self.pushButton_exit.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("img/new_icon/ico/x.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon2.addPixmap(QtGui.QPixmap("img/icon/x.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_exit.setIcon(icon2)
         self.pushButton_exit.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_exit.setObjectName("pushButton_exit")
@@ -144,7 +144,7 @@ class Ui_MainWindow(object):
         self.toolButton_menu = QtWidgets.QToolButton(self.frame_menu)
         self.toolButton_menu.setGeometry(QtCore.QRect(9, 28, 140, 23))
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("img/new_icon/ico/menu.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon3.addPixmap(QtGui.QPixmap("img/icon/menu.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.toolButton_menu.setIcon(icon3)
         self.toolButton_menu.setIconSize(QtCore.QSize(20, 20))
         self.toolButton_menu.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
@@ -152,7 +152,7 @@ class Ui_MainWindow(object):
         self.toolButton_tracker = QtWidgets.QToolButton(self.frame_menu)
         self.toolButton_tracker.setGeometry(QtCore.QRect(9, 76, 140, 23))
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("img/new_icon/ico/tracker.ico"), QtGui.QIcon.Mode.Normal,
+        icon4.addPixmap(QtGui.QPixmap("img/icon/tracker.ico"), QtGui.QIcon.Mode.Normal,
                         QtGui.QIcon.State.Off)
         self.toolButton_tracker.setIcon(icon4)
         self.toolButton_tracker.setIconSize(QtCore.QSize(20, 20))
@@ -161,7 +161,7 @@ class Ui_MainWindow(object):
         self.toolButton_scenario = QtWidgets.QToolButton(self.frame_menu)
         self.toolButton_scenario.setGeometry(QtCore.QRect(9, 124, 140, 23))
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("img/new_icon/ico/scenario.ico"), QtGui.QIcon.Mode.Normal,
+        icon5.addPixmap(QtGui.QPixmap("img/icon/scenario.ico"), QtGui.QIcon.Mode.Normal,
                         QtGui.QIcon.State.Off)
         self.toolButton_scenario.setIcon(icon5)
         self.toolButton_scenario.setIconSize(QtCore.QSize(20, 20))
@@ -170,7 +170,7 @@ class Ui_MainWindow(object):
         self.toolButton_notes = QtWidgets.QToolButton(self.frame_menu)
         self.toolButton_notes.setGeometry(QtCore.QRect(9, 172, 140, 23))
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap("img/new_icon/ico/notes.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon6.addPixmap(QtGui.QPixmap("img/icon/notes.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.toolButton_notes.setIcon(icon6)
         self.toolButton_notes.setIconSize(QtCore.QSize(20, 20))
         self.toolButton_notes.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
@@ -178,7 +178,7 @@ class Ui_MainWindow(object):
         self.toolButton_rules = QtWidgets.QToolButton(self.frame_menu)
         self.toolButton_rules.setGeometry(QtCore.QRect(9, 268, 140, 23))
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap("img/new_icon/ico/options.ico"), QtGui.QIcon.Mode.Normal,
+        icon7.addPixmap(QtGui.QPixmap("img/icon/options.ico"), QtGui.QIcon.Mode.Normal,
                         QtGui.QIcon.State.Off)
         self.toolButton_rules.setIcon(icon7)
         self.toolButton_rules.setIconSize(QtCore.QSize(20, 20))
@@ -187,7 +187,7 @@ class Ui_MainWindow(object):
         self.toolButton_generate_store = QtWidgets.QToolButton(self.frame_menu)
         self.toolButton_generate_store.setGeometry(QtCore.QRect(9, 316, 140, 23))
         icon_dice = QtGui.QIcon()
-        icon_dice.addPixmap(QtGui.QPixmap("img/new_icon/ico/dice.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon_dice.addPixmap(QtGui.QPixmap("img/icon/dice.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.toolButton_generate_store.setIcon(icon_dice)
         self.toolButton_generate_store.setIconSize(QtCore.QSize(20, 20))
         self.toolButton_generate_store.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
@@ -201,7 +201,7 @@ class Ui_MainWindow(object):
         self.toolButton_music_changer = QtWidgets.QToolButton(self.frame_menu)
         self.toolButton_music_changer.setGeometry(QtCore.QRect(9, 220, 140, 23))
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap("img/new_icon/ico/music.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon8.addPixmap(QtGui.QPixmap("img/icon/music.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.toolButton_music_changer.setIcon(icon8)
         self.toolButton_music_changer.setIconSize(QtCore.QSize(20, 20))
         self.toolButton_music_changer.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
