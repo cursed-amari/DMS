@@ -7,6 +7,7 @@
 
 
 from PyQt6 import QtWidgets, QtCore, QtGui
+from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QMenu
 from PyQt6.QtCore import QEvent, Qt
 from loguru import logger
@@ -19,6 +20,7 @@ from main_class import Ui_MainWindow
 from initiative import InitiativeWindow
 from redaction_hp_tracker import Ui_Dialog_redaction_hp_tracker
 from too_many_generators import MainWindow_too_many_generators
+from img_view import Window_viewer_show
 
 from dict_rules import dict_rules
 from shop_data import *
