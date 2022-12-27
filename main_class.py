@@ -1718,6 +1718,95 @@ class Ui_MainWindow(object):
                                 "    border: none;\n"
                                 "}")
         self.info.setObjectName("info")
+        self.frame_viewer = QtWidgets.QFrame(self.frame_main_app)
+        self.frame_viewer.setGeometry(QtCore.QRect(0, 0, 795, 421))
+        self.frame_viewer.setStyleSheet("QFrame {\n"
+                                        "    background-color: rgb(85, 85, 85);\n"
+                                        "    opacity: 0.3;\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QLineEdit {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QTextEdit {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QListWidget {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton:pressed {\n"
+                                        "    background-color: rgb(105, 105, 105);\n"
+                                        "}\n"
+                                        "\n"
+                                        "QSpinBox {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QComboBox {\n"
+                                        "    background-color: rgb(55, 55, 55);\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QRadioButton {\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border-radius:  10px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QCheckBox {\n"
+                                        "    color: rgb(247, 147, 30);\n"
+                                        "    border: none;\n"
+                                        "}")
+        self.frame_viewer.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_viewer.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_viewer.setObjectName("frame_viewer")
+        self.horizontalLayout_10 = QtWidgets.QHBoxLayout(self.frame_viewer)
+        self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_10.setSpacing(0)
+        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
+        self.frame_list = QtWidgets.QFrame(self.frame_viewer)
+        self.frame_list.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_list.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_list.setObjectName("frame_list")
+        self.listWidget = QtWidgets.QListWidget(self.frame_list)
+        self.listWidget.setGeometry(QtCore.QRect(30, 30, 241, 361))
+        self.listWidget.setObjectName("listWidget")
+        self.horizontalLayout_10.addWidget(self.frame_list)
+        self.frame_nivigations = QtWidgets.QFrame(self.frame_viewer)
+        self.frame_nivigations.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_nivigations.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_nivigations.setObjectName("frame_nivigations")
+        self.pushButton_open_view = QtWidgets.QPushButton(self.frame_nivigations)
+        self.pushButton_open_view.setGeometry(QtCore.QRect(140, 150, 75, 23))
+        self.pushButton_open_view.setObjectName("pushButton_open_view")
+        self.pushButton_open_current = QtWidgets.QPushButton(self.frame_nivigations)
+        self.pushButton_open_current.setGeometry(QtCore.QRect(140, 120, 75, 23))
+        self.pushButton_open_current.setObjectName("pushButton_open_current")
+        self.pushButton_right = QtWidgets.QPushButton(self.frame_nivigations)
+        self.pushButton_right.setGeometry(QtCore.QRect(190, 90, 75, 23))
+        self.pushButton_right.setObjectName("pushButton_right")
+        self.pushButton_left = QtWidgets.QPushButton(self.frame_nivigations)
+        self.pushButton_left.setGeometry(QtCore.QRect(100, 90, 71, 23))
+        self.pushButton_left.setObjectName("pushButton_left")
+        self.horizontalLayout_10.addWidget(self.frame_nivigations)
         self.info.raise_()
         self.frame_scenario.raise_()
         self.frame_notes.raise_()
@@ -1911,6 +2000,11 @@ class Ui_MainWindow(object):
                                      "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:20pt;\"><br /></p>\n"
                                      "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt;\">Any commercial use is prohibited!</span></p>\n"
                                      "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt;\">Distributed exclusively on a free basis!</span></p></body></html>"))
+        self.pushButton_open_view.setText(_translate("MainWindow", "Open view"))
+        self.pushButton_open_current.setText(_translate("MainWindow", "Open"))
+        self.pushButton_right.setText(_translate("MainWindow", "right"))
+        self.pushButton_left.setText(_translate("MainWindow", "left"))
+
         self.frame_name_app.mousePressEvent = self.press_window
         self.label_name_app.mousePressEvent = self.press_window
         self.frame_name_app.mouseMoveEvent = self.move_window
@@ -2229,6 +2323,7 @@ class Ui_MainWindow(object):
         self.frame_rules.hide()
         self.frame_generate_store.hide()
         self.frame_npc_generator.hide()
+        self.frame_viewer.hide()
 
         self.pushButton_init_open.hide()
         self.dice_edit.hide()

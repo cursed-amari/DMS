@@ -15,6 +15,7 @@ import random
 import webbrowser
 import time
 import json
+import os, fnmatch
 
 from main_class import Ui_MainWindow
 from initiative import InitiativeWindow
@@ -106,6 +107,9 @@ try:
             self.pushButton_add_chapter.clicked.connect(self.add_chapter)
             self.pushButton_del_tags.clicked.connect(self.del_object_scenario)
             self.pushButton_del_chapter.clicked.connect(self.del_chapter)
+            self.pushButton_open_view.clicked.connect(self.open_viewer_window)
+            self.pushButton_left.clicked.connect(self.left_img)
+            self.pushButton_right.clicked.connect(self.right_img)
             # checkBox
             self.checkBox_lock_init.toggled.connect(self.lock_initiative)
             self.checkBox_lock_ac.toggled.connect(self.lock_ac)
@@ -148,6 +152,7 @@ try:
             self.store_type_and_qualification_vendor()
             self.options_store_box_update()
             self.npc_box_update()
+            self.collect_img()
 
         @logger.catch
         def view_character_stats(self):
@@ -239,6 +244,9 @@ try:
             icon_info = QtGui.QIcon()
             icon_info.addPixmap(QtGui.QPixmap("img/icon/!.png"), QtGui.QIcon.Mode.Normal,
                                       QtGui.QIcon.State.Off)
+            action_info.setIcon(icon_info)
+
+            action_viewer = menu.addAction("Viewer", self.open_viewer)
             action_info.setIcon(icon_info)
 
             menu.exec(self.pos())
@@ -469,6 +477,7 @@ try:
             self.frame_generate_store.hide()
             self.frame_npc_generator.hide()
             self.info.hide()
+            self.frame_viewer.hide()
 
         @logger.catch
         def show_scenario(self, bool_val):
@@ -480,6 +489,7 @@ try:
             self.frame_generate_store.hide()
             self.frame_npc_generator.hide()
             self.info.hide()
+            self.frame_viewer.hide()
 
         @logger.catch
         def show_notes(self, bool_val):
@@ -491,6 +501,7 @@ try:
             self.frame_generate_store.hide()
             self.frame_npc_generator.hide()
             self.info.hide()
+            self.frame_viewer.hide()
 
         @logger.catch
         def show_music_changer(self, bool_val):
@@ -502,6 +513,7 @@ try:
             self.frame_generate_store.hide()
             self.frame_npc_generator.hide()
             self.info.hide()
+            self.frame_viewer.hide()
 
         @logger.catch
         def show_rules(self, bool_val):
@@ -513,6 +525,7 @@ try:
             self.frame_generate_store.hide()
             self.frame_npc_generator.hide()
             self.info.hide()
+            self.frame_viewer.hide()
 
         @logger.catch
         def show_generate_store(self, bool_val):
@@ -524,6 +537,7 @@ try:
             self.frame_generate_store.show()
             self.frame_npc_generator.hide()
             self.info.hide()
+            self.frame_viewer.hide()
 
         @logger.catch
         def show_npc_generator(self, bool_val):
@@ -535,6 +549,7 @@ try:
             self.frame_generate_store.hide()
             self.frame_npc_generator.show()
             self.info.hide()
+            self.frame_viewer.hide()
 
         @logger.catch
         def open_info(self):
@@ -546,6 +561,7 @@ try:
             self.frame_generate_store.hide()
             self.frame_npc_generator.hide()
             self.info.show()
+            self.frame_viewer.hide()
 
         @logger.catch
         def lock_window(self):
@@ -557,6 +573,29 @@ try:
             self.frame_generate_store.hide()
             self.frame_npc_generator.hide()
             self.info.hide()
+            self.frame_viewer.hide()
+
+        @logger.catch
+        def open_viewer(self):
+            self.frame_tracker.hide()
+            self.frame_scenario.hide()
+            self.frame_notes.hide()
+            self.frame_music_changer.hide()
+            self.frame_rules.hide()
+            self.frame_generate_store.hide()
+            self.frame_npc_generator.hide()
+            self.info.hide()
+            self.frame_viewer.show()
+
+        @logger.catch
+        def open_viewer_window(self, bool_val):
+            self.viewer_window = Window_viewer_show()
+            self.viewer_window.show()
+            self.app_func_viewer_window()
+
+        @logger.catch
+        def app_func_viewer_window(self):
+            self.pushButton_open_current.clicked.connect(self.open_current_img)
 
         '''
         Main window hide
@@ -3134,6 +3173,75 @@ try:
                        f"Расса: {npc[npc_name]['nps_race']}"
                 self.label_generate_npc.setText(text)
                 self.text_npc_generate.setText(npc[npc_name]['text_notes'])
+
+        '''
+        Img viewer
+        '''
+
+        @logger.catch
+        def collect_img(self):
+            self.list_images = []
+            listOfFiles = os.listdir('./images')
+            pattern = "*.png"
+            for entry in listOfFiles:
+                if fnmatch.fnmatch(entry, pattern):
+                    self.list_images.append(entry)
+            pattern = "*.jpeg"
+            for entry in listOfFiles:
+                if fnmatch.fnmatch(entry, pattern):
+                    self.list_images.append(entry)
+            if self.list_images:
+                self.update_list_img()
+
+        @logger.catch
+        def update_list_img(self):
+            self.listWidget.clear()
+            for i in sorted(self.list_images):
+                self.listWidget.addItem(i)
+            self.listWidget.setCurrentRow(0)
+
+        @logger.catch
+        def left_img(self, bool_val):
+            if self.listWidget.currentRow() != 0:
+                self.listWidget.setCurrentRow(self.listWidget.currentRow() - 1)
+                self.open_current_img()
+
+        @logger.catch
+        def right_img(self, bool_val):
+            if self.listWidget.currentRow() < len(self.list_images) - 1:
+                self.listWidget.setCurrentRow(self.listWidget.currentRow() + 1)
+                self.open_current_img()
+
+        @logger.catch
+        def open_current_img(self, bool_val=False):
+            try:
+                if self.viewer_window:
+                    try:
+                        self.viewer_window.label.setPixmap(QPixmap("images/" + self.listWidget.currentItem().text()))
+                    except AttributeError:
+                        error = QMessageBox()
+                        error.setWindowTitle('Ошибка')
+                        error.setText('Выберите изображение, из списка')
+                        error.setIcon(QMessageBox.Icon.Warning)
+                        error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                        error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                        error.buttonClicked.connect(self.popup_action)
+
+                        error.exec()
+                        logger.info("open_current_img, except AttributeError")
+            except AttributeError:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Откройте окно просмотра изображения!')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+                logger.info("open_current_img, open_window except AttributeError")
 
 
     if __name__ == "__main__":
