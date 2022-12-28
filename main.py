@@ -145,6 +145,19 @@ try:
             self.text_chapter.textChanged.connect(self.set_text_chapter)
             # hotkeys
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+L"), self, self.lock_window)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+0"), self, self.lock_window)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+1"), self, self.show_tracker)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+I"), self, self.open_initiative)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+2"), self, self.show_scenario)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+3"), self, self.show_notes)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+4"), self, self.show_music_changer)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+5"), self, self.show_rules)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+6"), self, self.show_generate_store)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+7"), self, self.show_npc_generator)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+8"), self, self.open_viewer)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+V"), self, self.open_viewer_window)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+left"), self, self.left_img)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+right"), self, self.right_img)
             # method
             self.view_character_stats()
             self.set_combobox_rules()
@@ -468,7 +481,7 @@ try:
 
 
         @logger.catch
-        def show_tracker(self, bool_val):
+        def show_tracker(self, bool_val=False):
             self.frame_tracker.show()
             self.frame_scenario.hide()
             self.frame_notes.hide()
@@ -480,7 +493,7 @@ try:
             self.frame_viewer.hide()
 
         @logger.catch
-        def show_scenario(self, bool_val):
+        def show_scenario(self, bool_val=False):
             self.frame_tracker.hide()
             self.frame_scenario.show()
             self.frame_notes.hide()
@@ -492,7 +505,7 @@ try:
             self.frame_viewer.hide()
 
         @logger.catch
-        def show_notes(self, bool_val):
+        def show_notes(self, bool_val=False):
             self.frame_tracker.hide()
             self.frame_scenario.hide()
             self.frame_notes.show()
@@ -504,7 +517,7 @@ try:
             self.frame_viewer.hide()
 
         @logger.catch
-        def show_music_changer(self, bool_val):
+        def show_music_changer(self, bool_val=False):
             self.frame_tracker.hide()
             self.frame_scenario.hide()
             self.frame_notes.hide()
@@ -516,7 +529,7 @@ try:
             self.frame_viewer.hide()
 
         @logger.catch
-        def show_rules(self, bool_val):
+        def show_rules(self, bool_val=False):
             self.frame_tracker.hide()
             self.frame_scenario.hide()
             self.frame_notes.hide()
@@ -528,7 +541,7 @@ try:
             self.frame_viewer.hide()
 
         @logger.catch
-        def show_generate_store(self, bool_val):
+        def show_generate_store(self, bool_val=False):
             self.frame_tracker.hide()
             self.frame_scenario.hide()
             self.frame_notes.hide()
@@ -540,7 +553,7 @@ try:
             self.frame_viewer.hide()
 
         @logger.catch
-        def show_npc_generator(self, bool_val):
+        def show_npc_generator(self, bool_val=False):
             self.frame_tracker.hide()
             self.frame_scenario.hide()
             self.frame_notes.hide()
@@ -564,7 +577,7 @@ try:
             self.frame_viewer.hide()
 
         @logger.catch
-        def lock_window(self):
+        def lock_window(self, bool_val=False):
             self.frame_tracker.hide()
             self.frame_scenario.hide()
             self.frame_notes.hide()
@@ -576,7 +589,7 @@ try:
             self.frame_viewer.hide()
 
         @logger.catch
-        def open_viewer(self):
+        def open_viewer(self, bool_val=False):
             self.frame_tracker.hide()
             self.frame_scenario.hide()
             self.frame_notes.hide()
@@ -588,7 +601,7 @@ try:
             self.frame_viewer.show()
 
         @logger.catch
-        def open_viewer_window(self, bool_val):
+        def open_viewer_window(self, bool_val=False):
             self.viewer_window = Window_viewer_show()
             self.viewer_window.show()
             self.app_func_viewer_window()
@@ -1144,7 +1157,7 @@ try:
         '''
 
         @logger.catch
-        def open_initiative(self, bool_val):
+        def open_initiative(self, bool_val=False):
             self.initiative_window = InitiativeWindow(hero, dict_preset)
             self.initiative_window.show()
             self.app_func_initiative_window()
@@ -3195,21 +3208,21 @@ try:
 
         @logger.catch
         def update_list_img(self):
-            self.listWidget.clear()
+            self.listWidget_img.clear()
             for i in sorted(self.list_images):
-                self.listWidget.addItem(i)
-            self.listWidget.setCurrentRow(0)
+                self.listWidget_img.addItem(i)
+            self.listWidget_img.setCurrentRow(0)
 
         @logger.catch
-        def left_img(self, bool_val):
-            if self.listWidget.currentRow() != 0:
-                self.listWidget.setCurrentRow(self.listWidget.currentRow() - 1)
+        def left_img(self, bool_val=False):
+            if self.listWidget_img.currentRow() != 0:
+                self.listWidget_img.setCurrentRow(self.listWidget_img.currentRow() - 1)
                 self.open_current_img()
 
         @logger.catch
-        def right_img(self, bool_val):
-            if self.listWidget.currentRow() < len(self.list_images) - 1:
-                self.listWidget.setCurrentRow(self.listWidget.currentRow() + 1)
+        def right_img(self, bool_val=False):
+            if self.listWidget_img.currentRow() < len(self.list_images) - 1:
+                self.listWidget_img.setCurrentRow(self.listWidget_img.currentRow() + 1)
                 self.open_current_img()
 
         @logger.catch
@@ -3217,7 +3230,7 @@ try:
             try:
                 if self.viewer_window:
                     try:
-                        self.viewer_window.label.setPixmap(QPixmap("images/" + self.listWidget.currentItem().text()))
+                        self.viewer_window.label.setPixmap(QPixmap("images/" + self.listWidget_img.currentItem().text()))
                     except AttributeError:
                         error = QMessageBox()
                         error.setWindowTitle('Ошибка')
