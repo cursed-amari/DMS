@@ -69,6 +69,7 @@ try:
             self.toolButton_rules.clicked.connect(self.show_rules)
             self.toolButton_generate_store.clicked.connect(self.show_generate_store)
             self.toolButton_npc_generator.clicked.connect(self.show_npc_generator)
+            self.toolButton_img_view.clicked.connect(self.open_viewer)
 
             self.frame_tracker.mousePressEvent = self.slide_menu_hide
             self.frame_scenario.mousePressEvent = self.slide_menu_hide
@@ -152,10 +153,10 @@ try:
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+3"), self, self.show_notes)
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+4"), self, self.show_music_changer)
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+5"), self, self.show_rules)
-            QtGui.QShortcut(QtGui.QKeySequence("CTRL+6"), self, self.show_generate_store)
-            QtGui.QShortcut(QtGui.QKeySequence("CTRL+7"), self, self.show_npc_generator)
-            QtGui.QShortcut(QtGui.QKeySequence("CTRL+8"), self, self.open_viewer)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+6"), self, self.open_viewer)
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+V"), self, self.open_viewer_window)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+7"), self, self.show_generate_store)
+            QtGui.QShortcut(QtGui.QKeySequence("CTRL+8"), self, self.show_npc_generator)
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+left"), self, self.left_img)
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+right"), self, self.right_img)
             # method
@@ -259,9 +260,6 @@ try:
                                       QtGui.QIcon.State.Off)
             action_info.setIcon(icon_info)
 
-            action_viewer = menu.addAction("Viewer", self.open_viewer)
-            action_info.setIcon(icon_info)
-
             menu.exec(self.pos())
 
         @logger.catch
@@ -311,7 +309,7 @@ try:
                 with open(data, 'w') as outfile:
                     json.dump(save_dict, outfile)
             except FileNotFoundError:
-                print("No such file")
+                logger.info("action_save. except")
 
         @logger.catch
         def action_open(self):
