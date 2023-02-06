@@ -101,7 +101,7 @@ class Ui_MainWindow(object):
         self.pushButton_minimized = QtWidgets.QPushButton(self.frame_navigations)
         self.pushButton_minimized.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("img/icon/minimized.ico"), QtGui.QIcon.Mode.Normal,
+        icon1.addPixmap(QtGui.QPixmap("img/icon/minus.png"), QtGui.QIcon.Mode.Normal,
                         QtGui.QIcon.State.Off)
         self.pushButton_minimized.setIcon(icon1)
         self.pushButton_minimized.setIconSize(QtCore.QSize(20, 20))
@@ -1729,7 +1729,7 @@ class Ui_MainWindow(object):
         self.frame_viewer = QtWidgets.QFrame(self.frame_main_app)
         self.frame_viewer.setGeometry(QtCore.QRect(0, 0, 791, 421))
         self.frame_viewer.setStyleSheet("QFrame {\n"
-                                        "    background-color: rgb(85, 85, 85);\n"
+                                        "    background-image: url(img/fon_tracker_open.png);\n"
                                         "    opacity: 0.3;\n"
                                         "    color: rgb(247, 147, 30);\n"
                                         "    border: none;\n"

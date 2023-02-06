@@ -328,7 +328,7 @@ class Ui_MainWindow_init(object):
         self.pushButton_hide.setGeometry(QtCore.QRect(510, 5, 31, 23))
         self.pushButton_hide.setText("")
         icon_minimized = QtGui.QIcon()
-        icon_minimized.addPixmap(QtGui.QPixmap("img/icon/minimized.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon_minimized.addPixmap(QtGui.QPixmap("img/icon/minus.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_hide.setIcon(icon_minimized)
         self.pushButton_hide.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_hide.setObjectName("pushButton_hide")

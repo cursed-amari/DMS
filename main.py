@@ -46,7 +46,7 @@ note_char_one = ""
 note_char_two = ""
 note_char_three = ""
 
-logger.add("debug.log", format="{time}, {level}, {message}", level="DEBUG", retention="2 days",)
+logger.add("debug.log", format="{time}, {level}, {message}", level="DEBUG", retention="2 days")
 try:
     class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         def __init__(self):
@@ -1636,7 +1636,7 @@ try:
                 self.textEdit_char_0.setDisabled(False)
 
                 self.name_character0.setText(str(hero['character0']['name']))
-                self.hp_edit_character0.setText(f"{str(hero['character0']['hp'])}/{str(hero_in_game['character0']['hp'])}")
+                self.hp_edit_character0.setText(f"{str(hero_in_game['character0']['hp'])}/{str(hero['character0']['hp'])}")
                 self.ac_edit_character0.setText(str(hero['character0']['ac']))
                 self.initiative_edit_character0.setText(str(hero['character0']['initiative']))
                 self.spin_spell_slot_character0.setValue(int(hero_in_game['character0']['1']))
@@ -1688,7 +1688,7 @@ try:
                 self.textEdit_char_1.setDisabled(False)
 
                 self.name_character1.setText(str(hero['character1']['name']))
-                self.hp_edit_character1.setText(f"{str(hero['character1']['hp'])}/{str(hero_in_game['character1']['hp'])}")
+                self.hp_edit_character1.setText(f"{str(hero_in_game['character1']['hp'])}/{str(hero['character1']['hp'])}")
                 self.ac_edit_character1.setText(str(hero['character1']['ac']))
                 self.initiative_edit_character1.setText(str(hero['character1']['initiative']))
                 self.spin_spell_slot_character1.setValue(int(hero_in_game['character1']['1']))
@@ -1739,7 +1739,7 @@ try:
                 self.textEdit_char_2.setDisabled(False)
 
                 self.name_character2.setText(str(hero['character2']['name']))
-                self.hp_edit_character2.setText(f"{str(hero['character2']['hp'])}/{str(hero_in_game['character2']['hp'])}")
+                self.hp_edit_character2.setText(f"{str(hero_in_game['character2']['hp'])}/{str(hero['character2']['hp'])}")
                 self.ac_edit_character2.setText(str(hero['character2']['ac']))
                 self.initiative_edit_character2.setText(str(hero['character2']['initiative']))
                 self.spin_spell_slot_character2.setValue(int(hero_in_game['character2']['1']))
@@ -1790,7 +1790,7 @@ try:
                 self.textEdit_char_3.setDisabled(False)
 
                 self.name_character3.setText(str(hero['character3']['name']))
-                self.hp_edit_character3.setText(f"{str(hero['character3']['hp'])}/{str(hero_in_game['character3']['hp'])}")
+                self.hp_edit_character3.setText(f"{str(hero_in_game['character3']['hp'])}/{str(hero['character3']['hp'])}")
                 self.ac_edit_character3.setText(str(hero['character3']['ac']))
                 self.initiative_edit_character3.setText(str(hero['character3']['initiative']))
                 self.spin_spell_slot_character3.setValue(int(hero_in_game['character3']['1']))
@@ -1827,7 +1827,7 @@ try:
             self.ui_redaction_hp_hero0.setupUi(Dialog_redaction_hp)
             Dialog_redaction_hp.show()
             self.ui_redaction_hp_hero0.label_current_hp.setText(f'{hero["character0"]["name"]}')
-            self.ui_redaction_hp_hero0.label_view_current_hp.setText(f'Hp: {hero["character0"]["hp"]}/{hero_in_game["character0"]["hp"]}')
+            self.ui_redaction_hp_hero0.label_view_current_hp.setText(f'Hp: {hero_in_game["character0"]["hp"]}/{hero["character0"]["hp"]}')
 
             self.name_call_hero = "character0"
 
@@ -1845,7 +1845,7 @@ try:
             Dialog_redaction_hp.show()
             self.ui_redaction_hp_hero1.label_current_hp.setText(
                 f'{hero["character1"]["name"]}')
-            self.ui_redaction_hp_hero1.label_view_current_hp.setText(f'Hp: {hero["character1"]["hp"]}/{hero_in_game["character1"]["hp"]}')
+            self.ui_redaction_hp_hero1.label_view_current_hp.setText(f'Hp: {hero_in_game["character1"]["hp"]}/{hero["character1"]["hp"]}')
 
             self.name_call_hero = "character1"
 
@@ -1863,7 +1863,7 @@ try:
             Dialog_redaction_hp.show()
             self.ui_redaction_hp_hero2.label_current_hp.setText(
                 f'{hero["character2"]["name"]}')
-            self.ui_redaction_hp_hero2.label_view_current_hp.setText(f'Hp: {hero["character2"]["hp"]}/{hero_in_game["character2"]["hp"]}')
+            self.ui_redaction_hp_hero2.label_view_current_hp.setText(f'Hp: {hero_in_game["character2"]["hp"]}/{hero["character2"]["hp"]}')
 
             self.name_call_hero = "character2"
 
@@ -1881,7 +1881,7 @@ try:
             Dialog_redaction_hp.show()
             self.ui_redaction_hp_hero3.label_current_hp.setText(
                 f'{hero["character3"]["name"]}')
-            self.ui_redaction_hp_hero3.label_view_current_hp.setText(f'Hp: {hero["character3"]["hp"]}/{hero_in_game["character3"]["hp"]}')
+            self.ui_redaction_hp_hero3.label_view_current_hp.setText(f'Hp: {hero_in_game["character3"]["hp"]}/{hero["character3"]["hp"]}')
 
             self.name_call_hero = "character3"
 

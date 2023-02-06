@@ -416,10 +416,9 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         self.view_enemy_preset()
 
     def view_enemy_preset(self):
-        if self.enemy_dict_preset:
-            self.listWidget_preset.clear()
-            for i in self.enemy_dict_preset.keys():
-                self.listWidget_preset.addItem(i)
+        self.listWidget_preset.clear()
+        for i in self.enemy_dict_preset.keys():
+            self.listWidget_preset.addItem(i)
 
     def load_preset(self):
         try:
