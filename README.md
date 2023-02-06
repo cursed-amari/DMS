@@ -40,9 +40,9 @@ ___
 Пустой экран дабы ваши игроки не смогли подсмотреть что же это у вас там такое в сценарии!
 ### Главное меню 
 Меню можно открыть нажав на иконку в верхнем левом углу приложения(Красная стрелка на фото)
-![lock_screen.cursor](reed_me_img/lock_screen.cursor.png)
+![lock_screen.cursor](read_me_img/lock_screen.cursor.png)
 Здесь распологается меню  
-![lock_screen.menu](reed_me_img/lock_screen.menu.png)  
+![lock_screen.menu](read_me_img/lock_screen.menu.png)  
 >Сохранение  
 Загрузка  
 Загрузка последней сессии  
@@ -51,13 +51,13 @@ ___
 Окно с информацией  
 ### Меню
 Меню можно раскрыть дабы увидеть названия вкладок. Сделать это можно по клику на верхний элемент списка
-![lock_screen.cursor](reed_me_img/lock_screen.cursor1.png)
-![lock_screen.cursor](reed_me_img/lock_screen.menu_open.png)
+![lock_screen.cursor](read_me_img/lock_screen.cursor1.png)
+![lock_screen.cursor](read_me_img/lock_screen.menu_open.png)
 Меню можно скрыть по повторному нажатию на верхний элемент меню либо по некоторым пустым пространствам
 ---
 <a id="tracker.add_char"></a>
 ## Трекер Создание персонажа
-![tracker.add_char](reed_me_img/tracker.add_char.png)
+![tracker.add_char](read_me_img/tracker.add_char.png)
 Заполняется как в примере.  
 **Поля *Hp*, *Ac* а так же *Spell slot* должны состоять только из цифр!**  
 **Максимальное количество персонажей на данный момент 4!**  
@@ -65,7 +65,7 @@ ___
 ---
 <a id="tracker.tracker"></a>
 ## Трекер
-![tracker.tracker](reed_me_img/tracker.tracker.png)
+![tracker.tracker](read_me_img/tracker.tracker.png)
 + ### 1
     Кнопка открытия окна расчёта инициативы
 + ### 2
@@ -79,7 +79,7 @@ ___
 + ### 5
     Собственно само окно трекера.  
     При нажатии на HP персонажа вылезет окно  
-    ![tracker.tracker.hp_dialog](reed_me_img/tracker.tracker.hp_dialog.png)  
+    ![tracker.tracker.hp_dialog](read_me_img/tracker.tracker.hp_dialog.png)  
     > Плюс: Добавить HP  
     Минус: Отнять HP  
     Крестик: закрыть окно  
@@ -93,9 +93,9 @@ ___
 ___
 <a id="initiative"></a>
 ## Окно инициативы
-![initiative_window](reed_me_img/initiative_window.png)  
+![initiative_window](read_me_img/initiative_window.png)  
 При нажатии галочек *option* и *preset* раскроются соответсвующие части меню
-![initiative_window.open_options](reed_me_img/initiative_window.open_options.png) 
+![initiative_window.open_options](read_me_img/initiative_window.open_options.png) 
 + ### 1
   Инициатива игроков
 + ### 2
@@ -108,11 +108,11 @@ ___
   
 В 2 части вы можете добавить опонентов нажав кнопочку плюс  
 Появится окно добавление опонентов  
-![initiative_window.add_enemy](reed_me_img/initiative_window.add_enemy.png)  
+![initiative_window.add_enemy](read_me_img/initiative_window.add_enemy.png)  
 Здесь вы можете вписать имя опонента, **модификатор** инициативы, количество HP опонента а также
 выбрать количество добавляемых опонентов.  
 *В примере будет создано 5 противников с Именем Test enemy, инициативой +2, HP равным 50*  
-![initiative_window.example](reed_me_img/initiative_window.example.png)  
+![initiative_window.example](read_me_img/initiative_window.example.png)  
 В начале пишется модификатор инициативы противника  
 После инициативы пишется имя портивника. если противников создаётся несколько, они автоматически
 пронумеровываются от 1 до количества противников  
@@ -122,13 +122,13 @@ ___
 Что бы отчистить список нажмите крестик  
 
 Для рассчёта инициативы нажмите значёк кубика  
-![initiative_window.roll_initiative](reed_me_img/initiative_window.roll_initiative.png)  
+![initiative_window.roll_initiative](read_me_img/initiative_window.roll_initiative.png)  
 Инициатива игрока будет взята из части 1 окна инициативы  
 Инициативы противников расчитана случайно с учётом модификатора.  
   
 Вы можете выбрав противника нажать на кнопку с гаечным ключом. 
 Это откроет окно редакции противника  
-![initiative_window.redaction_enemy](reed_me_img/initiative_window.redaction_enemy.png)  
+![initiative_window.redaction_enemy](read_me_img/initiative_window.redaction_enemy.png)  
 Здесь вы можете вписать число на которое хотите изменить значение HP противника
 Где плюс добавить а минус отнять HP  
 Set сделает HP равным введённому  
@@ -144,48 +144,48 @@ Set сделает HP равным введённому
   
 Что бы создать пресет вам надо добавить противников в части 2 и начажать плюсик в части 3  
 Появится окно создания пресета, где вам требуется вписать имя пресета после чего нажать плюс  
-![initiative_window.add_preset](reed_me_img/initiative_window.add_preset.png)  
+![initiative_window.add_preset](read_me_img/initiative_window.add_preset.png)  
 После чего он появится в списке пресетов  
 *В примере была дано имя Test preset*  
-![initiative_window.example1](reed_me_img/initiative_window.example1.png)  
+![initiative_window.example1](read_me_img/initiative_window.example1.png)  
 Для загрузки пресета выберите его из спика и нажмите стрелочку рядом с плюсом  
 Для удаления пресета нажмите минус  
 ___
 <a id="scenario"></a>
 ## Сценарий  
-![scenario](reed_me_img/scenario.png)  
+![scenario](read_me_img/scenario.png)  
 Здесь вам требуется ввести название для записи в окно в левом верхнем углу и нажать кнопку *add*  
 После чего запись будет добавлена в выпадающий список в верхнем правом углу
 *В примере была создана запись Test chapter*  
 После чего вы можете вводить текст в большое поле по центру. Текст сохранится в выбраной записи.
-![scenario.add_chapter](reed_me_img/scenario.add_chapter.png)  
+![scenario.add_chapter](read_me_img/scenario.add_chapter.png)  
 В нижней части окна есть голочка *tag notes* при нажатии на которую формат записей сменится на формат
 вложений  
-![scenario.tag_notes](reed_me_img/scenario.tag_notes.png)  
+![scenario.tag_notes](read_me_img/scenario.tag_notes.png)  
 При нажатии на кнопку *Add* вы сможете добавить категорию  
-![scenario.tag_notes.add_category](reed_me_img/scenario.tag_notes.add_category.png)  
+![scenario.tag_notes.add_category](read_me_img/scenario.tag_notes.add_category.png)  
 После чего нажмите *ok*  
 После этого категория появится в списке  
-![scenario.tag_notes.example](reed_me_img/scenario.tag_notes.example.png)  
+![scenario.tag_notes.example](read_me_img/scenario.tag_notes.example.png)  
 Что бы зайти в категорию нажмите на неё. Когда вы находитесь в категории первым в списке у вас появляется
 пункт *...* при нажатии на который вы вернётесь к выбору категорий.  
   
 При нажатии кнопки *Add* находясь в категории вы добавите запись в категорию  
-![scenario.tag_notes.add_object](reed_me_img/scenario.tag_notes.add_object.png)  
+![scenario.tag_notes.add_object](read_me_img/scenario.tag_notes.add_object.png)  
 Непосредственно к записи в категории может быть добавлен текст аналогично записям в начале  
 > Мною как мастером это используется следующим образом. В записях я пишу сюжет по главам. 
 > А в разделе *tags notes* я записываю описания мест, городов, статы и способности врагов и прочее
 ___
 <a id="notes"></a>
 ## Записи
-![scenario.notes](reed_me_img/notes.png)  
+![scenario.notes](read_me_img/notes.png)  
 Четыре независимых поля для записи
 > Мною как мастером это используется следующим образом. Здесь я описываю персонажей игроков и 
 > оставляю записи о героях которые мне могут потребоваться в дальнейшем  
 ___
 <a id="music"></a>
 ## Музыка  
-![music.changer](reed_me_img/music_changer.png)  
+![music.changer](read_me_img/music_changer.png)  
 В поле *Category name* введите имя для категории  
 В поле *Scene name* введите название сцены  
 В поле *URL music* введите ссылку  
@@ -201,13 +201,13 @@ ___
 ___
 <a id="rules"></a>
 ## Правила  
-![rules](reed_me_img/rules.png)  
+![rules](read_me_img/rules.png)  
 Здесь вы можете посмотреть некоторые правила dnd 5e (правила взяты с сайта dnd.su)  
 В выпадающем меню сверху вы можете найти разные правила  
 ___
 <a id="img"></a>
 ## Просмотр изображений  
-![img_viewer](reed_me_img/img_viewer.png)  
+![img_viewer](read_me_img/img_viewer.png)  
 Для просмотра изображения откройте окно просмотра кнопкой *open view*  
 Кнопкой *Open* вы можете открыть изображение  
 *Оно откроется в окне просмотра*  
@@ -218,26 +218,26 @@ ___
 ___
 <a id="generate_store"></a>
 ## Генератор магазина  
-![generate_store](reed_me_img/generate_store.png)  
+![generate_store](read_me_img/generate_store.png)  
 Здесь вы можете сгенерировать магазин.  
 Выберите кажество магазины и его типа из списков в центре и нажмите *Generate*  
-![generate_store.example](reed_me_img/generate_store.example.png)  
+![generate_store.example](read_me_img/generate_store.example.png)  
 Сгенерируется магазин перед вами будет информация о продавце а справа будет ассортимент  
 В окошке в левой части вы можете добавить своё описание магазину  
 Если вы нажмёте на галочку *options* вы сможете настроить генерируемую таверну  
-![generate_store.options](reed_me_img/generate_store.options.png)  
+![generate_store.options](read_me_img/generate_store.options.png)  
 Если вы оставите поле имени магазина пустым оно будет задано по формату store Имя продавца  
 Если вы оставите после имени продавца пустым оно будет сгенерировано случайно
 ___
 <a id="generate_npc"></a>
 ## Генератор NPC  
-![generate_npc](reed_me_img/generate_npc.png)  
+![generate_npc](read_me_img/generate_npc.png)  
 Если вы оставите после имени пустым оно будет сгенерировано случайно  
 Справа вы можете оставить заметки для каждого NPC  
 ___
 <a id="to_many_generators"></a>
 ## Генераторы  
-![generators](reed_me_img/generators.png)  
+![generators](read_me_img/generators.png)  
 Что бы открыть генераторы кликните по соответсвующему пункту *Главного меню*  
 Выберите из списка интересующий вас пункт и нажмите *Random* что бы получить случайный пункт 
 либо *Open all* что бы просмотреть весь список  
