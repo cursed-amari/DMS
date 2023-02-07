@@ -46,7 +46,7 @@ note_char_one = ""
 note_char_two = ""
 note_char_three = ""
 
-logger.add("debug.log", format="{time}, {level}, {message}", level="DEBUG", retention="2 days")
+logger.add("debug.log", format="{time}, {level}, {message}", level="DEBUG", rotation="2 days", retention="2 days")
 try:
     class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         def __init__(self):
