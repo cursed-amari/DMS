@@ -3113,13 +3113,6 @@ try:
             else:
                 self.npc_name = self.edit_npc_name.text()
                 self.npc_full_name = self.edit_npc_name.text()
-                self.edit_npc_name.setText("")
-            self.race_npc()
-
-        @logger.catch
-        def race_npc(self):
-            self.npc_race = ""
-            if self.box_race_npc.currentText() == "Случайно":
                 self.npc_race = random.choice(["Человек",
                                                "Дварф",
                                                "Эльф",
@@ -3129,7 +3122,14 @@ try:
                                                "Полурослик",
                                                "Драконорождённый",
                                                "Табакси",
-                                               "Тифлинг"])
+                                               "Тифлинг"])elf.edit_npc_name.setText("")
+            self.race_npc()
+
+        @logger.catch
+        def race_npc(self):
+            self.npc_race = ""
+            if self.box_race_npc.currentText() == "Случайно":
+                s
             else:
                 self.npc_race = self.box_race_npc.currentText()
             self.age_npc()
