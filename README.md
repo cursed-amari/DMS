@@ -51,14 +51,14 @@ ___
 (**Последней сессией считается сессия, в которой был создан хотя бы один персонаж**)  
 Открытие окна генераторов энкаунтеров и тд  
 Окно с информацией  
-### Меню ###
+### Меню ###  
 Меню можно раскрыть, что бы увидеть названия вкладок. Сделать это можно по клику на верхний элемент списка
 ![lock_screen.cursor](read_me_img/lock_screen.cursor1.png)
 ![lock_screen.cursor](read_me_img/lock_screen.menu_open.png)
 Меню можно скрыть по повторному нажатию на верхний элемент меню, либо по некоторым пустым пространствам
 ---
 <a id="tracker.add_char"></a>
-## Трекер Создание персонажа ##
+## Трекер Создание персонажа ##  
 ![tracker.icon](read_me_img/tracker.icon.png) 
 ![tracker.add_char](read_me_img/tracker.add_char.png)
 Заполняется как в примере.  
@@ -67,7 +67,7 @@ ___
 После создания персонажей поставьте галочку напротив *Creation off*, что бы перейти в сам трекер
 ---
 <a id="tracker.tracker"></a>
-## Трекер ##
+## Трекер ##  
 ![tracker.icon](read_me_img/tracker.icon.png)   
 ![tracker.tracker](read_me_img/tracker.tracker.png)
 + ### 1 ###
