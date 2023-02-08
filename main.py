@@ -111,6 +111,7 @@ try:
             self.pushButton_open_view.clicked.connect(self.open_viewer_window)
             self.pushButton_left.clicked.connect(self.left_img)
             self.pushButton_right.clicked.connect(self.right_img)
+            self.pushButton_refresh_img.clicked.connect(self.collect_img)
             # checkBox
             self.checkBox_lock_init.toggled.connect(self.lock_initiative)
             self.checkBox_lock_ac.toggled.connect(self.lock_ac)
@@ -2278,7 +2279,7 @@ try:
         def add_scenario_object(self):
             global scenario
             global scenario_text
-            text, val = QInputDialog.getText(self, "Enter", "Add object")
+            text, val = QInputDialog.getText(self, "Enter", "Add notes")
             if text != "":
                 scenario[self.current_index.row()][-1].append(text)
                 scenario_text[text] = ""
@@ -3190,7 +3191,7 @@ try:
         '''
 
         @logger.catch
-        def collect_img(self):
+        def collect_img(self, bool_val = False):
             self.list_images = []
             listOfFiles = os.listdir('./images')
             pattern = "*.png"
