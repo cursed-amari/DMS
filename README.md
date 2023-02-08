@@ -51,16 +51,16 @@ ___
 (**Последней сессией считается сессия, в которой был создан хотя бы один персонаж**)  
 Открытие окна генераторов энкаунтеров и тд  
 Окно с информацией  
-### Меню ###  
+## Меню ##
 Меню можно раскрыть, что бы увидеть названия вкладок. Сделать это можно по клику на верхний элемент списка
-![lock_screen.cursor](read_me_img/lock_screen.cursor1.png)
-![lock_screen.cursor](read_me_img/lock_screen.menu_open.png)
+![lock_screen.cursor](read_me_img/lock_screen.cursor1.png)  
+![lock_screen.cursor](read_me_img/lock_screen.menu_open.png)  
 Меню можно скрыть по повторному нажатию на верхний элемент меню, либо по некоторым пустым пространствам
 ---
 <a id="tracker.add_char"></a>
-## Трекер Создание персонажа ##  
-![tracker.icon](read_me_img/tracker.icon.png) 
-![tracker.add_char](read_me_img/tracker.add_char.png)
+## Трекер Создание персонажа ##
+![tracker.icon](read_me_img/tracker.icon.png)  
+![tracker.add_char](read_me_img/tracker.add_char.png)  
 Заполняется как в примере.  
 **Поля *Hp*, *Ac* а так же *Spell slot* должны состоять только из цифр!**  
 **Максимальное количество персонажей на данный момент 4!**  
@@ -69,7 +69,7 @@ ___
 <a id="tracker.tracker"></a>
 ## Трекер ##  
 ![tracker.icon](read_me_img/tracker.icon.png)   
-![tracker.tracker](read_me_img/tracker.tracker.png)
+![tracker.tracker](read_me_img/tracker.tracker.png)  
 + ### 1 ###
     Кнопка открытия окна расчёта инициативы
 + ### 2 ###
@@ -99,7 +99,7 @@ ___
 ## Окно инициативы ##
 ![initiative_window](read_me_img/initiative_window.png)  
 При нажатии галочек *option* и *preset* раскроются соответствующие части меню
-![initiative_window.open_options](read_me_img/initiative_window.open_options.png) 
+![initiative_window.open_options](read_me_img/initiative_window.open_options.png)  
 + ### 1 ###
   Инициатива игроков
 + ### 2 ###
@@ -125,7 +125,7 @@ ___
 Что бы удалить оппонента выберите его из списка и нажмите минус  
 Что бы очистить список нажмите крестик  
 Что бы отредактировать противника выберите его из списка и нажмите кнопку с гаечным ключом  
-![initiative_window.redaction_enemy](read_me_img/initiative_window.redaction_enemy1.png)  
+![initiative_window.redaction_enemy](read_me_img/initiative_window.redaction_enemy1.png)   
 после редактирования нажмите плюс, что бы изменения вступили в силу
 
 Для расчета инициативы нажмите значок кубика  
@@ -135,7 +135,7 @@ ___
   
 После расчёта инициативы вы можете выбрав противника нажать на кнопку с гаечным ключом. 
 Это откроет окно редакции противника, но уже с редакцией только HP противника  
-![initiative_window.redaction_enemy](read_me_img/initiative_window.redaction_enemy.png)  
+![initiative_window.redaction_enemy](read_me_img/initiative_window.redaction_enemy.png)   
 Здесь вы можете изменить значение HP противника, добавив(+) или отняв(-) нужное количество
 HP  
 Set сделает HP равным введённому значению  
@@ -162,7 +162,7 @@ ___
 <a id="scenario"></a>
 ## Сценарий ## 
 ![scenario.icon](read_me_img/scenario.icon.png)  
-![scenario](read_me_img/scenario.png)
+![scenario](read_me_img/scenario.png)  
 Здесь вы можете записать сценарий по главам.  
 Что бы добавить главу, введите название в поле в верхнем левом углу и нажмите кнопку *add*  
 После этого вы можете вводить текст для главы. Текст сохранится в выбранной главе
@@ -219,7 +219,7 @@ ___
 ___
 <a id="rules"></a>
 ## Правила ##  
-![rules.icon](read_me_img/rules.icon.png)
+![rules.icon](read_me_img/rules.icon.png)  
 ![rules](read_me_img/rules.png)  
 Здесь вы можете посмотреть некоторые правила dnd 5e (правила взяты с сайта dnd.su)  
 В выпадающем меню сверху вы можете найти разные правила  
