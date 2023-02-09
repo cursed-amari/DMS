@@ -8,7 +8,7 @@
 
 from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QMenu
+from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QMenu, QGraphicsScene
 from PyQt6.QtCore import QEvent, Qt
 from loguru import logger
 import random
@@ -22,6 +22,7 @@ from initiative import InitiativeWindow
 from redaction_hp_tracker import Ui_Dialog_redaction_hp_tracker
 from too_many_generators import MainWindow_too_many_generators
 from img_view import Window_viewer_show
+from token_object import TokenObject
 
 from dict_rules import dict_rules
 from shop_data import *
@@ -112,6 +113,8 @@ try:
             self.pushButton_left.clicked.connect(self.left_img)
             self.pushButton_right.clicked.connect(self.right_img)
             self.pushButton_refresh_img.clicked.connect(self.collect_img)
+            self.pushButton_reduce_token.clicked.connect(self.reduce_token)
+            self.pushButton_increase_token.clicked.connect(self.increase_token)
             # checkBox
             self.checkBox_lock_init.toggled.connect(self.lock_initiative)
             self.checkBox_lock_ac.toggled.connect(self.lock_ac)
@@ -589,41 +592,42 @@ try:
 
         @logger.catch
         def open_viewer(self, bool_val=False):
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Я нахожусь в разработке')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
-            # self.frame_tracker.hide()
-            # self.frame_scenario.hide()
-            # self.frame_notes.hide()
-            # self.frame_music_changer.hide()
-            # self.frame_rules.hide()
-            # self.frame_generate_store.hide()
-            # self.frame_npc_generator.hide()
-            # self.info.hide()
-            # self.frame_viewer.show()
+            # error = QMessageBox()
+            # error.setWindowTitle('Ошибка')
+            # error.setText('Я нахожусь в разработке')
+            # error.setIcon(QMessageBox.Icon.Warning)
+            # error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            # error.setDefaultButton(QMessageBox.StandardButton.Ok)
+            #
+            # error.buttonClicked.connect(self.popup_action)
+            #
+            # error.exec()
+            self.frame_tracker.hide()
+            self.frame_scenario.hide()
+            self.frame_notes.hide()
+            self.frame_music_changer.hide()
+            self.frame_rules.hide()
+            self.frame_generate_store.hide()
+            self.frame_npc_generator.hide()
+            self.info.hide()
+            self.frame_viewer.show()
 
         @logger.catch
         def open_viewer_window(self, bool_val=False):
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Я нахожусь в разработке')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
-            # self.viewer_window = Window_viewer_show()
-            # self.viewer_window.show()
-            # self.app_func_viewer_window()
+            # error = QMessageBox()
+            # error.setWindowTitle('Ошибка')
+            # error.setText('Я нахожусь в разработке')
+            # error.setIcon(QMessageBox.Icon.Warning)
+            # error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            # error.setDefaultButton(QMessageBox.StandardButton.Ok)
+            #
+            # error.buttonClicked.connect(self.popup_action)
+            #
+            # error.exec()
+            self.viewer_window = Window_viewer_show()
+            self.viewer_window.show()
+            self.app_func_viewer_window()
+            self.size_token = 100
 
         @logger.catch
         def app_func_viewer_window(self):
@@ -3245,11 +3249,33 @@ try:
                 self.open_current_img()
 
         @logger.catch
+        def reduce_token(self, bool_val=False):
+            if self.size_token >= 26:
+                self.size_token -= 25
+                self.scene.clear()
+                self.open_current_img()
+
+        @logger.catch
+        def increase_token(self, bool_val=False):
+            if self.size_token <= 201:
+                self.size_token += 25
+                self.scene.clear()
+                self.open_current_img()
+
+        @logger.catch
         def open_current_img(self, bool_val=False):
             try:
                 if self.viewer_window:
                     try:
-                        self.viewer_window.label.setPixmap(QPixmap("images/" + self.listWidget_img.currentItem().text()))
+                        self.scene = QGraphicsScene()
+                        self.scene.addPixmap(QPixmap("images/" + self.listWidget_img.currentItem().text()).scaled(
+                            QtGui.QGuiApplication.primaryScreen().availableGeometry().width(),
+                            QtGui.QGuiApplication.primaryScreen().availableGeometry().height(),
+                            aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
+                            transformMode=Qt.TransformationMode.SmoothTransformation))
+                        self.viewer_window.graphicsView_img.setScene(self.scene)
+                        self.viewer_window.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
+                        self.add_token()
                     except AttributeError:
                         error = QMessageBox()
                         error.setWindowTitle('Ошибка')
@@ -3275,6 +3301,19 @@ try:
                 error.exec()
                 logger.info("open_current_img, open_window except AttributeError")
 
+        @logger.catch
+        def add_token(self):
+            position_token = 50
+            print(self.size_token)
+            for i in range(int(self.spinBox_enemy_token.text())):
+                position_token += 100
+                i = TokenObject(50, position_token, self.size_token, True)
+                self.scene.addItem(i)
+            position_token = 50
+            for i in range(int(self.spinBox_hero_token.text())):
+                position_token += 100
+                i = TokenObject(150, position_token, self.size_token, False)
+                self.scene.addItem(i)
 
     if __name__ == "__main__":
         import sys
