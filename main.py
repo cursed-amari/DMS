@@ -589,21 +589,41 @@ try:
 
         @logger.catch
         def open_viewer(self, bool_val=False):
-            self.frame_tracker.hide()
-            self.frame_scenario.hide()
-            self.frame_notes.hide()
-            self.frame_music_changer.hide()
-            self.frame_rules.hide()
-            self.frame_generate_store.hide()
-            self.frame_npc_generator.hide()
-            self.info.hide()
-            self.frame_viewer.show()
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Я нахожусь в разработке')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
+            # self.frame_tracker.hide()
+            # self.frame_scenario.hide()
+            # self.frame_notes.hide()
+            # self.frame_music_changer.hide()
+            # self.frame_rules.hide()
+            # self.frame_generate_store.hide()
+            # self.frame_npc_generator.hide()
+            # self.info.hide()
+            # self.frame_viewer.show()
 
         @logger.catch
         def open_viewer_window(self, bool_val=False):
-            self.viewer_window = Window_viewer_show()
-            self.viewer_window.show()
-            self.app_func_viewer_window()
+            error = QMessageBox()
+            error.setWindowTitle('Ошибка')
+            error.setText('Я нахожусь в разработке')
+            error.setIcon(QMessageBox.Icon.Warning)
+            error.setStandardButtons(QMessageBox.StandardButton.Ok)
+            error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+            error.buttonClicked.connect(self.popup_action)
+
+            error.exec()
+            # self.viewer_window = Window_viewer_show()
+            # self.viewer_window.show()
+            # self.app_func_viewer_window()
 
         @logger.catch
         def app_func_viewer_window(self):
