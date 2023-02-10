@@ -22,7 +22,7 @@ from initiative import InitiativeWindow
 from redaction_hp_tracker import Ui_Dialog_redaction_hp_tracker
 from too_many_generators import MainWindow_too_many_generators
 from img_view import Window_viewer_show
-from token_object import TokenObject
+from token_img import TokenImg
 
 from dict_rules import dict_rules
 from shop_data import *
@@ -134,6 +134,9 @@ try:
             # listWidget
             self.listWidget_category.currentRowChanged.connect(self.listView_scene_update)
             self.list_tags.clicked.connect(self.set_current_index)
+            # spinBox
+            self.spinBox_enemy_token.valueChanged.connect(self.spinBox_chek)
+            self.spinBox_hero_token.valueChanged.connect(self.spinBox_chek)
             # textEdit
             self.text_notes.textChanged.connect(self.shop_notes_edit)
             self.text_npc_generate.textChanged.connect(self.npc_notes_edit)
@@ -592,16 +595,6 @@ try:
 
         @logger.catch
         def open_viewer(self, bool_val=False):
-            # error = QMessageBox()
-            # error.setWindowTitle('Ошибка')
-            # error.setText('Я нахожусь в разработке')
-            # error.setIcon(QMessageBox.Icon.Warning)
-            # error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            # error.setDefaultButton(QMessageBox.StandardButton.Ok)
-            #
-            # error.buttonClicked.connect(self.popup_action)
-            #
-            # error.exec()
             self.frame_tracker.hide()
             self.frame_scenario.hide()
             self.frame_notes.hide()
@@ -614,16 +607,6 @@ try:
 
         @logger.catch
         def open_viewer_window(self, bool_val=False):
-            # error = QMessageBox()
-            # error.setWindowTitle('Ошибка')
-            # error.setText('Я нахожусь в разработке')
-            # error.setIcon(QMessageBox.Icon.Warning)
-            # error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            # error.setDefaultButton(QMessageBox.StandardButton.Ok)
-            #
-            # error.buttonClicked.connect(self.popup_action)
-            #
-            # error.exec()
             self.viewer_window = Window_viewer_show()
             self.viewer_window.show()
             self.app_func_viewer_window()
@@ -1258,10 +1241,10 @@ try:
         @logger.catch
         def del_char(self, bool_val):
             try:
-                for i in hero:
+                for i in list(hero.keys()):
                     if self.comboBox_del_char.currentText() == hero[i]['name']:
                         hero.pop(str(i))
-                for i in hero_in_game:
+                for i in list(hero_in_game.keys()):
                     if self.comboBox_del_char.currentText() == hero_in_game[i]['name']:
                         hero_in_game.pop(str(i))
 
@@ -2479,6 +2462,154 @@ try:
             self.label_rules.setText(dict_rules[rules_name])
 
         '''
+        Img viewer
+        '''
+
+        @logger.catch
+        def collect_img(self, bool_val=False):
+            '''
+            DOCKSTRING: Поиск файлов в папке
+            '''
+            self.list_images = []
+            listOfFiles = os.listdir('./images')
+            pattern = "*.png"
+            for entry in listOfFiles:
+                if fnmatch.fnmatch(entry, pattern):
+                    self.list_images.append(entry)
+            pattern = "*.jpeg"
+            for entry in listOfFiles:
+                if fnmatch.fnmatch(entry, pattern):
+                    self.list_images.append(entry)
+            if self.list_images:
+                self.update_list_img()
+
+        @logger.catch
+        def update_list_img(self):
+            self.listWidget_img.clear()
+            for i in sorted(self.list_images):
+                self.listWidget_img.addItem(i)
+            self.listWidget_img.setCurrentRow(0)
+
+        @logger.catch
+        def left_img(self, bool_val=False):
+            if self.listWidget_img.currentRow() != 0:
+                self.listWidget_img.setCurrentRow(self.listWidget_img.currentRow() - 1)
+                self.open_current_img()
+
+        @logger.catch
+        def right_img(self, bool_val=False):
+            if self.listWidget_img.currentRow() < len(self.list_images) - 1:
+                self.listWidget_img.setCurrentRow(self.listWidget_img.currentRow() + 1)
+                self.open_current_img()
+
+        @logger.catch
+        def reduce_token(self, bool_val=False):
+            if self.size_token >= 26:
+                self.size_token -= 25
+                self.scene.clear()
+                self.open_current_img()
+
+        @logger.catch
+        def increase_token(self, bool_val=False):
+            if self.size_token <= 201:
+                self.size_token += 25
+                self.scene.clear()
+                self.open_current_img()
+
+        @logger.catch
+        def open_current_img(self, bool_val=False):
+            '''
+            DOCKSTRING: Открытие выбранной картинки в окне просмотра
+            '''
+            try:
+                if self.viewer_window:
+                    try:
+                        self.scene = QGraphicsScene()
+                        self.scene.addPixmap(QPixmap("images/" + self.listWidget_img.currentItem().text()).scaled(
+                            QtGui.QGuiApplication.primaryScreen().availableGeometry().width(),
+                            QtGui.QGuiApplication.primaryScreen().availableGeometry().height(),
+                            aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
+                            transformMode=Qt.TransformationMode.SmoothTransformation))
+                        self.viewer_window.graphicsView_img.setScene(self.scene)
+                        self.viewer_window.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
+                        self.add_token()
+                    except AttributeError:
+                        error = QMessageBox()
+                        error.setWindowTitle('Ошибка')
+                        error.setText('Выберите изображение, из списка')
+                        error.setIcon(QMessageBox.Icon.Warning)
+                        error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                        error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                        error.buttonClicked.connect(self.popup_action)
+
+                        error.exec()
+                        logger.info("open_current_img, except AttributeError")
+            except AttributeError:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Откройте окно просмотра изображения!')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+                logger.info("open_current_img, open_window except AttributeError")
+
+        @logger.catch
+        def spinBox_chek(self, bool_val=False):
+            '''
+            DOCKSTRING: Проверка количества токенов
+            '''
+            if self.spinBox_enemy_token.value() > 15:
+                self.spinBox_enemy_token.setValue(15)
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Максимальное количество противников 15')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+            if self.spinBox_hero_token.value() > 4:
+                self.spinBox_hero_token.setValue(4)
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Максимальное количество игроков 4')
+                error.setIcon(QMessageBox.Icon.Warning)
+                error.setStandardButtons(QMessageBox.StandardButton.Ok)
+                error.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+                error.buttonClicked.connect(self.popup_action)
+
+                error.exec()
+
+        @logger.catch
+        def add_token(self):
+            '''
+            DOCKSTRING: Добавление токенов(изображение) в сцену
+            '''
+            position_token = 50
+            token_num = 1
+            for i in range(int(self.spinBox_enemy_token.text())):
+                position_token += 100
+                i = TokenImg(50, position_token, self.size_token, True, str(token_num))
+                token_num += 1
+                self.scene.addItem(i)
+
+            position_token = 50
+            token_num = 1
+            for i in range(int(self.spinBox_hero_token.text())):
+                position_token += 100
+                i = TokenImg(150, position_token, self.size_token, False, str(token_num))
+                token_num += 1
+                self.scene.addItem(i)
+
+        '''
         Store
         '''
 
@@ -3209,111 +3340,6 @@ try:
                        f"Расса: {npc[npc_name]['nps_race']}"
                 self.label_generate_npc.setText(text)
                 self.text_npc_generate.setText(npc[npc_name]['text_notes'])
-
-        '''
-        Img viewer
-        '''
-
-        @logger.catch
-        def collect_img(self, bool_val = False):
-            self.list_images = []
-            listOfFiles = os.listdir('./images')
-            pattern = "*.png"
-            for entry in listOfFiles:
-                if fnmatch.fnmatch(entry, pattern):
-                    self.list_images.append(entry)
-            pattern = "*.jpeg"
-            for entry in listOfFiles:
-                if fnmatch.fnmatch(entry, pattern):
-                    self.list_images.append(entry)
-            if self.list_images:
-                self.update_list_img()
-
-        @logger.catch
-        def update_list_img(self):
-            self.listWidget_img.clear()
-            for i in sorted(self.list_images):
-                self.listWidget_img.addItem(i)
-            self.listWidget_img.setCurrentRow(0)
-
-        @logger.catch
-        def left_img(self, bool_val=False):
-            if self.listWidget_img.currentRow() != 0:
-                self.listWidget_img.setCurrentRow(self.listWidget_img.currentRow() - 1)
-                self.open_current_img()
-
-        @logger.catch
-        def right_img(self, bool_val=False):
-            if self.listWidget_img.currentRow() < len(self.list_images) - 1:
-                self.listWidget_img.setCurrentRow(self.listWidget_img.currentRow() + 1)
-                self.open_current_img()
-
-        @logger.catch
-        def reduce_token(self, bool_val=False):
-            if self.size_token >= 26:
-                self.size_token -= 25
-                self.scene.clear()
-                self.open_current_img()
-
-        @logger.catch
-        def increase_token(self, bool_val=False):
-            if self.size_token <= 201:
-                self.size_token += 25
-                self.scene.clear()
-                self.open_current_img()
-
-        @logger.catch
-        def open_current_img(self, bool_val=False):
-            try:
-                if self.viewer_window:
-                    try:
-                        self.scene = QGraphicsScene()
-                        self.scene.addPixmap(QPixmap("images/" + self.listWidget_img.currentItem().text()).scaled(
-                            QtGui.QGuiApplication.primaryScreen().availableGeometry().width(),
-                            QtGui.QGuiApplication.primaryScreen().availableGeometry().height(),
-                            aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
-                            transformMode=Qt.TransformationMode.SmoothTransformation))
-                        self.viewer_window.graphicsView_img.setScene(self.scene)
-                        self.viewer_window.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
-                        self.add_token()
-                    except AttributeError:
-                        error = QMessageBox()
-                        error.setWindowTitle('Ошибка')
-                        error.setText('Выберите изображение, из списка')
-                        error.setIcon(QMessageBox.Icon.Warning)
-                        error.setStandardButtons(QMessageBox.StandardButton.Ok)
-                        error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-                        error.buttonClicked.connect(self.popup_action)
-
-                        error.exec()
-                        logger.info("open_current_img, except AttributeError")
-            except AttributeError:
-                error = QMessageBox()
-                error.setWindowTitle('Ошибка')
-                error.setText('Откройте окно просмотра изображения!')
-                error.setIcon(QMessageBox.Icon.Warning)
-                error.setStandardButtons(QMessageBox.StandardButton.Ok)
-                error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-                error.buttonClicked.connect(self.popup_action)
-
-                error.exec()
-                logger.info("open_current_img, open_window except AttributeError")
-
-        @logger.catch
-        def add_token(self):
-            position_token = 50
-            print(self.size_token)
-            for i in range(int(self.spinBox_enemy_token.text())):
-                position_token += 100
-                i = TokenObject(50, position_token, self.size_token, True)
-                self.scene.addItem(i)
-            position_token = 50
-            for i in range(int(self.spinBox_hero_token.text())):
-                position_token += 100
-                i = TokenObject(150, position_token, self.size_token, False)
-                self.scene.addItem(i)
 
     if __name__ == "__main__":
         import sys
