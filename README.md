@@ -42,7 +42,7 @@ ___
 Главный экран можно открыть [горячей клавишей](#shortcut)
 ### Главное меню ### 
 Меню можно открыть нажав на иконку в верхнем левом углу приложения(Красная стрелка на фото)
-![lock_screen.cursor](read_me_img/lock_screen.cursor.png)
+![lock_screen.cursor](read_me_img/lock_screen.cursor.png)  
 Здесь располагается меню  
 ![lock_screen.menu](read_me_img/lock_screen.menu.png)  
 >Сохранение  
