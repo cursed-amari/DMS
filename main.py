@@ -2472,13 +2472,17 @@ try:
             '''
             self.list_images = []
             listOfFiles = os.listdir('./images')
-            pattern = "*.png"
             for entry in listOfFiles:
-                if fnmatch.fnmatch(entry, pattern):
+                if fnmatch.fnmatch(entry, "*.png"):
                     self.list_images.append(entry)
-            pattern = "*.jpeg"
             for entry in listOfFiles:
-                if fnmatch.fnmatch(entry, pattern):
+                if fnmatch.fnmatch(entry, "*.jpeg"):
+                    self.list_images.append(entry)
+            for entry in listOfFiles:
+                if fnmatch.fnmatch(entry, "*.jpg"):
+                    self.list_images.append(entry)
+            for entry in listOfFiles:
+                if fnmatch.fnmatch(entry, "*.bmp"):
                     self.list_images.append(entry)
             if self.list_images:
                 self.update_list_img()

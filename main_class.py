@@ -335,7 +335,7 @@ class Ui_MainWindow(object):
         self.spell_slot_edit_8.setGeometry(QtCore.QRect(70, 240, 25, 25))
         self.spell_slot_edit_8.setObjectName("spell_slot_edit_8")
         self.label_spell_slot = QtWidgets.QLabel(self.frame_create)
-        self.label_spell_slot.setGeometry(QtCore.QRect(10, 215, 20, 20))
+        self.label_spell_slot.setGeometry(QtCore.QRect(10, 220, 20, 20))
         self.label_spell_slot.setStyleSheet("font-weight:bold")
         self.label_spell_slot.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_spell_slot.setObjectName("label_spell_slot")
