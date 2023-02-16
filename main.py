@@ -10,8 +10,10 @@ from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QMenu, QGraphicsScene
 from PyQt6.QtCore import QEvent, Qt
+# from PyQt6.QtMultimedia import QMediaPlayer
 from loguru import logger
 import random
+import re
 import webbrowser
 import time
 import json
@@ -2490,7 +2492,8 @@ try:
         @logger.catch
         def update_list_img(self):
             self.listWidget_img.clear()
-            for i in sorted(self.list_images):
+            natsort = lambda s: [int(t) if t.isdigit() else t.lower() for t in re.split('(\d+)', s)]
+            for i in sorted(self.list_images, key=natsort):
                 self.listWidget_img.addItem(i)
             self.listWidget_img.setCurrentRow(0)
 
