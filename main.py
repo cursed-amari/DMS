@@ -2492,8 +2492,8 @@ try:
         @logger.catch
         def update_list_img(self):
             self.listWidget_img.clear()
-            natsort = lambda s: [int(t) if t.isdigit() else t.lower() for t in re.split('(\d+)', s)]
-            for i in sorted(self.list_images, key=natsort):
+            for i in sorted(self.list_images,
+                            key=lambda s: [int(t) if t.isdigit() else t.lower() for t in re.split('(\d+)', s)]):
                 self.listWidget_img.addItem(i)
             self.listWidget_img.setCurrentRow(0)
 
