@@ -2758,15 +2758,15 @@ try:
         @logger.catch
         def money_vendor(self):
             self.vendor_money = 0
-            if self.box_generate_cost.currentText() == "Ужасная":
+            if self.box_generate_cost.currentText() == "Ужасное":
                 self.vendor_money += random.randint(1, 10) * 20
-            if self.box_generate_cost.currentText() == "Плохая":
+            if self.box_generate_cost.currentText() == "Плохое":
                 self.vendor_money += random.randint(1, 10) * 50
-            if self.box_generate_cost.currentText() == "Средняя":
+            if self.box_generate_cost.currentText() == "Среднее":
                 self.vendor_money += random.randint(1, 10) * 100
-            if self.box_generate_cost.currentText() == "Хорошая":
+            if self.box_generate_cost.currentText() == "Хорошее":
                 self.vendor_money += random.randint(1, 10) * 250
-            if self.box_generate_cost.currentText() == "Прекрасная":
+            if self.box_generate_cost.currentText() == "Прекрасное":
                 self.vendor_money += random.randint(1, 10) * 500
             self.assortment_store()
 
