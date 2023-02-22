@@ -2234,6 +2234,7 @@ try:
 
             for i in scenario_chapter.keys():
                 self.comboBox_choose_chapter.addItem(i)
+            self.comboBox_choose_chapter.setCurrentIndex(len(scenario_chapter)-1)
 
         @logger.catch
         def view_text_chapter(self, bool_val):
@@ -3186,6 +3187,7 @@ try:
             self.box_choose_shop.clear()
             for i in store.keys():
                 self.box_choose_shop.addItem(i)
+            self.box_choose_shop.setCurrentIndex(len(store.keys())-1)
 
         @logger.catch
         def view_store(self, store_name):
@@ -3332,6 +3334,7 @@ try:
             self.box_generate_npc.clear()
             for i in npc.keys():
                 self.box_generate_npc.addItem(i)
+            self.box_generate_npc.setCurrentIndex(len(npc.keys())-1)
 
         @logger.catch
         def npc_notes_edit(self):
