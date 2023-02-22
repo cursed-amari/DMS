@@ -2777,359 +2777,359 @@ try:
             '''
             self.store_assortment = ""
             if self.box_generate_type.currentText() == "Таверна":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(tavern_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(tavern_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(tavern_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(tavern_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(tavern_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Алкоголь и напитки":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(alcohol_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(alcohol_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(alcohol_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(alcohol_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(alcohol_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Оружие":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(weapon_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(weapon_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(weapon_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(weapon_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(weapon_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Доспехи (щиты)":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(armor_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(armor_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(armor_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(armor_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(armor_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Еда и части животных":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(eat_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(eat_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(eat_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(eat_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(eat_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Зелья, яды и травы":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(poison_herbs_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(poison_herbs_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(poison_herbs_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(poison_herbs_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(poison_herbs_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Книги заклинаний":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(poison_herbs_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(poison_herbs_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(poison_herbs_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(poison_herbs_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(poison_herbs_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Песни и инструменты":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(music_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(music_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(music_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(music_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(music_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Религиозные товары":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(religion_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(religion_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(religion_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(religion_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(religion_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Транспорт":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(transport_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(transport_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(transport_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(transport_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(transport_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Животные":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(beast_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(beast_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(beast_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(beast_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(beast_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Книги и карты":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(book_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(book_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(book_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(book_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(book_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Цветы":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(flower_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(flower_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(flower_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(flower_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(flower_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Мебель":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(furniture_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(furniture_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(furniture_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(furniture_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(furniture_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Высокая мода":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(fashion_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(fashion_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(fashion_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(fashion_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(fashion_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Ювелирные изделия":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(jeweler_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(jeweler_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(jeweler_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(jeweler_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(jeweler_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Безделушки":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(bauble_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(bauble_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(bauble_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(bauble_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(bauble_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Изделия из кожи":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(leather_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(leather_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(leather_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(leather_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(leather_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Механические пр.":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(mechanics_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(mechanics_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(mechanics_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(mechanics_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(mechanics_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Воровские пр.":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(thief_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(thief_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(thief_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(thief_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(thief_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
             if self.box_generate_type.currentText() == "Инструменты":
-                if self.box_generate_cost.currentText() == "Ужасная":
+                if self.box_generate_cost.currentText() == "Ужасное":
                     for i in sorted(tools_1):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Плохая":
+                if self.box_generate_cost.currentText() == "Плохое":
                     for i in sorted(tools_2):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Средняя":
+                if self.box_generate_cost.currentText() == "Среднее":
                     for i in sorted(tools_3):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Хорошая":
+                if self.box_generate_cost.currentText() == "Хорошее":
                     for i in sorted(tools_4):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
-                if self.box_generate_cost.currentText() == "Прекрасная":
+                if self.box_generate_cost.currentText() == "Прекрасное":
                     for i in sorted(tools_5):
                         self.store_assortment += i[0] + ": " + i[1] + "\n"
 
