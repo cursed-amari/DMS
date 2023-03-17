@@ -10,7 +10,7 @@ from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QMenu, QGraphicsScene
 from PyQt6.QtCore import QEvent, Qt, QPointF
-# from PyQt6.QtMultimedia import QMediaPlayer
+import pygame
 from loguru import logger
 import random
 import re
@@ -18,6 +18,7 @@ import webbrowser
 import time
 import json
 import os, fnmatch
+from pathlib import Path
 
 from main_class import Ui_MainWindow
 from initiative import InitiativeWindow
@@ -51,6 +52,8 @@ note_char_one = ""
 note_char_two = ""
 note_char_three = ""
 
+pygame.init()
+
 logger.add("debug.log", format="{time}, {level}, {message}", level="DEBUG", rotation="2 days", retention="2 days")
 try:
     class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -60,14 +63,16 @@ try:
             self.aplication_func()
             self.status = 0
             logger.info("Start")
+            self.scale_img_viewer = 0
             self.slide_menu_num = 0
             self.scale_img_view = 0.25
 
         @logger.catch
         def aplication_func(self):
-            # initializing windows
+            # initializing
             self.viewer_window = Window_viewer_show()
             self.initiative_window = InitiativeWindow(hero, dict_preset)
+            self.mixer = pygame.mixer.music
 
             # Menu
             self.toolButton_logo_app.clicked.connect(self.main_menu)
@@ -121,6 +126,8 @@ try:
             self.pushButton_url_set.clicked.connect(self.music_changer_update)
             self.pushButton_url_open.clicked.connect(self.music_changer_play)
             self.pushButton_url_delete.clicked.connect(self.music_changer_delete)
+            self.pushButton_music_play.clicked.connect(self.play_local_music)
+            self.pushButton_music_stop.clicked.connect(self.stop_local_music)
             # viewer
             self.pushButton_open_view.clicked.connect(self.open_viewer_window)
             self.pushButton_left.clicked.connect(self.left_img)
@@ -128,6 +135,8 @@ try:
             self.pushButton_refresh_img.clicked.connect(self.collect_img)
             self.pushButton_reduce_token.clicked.connect(self.reduce_token)
             self.pushButton_increase_token.clicked.connect(self.increase_token)
+            self.pushButton_reduce_img.clicked.connect(self.reduce_img)
+            self.pushButton_increase_img.clicked.connect(self.increase_img)
             # generate store
             self.pushButton_generate_shop.clicked.connect(self.create_store)
             self.pushButton_del_store.clicked.connect(self.del_store)
@@ -166,6 +175,9 @@ try:
             self.list_tags.clicked.connect(self.set_current_index)
             # music
             self.listWidget_category.currentRowChanged.connect(self.listView_scene_update)
+            self.listWidget_music.doubleClicked.connect(self.play)
+            # viewer
+            self.listWidget_img.doubleClicked.connect(self.open_current_img)
 
             # SPINBOX
             # img viewer
@@ -209,6 +221,7 @@ try:
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+right"), self, self.right_img)
 
             # method
+            self.mixer.set_volume(1)
             self.view_character_stats()
             self.set_combobox_rules()
             self.add_to_tracker()
@@ -216,6 +229,7 @@ try:
             self.options_store_box_update()
             self.npc_box_update()
             self.collect_img()
+            self.collect_music()
 
         @logger.catch
         def view_character_stats(self):
@@ -352,7 +366,7 @@ try:
                 scenario_text,
                 scenario_chapter,
             )
-            data = QFileDialog.getSaveFileName(self)[0]
+            data = QFileDialog.getSaveFileName(self, filter="Save (*.json)")[0]
 
             try:
                 with open(data, 'w') as outfile:
@@ -367,7 +381,7 @@ try:
             '''
             global dict_preset
 
-            data = QFileDialog.getOpenFileName(self)[0]
+            data = QFileDialog.getOpenFileName(self, filter="Save (*.json)")[0]
 
             try:
                 with open(data, 'r', encoding="utf-8") as json_file:
@@ -417,7 +431,7 @@ try:
             global dict_preset
 
             try:
-                with open('last_session', 'r', encoding="utf-8") as json_file:
+                with open('last_session.json', 'r', encoding="utf-8") as json_file:
                     data = json.load(json_file)
                     global hero
                     global hero_in_game
@@ -2479,6 +2493,42 @@ try:
                     self.music_changer_listview_category_update()
                     self.listView_scene_update()
 
+        @logger.catch
+        def collect_music(self, bool_val=False):
+            '''
+            DOCKSTRING: Поиск файлов в папке
+            '''
+            self.list_song = []
+            listOfFiles = os.listdir('./music')
+            for entry in listOfFiles:
+                if fnmatch.fnmatch(entry, "*.mp3"):
+                    self.list_song.append(entry)
+                if fnmatch.fnmatch(entry, "*.ogg"):
+                    self.list_song.append(entry)
+            if self.list_song:
+                self.update_list_music()
+
+        @logger.catch
+        def update_list_music(self):
+            self.listWidget_music.clear()
+            for i in sorted(self.list_song,
+                            key=lambda s: [int(t) if t.isdigit() else t.lower() for t in re.split('(\d+)', s)]):
+                self.listWidget_music.addItem(i)
+            self.listWidget_music.setCurrentRow(0)
+
+        @logger.catch
+        def play_local_music(self, bool_val):
+            song = str(Path.cwd()) + "/music/" + self.listWidget_music.currentItem().text()
+            self.mixer.unload()
+            self.mixer.load(song)
+            self.mixer.play()
+
+        @logger.catch
+        def stop_local_music(self, bool_val):
+            if self.mixer.get_busy():
+                self.mixer.stop()
+                self.mixer.unload()
+
         '''
         Rules
         '''
@@ -2561,6 +2611,29 @@ try:
                 self.size_token += 25
                 self.scene.clear()
                 self.open_current_img()
+
+        @logger.catch
+        def reduce_img(self, bool_val=False):
+            if self.scale_img_viewer <= -4:
+                pass
+            else:
+                self.graphicsView_img.scale(0.75, 0.75)
+                self.scale_img_viewer -= 1
+                self.label_scale_img_update()
+
+        @logger.catch
+        def increase_img(self, bool_val=False):
+            if self.scale_img_viewer >= 4:
+                pass
+            else:
+                self.graphicsView_img.scale(1.335, 1.335)
+                self.scale_img_viewer += 1
+                self.label_scale_img_update()
+
+        @logger.catch
+        def label_scale_img_update(self):
+            self.label_scale_img.setText(str(self.scale_img_viewer))
+
 
         @logger.catch
         def open_current_img(self, bool_val=False):
@@ -2941,6 +3014,6 @@ finally:
             scenario_text,
             scenario_chapter,
         )
-        with open("last_session", 'w', encoding='utf-8') as outfile:
+        with open("last_session.json", 'w', encoding='utf-8') as outfile:
             json.dump(save_dict, outfile)
     logger.info("End")
