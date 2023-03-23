@@ -175,7 +175,7 @@ try:
             self.list_tags.clicked.connect(self.set_current_index)
             # music
             self.listWidget_category.currentRowChanged.connect(self.listView_scene_update)
-            self.listWidget_music.doubleClicked.connect(self.play)
+            self.listWidget_music.doubleClicked.connect(self.play_local_music)
             # viewer
             self.listWidget_img.doubleClicked.connect(self.open_current_img)
 
@@ -2819,8 +2819,8 @@ try:
 
         @logger.catch
         def create_store(self, bool_val):
-            sex = sex_vendor(self.box_sex_vendor.currentText())
-            name = name_vendor(sex_vendor, self.edit_name_vendor.text())
+            sex = sex_npc(self.box_sex_vendor.currentText())
+            name = name_npc(sex_npc, self.edit_name_vendor.text())
             if self.edit_store_name_2.text() == "":
                 iter_store = 0
                 store_name = 'store ' + name
@@ -2836,8 +2836,8 @@ try:
                         'type_store': self.box_generate_type.currentText(),
                         'name_vendor': name,
                         'sex_vendor': sex,
-                        'age_vendor': age_vendor(self.box_age_vendor.currentText()),
-                        'race_vendor': race_vendor(self.box_race_vendor.currentText()),
+                        'age_vendor': age_npc(self.box_age_vendor.currentText()),
+                        'race_vendor': race_npc(self.box_race_vendor.currentText()),
                         'store_value': self.box_generate_cost.currentText(),
                         'vendor_money': money_vendor(self.box_generate_cost.currentText()),
                         'assortment_store': assortment_store(self.box_generate_type.currentText(),
@@ -2858,8 +2858,8 @@ try:
                         'type_store': self.box_generate_type.currentText(),
                         'name_vendor': name,
                         'sex_vendor': sex,
-                        'age_vendor': age_vendor(self.box_age_vendor.currentText()),
-                        'race_vendor': race_vendor(self.box_race_vendor.currentText()),
+                        'age_vendor': age_npc(self.box_age_vendor.currentText()),
+                        'race_vendor': race_npc(self.box_race_vendor.currentText()),
                         'store_value': self.box_generate_cost.currentText(),
                         'vendor_money': money_vendor(self.box_generate_cost.currentText()),
                         'assortment_store': assortment_store(self.box_generate_type.currentText(),
@@ -2943,8 +2943,8 @@ try:
 
         @logger.catch
         def create_npc(self, bool_val):
-            npc_sex = sex_vendor(self.box_sex_npc.currentText())
-            npc_name = name_vendor(npc_sex, self.edit_npc_name.text())
+            npc_sex = sex_npc(self.box_sex_npc.currentText())
+            npc_name = name_npc(npc_sex, self.edit_npc_name.text())
             iter_npc = 0
             npc_name_req = npc_name
             flag = True
@@ -2958,8 +2958,8 @@ try:
                 npc_name: {
                     'npc_name': npc_name,
                     'npc_sex': npc_sex,
-                    'npc_age': age_vendor(self.box_race_npc.currentText()),
-                    'nps_race': race_vendor(self.box_age_npc.currentText()),
+                    'npc_age': age_npc(self.box_race_npc.currentText()),
+                    'nps_race': race_npc(self.box_age_npc.currentText()),
                     'text_notes': " "}})
             self.edit_npc_name.setText("")
             self.box_generate_npc_update()
