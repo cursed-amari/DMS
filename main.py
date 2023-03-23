@@ -228,8 +228,17 @@ try:
             self.store_type_and_qualification_vendor()
             self.options_store_box_update()
             self.npc_box_update()
+            self.check_folders()
             self.collect_img()
             self.collect_music()
+
+        @logger.catch
+        def check_folders(self):
+            if not os.path.exists(os.getcwd() + "\music"):
+                os.mkdir(os.getcwd() + "\music")
+
+            if not os.path.exists(os.getcwd() + "\images"):
+                os.mkdir(os.getcwd() + "\images")
 
         @logger.catch
         def view_character_stats(self):
