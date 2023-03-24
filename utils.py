@@ -1,5 +1,5 @@
 import random
-from generators_data import *
+from constants import *
 from shop_data import *
 
 
@@ -26,9 +26,9 @@ def name_npc(sex_npc_in_main: str, npc_name_in_main: str) -> str:
     vendor_name = ""
     if npc_name_in_main == "":
         if sex_npc_in_main == "Мужчина":
-            vendor_name = random.choice(name_man) + " " + random.choice(family)
+            vendor_name = random.choice(NAMEMAN) + " " + random.choice(FAMILY)
         else:
-            vendor_name = random.choice(name_woman) + " " + random.choice(family)
+            vendor_name = random.choice(NAMEWOMAN) + " " + random.choice(FAMILY)
     else:
         vendor_name = npc_name_in_main
     return vendor_name

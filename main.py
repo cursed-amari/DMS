@@ -9,29 +9,24 @@
 from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QMenu, QGraphicsScene
-from PyQt6.QtCore import QEvent, Qt, QPointF
+from PyQt6.QtCore import Qt
 import pygame
 from loguru import logger
-import random
 import re
 import webbrowser
 import time
 import json
-import os, fnmatch
-from pathlib import Path
+import os
+import fnmatch
 
 from main_class import Ui_MainWindow
 from initiative import InitiativeWindow
-from redaction_hp_tracker import Ui_Dialog_redaction_hp_tracker
+from other_window.redaction_hp_tracker import Ui_Dialog_redaction_hp_tracker
 from too_many_generators import MainWindow_too_many_generators
 from img_view import Window_viewer_show
 from token_img import TokenImg
 
-from dict_rules import dict_rules
-from shop_data import *
-from generators_data import *
 from utils import *
-import utils
 
 
 hero = {}
@@ -2527,7 +2522,7 @@ try:
 
         @logger.catch
         def play_local_music(self, bool_val):
-            song = str(Path.cwd()) + "/music/" + self.listWidget_music.currentItem().text()
+            song = str(os.getcwd()) + "/music/" + self.listWidget_music.currentItem().text()
             self.mixer.unload()
             self.mixer.load(song)
             self.mixer.play()
@@ -2544,12 +2539,12 @@ try:
 
         @logger.catch
         def set_combobox_rules(self):
-            for i in dict_rules:
+            for i in DICT_RULES:
                 self.comboBox_rules.addItem(i)
 
         @logger.catch
         def changed_combobox_rules(self, rules_name):
-            self.label_rules.setText(dict_rules[rules_name])
+            self.label_rules.setText(DICT_RULES[rules_name])
 
         '''
         Img viewer
@@ -2781,7 +2776,7 @@ try:
                 self.box_sex_vendor.addItem(i)
             for i in age:
                 self.box_age_vendor.addItem(i)
-            for i in race:
+            for i in RACE:
                 self.box_race_vendor.addItem(i)
 
         @logger.catch
@@ -2820,10 +2815,10 @@ try:
 
         @logger.catch
         def store_type_and_qualification_vendor(self):
-            for i in merchants:
+            for i in MERCHANTS:
                 self.box_generate_type.addItem(i)
 
-            for i in qualification:
+            for i in QUALIFICATION:
                 self.box_generate_cost.addItem(i)
 
         @logger.catch
@@ -2947,7 +2942,7 @@ try:
                 self.box_sex_npc.addItem(i)
             for i in age:
                 self.box_age_npc.addItem(i)
-            for i in race:
+            for i in RACE:
                 self.box_race_npc.addItem(i)
 
         @logger.catch
