@@ -9,7 +9,7 @@ from PyQt6 import QtWidgets
 
 from constants import *
 
-from other_window.too_many_generators_class import Ui_MainWindow_too_many_generators
+from initializing_windows.too_many_generators_class import Ui_MainWindow_too_many_generators
 
 
 class MainWindow_too_many_generators(QtWidgets.QMainWindow, Ui_MainWindow_too_many_generators):

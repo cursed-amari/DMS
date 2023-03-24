@@ -19,9 +19,9 @@ import json
 import os
 import fnmatch
 
-from main_class import Ui_MainWindow
+from initializing_windows.main_class import Ui_MainWindow
 from initiative import InitiativeWindow
-from other_window.redaction_hp_tracker import Ui_Dialog_redaction_hp_tracker
+from initializing_windows.redaction_hp_tracker import Ui_Dialog_redaction_hp_tracker
 from too_many_generators import MainWindow_too_many_generators
 from img_view import Window_viewer_show
 from token_img import TokenImg
