@@ -1335,7 +1335,7 @@ class Ui_MainWindow(object):
         self.box_generate_type.setGeometry(QtCore.QRect(102, 40, 161, 28))
         self.box_generate_type.setObjectName("box_generate_type")
         self.label_shop_info = QtWidgets.QLabel(self.frame_text_store)
-        self.label_shop_info.setGeometry(QtCore.QRect(59, 70, 241, 300))
+        self.label_shop_info.setGeometry(QtCore.QRect(59, 90, 241, 300))
         self.label_shop_info.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_shop_info.setObjectName("label_shop_info")
         self.box_generate_cost = QtWidgets.QComboBox(self.frame_text_store)
@@ -1602,6 +1602,42 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.footer)
         self.horizontalLayout.addWidget(self.background)
         MainWindow.setCentralWidget(self.centralwidget)
+
+        self.toolButton_dict = {"    TRACKER": self.toolButton_tracker,
+                                "    SCENARIO": self.toolButton_scenario,
+                                "    NOTES": self.toolButton_notes,
+                                "    RULES": self.toolButton_rules,
+                                "    MUSIC CHANGER": self.toolButton_music_changer,
+                                "    IMAGE VIEW": self.toolButton_img_view,
+                                "    GENERATE STORE": self.toolButton_generate_store,
+                                "    NPC GENERATOR": self.toolButton_npc_generator}
+
+        self.toolButton_icon = {"    TRACKER": self.tracker_icon,
+                                "    SCENARIO": self.scenario_icon,
+                                "    NOTES": self.notes_icon,
+                                "    RULES": self.options_icon,
+                                "    GENERATE STORE": self.dice_icon,
+                                "    NPC GENERATOR": self.dice_icon,
+                                "    MUSIC CHANGER": self.music_icon,
+                                "    IMAGE VIEW": self.img_icon}
+
+        self.toolButton_hover_icon = {"    TRACKER": self.tracker_hover_icon,
+                                      "    SCENARIO": self.scenario_hover_icon,
+                                      "    NOTES": self.notes_hover_icon,
+                                      "    RULES": self.options_hover_icon,
+                                      "    GENERATE STORE": self.dice_hover_icon,
+                                      "    NPC GENERATOR": self.dice_hover_icon,
+                                      "    MUSIC CHANGER": self.music_hover_icon,
+                                      "    IMAGE VIEW": self.img_hover_icon}
+
+        self.menu_frame = {"    TRACKER": self.frame_tracker,
+                           "    SCENARIO": self.frame_scenario,
+                           "    NOTES": self.frame_notes,
+                           "    MUSIC CHANGER": self.frame_music_changer,
+                           "    RULES": self.frame_rules,
+                           "    GENERATE STORE": self.frame_generate_store,
+                           "    NPC GENERATOR": self.frame_npc_generator,
+                           "    IMAGE VIEW": self.frame_viewer}
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)

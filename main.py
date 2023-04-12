@@ -8,7 +8,7 @@
 
 from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QMenu, QGraphicsScene
+from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QMenu, QGraphicsScene, QApplication
 from PyQt6.QtCore import Qt
 import pygame
 from loguru import logger
@@ -72,14 +72,14 @@ try:
             # Menu
             self.toolButton_logo_app.clicked.connect(self.main_menu)
             self.toolButton_menu.clicked.connect(self.slide_menu)
-            self.toolButton_tracker.clicked.connect(self.show_tracker)
-            self.toolButton_scenario.clicked.connect(self.show_scenario)
-            self.toolButton_notes.clicked.connect(self.show_notes)
-            self.toolButton_music_changer.clicked.connect(self.show_music_changer)
-            self.toolButton_rules.clicked.connect(self.show_rules)
-            self.toolButton_generate_store.clicked.connect(self.show_generate_store)
-            self.toolButton_npc_generator.clicked.connect(self.show_npc_generator)
-            self.toolButton_img_view.clicked.connect(self.open_viewer)
+            self.toolButton_tracker.clicked.connect(self.show_frame_menu)
+            self.toolButton_scenario.clicked.connect(self.show_frame_menu)
+            self.toolButton_notes.clicked.connect(self.show_frame_menu)
+            self.toolButton_music_changer.clicked.connect(self.show_frame_menu)
+            self.toolButton_rules.clicked.connect(self.show_frame_menu)
+            self.toolButton_generate_store.clicked.connect(self.show_frame_menu)
+            self.toolButton_npc_generator.clicked.connect(self.show_frame_menu)
+            self.toolButton_img_view.clicked.connect(self.show_frame_menu)
 
             self.frame_tracker.mousePressEvent = self.slide_menu_hide
             self.frame_scenario.mousePressEvent = self.slide_menu_hide
@@ -202,16 +202,8 @@ try:
             # hotkeys
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+L"), self, self.lock_window)
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+0"), self, self.lock_window)
-            QtGui.QShortcut(QtGui.QKeySequence("CTRL+1"), self, self.show_tracker)
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+I"), self, self.open_initiative)
-            QtGui.QShortcut(QtGui.QKeySequence("CTRL+2"), self, self.show_scenario)
-            QtGui.QShortcut(QtGui.QKeySequence("CTRL+3"), self, self.show_notes)
-            QtGui.QShortcut(QtGui.QKeySequence("CTRL+4"), self, self.show_music_changer)
-            QtGui.QShortcut(QtGui.QKeySequence("CTRL+5"), self, self.show_rules)
-            QtGui.QShortcut(QtGui.QKeySequence("CTRL+6"), self, self.open_viewer)
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+V"), self, self.open_viewer_window)
-            QtGui.QShortcut(QtGui.QKeySequence("CTRL+7"), self, self.show_generate_store)
-            QtGui.QShortcut(QtGui.QKeySequence("CTRL+8"), self, self.show_npc_generator)
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+left"), self, self.left_img)
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+right"), self, self.right_img)
 
@@ -545,209 +537,30 @@ try:
 
                     self.slide_menu_num = 0
 
+        @logger.catch
+        def show_frame_menu(self, bool_val=False):
+            button = QApplication.instance().sender().text()
+            self.info.hide()
+            for i in self.menu_frame.keys():
+                if i == button:
+                    self.menu_frame[i].show()
+                else:
+                    self.menu_frame[i].hide()
+            self.change_icon(button)
 
         @logger.catch
-        def show_tracker(self, bool_val=False):
-            self.frame_tracker.show()
-            self.frame_scenario.hide()
-            self.frame_notes.hide()
-            self.frame_music_changer.hide()
-            self.frame_rules.hide()
-            self.frame_generate_store.hide()
-            self.frame_npc_generator.hide()
-            self.info.hide()
-            self.frame_viewer.hide()
-            
-            self.toolButton_tracker.setIcon(self.tracker_hover_icon)
-            self.toolButton_tracker.setIconSize(QtCore.QSize(23, 23))
-            self.toolButton_scenario.setIcon(self.scenario_icon)
-            self.toolButton_scenario.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_notes.setIcon(self.notes_icon)
-            self.toolButton_notes.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_rules.setIcon(self.options_icon)
-            self.toolButton_rules.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_generate_store.setIcon(self.dice_icon)
-            self.toolButton_generate_store.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_npc_generator.setIcon(self.dice_icon)
-            self.toolButton_npc_generator.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_music_changer.setIcon(self.music_icon)
-            self.toolButton_music_changer.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_img_view.setIcon(self.img_icon)
-            self.toolButton_img_view.setIconSize(QtCore.QSize(18, 19))
-
-        @logger.catch
-        def show_scenario(self, bool_val=False):
-            self.frame_tracker.hide()
-            self.frame_scenario.show()
-            self.frame_notes.hide()
-            self.frame_music_changer.hide()
-            self.frame_rules.hide()
-            self.frame_generate_store.hide()
-            self.frame_npc_generator.hide()
-            self.info.hide()
-            self.frame_viewer.hide()
-            
-            self.toolButton_tracker.setIcon(self.tracker_icon)
-            self.toolButton_tracker.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_scenario.setIcon(self.scenario_hover_icon)
-            self.toolButton_scenario.setIconSize(QtCore.QSize(23, 23))
-            self.toolButton_notes.setIcon(self.notes_icon)
-            self.toolButton_notes.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_rules.setIcon(self.options_icon)
-            self.toolButton_rules.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_generate_store.setIcon(self.dice_icon)
-            self.toolButton_generate_store.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_npc_generator.setIcon(self.dice_icon)
-            self.toolButton_npc_generator.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_music_changer.setIcon(self.music_icon)
-            self.toolButton_music_changer.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_img_view.setIcon(self.img_icon)
-            self.toolButton_img_view.setIconSize(QtCore.QSize(18, 19))
-
-        @logger.catch
-        def show_notes(self, bool_val=False):
-            self.frame_tracker.hide()
-            self.frame_scenario.hide()
-            self.frame_notes.show()
-            self.frame_music_changer.hide()
-            self.frame_rules.hide()
-            self.frame_generate_store.hide()
-            self.frame_npc_generator.hide()
-            self.info.hide()
-            self.frame_viewer.hide()
-            
-            self.toolButton_tracker.setIcon(self.tracker_icon)
-            self.toolButton_tracker.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_scenario.setIcon(self.scenario_icon)
-            self.toolButton_scenario.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_notes.setIcon(self.notes_hover_icon)
-            self.toolButton_notes.setIconSize(QtCore.QSize(23, 23))
-            self.toolButton_rules.setIcon(self.options_icon)
-            self.toolButton_rules.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_generate_store.setIcon(self.dice_icon)
-            self.toolButton_generate_store.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_npc_generator.setIcon(self.dice_icon)
-            self.toolButton_npc_generator.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_music_changer.setIcon(self.music_icon)
-            self.toolButton_music_changer.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_img_view.setIcon(self.img_icon)
-            self.toolButton_img_view.setIconSize(QtCore.QSize(18, 19))
-
-        @logger.catch
-        def show_music_changer(self, bool_val=False):
-            self.frame_tracker.hide()
-            self.frame_scenario.hide()
-            self.frame_notes.hide()
-            self.frame_music_changer.show()
-            self.frame_rules.hide()
-            self.frame_generate_store.hide()
-            self.frame_npc_generator.hide()
-            self.info.hide()
-            self.frame_viewer.hide()
-            
-            self.toolButton_tracker.setIcon(self.tracker_icon)
-            self.toolButton_tracker.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_scenario.setIcon(self.scenario_icon)
-            self.toolButton_scenario.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_notes.setIcon(self.notes_icon)
-            self.toolButton_notes.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_rules.setIcon(self.options_icon)
-            self.toolButton_rules.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_generate_store.setIcon(self.dice_icon)
-            self.toolButton_generate_store.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_npc_generator.setIcon(self.dice_icon)
-            self.toolButton_npc_generator.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_music_changer.setIcon(self.music_hover_icon)
-            self.toolButton_music_changer.setIconSize(QtCore.QSize(23, 23))
-            self.toolButton_img_view.setIcon(self.img_icon)
-            self.toolButton_img_view.setIconSize(QtCore.QSize(18, 19))
-
-        @logger.catch
-        def show_rules(self, bool_val=False):
-            self.frame_tracker.hide()
-            self.frame_scenario.hide()
-            self.frame_notes.hide()
-            self.frame_music_changer.hide()
-            self.frame_rules.show()
-            self.frame_generate_store.hide()
-            self.frame_npc_generator.hide()
-            self.info.hide()
-            self.frame_viewer.hide()
-            
-            self.toolButton_tracker.setIcon(self.tracker_icon)
-            self.toolButton_tracker.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_scenario.setIcon(self.scenario_icon)
-            self.toolButton_scenario.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_notes.setIcon(self.notes_icon)
-            self.toolButton_notes.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_rules.setIcon(self.options_hover_icon)
-            self.toolButton_rules.setIconSize(QtCore.QSize(23, 23))
-            self.toolButton_generate_store.setIcon(self.dice_icon)
-            self.toolButton_generate_store.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_npc_generator.setIcon(self.dice_icon)
-            self.toolButton_npc_generator.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_music_changer.setIcon(self.music_icon)
-            self.toolButton_music_changer.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_img_view.setIcon(self.img_icon)
-            self.toolButton_img_view.setIconSize(QtCore.QSize(18, 19))
-
-        @logger.catch
-        def show_generate_store(self, bool_val=False):
-            self.frame_tracker.hide()
-            self.frame_scenario.hide()
-            self.frame_notes.hide()
-            self.frame_music_changer.hide()
-            self.frame_rules.hide()
-            self.frame_generate_store.show()
-            self.frame_npc_generator.hide()
-            self.info.hide()
-            self.frame_viewer.hide()
-            
-            self.toolButton_tracker.setIcon(self.tracker_icon)
-            self.toolButton_tracker.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_scenario.setIcon(self.scenario_icon)
-            self.toolButton_scenario.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_notes.setIcon(self.notes_icon)
-            self.toolButton_notes.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_rules.setIcon(self.options_icon)
-            self.toolButton_rules.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_generate_store.setIcon(self.dice_hover_icon)
-            self.toolButton_generate_store.setIconSize(QtCore.QSize(23, 23))
-            self.toolButton_npc_generator.setIcon(self.dice_icon)
-            self.toolButton_npc_generator.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_music_changer.setIcon(self.music_icon)
-            self.toolButton_music_changer.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_img_view.setIcon(self.img_icon)
-            self.toolButton_img_view.setIconSize(QtCore.QSize(18, 19))
-
-        @logger.catch
-        def show_npc_generator(self, bool_val=False):
-            self.frame_tracker.hide()
-            self.frame_scenario.hide()
-            self.frame_notes.hide()
-            self.frame_music_changer.hide()
-            self.frame_rules.hide()
-            self.frame_generate_store.hide()
-            self.frame_npc_generator.show()
-            self.info.hide()
-            self.frame_viewer.hide()
-            
-            self.toolButton_tracker.setIcon(self.tracker_icon)
-            self.toolButton_tracker.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_scenario.setIcon(self.scenario_icon)
-            self.toolButton_scenario.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_notes.setIcon(self.notes_icon)
-            self.toolButton_notes.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_rules.setIcon(self.options_icon)
-            self.toolButton_rules.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_generate_store.setIcon(self.dice_icon)
-            self.toolButton_generate_store.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_npc_generator.setIcon(self.dice_hover_icon)
-            self.toolButton_npc_generator.setIconSize(QtCore.QSize(23, 23))
-            self.toolButton_music_changer.setIcon(self.music_icon)
-            self.toolButton_music_changer.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_img_view.setIcon(self.img_icon)
-            self.toolButton_img_view.setIconSize(QtCore.QSize(18, 19))
+        def change_icon(self, button: str):
+            for i in self.toolButton_dict.keys():
+                if i == button:
+                    self.toolButton_dict[i].setIcon(self.toolButton_hover_icon[i])
+                    self.toolButton_dict[i].setIconSize(QtCore.QSize(23, 23))
+                else:
+                    if i == "    IMAGE VIEW":
+                        self.toolButton_dict[i].setIcon(self.toolButton_icon[i])
+                        self.toolButton_dict[i].setIconSize(QtCore.QSize(18, 19))
+                    else:
+                        self.toolButton_dict[i].setIcon(self.toolButton_icon[i])
+                        self.toolButton_dict[i].setIconSize(QtCore.QSize(20, 20))
 
         @logger.catch
         def open_info(self):
@@ -790,34 +603,7 @@ try:
             self.toolButton_img_view.setIcon(self.img_icon)
             self.toolButton_img_view.setIconSize(QtCore.QSize(18, 19))
 
-        @logger.catch
-        def open_viewer(self, bool_val=False):
-            self.frame_tracker.hide()
-            self.frame_scenario.hide()
-            self.frame_notes.hide()
-            self.frame_music_changer.hide()
-            self.frame_rules.hide()
-            self.frame_generate_store.hide()
-            self.frame_npc_generator.hide()
-            self.info.hide()
-            self.frame_viewer.show()
-            
-            self.toolButton_tracker.setIcon(self.tracker_icon)
-            self.toolButton_tracker.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_scenario.setIcon(self.scenario_icon)
-            self.toolButton_scenario.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_notes.setIcon(self.notes_icon)
-            self.toolButton_notes.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_rules.setIcon(self.options_icon)
-            self.toolButton_rules.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_generate_store.setIcon(self.dice_icon)
-            self.toolButton_generate_store.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_npc_generator.setIcon(self.dice_icon)
-            self.toolButton_npc_generator.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_music_changer.setIcon(self.music_icon)
-            self.toolButton_music_changer.setIconSize(QtCore.QSize(20, 20))
-            self.toolButton_img_view.setIcon(self.img_hover_icon)
-            self.toolButton_img_view.setIconSize(QtCore.QSize(21, 22))
+
 
         '''
         Main window hide
