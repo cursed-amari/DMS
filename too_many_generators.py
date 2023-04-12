@@ -8,6 +8,7 @@
 from PyQt6 import QtWidgets
 
 from constants import *
+import random
 
 from initializing_windows.too_many_generators_class import Ui_MainWindow_too_many_generators
 
