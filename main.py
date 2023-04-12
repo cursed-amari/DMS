@@ -2772,12 +2772,22 @@ try:
         def options_store_box_update(self):
             sex = ["Случайно", "Мужчина", "Женщина"]
             age = ["Случайно", "Молодой", "Средний", "Пожилой"]
+            random_choice = "Случайно"
+            self.box_personality_vendor.addItem(random_choice)
+            self.box_look_vendor.addItem(random_choice)
+            self.box_voice_vendor.addItem(random_choice)
             for i in sex:
                 self.box_sex_vendor.addItem(i)
             for i in age:
                 self.box_age_vendor.addItem(i)
             for i in RACE:
                 self.box_race_vendor.addItem(i)
+            for i in PERSONALITY:
+                self.box_personality_vendor.addItem(i)
+            for i in LOOK:
+                self.box_look_vendor.addItem(i)
+            for i in VOICE:
+                self.box_voice_vendor.addItem(i)
 
         @logger.catch
         def options_generate_store(self, radioButton_options_store):
@@ -2798,6 +2808,12 @@ try:
                 self.box_age_vendor.show()
                 self.label_race_vendor.show()
                 self.box_race_vendor.show()
+                self.label_personality_vendor.show()
+                self.box_personality_vendor.show()
+                self.label_look_vendor.show()
+                self.box_look_vendor.show()
+                self.label_voice_vendor.show()
+                self.box_voice_vendor.show()
             else:
                 self.text_notes.show()
 
@@ -2812,6 +2828,12 @@ try:
                 self.box_age_vendor.hide()
                 self.label_race_vendor.hide()
                 self.box_race_vendor.hide()
+                self.label_personality_vendor.hide()
+                self.box_personality_vendor.hide()
+                self.label_look_vendor.hide()
+                self.box_look_vendor.hide()
+                self.label_voice_vendor.hide()
+                self.box_voice_vendor.hide()
 
         @logger.catch
         def store_type_and_qualification_vendor(self):
@@ -2842,6 +2864,9 @@ try:
                         'sex_vendor': sex,
                         'age_vendor': age_npc(self.box_age_vendor.currentText()),
                         'race_vendor': race_npc(self.box_race_vendor.currentText()),
+                        'personality_vendor': personality_npc(self.box_personality_vendor.currentText()),
+                        'look_vendor': look_npc(self.box_look_vendor.currentText()),
+                        'voice_vendor': voice_npc(self.box_voice_vendor.currentText()),
                         'store_value': self.box_generate_cost.currentText(),
                         'vendor_money': money_vendor(self.box_generate_cost.currentText()),
                         'assortment_store': assortment_store(self.box_generate_type.currentText(),
@@ -2864,6 +2889,9 @@ try:
                         'sex_vendor': sex,
                         'age_vendor': age_npc(self.box_age_vendor.currentText()),
                         'race_vendor': race_npc(self.box_race_vendor.currentText()),
+                        'personality_vendor': personality_npc(self.box_personality_vendor.currentText()),
+                        'look_vendor': look_npc(self.box_look_vendor.currentText()),
+                        'voice_vendor': voice_npc(self.box_voice_vendor.currentText()),
                         'store_value': self.box_generate_cost.currentText(),
                         'vendor_money': money_vendor(self.box_generate_cost.currentText()),
                         'assortment_store': assortment_store(self.box_generate_type.currentText(),
@@ -2884,9 +2912,12 @@ try:
         def view_store(self, store_name):
             if store_name in store.keys():
                 text = f"Имя продавца: {store[self.box_choose_shop.currentText()]['name_vendor']}\n" \
-                       f"Пол продавца: {store[self.box_choose_shop.currentText()]['sex_vendor']}\n" \
                        f"Возраст: {store[self.box_choose_shop.currentText()]['age_vendor']}\n" \
+                       f"Пол продавца: {store[self.box_choose_shop.currentText()]['sex_vendor']}\n" \
                        f"Расса продавца: {store[self.box_choose_shop.currentText()]['race_vendor']}\n" \
+                       f"Личность продавца: \n{store[self.box_choose_shop.currentText()]['personality_vendor']}\n" \
+                       f"Внешность продавца: \n{store[self.box_choose_shop.currentText()]['look_vendor']}\n" \
+                       f"Голос продавца: \n{store[self.box_choose_shop.currentText()]['voice_vendor']}\n" \
                        f"Тип лавки: \n{store[self.box_choose_shop.currentText()]['type_store']}\n" \
                        f"Квалификация продавца: {store[self.box_choose_shop.currentText()]['store_value']}\n" \
                        f"Денег у продавца: {store[self.box_choose_shop.currentText()]['vendor_money']}зм"
@@ -2938,12 +2969,22 @@ try:
         def npc_box_update(self):
             sex = ["Случайно", "Мужчина", "Женщина"]
             age = ["Случайно", "Молодой", "Средний", "Пожилой"]
+            random_choice = "Случайно"
+            self.box_personality_npc.addItem(random_choice)
+            self.box_look_npc.addItem(random_choice)
+            self.box_voice_npc.addItem(random_choice)
             for i in sex:
                 self.box_sex_npc.addItem(i)
             for i in age:
                 self.box_age_npc.addItem(i)
             for i in RACE:
                 self.box_race_npc.addItem(i)
+            for i in PERSONALITY:
+                self.box_personality_npc.addItem(i)
+            for i in LOOK:
+                self.box_look_npc.addItem(i)
+            for i in VOICE:
+                self.box_voice_npc.addItem(i)
 
         @logger.catch
         def create_npc(self, bool_val):
@@ -2963,7 +3004,10 @@ try:
                     'npc_name': npc_name,
                     'npc_sex': npc_sex,
                     'npc_age': age_npc(self.box_race_npc.currentText()),
-                    'nps_race': race_npc(self.box_age_npc.currentText()),
+                    'npc_race': race_npc(self.box_age_npc.currentText()),
+                    'npc_personality': personality_npc(self.box_personality_npc.currentText()),
+                    'npc_look': look_npc(self.box_look_npc.currentText()),
+                    'npc_voice': voice_npc(self.box_voice_npc.currentText()),
                     'text_notes': " "}})
             self.edit_npc_name.setText("")
             self.box_generate_npc_update()
@@ -2983,10 +3027,13 @@ try:
         @logger.catch
         def view_npc(self, npc_name):
             if self.box_generate_npc.currentText() != "":
-                text = f"Имя: {npc[npc_name]['npc_name']}\n" \
-                       f"Пол: {npc[npc_name]['npc_sex']}\n" \
+                text = f"Имя: {npc[npc_name]['npc_name']}\n"\
                        f"Возраст: {npc[npc_name]['npc_age']}\n" \
-                       f"Расса: {npc[npc_name]['nps_race']}"
+                       f"Пол: {npc[npc_name]['npc_sex']}\n" \
+                       f"Расса: {npc[npc_name]['npc_race']}\n"\
+                       f"Личность:\n {npc[npc_name]['npc_personality']}\n"\
+                       f"Внешность: \n{npc[npc_name]['npc_look']}\n"\
+                       f"Голос: \n{npc[npc_name]['npc_voice']}"
                 self.label_generate_npc.setText(text)
                 self.text_npc_generate.setText(npc[npc_name]['text_notes'])
 

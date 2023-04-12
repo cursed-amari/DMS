@@ -69,6 +69,44 @@ def race_npc(race_npc_in_main: str) -> str:
     return vendor_race
 
 
+def personality_npc(personality_in_main: str) -> str:
+    """
+    :param personality_in_main: Если "" то Личность выбирается рандомно
+    :return: Личность
+    """
+    npc_personality = ""
+    if personality_in_main == "Случайно":
+        npc_personality = random.choice(PERSONALITY)
+    else:
+        npc_personality = personality_in_main
+    return npc_personality
+
+
+def look_npc(look_in_main: str) -> str:
+    """
+    :param look_in_main: Если "" то Тип внешности выбирается рандомно
+    :return: Тип внешности
+    """
+    npc_look = ""
+    if look_in_main == "Случайно":
+        npc_look = random.choice(LOOK)
+    else:
+        npc_look = look_in_main
+    return npc_look
+
+
+def voice_npc(voice_in_main: str) -> str:
+    """
+    :param voice_in_main: Если "" то Голос выбирается рандомно
+    :return: Голос
+    """
+    npc_voice = ""
+    if voice_in_main == "Случайно":
+        npc_voice = random.choice(VOICE)
+    else:
+        npc_voice = voice_in_main
+    return npc_voice
+
 def money_vendor(vendor_money_in_main: str) -> int:
     """
     :param vendor_money_in_main: "Ужасная"/"Плохая"/"Средняя"/"Хорошая"/"Прекрасная"
