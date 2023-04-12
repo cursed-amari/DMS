@@ -197,7 +197,7 @@ try:
             # generate store
             self.search_assortment_edit.textChanged.connect(self.search_for_assortment_store)
             # generate npc
-            self.text_npc_generate.textChanged.connect(self.npc_notes_edit)
+            self.text_generate_npc.textChanged.connect(self.npc_notes_edit)
 
             # hotkeys
             QtGui.QShortcut(QtGui.QKeySequence("CTRL+L"), self, self.lock_window)
@@ -3022,7 +3022,7 @@ try:
         @logger.catch
         def npc_notes_edit(self):
             if self.box_generate_npc.currentText() != "":
-                npc[self.box_generate_npc.currentText()]['text_notes'] = self.text_npc_generate.toPlainText()
+                npc[self.box_generate_npc.currentText()]['text_notes'] = self.text_generate_npc.toPlainText()
 
         @logger.catch
         def view_npc(self, npc_name):
@@ -3035,7 +3035,7 @@ try:
                        f"Внешность: \n{npc[npc_name]['npc_look']}\n"\
                        f"Голос: \n{npc[npc_name]['npc_voice']}"
                 self.label_generate_npc.setText(text)
-                self.text_npc_generate.setText(npc[npc_name]['text_notes'])
+                self.text_generate_npc.setText(npc[npc_name]['text_notes'])
 
     if __name__ == "__main__":
         import sys
