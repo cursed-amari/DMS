@@ -1917,6 +1917,7 @@ class Ui_MainWindow(object):
 
         self.frame_tracker.hide()
 
+
         self.toolButton_dict = {"    TRACKER": self.toolButton_tracker,
                                 "    SCENARIO": self.toolButton_scenario,
                                 "    NOTES": self.toolButton_notes,

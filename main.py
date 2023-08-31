@@ -61,6 +61,7 @@ try:
             self.slide_menu_num = 0
             self.scale_img_view = 0.25
 
+
         @logger.catch
         def aplication_func(self):
             # initializing
