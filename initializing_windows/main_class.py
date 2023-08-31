@@ -89,6 +89,20 @@ class Ui_MainWindow(object):
         self.label_name_app.setWordWrap(False)
         self.label_name_app.setObjectName("label_name_app")
         self.horizontalLayout_4.addWidget(self.label_name_app)
+        self.label_username = QtWidgets.QLabel(self.frame_name_app)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_username.sizePolicy().hasHeightForWidth())
+        self.label_username.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("MS PGothic")
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_username.setFont(font)
+        self.label_username.setObjectName("label_username")
+        self.horizontalLayout_4.addWidget(self.label_username)
         self.horizontalLayout_2.addWidget(self.frame_name_app)
         self.frame_navigations = QtWidgets.QFrame(self.header)
         self.frame_navigations.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -1581,14 +1595,312 @@ class Ui_MainWindow(object):
         self.menu_hover_icon = QtGui.QIcon()
         self.menu_hover_icon.addPixmap(QtGui.QPixmap("img/icon/hover_icon/menu.ico"), QtGui.QIcon.Mode.Normal,
                                        QtGui.QIcon.State.Off)
+        self.frame_web = QtWidgets.QFrame(self.frame_main_app)
+        self.frame_web.setGeometry(QtCore.QRect(0, 0, 795, 421))
+        self.frame_web.setStyleSheet("QFrame {\n"
+                                     "    background-color: rgb(85, 85, 85);\n"
+                                     "    opacity: 0.3;\n"
+                                     "    color: rgb(247, 147, 30);\n"
+                                     "    border: none;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QLineEdit {\n"
+                                     "    background-color: rgb(55, 55, 55);\n"
+                                     "    color: rgb(247, 147, 30);\n"
+                                     "    border: none;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QTextEdit {\n"
+                                     "    background-color: rgb(55, 55, 55);\n"
+                                     "    color: rgb(247, 147, 30);\n"
+                                     "    border: none;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QPushButton {\n"
+                                     "    background-color: rgb(55, 55, 55);\n"
+                                     "    color: rgb(247, 147, 30);\n"
+                                     "}\n"
+                                     "\n"
+                                     "QPushButton:pressed {\n"
+                                     "    background-color: rgb(105, 105, 105);\n"
+                                     "}\n"
+                                     "\n"
+                                     "QSpinBox {\n"
+                                     "    background-color: rgb(55, 55, 55);\n"
+                                     "    color: rgb(247, 147, 30);\n"
+                                     "    border: none;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QComboBox {\n"
+                                     "    background-color: rgb(55, 55, 55);\n"
+                                     "    color: rgb(247, 147, 30);\n"
+                                     "    border: none;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QRadioButton {\n"
+                                     "    color: rgb(247, 147, 30);\n"
+                                     "    border-radius:  10px;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QCheckBox {\n"
+                                     "    color: rgb(247, 147, 30);\n"
+                                     "    border: none;\n"
+                                     "}")
+        self.frame_web.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_web.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_web.setObjectName("frame_web")
+        self.horizontalLayout_10 = QtWidgets.QHBoxLayout(self.frame_web)
+        self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_10.setSpacing(0)
+        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
+        self.frame_auth = QtWidgets.QFrame(self.frame_web)
+        self.frame_auth.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_auth.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
+        self.frame_auth.setObjectName("frame_auth")
+        self.pushButton_auth = QtWidgets.QPushButton(self.frame_auth)
+        self.pushButton_auth.setGeometry(QtCore.QRect(60, 390, 75, 23))
+        self.pushButton_auth.setObjectName("pushButton_auth")
+        self.lineEdit_password = QtWidgets.QLineEdit(self.frame_auth)
+        self.lineEdit_password.setGeometry(QtCore.QRect(58, 350, 150, 20))
+        self.lineEdit_password.setObjectName("lineEdit_password")
+        self.lineEdit_login = QtWidgets.QLineEdit(self.frame_auth)
+        self.lineEdit_login.setGeometry(QtCore.QRect(58, 300, 150, 20))
+        self.lineEdit_login.setObjectName("lineEdit_login")
+        self.label_login = QtWidgets.QLabel(self.frame_auth)
+        self.label_login.setGeometry(QtCore.QRect(60, 270, 150, 25))
+        font = QtGui.QFont()
+        font.setFamily("Yu Gothic")
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        font.setStrikeOut(False)
+        self.label_login.setFont(font)
+        self.label_login.setObjectName("label_login")
+        self.label_password = QtWidgets.QLabel(self.frame_auth)
+        self.label_password.setGeometry(QtCore.QRect(60, 320, 150, 25))
+        font = QtGui.QFont()
+        font.setFamily("Yu Gothic")
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_password.setFont(font)
+        self.label_password.setObjectName("label_password")
+        self.lineEdit_name = QtWidgets.QLineEdit(self.frame_auth)
+        self.lineEdit_name.setGeometry(QtCore.QRect(58, 350, 150, 20))
+        self.lineEdit_name.setText("")
+        self.lineEdit_name.setObjectName("lineEdit_name")
+        self.pushButton_save = QtWidgets.QPushButton(self.frame_auth)
+        self.pushButton_save.setGeometry(QtCore.QRect(60, 390, 75, 23))
+        self.pushButton_save.setObjectName("pushButton_save")
+        self.label_name = QtWidgets.QLabel(self.frame_auth)
+        self.label_name.setGeometry(QtCore.QRect(60, 320, 150, 25))
+        font = QtGui.QFont()
+        font.setFamily("Yu Gothic")
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_name.setFont(font)
+        self.label_name.setObjectName("label_name")
+        self.horizontalLayout_10.addWidget(self.frame_auth)
+        self.frame_web_list = QtWidgets.QFrame(self.frame_web)
+        self.frame_web_list.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_web_list.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_web_list.setObjectName("frame_web_list")
+        self.listWidget_web_list = QtWidgets.QListWidget(self.frame_web_list)
+        self.listWidget_web_list.setGeometry(QtCore.QRect(0, 0, 261, 381))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.listWidget_web_list.sizePolicy().hasHeightForWidth())
+        self.listWidget_web_list.setSizePolicy(sizePolicy)
+        self.listWidget_web_list.setObjectName("listWidget_web_list")
+        self.pushButton_load = QtWidgets.QPushButton(self.frame_web_list)
+        self.pushButton_load.setGeometry(QtCore.QRect(90, 390, 75, 23))
+        self.pushButton_load.setObjectName("pushButton_load")
+        self.horizontalLayout_10.addWidget(self.frame_web_list)
+        self.frame_3 = QtWidgets.QFrame(self.frame_web)
+        self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_3.setObjectName("frame_3")
+        self.horizontalLayout_10.addWidget(self.frame_3)
+        self.frame_tracker_1 = QtWidgets.QFrame(self.frame_main_app)
+        self.frame_tracker_1.setGeometry(QtCore.QRect(0, 0, 795, 421))
+        self.frame_tracker_1.setStyleSheet("QFrame {\n"
+                                           "    background-color: rgb(85, 85, 85);\n"
+                                           "    opacity: 0.3;\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QLineEdit {\n"
+                                           "    background-color: rgb(55, 55, 55);\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QTextEdit {\n"
+                                           "    background-color: rgb(55, 55, 55);\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QPushButton {\n"
+                                           "    background-color: rgb(55, 55, 55);\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "}\n"
+                                           "\n"
+                                           "QPushButton:pressed {\n"
+                                           "    background-color: rgb(105, 105, 105);\n"
+                                           "}\n"
+                                           "\n"
+                                           "QSpinBox {\n"
+                                           "    background-color: rgb(55, 55, 55);\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QComboBox {\n"
+                                           "    background-color: rgb(55, 55, 55);\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QRadioButton {\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border-radius:  10px;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QCheckBox {\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}")
+        self.frame_tracker_1.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_tracker_1.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_tracker_1.setObjectName("frame_tracker")
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_tracker_1)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6.setSpacing(0)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.frame_options = QtWidgets.QFrame(self.frame_tracker_1)
+        self.frame_options.setMinimumSize(QtCore.QSize(159, 421))
+        self.frame_options.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_options.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_options.setObjectName("frame_options")
+        self.radioButton_hide_create = QtWidgets.QRadioButton(self.frame_options)
+        self.radioButton_hide_create.setGeometry(QtCore.QRect(30, 390, 115, 20))
+        self.radioButton_hide_create.setChecked(False)
+        self.radioButton_hide_create.setAutoRepeat(False)
+        self.radioButton_hide_create.setObjectName("radioButton_hide_create")
+        self.frame_create = QtWidgets.QFrame(self.frame_options)
+        self.frame_create.setGeometry(QtCore.QRect(0, 0, 159, 391))
+        self.frame_create.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_create.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_create.setObjectName("frame_create")
+        self.name = QtWidgets.QLabel(self.frame_create)
+        self.name.setGeometry(QtCore.QRect(10, 180, 120, 25))
+        self.name.setStyleSheet("font-weight:bold")
+        self.name.setObjectName("name")
+        self.hp = QtWidgets.QLabel(self.frame_create)
+        self.hp.setGeometry(QtCore.QRect(10, 235, 31, 25))
+        self.hp.setStyleSheet("font-weight:bold")
+        self.hp.setObjectName("hp")
+        self.initiative_edit = QtWidgets.QLineEdit(self.frame_create)
+        self.initiative_edit.setGeometry(QtCore.QRect(10, 320, 120, 25))
+        self.initiative_edit.setObjectName("initiative_edit")
+        self.pushButton = QtWidgets.QPushButton(self.frame_create)
+        self.pushButton.setGeometry(QtCore.QRect(10, 350, 120, 25))
+        self.pushButton.setObjectName("pushButton")
+        self.hp_edit = QtWidgets.QLineEdit(self.frame_create)
+        self.hp_edit.setGeometry(QtCore.QRect(10, 260, 41, 25))
+        self.hp_edit.setObjectName("hp_edit")
+        self.name_edit = QtWidgets.QLineEdit(self.frame_create)
+        self.name_edit.setGeometry(QtCore.QRect(10, 205, 120, 25))
+        self.name_edit.setObjectName("name_edit")
+        self.initiative = QtWidgets.QLabel(self.frame_create)
+        self.initiative.setGeometry(QtCore.QRect(10, 295, 120, 25))
+        self.initiative.setStyleSheet("font-weight:bold")
+        self.initiative.setObjectName("initiative")
+        self.ac_edit = QtWidgets.QLineEdit(self.frame_create)
+        self.ac_edit.setGeometry(QtCore.QRect(70, 260, 41, 25))
+        self.ac_edit.setObjectName("ac_edit")
+        self.ac = QtWidgets.QLabel(self.frame_create)
+        self.ac.setGeometry(QtCore.QRect(70, 235, 31, 25))
+        self.ac.setStyleSheet("font-weight:bold")
+        self.ac.setObjectName("ac")
+        self.frame_tools = QtWidgets.QFrame(self.frame_options)
+        self.frame_tools.setGeometry(QtCore.QRect(0, 0, 159, 391))
+        self.frame_tools.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_tools.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_tools.setObjectName("frame")
+        self.label_roll_dice = QtWidgets.QLabel(self.frame_tools)
+        self.label_roll_dice.setGeometry(QtCore.QRect(20, 60, 120, 20))
+        self.label_roll_dice.setStyleSheet("font-weight:bold")
+        self.label_roll_dice.setText("")
+        self.label_roll_dice.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_roll_dice.setObjectName("label_roll_dice")
+        self.modifier_box = QtWidgets.QSpinBox(self.frame_tools)
+        self.modifier_box.setGeometry(QtCore.QRect(50, 150, 41, 22))
+        self.modifier_box.setMinimum(-50)
+        self.modifier_box.setObjectName("modifier_box")
+        self.label_modifier = QtWidgets.QLabel(self.frame_tools)
+        self.label_modifier.setGeometry(QtCore.QRect(10, 150, 31, 16))
+        self.label_modifier.setObjectName("label_modifier")
+        self.check_advantage = QtWidgets.QCheckBox(self.frame_tools)
+        self.check_advantage.setGeometry(QtCore.QRect(10, 170, 81, 20))
+        self.check_advantage.setObjectName("check_advantage")
+        self.dice_edit = QtWidgets.QLineEdit(self.frame_tools)
+        self.dice_edit.setGeometry(QtCore.QRect(50, 130, 41, 22))
+        self.dice_edit.setObjectName("dice_edit")
+        self.label_amount = QtWidgets.QLabel(self.frame_tools)
+        self.label_amount.setGeometry(QtCore.QRect(10, 110, 41, 16))
+        self.label_amount.setObjectName("label_amount")
+        self.amount_dice_box = QtWidgets.QSpinBox(self.frame_tools)
+        self.amount_dice_box.setGeometry(QtCore.QRect(50, 110, 41, 22))
+        self.amount_dice_box.setMinimum(1)
+        self.amount_dice_box.setObjectName("amount_dice_box")
+        self.pushButton_del_char = QtWidgets.QPushButton(self.frame_tools)
+        self.pushButton_del_char.setGeometry(QtCore.QRect(90, 220, 51, 22))
+        self.pushButton_del_char.setObjectName("pushButton_del_char")
+        self.comboBox_del_char = QtWidgets.QComboBox(self.frame_tools)
+        self.comboBox_del_char.setGeometry(QtCore.QRect(10, 220, 73, 22))
+        self.comboBox_del_char.setObjectName("comboBox_del_char")
+        self.label_dice = QtWidgets.QLabel(self.frame_tools)
+        self.label_dice.setGeometry(QtCore.QRect(10, 130, 31, 16))
+        self.label_dice.setObjectName("label_dice")
+        self.pushButton_init_open = QtWidgets.QPushButton(self.frame_tools)
+        self.pushButton_init_open.setGeometry(QtCore.QRect(10, 30, 93, 28))
+        self.pushButton_init_open.setObjectName("pushButton_init_open")
+        self.pushButton_roll_dice = QtWidgets.QPushButton(self.frame_tools)
+        self.pushButton_roll_dice.setGeometry(QtCore.QRect(10, 80, 120, 25))
+        self.pushButton_roll_dice.setObjectName("pushButton_roll_dice")
+        self.label_del_char = QtWidgets.QLabel(self.frame_tools)
+        self.label_del_char.setGeometry(QtCore.QRect(10, 200, 101, 16))
+        self.label_del_char.setObjectName("label_del_char")
+        self.horizontalLayout_6.addWidget(self.frame_options)
+        self.frame_characters = QtWidgets.QFrame(self.frame_tracker_1)
+        self.frame_characters.setMinimumSize(QtCore.QSize(636, 421))
+        self.frame_characters.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_characters.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_characters.setObjectName("frame_characters")
+        self.horizontalLayout_13 = QtWidgets.QHBoxLayout(self.frame_characters)
+        self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_13.setSpacing(0)
+        self.horizontalLayout_13.setObjectName("horizontalLayout_13")
+        self.gridLayout_characters = QtWidgets.QGridLayout()
+        self.gridLayout_characters.setObjectName("gridLayout_characters")
+        self.horizontalLayout_13.addLayout(self.gridLayout_characters)
+        self.horizontalLayout_6.addWidget(self.frame_characters)
         self.info.raise_()
         self.frame_scenario.raise_()
         self.frame_notes.raise_()
         self.frame_music_changer.raise_()
         self.frame_rules.raise_()
         self.frame_npc_generator.raise_()
+        self.frame_web.raise_()
         self.frame_generate_store.raise_()
         self.frame_tracker.raise_()
+        self.frame_tracker_1.raise_()
         self.frame_main_app.raise_()
         self.frame_menu.raise_()
         self.verticalLayout.addWidget(self.main)
@@ -1602,6 +1914,8 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.footer)
         self.horizontalLayout.addWidget(self.background)
         MainWindow.setCentralWidget(self.centralwidget)
+
+        self.frame_tracker.hide()
 
         self.toolButton_dict = {"    TRACKER": self.toolButton_tracker,
                                 "    SCENARIO": self.toolButton_scenario,
@@ -1646,6 +1960,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_name_app.setText(_translate("MainWindow", "DnD Master support"))
+        self.label_username.setText(_translate("MainWindow", "Not authorized"))
         self.toolButton_menu.setText(_translate("MainWindow", "    MENU"))
         self.toolButton_tracker.setText(_translate("MainWindow", "    TRACKER"))
         self.toolButton_scenario.setText(_translate("MainWindow", "    SCENARIO"))
@@ -1831,6 +2146,12 @@ class Ui_MainWindow(object):
         self.pushButton_open_current.setText(_translate("MainWindow", "Open"))
         self.pushButton_right.setText(_translate("MainWindow", "right"))
         self.pushButton_left.setText(_translate("MainWindow", "left"))
+        self.pushButton_auth.setText(_translate("MainWindow", "Login"))
+        self.label_login.setText(_translate("MainWindow", "Login"))
+        self.label_password.setText(_translate("MainWindow", "Password"))
+        self.pushButton_save.setText(_translate("MainWindow", "Save"))
+        self.label_name.setText(_translate("MainWindow", "Name"))
+        self.pushButton_load.setText(_translate("MainWindow", "load"))
 
         self.frame_name_app.mousePressEvent = self.press_window
         self.label_name_app.mousePressEvent = self.press_window
@@ -2234,6 +2555,10 @@ class Ui_MainWindow(object):
         self.frame_generate_store.hide()
         self.frame_npc_generator.hide()
         self.frame_viewer.hide()
+        self.frame_web.hide()
+        self.label_name.hide()
+        self.lineEdit_name.hide()
+        self.pushButton_save.hide()
 
         self.pushButton_init_open.hide()
         self.dice_edit.hide()
