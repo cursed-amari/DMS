@@ -9,6 +9,7 @@ from initializing_windows.initiative_save_preset_enemy_dialog import Ui_Dialog_s
 import random
 import copy
 
+
 class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
     def __init__(self, hero, dict_preset):
         super().__init__()
@@ -99,17 +100,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
             self.collect_add_enemy()
         except ValueError:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Не корректный ввод!')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-            error.setDetailedText('HP и инициатива должны состоять только из цифр')
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
+            self.user_error('Не корректный ввод!', "", 'HP и инициатива должны состоять только из цифр')
             logger.info("input_chek. except")
 
     @logger.catch
@@ -195,28 +186,10 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
                 else:
                     self.initiative_enemy_view()
             else:
-                error = QMessageBox()
-                error.setWindowTitle('Ошибка')
-                error.setText('Нельзя удалить героя из битвы')
-                error.setIcon(QMessageBox.Icon.Warning)
-                error.setStandardButtons(QMessageBox.StandardButton.Ok)
-                error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-                error.buttonClicked.connect(self.popup_action)
-
-                error.exec()
+                self.user_error('Нельзя удалить героя из битвы')
                 logger.info("input_chek. except")
         except AttributeError:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Выберите объект для удаления!')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
+            self.user_error('Выберите объект для удаления!')
         logger.info("input_chek. except")
 
     @logger.catch
@@ -241,16 +214,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
             self.Dialog_redaction_enemy_in_enemy.exec()
         except AttributeError:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Выберите объект для редактирования!')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
+            self.user_error('Выберите объект для редактирования!')
             logger.info("input_chek. except")
 
     @logger.catch
@@ -266,17 +230,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
             self.set_redaction_enemy_in_enemy()
         except ValueError:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Не корректный ввод!')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-            error.setDetailedText('HP и инициатива должны состоять только из цифр')
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
+            self.user_error('Не корректный ввод!', "", 'HP и инициатива должны состоять только из цифр')
             logger.info("input_chek. except")
 
     @logger.catch
@@ -300,16 +254,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
             self.Dialog_redaction_enemy_in_initiative.exec()
         except AttributeError:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Выберите объект для редактирования!')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
+            self.user_error('Выберите объект для редактирования!')
             logger.info("input_chek. except")
 
     @logger.catch
@@ -319,17 +264,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
             self.ui_redaction_enemy_in_initiative.pushButton_minus_hp.clicked.connect(self.minus_hp_enemy_in_initiative)
             self.ui_redaction_enemy_in_initiative.pushButton_set_hp.clicked.connect(self.set_hp_enemy_in_initiative)
         except ValueError:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Не корректный ввод!')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-            error.setDetailedText('HP и инициатива должны состоять только из цифр')
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
+            self.user_error('Не корректный ввод!', "", 'HP и инициатива должны состоять только из цифр')
             logger.info("input_chek. except")
 
     @logger.catch
@@ -412,16 +347,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
             self.enemy_list = copy_list
             self.initiative_enemy_view()
         except AttributeError:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Выберите объект для загрузки!')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
+            self.user_error('Выберите объект для загрузки!')
             logger.info("input_chek. except")
 
     def del_preset(self):
@@ -429,17 +355,23 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
             self.enemy_dict_preset.pop(self.listWidget_preset.currentItem().text())
             self.view_enemy_preset()
         except AttributeError:
-            error = QMessageBox()
-            error.setWindowTitle('Ошибка')
-            error.setText('Выберите объект для удаления!')
-            error.setIcon(QMessageBox.Icon.Warning)
-            error.setStandardButtons(QMessageBox.StandardButton.Ok)
-            error.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-            error.buttonClicked.connect(self.popup_action)
-
-            error.exec()
+            self.user_error('Выберите объект для удаления!')
             logger.info("input_chek. except")
+
+    @logger.catch()
+    def user_error(self, text: str, informative_text: str, detailed_text: str):
+        error = QMessageBox()
+        error.setWindowTitle('Ошибка')
+        error.setText(text)
+        error.setIcon(QMessageBox.Icon.Warning)
+        error.setStandardButtons(QMessageBox.StandardButton.Ok)
+        error.setDefaultButton(QMessageBox.StandardButton.Ok)
+        error.setInformativeText(informative_text)
+        error.setDetailedText(detailed_text)
+
+        error.buttonClicked.connect(self.popup_action)
+
+        error.exec()
 
     @logger.catch
     def popup_action(self, but):
