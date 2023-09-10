@@ -1,4 +1,4 @@
-from PyQt6 import QtWidgets
+from PyQt6 import QtWidgets, QtCore
 from PyQt6.QtWidgets import QMessageBox
 from loguru import logger
 from initializing_windows.initiative_class import Ui_MainWindow_init
@@ -17,6 +17,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         self.status_initiative = "enemy"
         self.enemy_list = []
         self.hero_list = []
+        self.in_initiative_hero = {}
         self.initiative_list = []
         self.enemy_dict_preset = dict_preset
         self.app_func()
@@ -38,6 +39,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         #lineEdit
 
         #method
+        self.add_player_dice()
         self.view_player_initiative()
         self.view_enemy_preset()
 
@@ -57,6 +59,22 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
             self.preset_frame.show()
         else:
             self.preset_frame.hide()
+
+    @logger.catch
+    def add_player_dice(self):
+        for i in self.hero.values():
+            label_set_player_dice = QtWidgets.QLabel(self.options_frame)
+            label_set_player_dice.setGeometry(QtCore.QRect(10, 250, 71, 25))
+            label_set_player_dice.setStyleSheet("font-weight:bold")
+            label_set_player_dice.setText(str(i))
+
+            set_player_dice_edit = QtWidgets.QLineEdit(self.options_frame)
+            set_player_dice_edit.setGeometry(QtCore.QRect(90, 250, 51, 25))
+
+            self.in_initiative_hero.update({str(i): set_player_dice_edit})
+
+            self.verticalLayout.addWidget(label_set_player_dice)
+            self.verticalLayout.addWidget(set_player_dice_edit)
 
     @logger.catch
     def add_enemy(self, bool_val):
@@ -121,36 +139,18 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         self.initiative_list = []
         self.hero_list = []
 
-        for i in self.hero.keys():
+        for i in self.hero:
             initiative = "NotFound"
-            if i == "character0":
-                key_hero = "character0"
-                if self.set_player_dice_edit_char_0.text() == "":
-                    initiative = "NOT"
-                else:
-                    initiative = int(self.set_player_dice_edit_char_0.text())
-            if i == "character1":
-                key_hero = "character1"
-                if self.set_player_dice_edit_char_1.text() == "":
-                    initiative = "NOT"
-                else:
-                    initiative = int(self.set_player_dice_edit_char_1.text())
-            if i == "character2":
-                key_hero = "character2"
-                if self.set_player_dice_edit_char_2.text() == "":
-                    initiative = "NOT"
-                else:
-                    initiative = int(self.set_player_dice_edit_char_2.text())
-            if i == "character3":
-                key_hero = "character3"
-                if self.set_player_dice_edit_char_3.text() == "":
-                    initiative = "NOT"
-                else:
-                    initiative = int(self.set_player_dice_edit_char_3.text())
+            for x in self.in_initiative_hero:
+                if i == x:
+                    if self.in_initiative_hero.get(x).text() == "":
+                        initiative = "NOT"
+                    else:
+                        initiative = int(self.in_initiative_hero.get(i).text())
 
             if initiative != "NOT" and initiative != "NotFound":
-                name = self.hero[i]['name']
-                hp = int(self.hero[i]['hp'])
+                name = i
+                hp = int(self.hero.get(i).current_hp)
                 self.initiative_list += [initiative, name, hp],
                 self.hero_list.append(name, )
             else:
@@ -373,22 +373,8 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
     @logger.catch
     def view_player_initiative(self, bool_val=False):
-        if "character0" in self.hero.keys():
-            self.set_player_dice_edit_char_0.setText(
-                str(int(self.hero["character0"]["initiative"]) + random.randint(1, 20)))
-            self.initiative_char_0 = self.hero["character0"]["initiative"]
-        if "character1" in self.hero.keys():
-            self.set_player_dice_edit_char_1.setText(
-                str(int(self.hero["character1"]["initiative"]) + random.randint(1, 20)))
-            self.initiative_char_1 = self.hero["character1"]["initiative"]
-        if "character2" in self.hero.keys():
-            self.set_player_dice_edit_char_2.setText(
-                str(int(self.hero["character2"]["initiative"]) + random.randint(1, 20)))
-            self.initiative_char_2 = self.hero["character2"]["initiative"]
-        if "character3" in self.hero.keys():
-            self.set_player_dice_edit_char_3.setText(
-                str(int(self.hero["character3"]["initiative"]) + random.randint(1, 20)))
-            self.initiative_char_3 = self.hero["character3"]["initiative"]
+        for i in self.in_initiative_hero:
+            self.in_initiative_hero.get(i).setText(str(int(self.hero.get(i).initiative) + random.randint(1, 20)))
 
     """
     Preset
@@ -399,7 +385,6 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         self.Dialog_add_preset = QtWidgets.QDialog()
         self.ui_save_preset_enemy = Ui_Dialog_save_preset_enemy()
         self.ui_save_preset_enemy.setupUi(self.Dialog_add_preset)
-
 
         self.app_func_for_add_preset()
 
@@ -463,9 +448,6 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         '''
         if but.text() == 'Ok':
             logger.info("popup_action")
-
-
-
 
 
 if __name__ == "__main__":
