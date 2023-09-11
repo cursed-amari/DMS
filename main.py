@@ -357,6 +357,7 @@ try:
                 self.box_generate_npc_update()
                 self.comboBox_choose_chapter_update()
                 self.update_list_tags()
+                self.initiative_window.enemy_dict_preset = dict_preset
             except FileNotFoundError:
                 logger.info("action_open. except")
 
@@ -396,6 +397,7 @@ try:
                 self.box_generate_npc_update()
                 self.comboBox_choose_chapter_update()
                 self.update_list_tags()
+                self.initiative_window.enemy_dict_preset = dict_preset
             except FileNotFoundError:
                 self.user_error('Последняя сессия не обнаружена', "", "")
                 logger.info("last_session. except")
@@ -612,6 +614,8 @@ try:
         '''
 
         @logger.catch
+
+        @logger.catch
         def open_initiative(self, bool_val=False):
             self.initiative_window.show()
             self.app_func_initiative_window()
@@ -624,6 +628,8 @@ try:
             #Label
             self.initiative_window.hero = hero
             self.initiative_window.add_player_dice()
+            #method
+            self.initiative_window.view_enemy_preset()
 
         @logger.catch
         def set_stat_after_fight(self):
@@ -1148,7 +1154,7 @@ try:
 
             for i in self.initiative_window.enemy_list:
                 position_token += 100
-                token = TokenImg(50, position_token, self.size_token, str(token_num), "E", i[1])
+                token = TokenImg(50, position_token, self.size_token, str(token_num), "E", text=i[1])
                 token_num += 1
                 if i[1] not in self.token_list:
                     self.token_list.update({i[1]: token})
@@ -1176,7 +1182,10 @@ try:
 
         @logger.catch
         def add_initiative(self, bool_val=False):
-            self.scene.addItem(InitiativeImg(self.initiative_window.initiative_list))
+            if self.initiative_window.initiative_list:
+                self.scene.addItem(InitiativeImg(self.initiative_window.initiative_list))
+            else:
+                self.user_error("Нет инициативы", "", "Рассчитайте инициативу в окне инициативы")
 
         @logger.catch
         def add_token(self):

@@ -47,13 +47,14 @@ class TokenImg(QGraphicsPixmapItem):
 
     def init_text(self):
         self.text_item = QGraphicsTextItem(self.text, self)
-        self.text_item.setDefaultTextColor(Qt.GlobalColor.white)
+        self.text_item.setDefaultTextColor(Qt.GlobalColor.blue)
         font = QFont()
-        font.setFamily("MS PGothic")
-        font.setPointSize(11)
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.text_item.setFont(font)
+        self.text_item.setPos(5, -20)
 
 
         self.setAcceptHoverEvents(True)

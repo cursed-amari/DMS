@@ -63,19 +63,20 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
     @logger.catch
     def add_player_dice(self):
-        for i in self.hero.values():
-            label_set_player_dice = QtWidgets.QLabel(self.options_frame)
-            label_set_player_dice.setGeometry(QtCore.QRect(10, 250, 71, 25))
-            label_set_player_dice.setStyleSheet("font-weight:bold")
-            label_set_player_dice.setText(str(i))
+        for i in self.hero:
+            if i not in self.in_initiative_hero:
+                label_set_player_dice = QtWidgets.QLabel(self.options_frame)
+                label_set_player_dice.setGeometry(QtCore.QRect(10, 250, 71, 25))
+                label_set_player_dice.setStyleSheet("font-weight:bold")
+                label_set_player_dice.setText(str(i))
 
-            set_player_dice_edit = QtWidgets.QLineEdit(self.options_frame)
-            set_player_dice_edit.setGeometry(QtCore.QRect(90, 250, 51, 25))
+                set_player_dice_edit = QtWidgets.QLineEdit(self.options_frame)
+                set_player_dice_edit.setGeometry(QtCore.QRect(90, 250, 51, 25))
 
-            self.in_initiative_hero.update({str(i): set_player_dice_edit})
+                self.in_initiative_hero.update({str(i): set_player_dice_edit})
 
-            self.verticalLayout.addWidget(label_set_player_dice)
-            self.verticalLayout.addWidget(set_player_dice_edit)
+                self.verticalLayout.addWidget(label_set_player_dice)
+                self.verticalLayout.addWidget(set_player_dice_edit)
 
     @logger.catch
     def add_enemy(self, bool_val):
@@ -186,10 +187,10 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
                 else:
                     self.initiative_enemy_view()
             else:
-                self.user_error('Нельзя удалить героя из битвы')
+                self.user_error('Нельзя удалить героя из битвы', "", "")
                 logger.info("input_chek. except")
         except AttributeError:
-            self.user_error('Выберите объект для удаления!')
+            self.user_error('Выберите объект для удаления!', "", "")
         logger.info("input_chek. except")
 
     @logger.catch
@@ -214,7 +215,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
             self.Dialog_redaction_enemy_in_enemy.exec()
         except AttributeError:
-            self.user_error('Выберите объект для редактирования!')
+            self.user_error('Выберите объект для редактирования!', "", "")
             logger.info("input_chek. except")
 
     @logger.catch
@@ -254,7 +255,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
             self.Dialog_redaction_enemy_in_initiative.exec()
         except AttributeError:
-            self.user_error('Выберите объект для редактирования!')
+            self.user_error('Выберите объект для редактирования!', "", "")
             logger.info("input_chek. except")
 
     @logger.catch
@@ -347,7 +348,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
             self.enemy_list = copy_list
             self.initiative_enemy_view()
         except AttributeError:
-            self.user_error('Выберите объект для загрузки!')
+            self.user_error('Выберите объект для загрузки!', "", "")
             logger.info("input_chek. except")
 
     def del_preset(self):
@@ -355,7 +356,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
             self.enemy_dict_preset.pop(self.listWidget_preset.currentItem().text())
             self.view_enemy_preset()
         except AttributeError:
-            self.user_error('Выберите объект для удаления!')
+            self.user_error('Выберите объект для удаления!', "", "")
             logger.info("input_chek. except")
 
     @logger.catch()
