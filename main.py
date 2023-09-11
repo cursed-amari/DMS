@@ -23,7 +23,7 @@ from initiative import InitiativeWindow
 
 from too_many_generators import MainWindow_too_many_generators
 from img_view import Window_viewer_show
-from token_img import TokenImg
+from token_img import TokenImg, InitiativeImg
 from hero_class import Hero
 
 from utils import *
@@ -55,6 +55,7 @@ try:
             self.scale_img_viewer = 0
             self.slide_menu_num = 0
             self.scale_img_view = 0.25
+            self.token_list = {}
 
         @logger.catch
         def aplication_func(self):
@@ -118,6 +119,10 @@ try:
             self.pushButton_increase_token.clicked.connect(self.increase_token)
             self.pushButton_reduce_img.clicked.connect(self.reduce_img)
             self.pushButton_increase_img.clicked.connect(self.increase_img)
+            self.pushButton_add_enemy_token.clicked.connect(self.add_enemy_token)
+            self.pushButton_add_hero_token.clicked.connect(self.add_hero_token)
+            self.pushButton_add_unknown_token.clicked.connect(self.add_unknown_token)
+            self.pushButton_add_initiative.clicked.connect(self.add_initiative)
             # generate store
             self.pushButton_generate_shop.clicked.connect(self.create_store)
             self.pushButton_del_store.clicked.connect(self.del_store)
@@ -188,6 +193,7 @@ try:
 
             # method
             self.mixer.set_volume(1)
+            self.set_combobox_class()
             self.view_character_stats()
             self.set_combobox_rules()
             self.add_to_tracker()
@@ -542,6 +548,11 @@ try:
         '''
 
         @logger.catch
+        def set_combobox_class(self):
+            for i in PLAYER_CLASS:
+                self.comboBox_hero_class.addItem(i)
+
+        @logger.catch
         def input_chek(self, bool_val):
             '''
             DOCKSTRING: Проверка чисел
@@ -567,7 +578,8 @@ try:
                 if len(hero) <= 7:
                     hero.update({self.name_edit.text(): Hero(self.centralwidget, self.name_edit.text(),
                                                              self.hp_edit.text(), self.ac_edit.text(),
-                                                             self.initiative_edit.text(), "")})
+                                                             self.initiative_edit.text(), "",
+                                                             self.comboBox_hero_class.currentText())})
                 else:
                     self.user_error("Максимум персонажей", "", "Максимум персонажей 8")
             else:
@@ -579,7 +591,7 @@ try:
         @logger.catch
         def load_hero(self, data):
             for i in data:
-                hero.update({i[0]: Hero(self.centralwidget, i[0], i[1], i[2], i[3], i[4], current_hp=i[5])})
+                hero.update({i[0]: Hero(self.centralwidget, i[0], i[1], i[2], i[3], i[4], i[5], current_hp=i[6])})
             self.add_to_tracker()
 
         @logger.catch
@@ -608,7 +620,7 @@ try:
         @logger.catch
         def app_func_initiative_window(self):
             #chekClose
-            self.initiative_window.windowClose.connect(self.set_stat_after_fight)
+            self.initiative_window.windowClose.connect(self.save_dict_preset)
             #Label
             self.initiative_window.hero = hero
             self.initiative_window.add_player_dice()
@@ -627,7 +639,6 @@ try:
         def save_dict_preset(self):
             global dict_preset
             dict_preset = self.initiative_window.enemy_dict_preset
-
 
         @logger.catch
         def roll_dice(self, bool_val):
@@ -1052,17 +1063,13 @@ try:
 
         @logger.catch
         def reduce_token(self, bool_val=False):
-            if self.size_token >= 26:
-                self.size_token -= 25
-                self.scene.clear()
-                self.open_current_img()
+            for i in self.token_list.values():
+                i.reduce_token()
 
         @logger.catch
         def increase_token(self, bool_val=False):
-            if self.size_token <= 201:
-                self.size_token += 25
-                self.scene.clear()
-                self.open_current_img()
+            for i in self.token_list.values():
+                i.increase_token()
 
         @logger.catch
         def reduce_img(self, bool_val=False):
@@ -1086,7 +1093,6 @@ try:
         def label_scale_img_update(self):
             self.label_scale_img.setText(str(self.scale_img_viewer))
 
-
         @logger.catch
         def open_current_img(self, bool_val=False):
             '''
@@ -1105,7 +1111,6 @@ try:
                         self.graphicsView_img.setScene(self.scene)
                         self.viewer_window.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
                         self.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
-                        self.add_token()
                     except AttributeError:
                         self.user_error('Выберите изображение, из списка', "", "")
                         logger.info("open_current_img, except AttributeError")
@@ -1123,25 +1128,64 @@ try:
                 self.user_error('Максимальное количество противников 15', "", "")
 
         @logger.catch
+        def add_hero_token(self, bool_val=False):
+            position_token = 50
+            token_num = 1
+
+            for i in hero.values():
+                position_token += 100
+                token = TokenImg(150, position_token, self.size_token, str(token_num), "H", text=str(i),
+                                 player_class=i.get_player_class())
+                token_num += 1
+                if str(i) not in self.token_list:
+                    self.token_list.update({str(i): token})
+                self.add_token()
+
+        @logger.catch
+        def add_enemy_token(self, bool_val=False):
+            position_token = 50
+            token_num = 1
+
+            for i in self.initiative_window.enemy_list:
+                position_token += 100
+                token = TokenImg(50, position_token, self.size_token, str(token_num), "E", i[1])
+                token_num += 1
+                if i[1] not in self.token_list:
+                    self.token_list.update({i[1]: token})
+            self.add_token()
+
+        @logger.catch
+        def add_unknown_token(self, bool_val=False):
+            position_token = 50
+            token_num = 1
+
+            for i in range(int(self.spinBox_enemy_token.text())):
+                position_token += 100
+                i = TokenImg(50, position_token, self.size_token, str(token_num), "E")
+                token_num += 1
+                if f"Enemy_{i}" not in self.token_list:
+                    self.token_list.update({f"Enemy_{i}": i})
+
+            for i in range(int(self.spinBox_hero_token.text())):
+                position_token += 100
+                i = TokenImg(150, position_token, self.size_token, str(token_num), "H")
+                token_num += 1
+                if f"Hero_{i}" not in self.token_list:
+                    self.token_list.update({f"Hero_{i}": i})
+            self.add_token()
+
+        @logger.catch
+        def add_initiative(self, bool_val=False):
+            self.scene.addItem(InitiativeImg(self.initiative_window.initiative_list))
+
+        @logger.catch
         def add_token(self):
             '''
             DOCKSTRING: Добавление токенов(изображение) в сцену
             '''
-            position_token = 50
-            token_num = 1
-            for i in range(int(self.spinBox_enemy_token.text())):
-                position_token += 100
-                i = TokenImg(50, position_token, self.size_token, True, str(token_num))
-                token_num += 1
-                self.scene.addItem(i)
-
-            position_token = 50
-            token_num = 1
-            for i in range(int(self.spinBox_hero_token.text())):
-                position_token += 100
-                i = TokenImg(150, position_token, self.size_token, False, str(token_num))
-                token_num += 1
-                self.scene.addItem(i)
+            for i in self.token_list.values():
+                if i not in self.scene.items():
+                    self.scene.addItem(i)
 
         '''
         Store
