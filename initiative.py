@@ -233,7 +233,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         self.status_initiative = "enemy"
         self.listWidget_initiative.clear()
         for i in self.enemy_list:
-            self.listWidget_initiative.addItem(f"{i[0]} {i[1]} {i[2]}")
+            self.listWidget_initiative.addItem(f"{i.get_modifier_initiative()} {i.name} {i.hp}")
 
     @logger.catch
     def del_enemy(self, bool_val=True):
@@ -243,9 +243,9 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
                 for i in enumerate(self.initiative_list):
                     if value == self.initiative_list[i[0]][1]:
                         self.initiative_list.pop(i[0])
-                for i in enumerate(self.enemy_list):
-                    if value == self.enemy_list[i[0]][1]:
-                        self.enemy_list.pop(i[0])
+                for key, enemy in enumerate(self.enemy_list):
+                    if value == enemy.name:
+                        self.enemy_list.pop(key)
                 if self.status_initiative == "initiative":
                     self.initiative_sort_view()
                 else:
