@@ -9,7 +9,9 @@ class Enemy:
         self.initiative = initiative
         self.data = data
         self.token = token
+        self.num = num
         self.generating_monster = False
+        self.name = self.name.replace(str(self.num), "")
         if self.name in self.data.keys():
             self.generating_monster = True
             args = self.data.get(self.name)
@@ -35,7 +37,7 @@ class Enemy:
             self.actions = args.get("actions")
             self.description = args.get("description")
 
-        self.name += str(num)
+        self.name += str(self.num)
 
         self.app_func()
 
@@ -80,4 +82,7 @@ class Enemy:
             return random.randint(1, 20) + self.dexterity
         else:
             return random.randint(1, 20) + self.initiative
+
+    def get_save_stats(self):
+        return self.name, self.hp, self.initiative, self.num, self.token
 

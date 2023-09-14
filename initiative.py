@@ -47,6 +47,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         #method
         self.add_player_dice()
         self.view_player_initiative()
+        self.load_enemy_data()
         self.view_enemy_preset()
 
 
@@ -109,7 +110,6 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         self.ui_add_enemy.pushButton_token.clicked.connect(self.add_enemy_open_token)
         self.ui_add_enemy.pushButton_ok.clicked.connect(self.add_enemy_to_initiative)
         #method
-        self.load_enemy_data()
         self.add_enemy_set_listWidget(self.data)
 
     @logger.catch
@@ -396,26 +396,34 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
     @logger.catch
     def collect_add_preset(self, bool_val):
-        copy_list = copy.copy(self.enemy_list)
-        self.enemy_dict_preset[self.ui_save_preset_enemy.preset_name_edit.text()] = copy_list
+        list_enemy = []
+        for i in self.enemy_list:
+            list_enemy.append(i.get_save_stats())
+        self.enemy_dict_preset[self.ui_save_preset_enemy.preset_name_edit.text()] = list_enemy
+        print(self.enemy_dict_preset)
         self.view_enemy_preset()
 
+    @logger.catch
     def view_enemy_preset(self):
         self.listWidget_preset.clear()
         for i in self.enemy_dict_preset.keys():
             self.listWidget_preset.addItem(i)
 
-    def load_preset(self):
+    @logger.catch
+    def load_preset(self, bool_val=False):
         try:
             self.enemy_list = []
-            copy_list = copy.copy(self.enemy_dict_preset[self.listWidget_preset.currentItem().text()])
-            self.enemy_list = copy_list
+            preset = self.enemy_dict_preset.get(self.listWidget_preset.currentItem().text())
+            for i in preset:
+                enemy = Enemy(i[0], i[1], i[2], i[3], i[4], self.data)
+                self.enemy_list.append(enemy)
             self.initiative_enemy_view()
-        except AttributeError:
+        except AttributeError as er:
             self.user_error('Выберите объект для загрузки!', "", "")
-            logger.info("input_chek. except")
+            logger.info(f"input_chek. except ({er})")
 
-    def del_preset(self):
+    @logger.catch
+    def del_preset(self, bool_val=False):
         try:
             self.enemy_dict_preset.pop(self.listWidget_preset.currentItem().text())
             self.view_enemy_preset()
