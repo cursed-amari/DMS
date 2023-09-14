@@ -83,11 +83,12 @@ class TokenImg(QGraphicsPixmapItem):
 
     @logger.catch
     def show_token(self, bool_val=False):
-        if self.image_path == "E":
+        if self.image_path == "Enemy":
             self.image_path = "img/token/token-" + self.num + ".png"
 
-        else:
+        elif self.image_path == "Hero":
             self.image_path = "img/token/token.hero-" + self.num + ".png"
+
         self.set_image()
 
     @logger.catch

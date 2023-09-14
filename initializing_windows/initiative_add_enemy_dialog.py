@@ -12,88 +12,146 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Dialog_add_enemy(object):
     def setupUi(self, Dialog_add_enemy):
         Dialog_add_enemy.setObjectName("Dialog_add_enemy")
-        Dialog_add_enemy.resize(131, 191)
-        self.frame = QtWidgets.QFrame(Dialog_add_enemy)
-        self.frame.setGeometry(QtCore.QRect(0, 0, 131, 191))
-        self.frame.setStyleSheet("QFrame {\n"
-"    background-color: rgb(85, 85, 85);\n"
-"    opacity: 0.3;\n"
-"    color: rgb(247, 147, 30);\n"
-"    border: none;\n"
-"}\n"
-"\n"
-"QLineEdit {\n"
-"    background-color: rgb(55, 55, 55);\n"
-"    color: rgb(247, 147, 30);\n"
-"    border: none;\n"
-"}\n"
-"\n"
-"QPushButton {\n"
-"    background: rgb(55, 55, 55);\n"
-"    border-radius: 5px;\n"
-"    color: rgb(247, 147, 30);\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"    background-color: rgb(105, 105, 105);\n"
-"}\n"
-"\n"
-"QSpinBox {\n"
-"    background-color: rgb(55, 55, 55);\n"
-"    color: rgb(247, 147, 30);\n"
-"    border: none;\n"
-"}\n"
-"")
-        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame.setObjectName("frame")
-        self.enemy_name = QtWidgets.QLabel(self.frame)
-        self.enemy_name.setGeometry(QtCore.QRect(0, 0, 120, 25))
-        self.enemy_name.setStyleSheet("font-weight:bold")
-        self.enemy_name.setObjectName("enemy_name")
-        self.enemy_initiative_edit = QtWidgets.QLineEdit(self.frame)
-        self.enemy_initiative_edit.setGeometry(QtCore.QRect(0, 100, 51, 25))
-        self.enemy_initiative_edit.setObjectName("enemy_initiative_edit")
-        self.enemy_hp_edit = QtWidgets.QLineEdit(self.frame)
-        self.enemy_hp_edit.setGeometry(QtCore.QRect(70, 100, 51, 25))
-        self.enemy_hp_edit.setObjectName("enemy_hp_edit")
-        self.enemy_initiative = QtWidgets.QLabel(self.frame)
-        self.enemy_initiative.setGeometry(QtCore.QRect(0, 70, 61, 25))
-        self.enemy_initiative.setStyleSheet("font-weight:bold")
-        self.enemy_initiative.setObjectName("enemy_initiative")
-        self.enemy_name_edit = QtWidgets.QLineEdit(self.frame)
-        self.enemy_name_edit.setGeometry(QtCore.QRect(0, 30, 120, 25))
-        self.enemy_name_edit.setObjectName("enemy_name_edit")
-        self.enemy_hp = QtWidgets.QLabel(self.frame)
-        self.enemy_hp.setGeometry(QtCore.QRect(70, 70, 21, 25))
-        self.enemy_hp.setStyleSheet("font-weight:bold")
-        self.enemy_hp.setObjectName("enemy_hp")
-        self.enemy_amount = QtWidgets.QLabel(self.frame)
-        self.enemy_amount.setGeometry(QtCore.QRect(0, 130, 51, 25))
+        Dialog_add_enemy.resize(420, 265)
+        self.frame_add_enemy = QtWidgets.QFrame(Dialog_add_enemy)
+        self.frame_add_enemy.setGeometry(QtCore.QRect(0, 0, 420, 265))
+        self.frame_add_enemy.setStyleSheet("QFrame {\n"
+                                           "    background-color: rgb(85, 85, 85);\n"
+                                           "    opacity: 0.3;\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QLineEdit {\n"
+                                           "    background-color: rgb(55, 55, 55);\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QTextEdit {\n"
+                                           "    background-color: rgb(55, 55, 55);\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QListWidget {\n"
+                                           "    background-color: rgb(55, 55, 55);\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QPushButton {\n"
+                                           "    background-color: rgb(55, 55, 55);\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "}\n"
+                                           "\n"
+                                           "QPushButton:pressed {\n"
+                                           "    background-color: rgb(105, 105, 105);\n"
+                                           "}\n"
+                                           "\n"
+                                           "QSpinBox {\n"
+                                           "    background-color: rgb(55, 55, 55);\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QComboBox {\n"
+                                           "    background-color: rgb(55, 55, 55);\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QRadioButton {\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border-radius:  10px;\n"
+                                           "}\n"
+                                           "\n"
+                                           "QCheckBox {\n"
+                                           "    color: rgb(247, 147, 30);\n"
+                                           "    border: none;\n"
+                                           "}")
+        self.frame_add_enemy.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_add_enemy.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_add_enemy.setObjectName("frame_add_enemy")
+        self.enemy_amount = QtWidgets.QLabel(self.frame_add_enemy)
+        self.enemy_amount.setGeometry(QtCore.QRect(370, 145, 51, 25))
         self.enemy_amount.setStyleSheet("font-weight:bold")
+        self.enemy_amount.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.enemy_amount.setObjectName("enemy_amount")
-        self.spinBox_amount_enemy = QtWidgets.QSpinBox(self.frame)
-        self.spinBox_amount_enemy.setGeometry(QtCore.QRect(0, 160, 42, 22))
+        self.spinBox_amount_enemy = QtWidgets.QSpinBox(self.frame_add_enemy)
+        self.spinBox_amount_enemy.setGeometry(QtCore.QRect(380, 175, 42, 22))
         self.spinBox_amount_enemy.setObjectName("spinBox_amount_enemy")
-        self.pushButton_ok = QtWidgets.QPushButton(self.frame)
-        self.pushButton_ok.setGeometry(QtCore.QRect(90, 130, 31, 23))
+        self.pushButton_ok = QtWidgets.QPushButton(self.frame_add_enemy)
+        self.pushButton_ok.setGeometry(QtCore.QRect(390, 240, 30, 25))
         self.pushButton_ok.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("img/icon/plus.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_ok.setIcon(icon)
         self.pushButton_ok.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_ok.setObjectName("pushButton_ok")
-        self.pushButton_cansel = QtWidgets.QPushButton(self.frame)
-        self.pushButton_cansel.setGeometry(QtCore.QRect(90, 160, 31, 23))
+        self.pushButton_cansel = QtWidgets.QPushButton(self.frame_add_enemy)
+        self.pushButton_cansel.setGeometry(QtCore.QRect(390, 0, 30, 25))
         self.pushButton_cansel.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("img/icon/x.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_cansel.setIcon(icon1)
         self.pushButton_cansel.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_cansel.setObjectName("pushButton_cansel")
+        self.pushButton_token = QtWidgets.QPushButton(self.frame_add_enemy)
+        self.pushButton_token.setGeometry(QtCore.QRect(380, 205, 40, 25))
+        self.pushButton_token.setObjectName("pushButton_token")
+        self.frame_fast_gen = QtWidgets.QFrame(self.frame_add_enemy)
+        self.frame_fast_gen.setGeometry(QtCore.QRect(0, 0, 370, 240))
+        self.frame_fast_gen.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_fast_gen.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_fast_gen.setObjectName("frame_fast_gen")
+        self.enemy_name = QtWidgets.QLabel(self.frame_fast_gen)
+        self.enemy_name.setGeometry(QtCore.QRect(20, 10, 120, 25))
+        self.enemy_name.setStyleSheet("font-weight:bold")
+        self.enemy_name.setObjectName("enemy_name")
+        self.enemy_hp_edit = QtWidgets.QLineEdit(self.frame_fast_gen)
+        self.enemy_hp_edit.setGeometry(QtCore.QRect(20, 170, 51, 25))
+        self.enemy_hp_edit.setObjectName("enemy_hp_edit")
+        self.enemy_name_edit = QtWidgets.QLineEdit(self.frame_fast_gen)
+        self.enemy_name_edit.setGeometry(QtCore.QRect(20, 40, 120, 25))
+        self.enemy_name_edit.setObjectName("enemy_name_edit")
+        self.enemy_hp = QtWidgets.QLabel(self.frame_fast_gen)
+        self.enemy_hp.setGeometry(QtCore.QRect(20, 140, 21, 25))
+        self.enemy_hp.setStyleSheet("font-weight:bold")
+        self.enemy_hp.setObjectName("enemy_hp")
+        self.enemy_initiative_edit = QtWidgets.QLineEdit(self.frame_fast_gen)
+        self.enemy_initiative_edit.setGeometry(QtCore.QRect(20, 110, 51, 25))
+        self.enemy_initiative_edit.setObjectName("enemy_initiative_edit")
+        self.enemy_initiative = QtWidgets.QLabel(self.frame_fast_gen)
+        self.enemy_initiative.setGeometry(QtCore.QRect(20, 80, 61, 25))
+        self.enemy_initiative.setStyleSheet("font-weight:bold")
+        self.enemy_initiative.setObjectName("enemy_initiative")
+        self.frame_gen = QtWidgets.QFrame(self.frame_add_enemy)
+        self.frame_gen.setGeometry(QtCore.QRect(0, 0, 370, 240))
+        self.frame_gen.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_gen.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_gen.setObjectName("frame_gen")
+        self.comboBox_danger = QtWidgets.QComboBox(self.frame_gen)
+        self.comboBox_danger.setGeometry(QtCore.QRect(140, 10, 70, 25))
+        self.comboBox_danger.setObjectName("comboBox_danger")
+        self.lineEdit_search_enemy = QtWidgets.QLineEdit(self.frame_gen)
+        self.lineEdit_search_enemy.setGeometry(QtCore.QRect(0, 10, 120, 25))
+        self.lineEdit_search_enemy.setObjectName("lineEdit_search_enemy")
+        self.listWidget_enemy = QtWidgets.QListWidget(self.frame_gen)
+        self.listWidget_enemy.setGeometry(QtCore.QRect(0, 40, 170, 190))
+        self.listWidget_enemy.setObjectName("listWidget_enemy")
+        self.label_enemy = QtWidgets.QTextEdit(self.frame_gen)
+        self.label_enemy.setGeometry(QtCore.QRect(190, 40, 170, 190))
+        self.label_enemy.setText("")
+        self.label_enemy.setObjectName("label")
+        self.radioButton_fast_gen = QtWidgets.QRadioButton(self.frame_add_enemy)
+        self.radioButton_fast_gen.setGeometry(QtCore.QRect(0, 245, 100, 20))
+        self.radioButton_fast_gen.setObjectName("radioButton_fast_gen")
 
+        self.spinBox_amount_enemy.setMinimum(1)
         self.pushButton_ok.clicked.connect(Dialog_add_enemy.close)
         self.pushButton_cansel.clicked.connect(Dialog_add_enemy.close)
+        self.frame_fast_gen.hide()
 
         self.retranslateUi(Dialog_add_enemy)
         QtCore.QMetaObject.connectSlotsByName(Dialog_add_enemy)
@@ -101,7 +159,9 @@ class Ui_Dialog_add_enemy(object):
     def retranslateUi(self, Dialog_add_enemy):
         _translate = QtCore.QCoreApplication.translate
         Dialog_add_enemy.setWindowTitle(_translate("Dialog_add_enemy", "Dialog"))
-        self.enemy_name.setText(_translate("Dialog_add_enemy", "Name"))
-        self.enemy_initiative.setText(_translate("Dialog_add_enemy", "Initiative"))
-        self.enemy_hp.setText(_translate("Dialog_add_enemy", "HP"))
         self.enemy_amount.setText(_translate("Dialog_add_enemy", "Amount"))
+        self.pushButton_token.setText(_translate("Dialog_add_enemy", "Token"))
+        self.enemy_name.setText(_translate("Dialog_add_enemy", "Name"))
+        self.enemy_hp.setText(_translate("Dialog_add_enemy", "HP"))
+        self.enemy_initiative.setText(_translate("Dialog_add_enemy", "Initiative"))
+        self.radioButton_fast_gen.setText(_translate("Dialog_add_enemy", "Fast generation"))

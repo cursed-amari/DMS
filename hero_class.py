@@ -1,3 +1,5 @@
+import random
+
 from PyQt6 import QtCore, QtGui, QtWidgets
 from initializing_windows.redaction_hp_tracker import Ui_Dialog_redaction_hp_tracker
 
@@ -27,6 +29,9 @@ class Hero:
 
     def get_save_stats(self):
         return self.name, self.max_hp, self.ac, self.initiative, self.notes, self.player_class, self.current_hp
+
+    def get_initiative(self):
+        return random.randint(1, 20) + self.initiative
 
     def get_player_class(self):
         return self.player_class

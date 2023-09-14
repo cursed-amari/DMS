@@ -203,6 +203,7 @@ try:
             self.check_folders()
             self.collect_img()
             self.collect_music()
+            self.init_scene()
 
         @logger.catch
         def check_folders(self):
@@ -1100,7 +1101,7 @@ try:
             self.label_scale_img.setText(str(self.scale_img_viewer))
 
         @logger.catch
-        def open_current_img(self, bool_val=False):
+        def init_scene(self):
             '''
             DOCKSTRING: Открытие выбранной картинки в окне просмотра
             '''
@@ -1108,11 +1109,6 @@ try:
                 if self.viewer_window:
                     try:
                         self.scene = QGraphicsScene()
-                        self.scene.addPixmap(QPixmap("images/" + self.listWidget_img.currentItem().text()).scaled(
-                            QtGui.QGuiApplication.primaryScreen().availableGeometry().width(),
-                            QtGui.QGuiApplication.primaryScreen().availableGeometry().height(),
-                            aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
-                            transformMode=Qt.TransformationMode.SmoothTransformation))
                         self.viewer_window.graphicsView_img.setScene(self.scene)
                         self.graphicsView_img.setScene(self.scene)
                         self.viewer_window.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
@@ -1123,6 +1119,21 @@ try:
             except AttributeError:
                 self.user_error('Откройте окно просмотра изображения!', "", "")
                 logger.info("open_current_img, open_window except AttributeError")
+
+        @logger.catch
+        def open_current_img(self, bool_val=False):
+            '''
+            DOCKSTRING: Открытие выбранной картинки в окне просмотра
+            '''
+            self.token_list.clear()
+            for i in self.token_list.values():
+                self.scene.removeItem(i)
+            self.current_img = QPixmap("images/" + self.listWidget_img.currentItem().text()).scaled(
+                QtGui.QGuiApplication.primaryScreen().availableGeometry().width(),
+                QtGui.QGuiApplication.primaryScreen().availableGeometry().height(),
+                aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
+                transformMode=Qt.TransformationMode.SmoothTransformation)
+            self.scene.addPixmap(self.current_img)
 
         @logger.catch
         def spinBox_chek(self, bool_val=False):
@@ -1140,12 +1151,12 @@ try:
 
             for i in hero.values():
                 position_token += 100
-                token = TokenImg(150, position_token, self.size_token, str(token_num), "H", text=str(i),
+                token = TokenImg(150, position_token, self.size_token, str(token_num), "Hero", text=str(i),
                                  player_class=i.get_player_class())
                 token_num += 1
                 if str(i) not in self.token_list:
                     self.token_list.update({str(i): token})
-                self.add_token()
+            self.add_token()
 
         @logger.catch
         def add_enemy_token(self, bool_val=False):
@@ -1154,10 +1165,10 @@ try:
 
             for i in self.initiative_window.enemy_list:
                 position_token += 100
-                token = TokenImg(50, position_token, self.size_token, str(token_num), "E", text=i[1])
+                token = TokenImg(50, position_token, self.size_token, str(token_num), i.token, text=i.name)
                 token_num += 1
-                if i[1] not in self.token_list:
-                    self.token_list.update({i[1]: token})
+                if i not in self.token_list:
+                    self.token_list.update({i: token})
             self.add_token()
 
         @logger.catch
@@ -1167,14 +1178,14 @@ try:
 
             for i in range(int(self.spinBox_enemy_token.text())):
                 position_token += 100
-                i = TokenImg(50, position_token, self.size_token, str(token_num), "E")
+                i = TokenImg(50, position_token, self.size_token, str(token_num), "Enemy")
                 token_num += 1
                 if f"Enemy_{i}" not in self.token_list:
                     self.token_list.update({f"Enemy_{i}": i})
 
             for i in range(int(self.spinBox_hero_token.text())):
                 position_token += 100
-                i = TokenImg(150, position_token, self.size_token, str(token_num), "H")
+                i = TokenImg(150, position_token, self.size_token, str(token_num), "Hero")
                 token_num += 1
                 if f"Hero_{i}" not in self.token_list:
                     self.token_list.update({f"Hero_{i}": i})

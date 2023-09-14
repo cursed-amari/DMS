@@ -1,6 +1,10 @@
+import json
+
 from PyQt6 import QtWidgets, QtCore
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QFileDialog
 from loguru import logger
+
+from enemy_class import Enemy
 from initializing_windows.initiative_class import Ui_MainWindow_init
 from initializing_windows.initiative_add_enemy_dialog import Ui_Dialog_add_enemy
 from initializing_windows.initiative_redaction_enemy_dialog import Ui_Dialog_redaction_enemy_in_enemy
@@ -8,6 +12,7 @@ from initializing_windows.initiative_redaction_enemy_dialog_2 import Ui_Dialog_r
 from initializing_windows.initiative_save_preset_enemy_dialog import Ui_Dialog_save_preset_enemy
 import random
 import copy
+import constants
 
 
 class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
@@ -80,7 +85,11 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
     @logger.catch
     def add_enemy(self, bool_val):
+        self.token_path = None
+
         self.Dialog_add_enemy = QtWidgets.QDialog()
+        self.Dialog_add_enemy.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
+        self.Dialog_add_enemy.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
         self.ui_add_enemy = Ui_Dialog_add_enemy()
         self.ui_add_enemy.setupUi(self.Dialog_add_enemy)
 
@@ -90,41 +99,96 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
 
     @logger.catch
     def app_func_for_add_enemy(self):
-        self.ui_add_enemy.pushButton_ok.clicked.connect(self.check_input_for_add_enemy)
+        self.add_enemy_set_comboBox()
+
+        # self.ui_add_enemy.pushButton_ok.clicked.connect(self.check_type_enemy)
+        self.ui_add_enemy.comboBox_danger.currentIndexChanged.connect(self.add_enemy_danger_sort)
+        self.ui_add_enemy.lineEdit_search_enemy.textChanged.connect(self.add_enemy_search)
+        self.ui_add_enemy.radioButton_fast_gen.toggled.connect(self.add_enemy_radiobutton)
+        self.ui_add_enemy.listWidget_enemy.clicked.connect(self.add_enemy_show_enemy)
+        self.ui_add_enemy.pushButton_token.clicked.connect(self.add_enemy_open_token)
+        self.ui_add_enemy.pushButton_ok.clicked.connect(self.add_enemy_to_initiative)
+        #method
+        self.load_enemy_data()
+        self.add_enemy_set_listWidget(self.data)
 
     @logger.catch
-    def check_input_for_add_enemy(self, bool_val):
-        try:
-            chek_initiative = int(self.ui_add_enemy.enemy_initiative_edit.text())
-            chek_initiative = str(self.ui_add_enemy.enemy_name_edit.text())
-            chek_initiative = int(int(self.ui_add_enemy.enemy_hp_edit.text()))
-
-            self.collect_add_enemy()
-        except ValueError:
-            self.user_error('Не корректный ввод!', "", 'HP и инициатива должны состоять только из цифр')
-            logger.info("input_chek. except")
+    def load_enemy_data(self):
+        with open("./dnd_monsters.json", mode="r", encoding="UTF8") as file:
+            self.data = json.load(file)
 
     @logger.catch
-    def collect_add_enemy(self):
-        if self.ui_add_enemy.enemy_name_edit.text() != "":
-            if self.ui_add_enemy.spinBox_amount_enemy.text() == "0":
-                self.enemy_list.append([self.ui_add_enemy.enemy_initiative_edit.text(), self.ui_add_enemy.enemy_name_edit.text(),
-                                   int(self.ui_add_enemy.enemy_hp_edit.text())], )
-            else:
-                for i in range(int(self.ui_add_enemy.spinBox_amount_enemy.text())):
-                    self.enemy_list.append(
-                        [self.ui_add_enemy.enemy_initiative_edit.text(),
-                         self.ui_add_enemy.enemy_name_edit.text() + "_" + str(i+1), int(self.ui_add_enemy.enemy_hp_edit.text())], )
+    def add_enemy_radiobutton(self, bool_val):
+        if bool_val:
+            self.ui_add_enemy.frame_gen.hide()
+            self.ui_add_enemy.frame_fast_gen.show()
         else:
-            if self.ui_add_enemy.spinBox_amount_enemy.text() == "0":
-                self.enemy_list.append([self.ui_add_enemy.enemy_initiative_edit.text(), "Enemy",
-                                   int(self.ui_add_enemy.enemy_hp_edit.text())], )
-            else:
-                for i in range(int(self.ui_add_enemy.spinBox_amount_enemy.text())):
-                    self.enemy_list.append(
-                        [self.ui_add_enemy.enemy_initiative_edit.text(),
-                         "Enemy" + "_" + str(i+1), int(self.ui_add_enemy.enemy_hp_edit.text())], )
-        self.initiative_enemy_view()
+            self.ui_add_enemy.frame_gen.show()
+            self.ui_add_enemy.frame_fast_gen.hide()
+
+    @logger.catch
+    def add_enemy_set_comboBox(self):
+        for i in constants.ENEMY_DANGER:
+            self.ui_add_enemy.comboBox_danger.addItem(i)
+
+    @logger.catch
+    def add_enemy_set_listWidget(self, data):
+        self.ui_add_enemy.listWidget_enemy.clear()
+        for i in data:
+            self.ui_add_enemy.listWidget_enemy.addItem(i)
+
+    @logger.catch
+    def add_enemy_danger_sort(self, bool_val):
+        if self.ui_add_enemy.comboBox_danger.currentText() != "all":
+            sort_list = []
+            for i in self.data.values():
+                if i.get('danger') == self.ui_add_enemy.comboBox_danger.currentText():
+                    sort_list.append(i)
+            self.add_enemy_set_listWidget(sort_list)
+        else:
+            self.add_enemy_set_listWidget(self.data)
+
+    @logger.catch
+    def add_enemy_search(self, bool_val):
+        if self.ui_add_enemy.lineEdit_search_enemy.text() == "":
+            self.add_enemy_set_listWidget(self.data)
+        else:
+            sort_list = []
+            for i in self.data:
+                if self.ui_add_enemy.lineEdit_search_enemy.text() in i:
+                    sort_list.append(i)
+            self.add_enemy_set_listWidget(sort_list)
+
+    @logger.catch
+    def add_enemy_open_token(self, bool_val):
+        self.token_path = QFileDialog.getOpenFileName(self, filter="Save (*.png)")[0]
+
+    @logger.catch
+    def add_enemy_show_enemy(self, bool_val):
+        text = ""
+        for key, value in self.data.get(self.ui_add_enemy.listWidget_enemy.currentItem().text()).items():
+            text += key + ":" + str(value) + "\n"
+        self.ui_add_enemy.label_enemy.setText(text)
+
+    @logger.catch
+    def add_enemy_to_initiative(self, bool_val):
+        if self.ui_add_enemy.radioButton_fast_gen.isChecked():
+            for i in range(int(self.ui_add_enemy.spinBox_amount_enemy.text())):
+                enemy = Enemy(self.ui_add_enemy.enemy_name_edit.text(), self.ui_add_enemy.enemy_hp_edit.text(),
+                              self.ui_add_enemy.enemy_initiative_edit.text(), i+1, self.token_path, self.data)
+                self.enemy_list.append(enemy)
+        else:
+            for i in range(int(self.ui_add_enemy.spinBox_amount_enemy.text())):
+                enemy = Enemy(self.ui_add_enemy.listWidget_enemy.currentItem().text(), "", "", i+1, self.token_path, self.data)
+                self.enemy_list.append(enemy)
+        self.show_enemy()
+
+    @logger.catch
+    def show_enemy(self):
+        self.listWidget_initiative.clear()
+        for i in self.enemy_list:
+            text = f"{i.get_modifier_initiative()} {i} {i.hp}"
+            self.listWidget_initiative.addItem(text)
 
     @logger.catch
     def initiative_sort(self, bool_val):
@@ -148,10 +212,10 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
             else:
                 pass
 
-        for i in enumerate(self.enemy_list):
-            initiative = int(self.enemy_list[i[0]][0]) + random.randint(1, 20)
-            name = self.enemy_list[i[0]][1]
-            hp = int(self.enemy_list[i[0]][2])
+        for i in self.enemy_list:
+            initiative = i.get_initiative()
+            name = i.name
+            hp = i.hp
             self.initiative_list += [initiative, name, hp],
 
         self.initiative_list.sort(key=lambda x: (x[0], x[1]), reverse=True)
