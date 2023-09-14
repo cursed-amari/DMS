@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QApplication, QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QGraphicsTextItem, \
     QGraphicsObject, QMenu, QFileDialog
 from PyQt6.QtCore import Qt, QPointF, QRect, pyqtSignal, QPoint
-from PyQt6.QtGui import QGuiApplication, QPixmap, QPainter, QFont, QColor, QIcon
+from PyQt6.QtGui import QGuiApplication, QPixmap, QPainter, QFont, QColor, QIcon, QTransform
 from loguru import logger
 
 
@@ -37,6 +37,7 @@ class TokenImg(QGraphicsPixmapItem):
         self.num = num
         self.text = text
         self.player_class = player_class
+        self.rotate = 0
         self.setPos(x, y)
 
         self.init_text()
@@ -62,10 +63,10 @@ class TokenImg(QGraphicsPixmapItem):
     def app_func(self):
         if self.player_class:
             self.image_path = f"img/token/{self.player_class}.png"
-            self.set_image()
+            self.set_pixmap()
         else:
             if len(self.image_path) > 1:
-                self.set_image()
+                self.set_pixmap()
             else:
                 self.show_token()
 
@@ -73,13 +74,13 @@ class TokenImg(QGraphicsPixmapItem):
     def reduce_token(self, bool_val=False):
         if self.r >= 20:
             self.r -= 25
-            self.set_image()
+            self.set_pixmap()
 
     @logger.catch
     def increase_token(self, bool_val=False):
         if self.r <= 200:
             self.r += 25
-            self.set_image()
+            self.set_pixmap()
 
     @logger.catch
     def show_token(self, bool_val=False):
@@ -98,11 +99,33 @@ class TokenImg(QGraphicsPixmapItem):
         self.set_image()
 
     @logger.catch
-    def set_image(self):
+    def set_pixmap(self):
         if self.image_path:
             self.pix = QPixmap(self.image_path).scaled(self.r, self.r, aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
                                             transformMode=Qt.TransformationMode.SmoothTransformation)
-            self.setPixmap(self.pix)
+            self.set_image()
+
+    @logger.catch
+    def set_image(self):
+        self.setPixmap(self.pix)
+
+    @logger.catch
+    def rotate_left(self):
+        self.rotate += 90
+        transform = QTransform().rotate(self.rotate)
+        self.pix = QPixmap(self.image_path).scaled(self.r, self.r, aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
+                                            transformMode=Qt.TransformationMode.SmoothTransformation).transformed(
+            transform, Qt.TransformationMode.SmoothTransformation)
+        self.set_image()
+
+    @logger.catch
+    def rotate_right(self):
+        self.rotate -= 90
+        transform = QTransform().rotate(self.rotate)
+        self.pix = QPixmap(self.image_path).scaled(self.r, self.r, aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
+                                            transformMode=Qt.TransformationMode.SmoothTransformation).transformed(
+            transform, Qt.TransformationMode.SmoothTransformation)
+        self.set_image()
 
     @logger.catch
     def contextMenuEvent(self, event) -> None:
@@ -128,6 +151,10 @@ class TokenImg(QGraphicsPixmapItem):
         icon_save.addPixmap(QPixmap("img/icon/save.ico"), QIcon.Mode.Normal,
                             QIcon.State.Off)
         action_image.setIcon(icon_save)
+
+        action_rotate_left = menu.addAction("rotate_left", self.rotate_left)
+
+        action_rotate_right = menu.addAction("rotate_right", self.rotate_right)
 
         menu.exec(QPoint(self.cursor().pos()))
 
