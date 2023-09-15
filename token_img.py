@@ -65,7 +65,7 @@ class TokenImg(QGraphicsPixmapItem):
             self.image_path = f"img/token/{self.player_class}.png"
             self.set_pixmap()
         else:
-            if len(self.image_path) > 1:
+            if len(self.image_path) > 5:
                 self.set_pixmap()
             else:
                 self.show_token()
@@ -90,13 +90,13 @@ class TokenImg(QGraphicsPixmapItem):
         elif self.image_path == "Hero":
             self.image_path = "img/token/token.hero-" + self.num + ".png"
 
-        self.set_image()
+        self.set_pixmap()
 
     @logger.catch
     def open_image(self, bool_val=False):
         data = QFileDialog.getOpenFileName(self.parentWidget(), filter="Save (*.png)")[0]
         self.image_path = data
-        self.set_image()
+        self.set_pixmap()
 
     @logger.catch
     def set_pixmap(self):

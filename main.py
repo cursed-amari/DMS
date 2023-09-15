@@ -194,7 +194,6 @@ try:
             # method
             self.mixer.set_volume(1)
             self.set_combobox_class()
-            self.view_character_stats()
             self.set_combobox_rules()
             self.add_to_tracker()
             self.store_type_and_qualification_vendor()
@@ -212,13 +211,6 @@ try:
 
             if not os.path.exists(os.getcwd() + "\images"):
                 os.mkdir(os.getcwd() + "\images")
-
-        @logger.catch
-        def view_character_stats(self):
-            '''
-            DOCKSTRING: Обновление статов через трекер
-            '''
-            ...
 
         @logger.catch()
         def user_error(self, text: str, informative_text: str, detailed_text: str):
@@ -782,8 +774,8 @@ try:
         def view_text_chapter(self, bool_val):
             try:
                 self.text_chapter.setText(scenario_chapter[self.comboBox_choose_chapter.currentText()])
-            except KeyError:
-                logger.info("view_text_chapter. except KeyError")
+            except KeyError as er:
+                logger.info(f"view_text_chapter. except KeyError {er}")
                 pass
 
         @logger.catch
@@ -1126,6 +1118,7 @@ try:
             DOCKSTRING: Открытие выбранной картинки в окне просмотра
             '''
             self.token_list.clear()
+            self.scene.clear()
             for i in self.token_list.values():
                 self.scene.removeItem(i)
             self.current_img = QPixmap("images/" + self.listWidget_img.currentItem().text()).scaled(
@@ -1178,17 +1171,19 @@ try:
 
             for i in range(int(self.spinBox_enemy_token.text())):
                 position_token += 100
-                i = TokenImg(50, position_token, self.size_token, str(token_num), "Enemy")
+                token = TokenImg(50, position_token, self.size_token, str(token_num), "Enemy")
                 token_num += 1
                 if f"Enemy_{i}" not in self.token_list:
-                    self.token_list.update({f"Enemy_{i}": i})
+                    self.token_list.update({f"Enemy_{i}": token})
+
+            position_token = 50
 
             for i in range(int(self.spinBox_hero_token.text())):
                 position_token += 100
-                i = TokenImg(150, position_token, self.size_token, str(token_num), "Hero")
+                token = TokenImg(150, position_token, self.size_token, str(token_num), "Hero")
                 token_num += 1
                 if f"Hero_{i}" not in self.token_list:
-                    self.token_list.update({f"Hero_{i}": i})
+                    self.token_list.update({f"Hero_{i}": token})
             self.add_token()
 
         @logger.catch
