@@ -61,6 +61,7 @@ try:
         def aplication_func(self):
             # initializing
             self.viewer_window = Window_viewer_show()
+            self.viewer_window_master = Window_viewer_show()
             self.initiative_window = InitiativeWindow(hero, dict_preset)
             self.mixer = pygame.mixer.music
 
@@ -1041,6 +1042,7 @@ try:
         @logger.catch
         def open_viewer_window(self, bool_val=False):
             self.viewer_window.show()
+            self.viewer_window_master.show()
             self.app_func_viewer_window()
             self.size_token = 100
 
@@ -1098,12 +1100,14 @@ try:
             DOCKSTRING: Открытие выбранной картинки в окне просмотра
             '''
             try:
-                if self.viewer_window:
+                if self.viewer_window and self.viewer_window_master:
                     try:
                         self.scene = QGraphicsScene()
                         self.viewer_window.graphicsView_img.setScene(self.scene)
+                        self.viewer_window_master.graphicsView_img.setScene(self.scene)
                         self.graphicsView_img.setScene(self.scene)
                         self.viewer_window.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
+                        self.viewer_window_master.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
                         self.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
                     except AttributeError:
                         self.user_error('Выберите изображение, из списка', "", "")
@@ -1177,6 +1181,7 @@ try:
                     self.token_list.update({f"Enemy_{i}": token})
 
             position_token = 50
+            token_num = 1
 
             for i in range(int(self.spinBox_hero_token.text())):
                 position_token += 100
