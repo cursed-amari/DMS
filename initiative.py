@@ -301,10 +301,10 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
     @logger.catch
     def set_redaction_enemy_in_enemy(self):
         for i in self.enemy_list:
-            if i[1] == " ".join(self.listWidget_initiative.currentItem().text().split(" ")[1:-1]):
-                i[0] = self.ui_redaction_enemy_in_enemy.enemy_initiative_edit.text()
-                i[1] = self.ui_redaction_enemy_in_enemy.enemy_name_edit.text()
-                i[2] = self.ui_redaction_enemy_in_enemy.enemy_hp_edit.text()
+            if str(i) == " ".join(self.listWidget_initiative.currentItem().text().split(" ")[1:-1]):
+                i.new_initiative(self.ui_redaction_enemy_in_enemy.enemy_initiative_edit.text())
+                i.new_name(self.ui_redaction_enemy_in_enemy.enemy_name_edit.text())
+                i.new_hp(self.ui_redaction_enemy_in_enemy.enemy_hp_edit.text())
         self.initiative_enemy_view()
 
     @logger.catch

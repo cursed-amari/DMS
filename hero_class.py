@@ -2,15 +2,16 @@ import random
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from initializing_windows.redaction_hp_tracker import Ui_Dialog_redaction_hp_tracker
+from loguru import logger
 
 
 class Hero:
     def __init__(self, centralwidget, name: str, max_hp: int, ac: int, initiative: int, notes: str, player_class: str, current_hp: int = False,):
         self.name = name
         if current_hp:
-            self.current_hp = current_hp
+            self.current_hp = int(current_hp)
         else:
-            self.current_hp = max_hp
+            self.current_hp = int(max_hp)
         self.max_hp = max_hp
         self.ac = ac
         self.initiative = initiative
@@ -27,15 +28,19 @@ class Hero:
     def __repr__(self):
         return self.name
 
+    @logger.catch
     def get_save_stats(self):
         return self.name, self.max_hp, self.ac, self.initiative, self.notes, self.player_class, self.current_hp
 
+    @logger.catch
     def get_initiative(self):
         return random.randint(1, 20) + self.initiative
 
+    @logger.catch
     def get_player_class(self):
         return self.player_class
 
+    @logger.catch
     def __initialization(self, centralwidget):
         self.frame_hero = QtWidgets.QFrame(centralwidget)
         self.frame_hero.setGeometry(QtCore.QRect(230, 130, 160, 200))
@@ -76,6 +81,7 @@ class Hero:
         self.label_ac.setText(_translate("MainWindow", "Ac"))
         self.label_initiative.setText(_translate("MainWindow", "Initiative"))
 
+    @logger.catch
     def __app_func(self, centralwidget):
         #textEdit
         self.textEdit_notes.textChanged.connect(self._save_text)
@@ -85,15 +91,19 @@ class Hero:
         self.lineEdit_ac.textChanged.connect(self._save_ac)
         self.lineEdit_initiative.textChanged.connect(self._save_initiative)
 
-    def _save_ac(self):
+    @logger.catch
+    def _save_ac(self, bool_val):
         self.ac = self.lineEdit_ac.text()
 
-    def _save_initiative(self):
+    @logger.catch
+    def _save_initiative(self, bool_val):
         self.initiative = self.lineEdit_initiative.text()
 
-    def _save_text(self):
+    @logger.catch
+    def _save_text(self, bool_val):
         self.notes = self.textEdit_notes.toPlainText()
 
+    @logger.catch
     def __sets_app(self):
         self._set_name()
         self._set_hp()
@@ -101,24 +111,31 @@ class Hero:
         self._set_initiative()
         self._set_notes()
 
+    @logger.catch
     def _set_name(self):
         self.label_name.setText(self.name)
 
+    @logger.catch
     def _set_hp(self):
         self.pushButton_hp.setText(f"{self.current_hp}/{self.max_hp}")
 
+    @logger.catch
     def _set_ac(self):
         self.lineEdit_ac.setText(str(self.ac))
 
+    @logger.catch
     def _set_initiative(self):
         self.lineEdit_initiative.setText(str(self.initiative))
 
+    @logger.catch
     def _set_notes(self):
         self.textEdit_notes.setText(self.notes)
 
+    @logger.catch
     def get_frame(self):
         return self.frame_hero
 
+    @logger.catch
     def _hp_edit(self, bool_val):
         Dialog_redaction_hp = QtWidgets.QDialog()
         self.ui_redaction_hp = Ui_Dialog_redaction_hp_tracker()
@@ -133,18 +150,22 @@ class Hero:
         self.ui_redaction_hp.pushButton_restore_hp.clicked.connect(self._restore_hp_hero)
         Dialog_redaction_hp.exec()
 
+    @logger.catch
     def _add_hp_hero(self, bool_val):
         self.current_hp = self.current_hp + int(self.ui_redaction_hp.edit_new_hp.text())
         self._set_hp()
 
+    @logger.catch
     def _minus_hp_hero(self, bool_val):
         self.current_hp = self.current_hp - int(self.ui_redaction_hp.edit_new_hp.text())
         self._set_hp()
 
+    @logger.catch
     def _set_hp_hero(self, bool_val):
         self.max_hp = int(self.ui_redaction_hp.edit_new_hp.text())
         self._set_hp()
 
+    @logger.catch
     def _restore_hp_hero(self, bool_val):
         self.current_hp = self.max_hp
         self._set_hp()

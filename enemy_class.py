@@ -49,6 +49,18 @@ class Enemy:
             self.__counting_hp()
             self.__counting_stats()
 
+    def new_name(self, name):
+        self.name = str(name)
+
+    def new_ac(self, ac):
+        self.ac = int(ac)
+
+    def new_hp(self, hp):
+        self.hp = int(hp)
+
+    def new_initiative(self, initiative):
+        self.initiative = int(initiative)
+
     def __counting_hp(self):
         if re.search(r"(\d)к(\d*) \+ (\d*)", str(self.hp)):
             split_hp = re.split(r"(\d)к(\d*) \+ (\d*)", str(self.hp))
@@ -79,9 +91,9 @@ class Enemy:
 
     def get_initiative(self) -> int:
         if self.generating_monster:
-            return random.randint(1, 20) + self.dexterity
+            return random.randint(1, 20) + int(self.dexterity)
         else:
-            return random.randint(1, 20) + self.initiative
+            return random.randint(1, 20) + int(self.initiative)
 
     def get_save_stats(self):
         return self.name, self.hp, self.initiative, self.num, self.token
