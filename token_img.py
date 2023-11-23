@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QApplication, QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QGraphicsTextItem, \
-    QGraphicsObject, QMenu, QFileDialog
+    QGraphicsObject, QMenu, QFileDialog, QGraphicsRectItem, QGraphicsDropShadowEffect
 from PyQt6.QtCore import Qt, QPointF, QRect, pyqtSignal, QPoint
 from PyQt6.QtGui import QGuiApplication, QPixmap, QPainter, QFont, QColor, QIcon, QTransform
 from loguru import logger
@@ -48,7 +48,7 @@ class TokenImg(QGraphicsPixmapItem):
 
     def init_text(self):
         self.text_item = QGraphicsTextItem(self.text, self)
-        self.text_item.setDefaultTextColor(Qt.GlobalColor.blue)
+        self.text_item.setDefaultTextColor(Qt.GlobalColor.black)
         font = QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(14)
@@ -57,6 +57,11 @@ class TokenImg(QGraphicsPixmapItem):
         self.text_item.setFont(font)
         self.text_item.setPos(5, -20)
 
+        shadow_effect = QGraphicsDropShadowEffect()
+        shadow_effect.setBlurRadius(10)
+        shadow_effect.setColor(QColor("white"))
+        shadow_effect.setOffset(0, 0)
+        self.text_item.setGraphicsEffect(shadow_effect)
 
         self.setAcceptHoverEvents(True)
 
@@ -65,6 +70,8 @@ class TokenImg(QGraphicsPixmapItem):
             self.image_path = f"img/token/{self.player_class}.png"
             self.set_pixmap()
         else:
+            if self.image_path is None:
+                self.image_path = "Enemy"
             if len(self.image_path) > 5:
                 self.set_pixmap()
             else:

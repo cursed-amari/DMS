@@ -92,15 +92,15 @@ class Hero:
         self.lineEdit_initiative.textChanged.connect(self._save_initiative)
 
     @logger.catch
-    def _save_ac(self, bool_val):
+    def _save_ac(self, bool_val=False):
         self.ac = self.lineEdit_ac.text()
 
     @logger.catch
-    def _save_initiative(self, bool_val):
+    def _save_initiative(self, bool_val=False):
         self.initiative = self.lineEdit_initiative.text()
 
     @logger.catch
-    def _save_text(self, bool_val):
+    def _save_text(self, bool_val=False):
         self.notes = self.textEdit_notes.toPlainText()
 
     @logger.catch
