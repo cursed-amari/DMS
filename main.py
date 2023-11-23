@@ -99,7 +99,7 @@ try:
             self.label_generate_npc.mousePressEvent = self.slide_menu_hide
 
             # PUSHBUTTON
-            self.pushButton_exit.clicked.connect(self.close)
+            self.pushButton_exit.clicked.connect(self.close_all_window)
             self.pushButton_minimized.clicked.connect(self.showMinimized)
             # tracker
             self.pushButton.clicked.connect(self.input_chek)
@@ -174,8 +174,8 @@ try:
 
             # SPINBOX
             # img viewer
-            self.spinBox_enemy_token.valueChanged.connect(self.spinBox_chek)
-            self.spinBox_hero_token.valueChanged.connect(self.spinBox_chek)
+            self.spinBox_enemy_token.valueChanged.connect(self.spinBox_chek_enemy)
+            self.spinBox_hero_token.valueChanged.connect(self.spinBox_chek_hero)
 
             # TEXTEDIT
             # tracker
@@ -213,6 +213,30 @@ try:
             self.collect_img()
             self.collect_music()
             self.init_scene()
+
+        @logger.catch
+        def close_all_window(self, bool_val=False):
+            try:
+                if self.initiative_window:
+                    self.initiative_window.close()
+            except AttributeError:
+                pass
+            try:
+                if self.viewer_window:
+                    self.viewer_window.close()
+            except AttributeError:
+                pass
+            try:
+                if self.viewer_window_master:
+                    self.viewer_window_master.close()
+            except AttributeError:
+                pass
+            try:
+                if self.generators_window:
+                    self.generators_window.close()
+            except AttributeError:
+                pass
+            self.close()
 
         @logger.catch
         def check_folders(self):
@@ -1184,13 +1208,22 @@ try:
             pixmap_item.setPos(600 - (self.current_img.rect().width() / 2), 0)
 
         @logger.catch
-        def spinBox_chek(self, bool_val=False):
+        def spinBox_chek_enemy(self, bool_val=False):
             '''
             DOCKSTRING: Проверка количества токенов
             '''
-            if self.spinBox_enemy_token.value() > 15:
-                self.spinBox_enemy_token.setValue(15)
-                self.user_error('Максимальное количество противников 15', "", "")
+            if self.spinBox_enemy_token.value() > 8:
+                self.spinBox_enemy_token.setValue(8)
+                self.user_error('Максимальное количество противников 8', "", "")
+
+        @logger.catch
+        def spinBox_chek_hero(self, bool_val=False):
+            '''
+            DOCKSTRING: Проверка количества токенов
+            '''
+            if self.spinBox_hero_token.value() > 8:
+                self.spinBox_hero_token.setValue(8)
+                self.user_error('Максимальное количество героев 8', "", "")
 
         @logger.catch
         def add_hero_token(self, bool_val=False):
@@ -1226,7 +1259,7 @@ try:
 
             for i in range(int(self.spinBox_enemy_token.text())):
                 position_token += 100
-                token = TokenImg(50, position_token, self.size_token, str(token_num), "Enemy")
+                token = TokenImg(-35, position_token, self.size_token, str(token_num), "Enemy")
                 token_num += 1
                 if f"Enemy_{i}" not in self.token_list:
                     self.token_list.update({f"Enemy_{i}": token})
@@ -1236,7 +1269,7 @@ try:
 
             for i in range(int(self.spinBox_hero_token.text())):
                 position_token += 100
-                token = TokenImg(150, position_token, self.size_token, str(token_num), "Hero")
+                token = TokenImg(200, position_token, self.size_token, str(token_num), "Hero")
                 token_num += 1
                 if f"Hero_{i}" not in self.token_list:
                     self.token_list.update({f"Hero_{i}": token})
@@ -1245,7 +1278,9 @@ try:
         @logger.catch
         def add_initiative(self, bool_val=False):
             if self.initiative_window.initiative_list:
-                self.scene.addItem(InitiativeImg(self.initiative_window.initiative_list))
+                viewer_initiative_list = InitiativeImg(self.initiative_window.initiative_list)
+                viewer_initiative_list.setPos(-360, 0)
+                self.scene.addItem(viewer_initiative_list)
             else:
                 self.user_error("Нет инициативы", "", "Рассчитайте инициативу в окне инициативы")
 

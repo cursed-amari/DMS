@@ -6,19 +6,38 @@ from loguru import logger
 
 
 class InitiativeImg(QGraphicsPixmapItem):
+    """
+    Объект листа инициативы для QGraphicsScene
+    initiative_list: initiative_list из initiative.py
+    """
     def __init__(self, initiative_list: list):
         super().__init__()
         self.initiative_list = initiative_list
         self.setPos(0, 0)
         self.setPixmap(QPixmap('img/initiative_fon.png').scaled(QGuiApplication.primaryScreen().availableGeometry().width(), 50))
-        text_pos = 10
         text_items = []
+        text_initiative_line_one = ""
+        text_initiative_line_two = ""
+        text_letter_counter = 0
         for i in initiative_list:
-            text = QGraphicsTextItem(f"{i[0]} {i[1]}", self)
-            text.setDefaultTextColor(Qt.GlobalColor.white)
-            text.setPos(text_pos, 20)
-            text_pos += 75
-            text_items.append(text)
+            text = f" {i[0]} {i[1]} |"
+            text_letter_counter += len(text)
+            if text_letter_counter >= 309:
+                text_initiative_line_two += text
+            else:
+                text_initiative_line_one += text
+
+        if text_initiative_line_one:
+            text_one = QGraphicsTextItem(text_initiative_line_one, self)
+            text_one.setDefaultTextColor(Qt.GlobalColor.white)
+            text_one.setPos(10, 5)
+            text_items.append(text_one)
+
+        if text_initiative_line_two:
+            text_two = QGraphicsTextItem(text_initiative_line_two, self)
+            text_two.setDefaultTextColor(Qt.GlobalColor.white)
+            text_two.setPos(10, 25)
+            text_items.append(text_two)
 
 
 class TokenImg(QGraphicsPixmapItem):
@@ -29,6 +48,8 @@ class TokenImg(QGraphicsPixmapItem):
     image: False(синий) True(красный)
     num: Номер токена
     """
+
+    del_signal = pyqtSignal(QGraphicsPixmapItem)
 
     def __init__(self, x, y, r, num, image, player_class="", text="Unknown"):
         super().__init__()
@@ -118,7 +139,7 @@ class TokenImg(QGraphicsPixmapItem):
 
     @logger.catch
     def rotate_left(self):
-        self.rotate += 90
+        self.rotate -= 90
         transform = QTransform().rotate(self.rotate)
         self.pix = QPixmap(self.image_path).scaled(self.r, self.r, aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
                                             transformMode=Qt.TransformationMode.SmoothTransformation).transformed(
@@ -127,7 +148,7 @@ class TokenImg(QGraphicsPixmapItem):
 
     @logger.catch
     def rotate_right(self):
-        self.rotate -= 90
+        self.rotate += 90
         transform = QTransform().rotate(self.rotate)
         self.pix = QPixmap(self.image_path).scaled(self.r, self.r, aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
                                             transformMode=Qt.TransformationMode.SmoothTransformation).transformed(
