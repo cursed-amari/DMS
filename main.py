@@ -19,6 +19,8 @@ import os
 import fnmatch
 import requests
 from mutagen.mp3 import MP3
+from mutagen.wavpack import WavPack
+from mutagen.oggvorbis import OggVorbis
 
 from initializing_windows.main_class import Ui_MainWindow
 from initiative import InitiativeWindow
@@ -998,8 +1000,6 @@ try:
             listOfFiles = os.listdir('./music')
             for entry in listOfFiles:
                 if fnmatch.fnmatch(entry, "*.mp3"):
-                    self.list_song.append(entry)
-                if fnmatch.fnmatch(entry, "*.ogg"):
                     self.list_song.append(entry)
             if self.list_song:
                 self.update_list_music()
