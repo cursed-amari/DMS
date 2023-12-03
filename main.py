@@ -1390,7 +1390,7 @@ try:
             name = name_npc(sex, self.edit_name_vendor.text())
             if self.edit_store_name_2.text() == "":
                 iter_store = 0
-                store_name = 'store ' + name
+                store_name = name_store()
                 flag = True
                 while flag is True:
                     if store_name in store.keys():

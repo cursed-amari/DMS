@@ -134,3 +134,11 @@ def assortment_store(shop_type: str, shop_cost: str) -> str:
     for i in sorted(SHOPDATA[shop_type][shop_cost]):
         store_assortment += i[0] + ": " + i[1] + "\n"
     return store_assortment
+
+
+def name_store() -> str:
+    """
+    DOCKSTRING: Имя таверны
+    :return: Имя таверны
+    """
+    return f"{random.choice(TAVERN_FIRST_NAME)} {random.choice(TAVERN_LAST_NAME)}"
