@@ -288,6 +288,9 @@ try:
             action_last_session = menu.addAction("Last session", self.last_session)
             action_last_session.setIcon(icon_load)
 
+            action_load_lss_hero = menu.addAction("Load LSS hero", self.create_lss_hero)
+            action_load_lss_hero.setIcon(icon_load)
+
             action_generators = menu.addAction("Generators", self.open_generators)
             icon_generators = QtGui.QIcon()
             icon_generators.addPixmap(QtGui.QPixmap("img/icon/dice.ico"), QtGui.QIcon.Mode.Normal,
@@ -616,6 +619,17 @@ try:
             else:
                 self.user_error("Имя занято", "", "Персонаж с таким именем уже существует.")
 
+            self.add_to_del_char_box()
+            self.add_to_tracker()
+
+        @logger.catch
+        def create_lss_hero(self):
+            file = QFileDialog.getOpenFileName(self, filter="Hero (*.json)")[0]
+            with open(file, "r", encoding="utf-8") as file:
+                json_hero = json.load(file)
+            if json_hero.get("jsonType") == "character":
+                hero.update({json_hero.get('name').get('value'): Hero(self.centralwidget, "", 0, 0, 0, "", "",
+                                                                      lss_json=json_hero)})
             self.add_to_del_char_box()
             self.add_to_tracker()
 

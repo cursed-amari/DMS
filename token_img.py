@@ -1,3 +1,5 @@
+import os
+
 from PyQt6.QtWidgets import QApplication, QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QGraphicsTextItem, \
     QGraphicsObject, QMenu, QFileDialog, QGraphicsRectItem, QGraphicsDropShadowEffect
 from PyQt6.QtCore import Qt, QPointF, QRect, pyqtSignal, QPoint
@@ -88,7 +90,10 @@ class TokenImg(QGraphicsPixmapItem):
 
     def app_func(self):
         if self.player_class:
-            self.image_path = f"img/token/{self.player_class}.png"
+            if os.path.exists(f"img/token/{self.player_class}.png"):
+                self.image_path = f"img/token/{self.player_class}.png"
+            else:
+                self.image_path = f"img/token/token-1.png"
             self.set_pixmap()
         else:
             if self.image_path is None:

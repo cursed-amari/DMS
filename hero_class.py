@@ -1,26 +1,77 @@
 import random
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtCore import QPoint
+
 from initializing_windows.redaction_hp_tracker import Ui_Dialog_redaction_hp_tracker
 from loguru import logger
 
+from hero_stats_window import HeroStats
+
 
 class Hero:
-    def __init__(self, centralwidget, name: str, max_hp: int, ac: int, initiative: int, notes: str, player_class: str, current_hp: int = False,):
-        self.name = name
-        if current_hp:
-            self.current_hp = int(current_hp)
+    def __init__(self, centralwidget, name: str, max_hp: int, ac: int, initiative: int, notes: str, player_class: str, current_hp: int=False, lss_json: dict=False):
+        if lss_json:
+            self.json_flag = True
+            self.name = lss_json.get('name').get('value')
+            self.race = lss_json.get('info').get('race').get('value')
+            self.player_class = lss_json.get('info').get('charClass').get('value')
+            self.level = lss_json.get('info').get('level').get('value')
+            if 'initiative' in lss_json.get('vitality'):
+                self.initiative = lss_json.get('vitality').get('initiative').get('value')
+            else:
+                self.initiative = lss_json.get('stats').get('dex').get('modifier')
+            self.ac = lss_json.get('vitality').get('ac').get('value')
+            self.speed = lss_json.get('vitality').get('speed').get('value')
+            self.max_hp = lss_json.get('vitality').get('hp-max').get('value')
+            self.current_hp = lss_json.get('vitality').get('hp-current').get('value')
+            self.str = lss_json.get('stats').get('str').get('score')
+            self.dex = lss_json.get('stats').get('dex').get('score')
+            self.con = lss_json.get('stats').get('con').get('score')
+            self.int = lss_json.get('stats').get('int').get('score')
+            self.wis = lss_json.get('stats').get('wis').get('score')
+            self.cha = lss_json.get('stats').get('cha').get('score')
+            self.str_mod = lss_json.get('stats').get('str').get('modifier')
+            self.dex_mod = lss_json.get('stats').get('dex').get('modifier')
+            self.con_mod = lss_json.get('stats').get('con').get('modifier')
+            self.int_mod = lss_json.get('stats').get('int').get('modifier')
+            self.wis_mod = lss_json.get('stats').get('wis').get('modifier')
+            self.cha_mod = lss_json.get('stats').get('cha').get('modifier')
+            self.str_save = lss_json.get('stats').get('str').get('modifier') + lss_json.get('proficiency') \
+                if lss_json.get('saves').get('str').get('isProf') else lss_json.get('stats').get('str').get('modifier')
+            self.dex_save = lss_json.get('stats').get('dex').get('modifier') + lss_json.get('proficiency') \
+                if lss_json.get('saves').get('dex').get('isProf') else lss_json.get('stats').get('dex').get('modifier')
+            self.con_save = lss_json.get('stats').get('con').get('modifier') + lss_json.get('proficiency') \
+                if lss_json.get('saves').get('con').get('isProf') else lss_json.get('stats').get('con').get('modifier')
+            self.int_save = lss_json.get('stats').get('int').get('modifier') + lss_json.get('proficiency') \
+                if lss_json.get('saves').get('int').get('isProf') else lss_json.get('stats').get('int').get('modifier')
+            self.wis_save = lss_json.get('stats').get('wis').get('modifier') + lss_json.get('proficiency') \
+                if lss_json.get('saves').get('wis').get('isProf') else lss_json.get('stats').get('wis').get('modifier')
+            self.cha_save = lss_json.get('stats').get('cha').get('modifier') + lss_json.get('proficiency') \
+                if lss_json.get('saves').get('cha').get('isProf') else lss_json.get('stats').get('cha').get('modifier')
+            self.notes = ""
         else:
-            self.current_hp = int(max_hp)
-        self.max_hp = max_hp
-        self.ac = ac
-        self.initiative = initiative
-        self.notes = notes
-        self.player_class = player_class
+            self.json_flag = False
+            self.name = name
+            if current_hp:
+                self.current_hp = int(current_hp)
+            else:
+                self.current_hp = int(max_hp)
+            self.max_hp = max_hp
+            self.ac = ac
+            self.initiative = initiative
+            self.notes = notes
+            self.player_class = player_class
+
+        self.hero_stat_window = HeroStats()
 
         self.__initialization(centralwidget)
         self.__app_func(centralwidget)
         self.__sets_app()
+        self.__refresh_stat_hero_window()
+
+        self.label_name.enterEvent = self.show_hero_stat_window
+        self.label_name.leaveEvent = self.hide_hero_stat_window
 
     def __str__(self):
         return self.name
@@ -90,6 +141,18 @@ class Hero:
         #lineEdit
         self.lineEdit_ac.textChanged.connect(self._save_ac)
         self.lineEdit_initiative.textChanged.connect(self._save_initiative)
+
+    @logger.catch
+    def show_hero_stat_window(self, event):
+        self.hero_stat_window.move(self.frame_hero.mapToGlobal(QPoint(0+160, 0)))
+
+        self.__refresh_stat_hero_window()
+
+        self.hero_stat_window.show()
+
+    @logger.catch
+    def hide_hero_stat_window(self, event):
+        self.hero_stat_window.hide()
 
     @logger.catch
     def _save_ac(self, bool_val=False):
@@ -169,3 +232,23 @@ class Hero:
     def _restore_hp_hero(self, bool_val):
         self.current_hp = self.max_hp
         self._set_hp()
+
+    @logger.catch
+    def __refresh_stat_hero_window(self):
+        if self.json_flag:
+            self.hero_stat_window.label_name.setText(f"{self.name}\n{self.race} {self.player_class}\n{self.level}")
+            self.hero_stat_window.lineEdit_ac.setText(f"Ac: {self.ac}")
+            self.hero_stat_window.lineEdit_speed.setText(f"Speed: {self.speed}")
+            self.hero_stat_window.lineEdit_hp.setText(f"Hp: {self.current_hp}/{self.max_hp}")
+            self.hero_stat_window.lineEdit_initiative.setText(f"Initiative {self.initiative}")
+            self.hero_stat_window.label_str.setText(f"Str: {self.str}; Modifier: {self.str_mod}; Save: {self.str_save}")
+            self.hero_stat_window.label_dex.setText(f"Dex: {self.dex}; Modifier: {self.dex_mod}; Save: {self.dex_save}")
+            self.hero_stat_window.label_con.setText(f"Con: {self.con}; Modifier: {self.con_mod}; Save: {self.con_save}")
+            self.hero_stat_window.label_int.setText(f"Int: {self.int}; Modifier: {self.int_mod}; Save: {self.int_save}")
+            self.hero_stat_window.label_wis.setText(f"Wis: {self.wis}; Modifier: {self.wis_mod}; Save: {self.wis_save}")
+            self.hero_stat_window.label_cha.setText(f"Cha: {self.cha}; Modifier: {self.cha_mod}; Save: {self.cha_save}")
+        else:
+            self.hero_stat_window.label_name.setText(f"{self.name}\n{self.player_class}")
+            self.hero_stat_window.lineEdit_ac.setText(f"Ac: {self.ac}")
+            self.hero_stat_window.lineEdit_hp.setText(f"Hp: {self.current_hp}/{self.max_hp}")
+            self.hero_stat_window.lineEdit_initiative.setText(f"Initiative {self.initiative}")
