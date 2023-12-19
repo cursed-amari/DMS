@@ -17,6 +17,10 @@ class Hero:
             self.race = lss_json.get('info').get('race').get('value')
             self.player_class = lss_json.get('info').get('charClass').get('value')
             self.level = lss_json.get('info').get('level').get('value')
+            try:
+                self.gold = lss_json.get('coins').get('gp').get('value')
+            except AttributeError:
+                self.gold = 0
             if 'initiative' in lss_json.get('vitality'):
                 self.initiative = lss_json.get('vitality').get('initiative').get('value')
             else:
@@ -49,7 +53,7 @@ class Hero:
                 if lss_json.get('saves').get('wis').get('isProf') else lss_json.get('stats').get('wis').get('modifier')
             self.cha_save = lss_json.get('stats').get('cha').get('modifier') + lss_json.get('proficiency') \
                 if lss_json.get('saves').get('cha').get('isProf') else lss_json.get('stats').get('cha').get('modifier')
-            self.notes = ""
+            self.notes = lss_json.get("text").get("equipment").get("value").get("data").get("content")
         else:
             self.json_flag = False
             self.name = name
@@ -192,7 +196,17 @@ class Hero:
 
     @logger.catch
     def _set_notes(self):
-        self.textEdit_notes.setText(self.notes)
+        # self.textEdit_notes.setText(f"Gold: {self.gold}\n{self.notes}")
+
+        text = ""
+
+        for i in self.notes:
+            # print(i.get("content"))
+            if i.get("content"):
+                for k in i.get("content"):
+                    text += k.get("text")
+
+        self.textEdit_notes.setText(f"Gold: {self.gold}\n{text}")
 
     @logger.catch
     def get_frame(self):

@@ -93,7 +93,7 @@ class TokenImg(QGraphicsPixmapItem):
             if os.path.exists(f"img/token/{self.player_class}.png"):
                 self.image_path = f"img/token/{self.player_class}.png"
             else:
-                self.image_path = f"img/token/token-1.png"
+                self.image_path = f"img/token/token.png"
             self.set_pixmap()
         else:
             if self.image_path is None:
