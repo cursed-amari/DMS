@@ -89,20 +89,6 @@ class Ui_MainWindow(object):
         self.label_name_app.setWordWrap(False)
         self.label_name_app.setObjectName("label_name_app")
         self.horizontalLayout_4.addWidget(self.label_name_app)
-        self.label_username = QtWidgets.QLabel(self.frame_name_app)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_username.sizePolicy().hasHeightForWidth())
-        self.label_username.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setFamily("MS PGothic")
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_username.setFont(font)
-        self.label_username.setObjectName("label_username")
-        self.horizontalLayout_4.addWidget(self.label_username)
         self.horizontalLayout_2.addWidget(self.frame_name_app)
         self.frame_navigations = QtWidgets.QFrame(self.header)
         self.frame_navigations.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -829,135 +815,6 @@ class Ui_MainWindow(object):
         self.menu_hover_icon = QtGui.QIcon()
         self.menu_hover_icon.addPixmap(QtGui.QPixmap("img/icon/hover_icon/menu.ico"), QtGui.QIcon.Mode.Normal,
                                        QtGui.QIcon.State.Off)
-        self.frame_web = QtWidgets.QFrame(self.frame_main_app)
-        self.frame_web.setGeometry(QtCore.QRect(0, 0, 795, 421))
-        self.frame_web.setStyleSheet("QFrame {\n"
-                                     "    background-color: rgb(85, 85, 85);\n"
-                                     "    opacity: 0.3;\n"
-                                     "    color: rgb(247, 147, 30);\n"
-                                     "    border: none;\n"
-                                     "}\n"
-                                     "\n"
-                                     "QLineEdit {\n"
-                                     "    background-color: rgb(55, 55, 55);\n"
-                                     "    color: rgb(247, 147, 30);\n"
-                                     "    border: none;\n"
-                                     "}\n"
-                                     "\n"
-                                     "QTextEdit {\n"
-                                     "    background-color: rgb(55, 55, 55);\n"
-                                     "    color: rgb(247, 147, 30);\n"
-                                     "    border: none;\n"
-                                     "}\n"
-                                     "\n"
-                                     "QPushButton {\n"
-                                     "    background-color: rgb(55, 55, 55);\n"
-                                     "    color: rgb(247, 147, 30);\n"
-                                     "}\n"
-                                     "\n"
-                                     "QPushButton:pressed {\n"
-                                     "    background-color: rgb(105, 105, 105);\n"
-                                     "}\n"
-                                     "\n"
-                                     "QSpinBox {\n"
-                                     "    background-color: rgb(55, 55, 55);\n"
-                                     "    color: rgb(247, 147, 30);\n"
-                                     "    border: none;\n"
-                                     "}\n"
-                                     "\n"
-                                     "QComboBox {\n"
-                                     "    background-color: rgb(55, 55, 55);\n"
-                                     "    color: rgb(247, 147, 30);\n"
-                                     "    border: none;\n"
-                                     "}\n"
-                                     "\n"
-                                     "QRadioButton {\n"
-                                     "    color: rgb(247, 147, 30);\n"
-                                     "    border-radius:  10px;\n"
-                                     "}\n"
-                                     "\n"
-                                     "QCheckBox {\n"
-                                     "    color: rgb(247, 147, 30);\n"
-                                     "    border: none;\n"
-                                     "}")
-        self.frame_web.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_web.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_web.setObjectName("frame_web")
-        self.horizontalLayout_10 = QtWidgets.QHBoxLayout(self.frame_web)
-        self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_10.setSpacing(0)
-        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
-        self.frame_auth = QtWidgets.QFrame(self.frame_web)
-        self.frame_auth.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_auth.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
-        self.frame_auth.setObjectName("frame_auth")
-        self.pushButton_auth = QtWidgets.QPushButton(self.frame_auth)
-        self.pushButton_auth.setGeometry(QtCore.QRect(60, 390, 75, 23))
-        self.pushButton_auth.setObjectName("pushButton_auth")
-        self.lineEdit_password = QtWidgets.QLineEdit(self.frame_auth)
-        self.lineEdit_password.setGeometry(QtCore.QRect(58, 350, 150, 20))
-        self.lineEdit_password.setObjectName("lineEdit_password")
-        self.lineEdit_login = QtWidgets.QLineEdit(self.frame_auth)
-        self.lineEdit_login.setGeometry(QtCore.QRect(58, 300, 150, 20))
-        self.lineEdit_login.setObjectName("lineEdit_login")
-        self.label_login = QtWidgets.QLabel(self.frame_auth)
-        self.label_login.setGeometry(QtCore.QRect(60, 270, 150, 25))
-        font = QtGui.QFont()
-        font.setFamily("Yu Gothic")
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setItalic(False)
-        font.setWeight(75)
-        font.setStrikeOut(False)
-        self.label_login.setFont(font)
-        self.label_login.setObjectName("label_login")
-        self.label_password = QtWidgets.QLabel(self.frame_auth)
-        self.label_password.setGeometry(QtCore.QRect(60, 320, 150, 25))
-        font = QtGui.QFont()
-        font.setFamily("Yu Gothic")
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_password.setFont(font)
-        self.label_password.setObjectName("label_password")
-        self.lineEdit_name = QtWidgets.QLineEdit(self.frame_auth)
-        self.lineEdit_name.setGeometry(QtCore.QRect(58, 350, 150, 20))
-        self.lineEdit_name.setText("")
-        self.lineEdit_name.setObjectName("lineEdit_name")
-        self.pushButton_save = QtWidgets.QPushButton(self.frame_auth)
-        self.pushButton_save.setGeometry(QtCore.QRect(60, 390, 75, 23))
-        self.pushButton_save.setObjectName("pushButton_save")
-        self.label_name = QtWidgets.QLabel(self.frame_auth)
-        self.label_name.setGeometry(QtCore.QRect(60, 320, 150, 25))
-        font = QtGui.QFont()
-        font.setFamily("Yu Gothic")
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_name.setFont(font)
-        self.label_name.setObjectName("label_name")
-        self.horizontalLayout_10.addWidget(self.frame_auth)
-        self.frame_web_list = QtWidgets.QFrame(self.frame_web)
-        self.frame_web_list.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_web_list.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_web_list.setObjectName("frame_web_list")
-        self.listWidget_web_list = QtWidgets.QListWidget(self.frame_web_list)
-        self.listWidget_web_list.setGeometry(QtCore.QRect(0, 0, 261, 381))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Maximum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.listWidget_web_list.sizePolicy().hasHeightForWidth())
-        self.listWidget_web_list.setSizePolicy(sizePolicy)
-        self.listWidget_web_list.setObjectName("listWidget_web_list")
-        self.pushButton_load = QtWidgets.QPushButton(self.frame_web_list)
-        self.pushButton_load.setGeometry(QtCore.QRect(90, 390, 75, 23))
-        self.pushButton_load.setObjectName("pushButton_load")
-        self.horizontalLayout_10.addWidget(self.frame_web_list)
-        self.frame_3 = QtWidgets.QFrame(self.frame_web)
-        self.frame_3.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_3.setObjectName("frame_3")
-        self.horizontalLayout_10.addWidget(self.frame_3)
         self.frame_tracker = QtWidgets.QFrame(self.frame_main_app)
         self.frame_tracker.setGeometry(QtCore.QRect(0, 0, 795, 421))
         self.frame_tracker.setStyleSheet("QFrame {\n"
@@ -1138,7 +995,6 @@ class Ui_MainWindow(object):
         self.frame_music_changer.raise_()
         self.frame_rules.raise_()
         self.frame_npc_generator.raise_()
-        self.frame_web.raise_()
         self.frame_generate_store.raise_()
         self.frame_tracker.raise_()
         self.frame_main_app.raise_()
@@ -1201,7 +1057,6 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_name_app.setText(_translate("MainWindow", "DnD Master support"))
-        self.label_username.setText(_translate("MainWindow", "Not authorized"))
         self.toolButton_menu.setText(_translate("MainWindow", "    MENU"))
         self.toolButton_tracker.setText(_translate("MainWindow", "    TRACKER"))
         self.toolButton_scenario.setText(_translate("MainWindow", "    SCENARIO"))
@@ -1300,12 +1155,6 @@ class Ui_MainWindow(object):
         self.pushButton_open_current.setText(_translate("MainWindow", "Open"))
         self.pushButton_right.setText(_translate("MainWindow", "right"))
         self.pushButton_left.setText(_translate("MainWindow", "left"))
-        self.pushButton_auth.setText(_translate("MainWindow", "Login"))
-        self.label_login.setText(_translate("MainWindow", "Login"))
-        self.label_password.setText(_translate("MainWindow", "Password"))
-        self.pushButton_save.setText(_translate("MainWindow", "Save"))
-        self.label_name.setText(_translate("MainWindow", "Name"))
-        self.pushButton_load.setText(_translate("MainWindow", "load"))
         self.pushButton_add_hero_token.setText(_translate("MainWindow", "Add hero token"))
         self.pushButton_add_enemy_token.setText(_translate("MainWindow", "Add enemy token"))
         self.pushButton_add_initiative.setText(_translate("MainWindow", "Add initiative"))
@@ -1703,10 +1552,6 @@ class Ui_MainWindow(object):
         self.frame_generate_store.hide()
         self.frame_npc_generator.hide()
         self.frame_viewer.hide()
-        self.frame_web.hide()
-        self.label_name.hide()
-        self.lineEdit_name.hide()
-        self.pushButton_save.hide()
 
         self.frame_tools.hide()
         self.label_store_name_2.hide()

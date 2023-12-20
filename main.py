@@ -143,9 +143,6 @@ try:
             # generate npc
             self.pushButton_generate_npc.clicked.connect(self.create_npc)
             self.pushButton_del_npc.clicked.connect(self.del_npc)
-            #web
-            self.pushButton_auth.clicked.connect(self.get_token)
-            self.pushButton_load.clicked.connect(self.load_adventure)
 
             # CHECKBOX
             # tracker
@@ -312,11 +309,6 @@ try:
                                       QtGui.QIcon.State.Off)
             action_info.setIcon(icon_info)
 
-            action_info = menu.addAction("Web", self.open_web)
-            icon_info = QtGui.QIcon()
-            icon_info.addPixmap(QtGui.QPixmap("img/icon/!.png"), QtGui.QIcon.Mode.Normal,
-                                QtGui.QIcon.State.Off)
-            action_info.setIcon(icon_info)
 
             menu.exec(self.pos())
 
@@ -507,7 +499,6 @@ try:
         def show_frame_menu(self, bool_val=False):
             button = QApplication.instance().sender().text()
             self.info.hide()
-            self.frame_web.hide()
             for i in self.menu_frame.keys():
                 if i == button:
                     self.menu_frame[i].show()
@@ -530,18 +521,6 @@ try:
                         self.toolButton_dict[i].setIconSize(QtCore.QSize(20, 20))
 
         @logger.catch
-        def open_web(self):
-            self.frame_tracker.hide()
-            self.frame_scenario.hide()
-            self.frame_notes.hide()
-            self.frame_music_changer.hide()
-            self.frame_rules.hide()
-            self.frame_generate_store.hide()
-            self.frame_npc_generator.hide()
-            self.info.hide()
-            self.frame_web.show()
-            self.frame_viewer.hide()
-        @logger.catch
         def open_info(self):
             self.frame_tracker.hide()
             self.frame_scenario.hide()
@@ -552,7 +531,6 @@ try:
             self.frame_npc_generator.hide()
             self.info.show()
             self.frame_viewer.hide()
-            self.frame_web.hide()
 
         @logger.catch
         def lock_window(self, bool_val=False):
@@ -565,7 +543,6 @@ try:
             self.frame_npc_generator.hide()
             self.info.hide()
             self.frame_viewer.hide()
-            self.frame_web.hide()
 
             self.toolButton_tracker.setIcon(self.tracker_icon)
             self.toolButton_tracker.setIconSize(QtCore.QSize(20, 20))
@@ -1686,92 +1663,6 @@ try:
                        f"Голос: \n{npc[npc_name]['npc_voice']}"
                 self.label_generate_npc.setText(text)
                 self.text_generate_npc.setText(npc[npc_name]['text_notes'])
-
-
-        """Web func"""
-
-        @logger.catch
-        def get_token(self, bool_val=False):
-            data = {
-                'username': self.lineEdit_login.text(),
-                'password': self.lineEdit_password.text()
-            }
-            response = requests.post("http://127.0.0.1:8000/api/v1/api-token-auth/", data=data)
-
-            if response.status_code == 200:
-                try:
-                    # Декодирование ответа в словарь
-                    response_dict = json.loads(response.text)
-                    self.token = response_dict["token"]
-                    self.label_username.setText(self.lineEdit_login.text())
-
-                    self.lineEdit_login.hide()
-                    self.label_login.hide()
-                    self.lineEdit_password.hide()
-                    self.label_password.hide()
-                    self.pushButton_auth.hide()
-                    self.label_name.show()
-                    self.lineEdit_name.show()
-                    self.pushButton_save.show()
-
-                    self.adventure_list_update()
-                except json.decoder.JSONDecodeError:
-                    print('Ошибка декодирования ответа')
-            else:
-                print('Авторизация не удалась')
-
-        @logger.catch
-        def adventure_list_update(self):
-            headers = {"Authorization": f"Token {self.token}"}
-            response = requests.get("http://127.0.0.1:8000/api/v1/dmssave/", headers=headers)
-            if response.status_code == 200:
-                try:
-                    self.response_dict = json.loads(response.text)
-                    for i in self.response_dict:
-                        self.listWidget_web_list.addItem(i["title"])
-                except json.decoder.JSONDecodeError:
-                    print('Ошибка декодирования ответа')
-            else:
-                print('Авторизация не удалась')
-
-        @logger.catch
-        def load_adventure(self, bool_val=False):
-            for i in self.response_dict:
-                if i["title"] == self.listWidget_web_list.currentItem().text():
-                    response = i
-
-
-            data = response["dms_save"]
-            global dict_preset
-            global hero
-            global hero_in_game
-            global music
-            global store
-            global npc
-            global scenario
-            global scenario_text
-            global scenario_chapter
-            hero = data[0]
-            hero_in_game = data[1]
-            music = data[2]
-            self.note_edit_0.setText(data[3])
-            self.note_edit_1.setText(data[4])
-            self.note_edit_2.setText(data[5])
-            self.note_edit_3.setText(data[6])
-            store = data[7]
-            npc = data[8]
-            dict_preset = data[9]
-            scenario = data[10]
-            scenario_text = data[11]
-            scenario_chapter = data[12]
-
-            self.add_to_tracker()
-            self.music_changer_listview_category_update()
-            self.add_to_del_char_box()
-            self.box_choose_shop_update()
-            self.box_generate_npc_update()
-            self.comboBox_choose_chapter_update()
-            self.update_list_tags()
 
 
     if __name__ == "__main__":
