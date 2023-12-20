@@ -659,6 +659,8 @@ try:
             self.initiative_window.add_player_dice()
             #method
             self.initiative_window.view_enemy_preset()
+            #connect
+            self.initiative_window.del_enemy_signal.connect(self.update_initiative)
 
         @logger.catch
         def set_stat_after_fight(self):
@@ -1271,11 +1273,15 @@ try:
         @logger.catch
         def add_initiative(self, bool_val=False):
             if self.initiative_window.initiative_list:
-                viewer_initiative_list = InitiativeImg(self.initiative_window.initiative_list)
-                viewer_initiative_list.setPos(-360, 0)
-                self.scene.addItem(viewer_initiative_list)
+                self.viewer_initiative_list = InitiativeImg(self.initiative_window.initiative_list)
+                self.viewer_initiative_list.setPos(-360, 0)
+                self.scene.addItem(self.viewer_initiative_list)
             else:
                 self.user_error("Нет инициативы", "", "Рассчитайте инициативу в окне инициативы")
+
+        @logger.catch
+        def update_initiative(self, list_initiative: list):
+            self.viewer_initiative_list.update_initiative(list_initiative)
 
         @logger.catch
         def add_spell_zone(self):

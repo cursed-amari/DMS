@@ -1,6 +1,7 @@
 import json
 
 from PyQt6 import QtWidgets, QtCore
+from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import QMessageBox, QFileDialog
 from loguru import logger
 
@@ -11,11 +12,11 @@ from initializing_windows.initiative_redaction_enemy_dialog import Ui_Dialog_red
 from initializing_windows.initiative_redaction_enemy_dialog_2 import Ui_Dialog_redaction_enemy_in_initiative
 from initializing_windows.initiative_save_preset_enemy_dialog import Ui_Dialog_save_preset_enemy
 import random
-import copy
 import constants
 
 
 class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
+    del_enemy_signal = pyqtSignal(list)
     def __init__(self, hero, dict_preset):
         super().__init__()
         self.setupUi(self)
@@ -253,6 +254,7 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
             else:
                 self.user_error('Нельзя удалить героя из битвы', "", "")
                 logger.info("input_chek. except")
+            self.del_enemy_signal.emit(self.initiative_list)
         except AttributeError:
             self.user_error('Выберите объект для удаления!', "", "")
         logger.info("input_chek. except")

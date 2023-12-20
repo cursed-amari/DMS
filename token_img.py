@@ -30,16 +30,51 @@ class InitiativeImg(QGraphicsPixmapItem):
                 text_initiative_line_one += text
 
         if text_initiative_line_one:
-            text_one = QGraphicsTextItem(text_initiative_line_one, self)
-            text_one.setDefaultTextColor(Qt.GlobalColor.white)
-            text_one.setPos(10, 5)
-            text_items.append(text_one)
+            self.text_one = QGraphicsTextItem(text_initiative_line_one, self)
+            self.text_one.setDefaultTextColor(Qt.GlobalColor.white)
+            self.text_one.setPos(10, 5)
+            text_items.append(self.text_one)
 
         if text_initiative_line_two:
-            text_two = QGraphicsTextItem(text_initiative_line_two, self)
-            text_two.setDefaultTextColor(Qt.GlobalColor.white)
-            text_two.setPos(10, 25)
-            text_items.append(text_two)
+            self.text_two = QGraphicsTextItem(text_initiative_line_two, self)
+            self.text_two.setDefaultTextColor(Qt.GlobalColor.white)
+            self.text_two.setPos(10, 25)
+            text_items.append(self.text_two)
+
+    def update_initiative(self, initiative_list: list):
+        try:
+            if self.text_one:
+                self.text_one.deleteLater()
+        except AttributeError:
+            pass
+        try:
+            if self.text_two:
+                self.text_two.deleteLater()
+        except AttributeError:
+            pass
+        text_items = []
+        text_initiative_line_one = ""
+        text_initiative_line_two = ""
+        text_letter_counter = 0
+        for i in initiative_list:
+            text = f" {i[0]} {i[1]} |"
+            text_letter_counter += len(text)
+            if text_letter_counter >= 309:
+                text_initiative_line_two += text
+            else:
+                text_initiative_line_one += text
+
+        if text_initiative_line_one:
+            self.text_one = QGraphicsTextItem(text_initiative_line_one, self)
+            self.text_one.setDefaultTextColor(Qt.GlobalColor.white)
+            self.text_one.setPos(10, 5)
+            text_items.append(self.text_one)
+
+        if text_initiative_line_two:
+            self.text_two = QGraphicsTextItem(text_initiative_line_two, self)
+            self.text_two.setDefaultTextColor(Qt.GlobalColor.white)
+            self.text_two.setPos(10, 25)
+            text_items.append(self.text_two)
 
 
 class TokenImg(QGraphicsPixmapItem):
