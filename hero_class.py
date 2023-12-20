@@ -11,6 +11,7 @@ from hero_stats_window import HeroStats
 
 class Hero:
     def __init__(self, centralwidget, name: str, max_hp: int, ac: int, initiative: int, notes: str, player_class: str, current_hp: int=False, lss_json: dict=False):
+        self.lss_json = lss_json
         if lss_json:
             self.json_flag = True
             self.name = lss_json.get('name').get('value')
@@ -85,7 +86,8 @@ class Hero:
 
     @logger.catch
     def get_save_stats(self):
-        return self.name, self.max_hp, self.ac, self.initiative, self.notes, self.player_class, self.current_hp
+        return self.name, self.max_hp, self.ac, self.initiative, self.notes,\
+               self.player_class, self.current_hp, self.lss_json
 
     @logger.catch
     def get_initiative(self):

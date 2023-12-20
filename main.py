@@ -8,7 +8,7 @@ from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QMenu, QGraphicsScene, QApplication, \
     QGraphicsPixmapItem
-from PyQt6.QtCore import Qt, pyqtSignal, QPoint
+from PyQt6.QtCore import Qt, QPoint
 import pygame
 from loguru import logger
 import re
@@ -17,10 +17,7 @@ import time
 import json
 import os
 import fnmatch
-import requests
 from mutagen.mp3 import MP3
-from mutagen.wavpack import WavPack
-from mutagen.oggvorbis import OggVorbis
 
 from initializing_windows.img_viewer_new_token import Ui_Dialog_new_token
 from initializing_windows.main_class import Ui_MainWindow
@@ -248,11 +245,11 @@ try:
 
         @logger.catch
         def check_folders(self):
-            if not os.path.exists(os.getcwd() + "\music"):
-                os.mkdir(os.getcwd() + "\music")
+            if not os.path.exists(os.getcwd() + r"\music"):
+                os.mkdir(os.getcwd() + r"\music")
 
-            if not os.path.exists(os.getcwd() + "\images"):
-                os.mkdir(os.getcwd() + "\images")
+            if not os.path.exists(os.getcwd() + r"\images"):
+                os.mkdir(os.getcwd() + r"\images")
 
         @logger.catch()
         def user_error(self, text: str, informative_text: str, detailed_text: str):
@@ -268,9 +265,9 @@ try:
             error.buttonClicked.connect(self.popup_action)
 
             error.exec()
-        '''
+        """
         Menu
-        '''
+        """
 
         @logger.catch
         def main_menu(self, bool_val):
@@ -314,9 +311,9 @@ try:
 
         @logger.catch
         def actions_save(self):
-            '''
+            """
             DOCKSTRING: сохранение в json файл
-            '''
+            """
             hero_dict = []
             for i in hero.values():
                 hero_dict.append(i.get_save_stats())
@@ -354,9 +351,9 @@ try:
 
         @logger.catch
         def action_open(self):
-            '''
+            """
             DOCKSTRING: загрузка из json файла
-            '''
+            """
             global dict_preset
 
             data = QFileDialog.getOpenFileName(self, filter="Save (*.json)")[0]
@@ -396,9 +393,9 @@ try:
 
         @logger.catch
         def last_session(self):
-            '''
+            """
             DOCKSTRING: загрузка из json файла
-            '''
+            """
             global dict_preset
 
             try:
@@ -563,9 +560,9 @@ try:
 
 
 
-        '''
+        """
         Main window hide
-        '''
+        """
 
         @logger.catch
         def set_combobox_class(self):
@@ -574,9 +571,9 @@ try:
 
         @logger.catch
         def input_chek(self, bool_val):
-            '''
+            """
             DOCKSTRING: Проверка чисел
-            '''
+            """
             try:
                 hp_check = int(self.hp_edit.text())
                 ac_check = int(self.ac_edit.text())
@@ -591,9 +588,9 @@ try:
 
         @logger.catch
         def create_hero(self):
-            '''
+            """
             DOCKSTRING: Создание персонажа в редакторе и добавление его в словарь
-            '''
+            """
             if self.name_edit.text() not in hero.keys():
                 if len(hero) <= 7:
                     hero.update({self.name_edit.text(): Hero(self.centralwidget, self.name_edit.text(),
@@ -622,14 +619,15 @@ try:
         @logger.catch
         def load_hero(self, data):
             for i in data:
-                hero.update({i[0]: Hero(self.centralwidget, i[0], i[1], i[2], i[3], i[4], i[5], current_hp=i[6])})
+                hero.update({i[0]: Hero(self.centralwidget, i[0], i[1], i[2], i[3], i[4], i[5], current_hp=i[6],
+                                        lss_json=i[7])})
             self.add_to_tracker()
 
         @logger.catch
         def hide_create(self, check_radiobutton):
-            '''
+            """
             DOCKSTRING: круглая кнопка. Скрыть или показать редактор персонажа
-            '''
+            """
             if check_radiobutton is True:
                 self.frame_create.hide()
                 self.frame_tools.show()
@@ -638,9 +636,9 @@ try:
                 self.frame_tools.hide()
 
 
-        '''
+        """
         Main window show
-        '''
+        """
 
         @logger.catch
 
@@ -677,9 +675,9 @@ try:
 
         @logger.catch
         def roll_dice(self, bool_val):
-            '''
+            """
             DOCKSTRING: рандом кубика(числа) и вывод в окно
-            '''
+            """
             check_advantage = self.check_advantage.isChecked()
             try:
                 dice = int(self.dice_edit.text())
@@ -725,9 +723,9 @@ try:
 
         @logger.catch
         def add_to_tracker(self):
-            '''
+            """
             DOCKSTRING: добавление созданных персонажей в трекер
-            '''
+            """
             counter_vertical = 1
             counter_horizontal = 0
             hight_frame = 160
@@ -740,15 +738,15 @@ try:
 
         @logger.catch
         def popup_action(self, but):
-            '''
+            """
             DOCKSTRING: Заглушка для ошибок
-            '''
+            """
             if but.text() == 'Ok':
                 logger.info("popup_action")
 
-        '''
+        """
         Scenario
-        '''
+        """
 
         @logger.catch
         def del_chapter(self, bool_val):
@@ -762,9 +760,9 @@ try:
 
         @logger.catch
         def hide_chapter(self, radioButton_tags_notes):
-            '''
+            """
             DOCKSTRING: Скрытие основного окна сценария и вывод тэгов
-            '''
+            """
             if radioButton_tags_notes:
                 self.pushButton_add_tags.show()
                 self.pushButton_del_tags.show()
@@ -900,9 +898,9 @@ try:
                 else:
                     pass
 
-        '''
+        """
         Notes
-        '''
+        """
 
         @logger.catch
         def save_text(self):
@@ -919,15 +917,15 @@ try:
             note_two = self.note_edit_2.toPlainText()
             note_three = self.note_edit_3.toPlainText()
 
-        '''
+        """
         Music changer
-        '''
+        """
 
         @logger.catch
         def music_changer_update(self, bool_val):
-            '''
+            """
             DOCKSTRING: Добавление ссылок на музыку в словарь в формате сцена: урл
-            '''
+            """
             if self.category_edit.text() and self.scene_edit.text() != "":
                 if self.category_edit.text() in music.keys():
                     if self.scene_edit.text() in music[self.category_edit.text()].keys():
@@ -946,9 +944,9 @@ try:
 
         @logger.catch
         def music_changer_listview_category_update(self):
-            '''
+            """
             DOCKSTRING: обновление комбо бокса, при загрузке сохранения
-            '''
+            """
             self.listWidget_category.clear()
             for i in music.keys():
                 self.listWidget_category.addItem(i)
@@ -994,9 +992,9 @@ try:
 
         @logger.catch
         def collect_music(self, bool_val=False):
-            '''
+            """
             DOCKSTRING: Поиск файлов в папке
-            '''
+            """
             self.list_song = []
             listOfFiles = os.listdir('./music')
             for entry in listOfFiles:
@@ -1065,9 +1063,9 @@ try:
                 self.mixer.pause()
                 self.current_timer = self.music_timer.counter
 
-        '''
+        """
         Rules
-        '''
+        """
 
         @logger.catch
         def set_combobox_rules(self):
@@ -1078,15 +1076,15 @@ try:
         def changed_combobox_rules(self, rules_name):
             self.label_rules.setText(DICT_RULES[rules_name])
 
-        '''
+        """
         Img viewer
-        '''
+        """
 
         @logger.catch
         def collect_img(self, bool_val=False):
-            '''
+            """
             DOCKSTRING: Поиск файлов в папке
-            '''
+            """
             self.list_images = []
             listOfFiles = os.listdir('./images')
             for entry in listOfFiles:
@@ -1151,9 +1149,9 @@ try:
 
         @logger.catch
         def init_scene(self):
-            '''
+            """
             DOCKSTRING: Открытие выбранной картинки в окне просмотра
-            '''
+            """
             try:
                 if self.viewer_window and self.viewer_window_master:
                     try:
@@ -1171,9 +1169,9 @@ try:
 
         @logger.catch
         def open_current_img(self, bool_val=False):
-            '''
+            """
             DOCKSTRING: Открытие выбранной картинки в окне просмотра
-            '''
+            """
             self.token_list.clear()
             self.scene_items.clear()
             self.listWidget_items_scene.clear()
@@ -1195,18 +1193,18 @@ try:
 
         @logger.catch
         def spinBox_chek_enemy(self, bool_val=False):
-            '''
+            """
             DOCKSTRING: Проверка количества токенов
-            '''
+            """
             if self.spinBox_enemy_token.value() > 8:
                 self.spinBox_enemy_token.setValue(8)
                 self.user_error('Максимальное количество противников 8', "", "")
 
         @logger.catch
         def spinBox_chek_hero(self, bool_val=False):
-            '''
+            """
             DOCKSTRING: Проверка количества токенов
-            '''
+            """
             if self.spinBox_hero_token.value() > 8:
                 self.spinBox_hero_token.setValue(8)
                 self.user_error('Максимальное количество героев 8', "", "")
@@ -1299,9 +1297,9 @@ try:
 
         @logger.catch
         def add_token(self):
-            '''
+            """
             DOCKSTRING: Добавление токенов(изображение) в сцену
-            '''
+            """
             counter = 1
             for i in self.token_list.values():
                 if i not in self.scene.items():
@@ -1335,13 +1333,13 @@ try:
                                "    color: rgb(247, 147, 30);}\n"
                                "QMenu::item {background-color: transparent;}\n"
                                "QMenu::item:selected {background-color: rgb(85, 85, 85);}")
-            action_hide = self.listWidget_items_scene_menu.addAction("Add", self.add_scene_item_dialog)
+            self.listWidget_items_scene_menu.addAction("Add", self.add_scene_item_dialog)
 
-            action_show = self.listWidget_items_scene_menu.addAction("Delete", self.del_scene_item)
+            self.listWidget_items_scene_menu.addAction("Delete", self.del_scene_item)
 
-            action_add = self.listWidget_items_scene_menu.addAction("Hide", self.hide_scene_item)
+            self.listWidget_items_scene_menu.addAction("Hide", self.hide_scene_item)
 
-            action_del = self.listWidget_items_scene_menu.addAction("Show", self.show_scene_item)
+            self.listWidget_items_scene_menu.addAction("Show", self.show_scene_item)
 
             self.listWidget_items_scene.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
             self.listWidget_items_scene.customContextMenuRequested.connect(self.show_context_menu)
@@ -1394,9 +1392,9 @@ try:
             self.scene_items.get(self.listWidget_items_scene.currentItem().text()).show()
 
 
-        '''
+        """
         Store
-        '''
+        """
 
         @logger.catch
         def del_store(self, bool_val):
@@ -1433,9 +1431,9 @@ try:
 
         @logger.catch
         def options_generate_store(self, radioButton_options_store):
-            '''
+            """
             DOCKSTRING: Скрытие текстового поля заметок и вывод настроек генератора
-            '''
+            """
             if radioButton_options_store:
                 self.text_notes.hide()
 
@@ -1585,9 +1583,9 @@ try:
             if self.box_choose_shop.currentText() != "":
                 store[self.box_choose_shop.currentText()]['text_notes'] = self.text_notes.toPlainText()
 
-        '''
+        """
         NPC generator
-        '''
+        """
 
         @logger.catch
         def del_npc(self, bool_val):
