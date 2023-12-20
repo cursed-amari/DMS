@@ -53,18 +53,23 @@ class TokenImg(QGraphicsPixmapItem):
 
     del_signal = pyqtSignal(QGraphicsPixmapItem)
 
-    def __init__(self, x, y, r, num, image, player_class="", text="Unknown"):
+    def __init__(self, x, y, r, num, image, player_class="", text="Unknown", type_token=""):
         super().__init__()
         self.r = r
         self.image_path = image
         self.num = num
-        self.text = text
+        if "Spell_zone" in type_token:
+            self.text = ""
+        else:
+            self.text = text
         self.player_class = player_class
+        self.type_token = type_token
         self.rotate = 0
         self.setPos(x, y)
 
+
         self.init_text()
-        self.app_func()
+        self.set_image_path()
 
     def __str__(self):
         return self.text
@@ -88,42 +93,50 @@ class TokenImg(QGraphicsPixmapItem):
 
         self.setAcceptHoverEvents(True)
 
-    def app_func(self):
-        if self.player_class:
-            if os.path.exists(f"img/token/{self.player_class}.png"):
-                self.image_path = f"img/token/{self.player_class}.png"
-            else:
-                self.image_path = f"img/token/token.png"
-            self.set_pixmap()
+    def set_image_path(self):
+        if self.image_path:
+            pass
         else:
-            if self.image_path is None:
-                self.image_path = "Enemy"
-            if len(self.image_path) > 5:
+            if self.type_token == "Hero":
+                if os.path.exists(f"img/token/{self.player_class}.png"):
+                    self.image_path = f"img/token/{self.player_class}.png"
+                else:
+                    self.image_path = f"img/token/token.png"
                 self.set_pixmap()
+
+            elif self.type_token == "Enemy":
+                self.image_path = "img/token/token-" + self.num + ".png"
+                self.type_token = "Enemy"
+
+            elif self.type_token == "Ally":
+                self.image_path = "img/token/token.hero-" + self.num + ".png"
+                self.type_token = "Hero"
+
             else:
-                self.show_token()
+                if len(self.image_path) > 5:
+                    self.set_pixmap()
+        self.set_pixmap()
 
     @logger.catch
     def reduce_token(self, bool_val=False):
-        if self.r >= 20:
-            self.r -= 25
-            self.set_pixmap()
+        if "Spell_zone" in self.type_token:
+            if self.r >= 10:
+                self.r -= 5
+                self.set_pixmap()
+        else:
+            if self.r > 25:
+                self.r -= 25
+                self.set_pixmap()
 
     @logger.catch
     def increase_token(self, bool_val=False):
-        if self.r <= 200:
-            self.r += 25
+        if "Spell_zone" in self.type_token:
+            self.r += 5
             self.set_pixmap()
-
-    @logger.catch
-    def show_token(self, bool_val=False):
-        if self.image_path == "Enemy":
-            self.image_path = "img/token/token-" + self.num + ".png"
-
-        elif self.image_path == "Hero":
-            self.image_path = "img/token/token.hero-" + self.num + ".png"
-
-        self.set_pixmap()
+        else:
+            if self.r <= 200:
+                self.r += 25
+                self.set_pixmap()
 
     @logger.catch
     def open_image(self, bool_val=False):
@@ -135,7 +148,8 @@ class TokenImg(QGraphicsPixmapItem):
     def set_pixmap(self):
         if self.image_path:
             self.pix = QPixmap(self.image_path).scaled(self.r, self.r, aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
-                                            transformMode=Qt.TransformationMode.SmoothTransformation)
+                                            transformMode=Qt.TransformationMode.SmoothTransformation).transformed(
+            QTransform().rotate(self.rotate), Qt.TransformationMode.SmoothTransformation)
             self.set_image()
 
     @logger.catch
@@ -145,20 +159,12 @@ class TokenImg(QGraphicsPixmapItem):
     @logger.catch
     def rotate_left(self):
         self.rotate -= 90
-        transform = QTransform().rotate(self.rotate)
-        self.pix = QPixmap(self.image_path).scaled(self.r, self.r, aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
-                                            transformMode=Qt.TransformationMode.SmoothTransformation).transformed(
-            transform, Qt.TransformationMode.SmoothTransformation)
-        self.set_image()
+        self.set_pixmap()
 
     @logger.catch
     def rotate_right(self):
         self.rotate += 90
-        transform = QTransform().rotate(self.rotate)
-        self.pix = QPixmap(self.image_path).scaled(self.r, self.r, aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
-                                            transformMode=Qt.TransformationMode.SmoothTransformation).transformed(
-            transform, Qt.TransformationMode.SmoothTransformation)
-        self.set_image()
+        self.set_pixmap()
 
     @logger.catch
     def contextMenuEvent(self, event) -> None:
@@ -190,6 +196,13 @@ class TokenImg(QGraphicsPixmapItem):
         action_rotate_right = menu.addAction("rotate_right", self.rotate_right)
 
         menu.exec(QPoint(self.cursor().pos()))
+
+    @logger.catch
+    def wheelEvent(self, event):
+        if event.delta() <= 0:
+            self.reduce_token()
+        else:
+            self.increase_token()
 
     @logger.catch
     def mousePressEvent(self, event):

@@ -8,7 +8,7 @@ from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QMenu, QGraphicsScene, QApplication, \
     QGraphicsPixmapItem
-from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtCore import Qt, pyqtSignal, QPoint
 import pygame
 from loguru import logger
 import re
@@ -22,6 +22,7 @@ from mutagen.mp3 import MP3
 from mutagen.wavpack import WavPack
 from mutagen.oggvorbis import OggVorbis
 
+from initializing_windows.img_viewer_new_token import Ui_Dialog_new_token
 from initializing_windows.main_class import Ui_MainWindow
 from initiative import InitiativeWindow
 from music_timer import MusicTimer
@@ -61,6 +62,7 @@ try:
             self.slide_menu_num = 0
             self.scale_img_view = 0.25
             self.token_list = {}
+            self.scene_items = {}
             self.music_timer = MusicTimer()
 
             self.aplication_func()
@@ -129,8 +131,8 @@ try:
             self.pushButton_refresh_img.clicked.connect(self.collect_img)
             self.pushButton_reduce_token.clicked.connect(self.reduce_token)
             self.pushButton_increase_token.clicked.connect(self.increase_token)
-            self.pushButton_reduce_img.clicked.connect(self.reduce_img)
-            self.pushButton_increase_img.clicked.connect(self.increase_img)
+            # self.pushButton_reduce_img.clicked.connect(self.reduce_img)
+            # self.pushButton_increase_img.clicked.connect(self.increase_img)
             self.pushButton_add_enemy_token.clicked.connect(self.add_enemy_token)
             self.pushButton_add_hero_token.clicked.connect(self.add_hero_token)
             self.pushButton_add_unknown_token.clicked.connect(self.add_unknown_token)
@@ -215,6 +217,8 @@ try:
             self.collect_img()
             self.collect_music()
             self.init_scene()
+            self.add_spell_zone()
+            self.add_context_menu_listWidget_items_scene()
 
         @logger.catch
         def close_all_window(self, bool_val=False):
@@ -236,6 +240,11 @@ try:
             try:
                 if self.generators_window:
                     self.generators_window.close()
+            except AttributeError:
+                pass
+            try:
+                if self.Dialog_add_scene_item:
+                    self.Dialog_add_scene_item.close()
             except AttributeError:
                 pass
             self.close()
@@ -667,7 +676,7 @@ try:
         @logger.catch
         def app_func_initiative_window(self):
             #chekClose
-            self.initiative_window.windowClose.connect(self.save_dict_preset)
+            self.initiative_window.windowClose.connect(self.set_stat_after_fight)
             #Label
             self.initiative_window.hero = hero
             self.initiative_window.add_player_dice()
@@ -676,14 +685,12 @@ try:
 
         @logger.catch
         def set_stat_after_fight(self):
-            ...
-            # global hero
-            # for i in hero_in_game.keys():
-            #     for item in self.initiative_window.initiative_list:
-            #         if item[1] == hero_in_game[i]["name"]:
-            #             hero_in_game[i]["hp"] = item[2]
-            # self.save_dict_preset()
-            # self.add_to_tracker()
+            for i in hero:
+                for item in self.initiative_window.initiative_list:
+                    if item[1] == i:
+                        hero[i].current_hp = item[2]
+                        hero[i]._set_hp()
+            self.save_dict_preset()
 
         def save_dict_preset(self):
             global dict_preset
@@ -727,6 +734,7 @@ try:
                 for i in hero.values():
                     if self.comboBox_del_char.currentText() == str(i):
                         self.gridLayout_characters.removeWidget(i.get_frame())
+                        i.get_frame().deleteLater()
                         deleted = str(i)
                 hero.pop(deleted)
 
@@ -1159,24 +1167,6 @@ try:
                 i.increase_token()
 
         @logger.catch
-        def reduce_img(self, bool_val=False):
-            if self.scale_img_viewer <= -4:
-                pass
-            else:
-                self.graphicsView_img.scale(0.75, 0.75)
-                self.scale_img_viewer -= 1
-                self.label_scale_img_update()
-
-        @logger.catch
-        def increase_img(self, bool_val=False):
-            if self.scale_img_viewer >= 4:
-                pass
-            else:
-                self.graphicsView_img.scale(1.335, 1.335)
-                self.scale_img_viewer += 1
-                self.label_scale_img_update()
-
-        @logger.catch
         def label_scale_img_update(self):
             self.label_scale_img.setText(str(self.scale_img_viewer))
 
@@ -1191,10 +1181,8 @@ try:
                         self.scene = QGraphicsScene()
                         self.viewer_window.graphicsView_img.setScene(self.scene)
                         self.viewer_window_master.graphicsView_img.setScene(self.scene)
-                        self.graphicsView_img.setScene(self.scene)
                         self.viewer_window.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
                         self.viewer_window_master.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
-                        self.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
                     except AttributeError:
                         self.user_error('Выберите изображение, из списка', "", "")
                         logger.info("open_current_img, except AttributeError")
@@ -1208,6 +1196,9 @@ try:
             DOCKSTRING: Открытие выбранной картинки в окне просмотра
             '''
             self.token_list.clear()
+            self.scene_items.clear()
+            self.listWidget_items_scene.clear()
+
             self.scene.clear()
             for i in self.token_list.values():
                 self.scene.removeItem(i)
@@ -1220,6 +1211,8 @@ try:
             self.scene.addItem(pixmap_item)
 
             pixmap_item.setPos(600 - (self.current_img.rect().width() / 2), 0)
+
+            self.add_spell_zone()
 
         @logger.catch
         def spinBox_chek_enemy(self, bool_val=False):
@@ -1241,53 +1234,62 @@ try:
 
         @logger.catch
         def add_hero_token(self, bool_val=False):
-            position_token = 50
-            token_num = 1
+            if self.viewer_window.isVisible():
+                position_token = 50
+                token_num = 1
 
-            for i in hero.values():
-                position_token += 100
-                token = TokenImg(150, position_token, self.size_token, str(token_num), "Hero", text=str(i),
-                                 player_class=i.get_player_class())
-                token_num += 1
-                if str(i) not in self.token_list:
-                    self.token_list.update({str(i): token})
-            self.add_token()
+                for i in hero.values():
+                    position_token += 100
+                    token = TokenImg(150, position_token, self.size_token, str(token_num), "", text=str(i),
+                                     player_class=i.get_player_class(), type_token="Hero")
+                    token_num += 1
+                    if str(i) not in self.token_list:
+                        self.token_list.update({str(i): token})
+                self.add_token()
+            else:
+                self.user_error('Откройте окно просмотра изображения!', "", "")
 
         @logger.catch
         def add_enemy_token(self, bool_val=False):
-            position_token = 50
-            token_num = 1
+            if self.viewer_window.isVisible():
+                position_token = 50
+                token_num = 1
 
-            for i in self.initiative_window.enemy_list:
-                position_token += 100
-                token = TokenImg(50, position_token, self.size_token, str(token_num), i.token, text=i.name)
-                token_num += 1
-                if i not in self.token_list:
-                    self.token_list.update({i: token})
-            self.add_token()
+                for i in self.initiative_window.enemy_list:
+                    position_token += 100
+                    token = TokenImg(50, position_token, self.size_token, str(token_num), i.token, text=i.name, type_token="Enemy")
+                    token_num += 1
+                    if i not in self.token_list:
+                        self.token_list.update({i: token})
+                self.add_token()
+            else:
+                self.user_error('Откройте окно просмотра изображения!', "", "")
 
         @logger.catch
         def add_unknown_token(self, bool_val=False):
-            position_token = 50
-            token_num = 1
+            if self.viewer_window.isVisible():
+                position_token = 50
+                token_num = 1
 
-            for i in range(int(self.spinBox_enemy_token.text())):
-                position_token += 100
-                token = TokenImg(-35, position_token, self.size_token, str(token_num), "Enemy")
-                token_num += 1
-                if f"Enemy_{i}" not in self.token_list:
-                    self.token_list.update({f"Enemy_{i}": token})
+                for i in range(int(self.spinBox_enemy_token.text())):
+                    position_token += 100
+                    token = TokenImg(-35, position_token, self.size_token, str(token_num), "", type_token="Enemy")
+                    token_num += 1
+                    if f"Enemy_{i}" not in self.token_list:
+                        self.token_list.update({f"Enemy_{i}": token})
 
-            position_token = 50
-            token_num = 1
+                position_token = 50
+                token_num = 1
 
-            for i in range(int(self.spinBox_hero_token.text())):
-                position_token += 100
-                token = TokenImg(200, position_token, self.size_token, str(token_num), "Hero")
-                token_num += 1
-                if f"Hero_{i}" not in self.token_list:
-                    self.token_list.update({f"Hero_{i}": token})
-            self.add_token()
+                for i in range(int(self.spinBox_hero_token.text())):
+                    position_token += 100
+                    token = TokenImg(200, position_token, self.size_token, str(token_num), "", type_token="Ally")
+                    token_num += 1
+                    if f"Ally_{i}" not in self.token_list:
+                        self.token_list.update({f"Ally_{i}": token})
+                self.add_token()
+            else:
+                self.user_error('Откройте окно просмотра изображения!', "", "")
 
         @logger.catch
         def add_initiative(self, bool_val=False):
@@ -1299,13 +1301,115 @@ try:
                 self.user_error("Нет инициативы", "", "Рассчитайте инициативу в окне инициативы")
 
         @logger.catch
+        def add_spell_zone(self):
+            self.token_list["token_sphere"] = \
+                TokenImg(10, 10, 840, 0, "./img/token/sphere.30feet.png", type_token="Spell_zone sphere")
+            self.token_list.get("token_sphere").hide()
+
+            self.token_list["token_cone"] = \
+                TokenImg(10, 10, 325, 0, "./img/token/cone.15feet.png", type_token="Spell_zone cone")
+            self.token_list.get("token_cone").hide()
+
+            self.token_list["token_square"] = \
+                TokenImg(10, 10, 195, 0, "./img/token/square.15feet.png", type_token="Spell_zone square")
+            self.token_list.get("token_square").hide()
+
+        @logger.catch
         def add_token(self):
             '''
             DOCKSTRING: Добавление токенов(изображение) в сцену
             '''
+            counter = 1
             for i in self.token_list.values():
                 if i not in self.scene.items():
+                    if "Spell_zone" in i.type_token:
+                        self.scene_items[i.type_token] = i
+
+                    elif i.player_class:
+                        if f"{i.player_class}_{i.text}_{counter}" in self.scene_items:
+                            while f"{i.player_class}_{i.text}_{counter}" in self.scene_items:
+                                counter += 1
+                            self.scene_items[f"{i.player_class}_{i.text}_{counter}"] = i
+                            counter = 1
+                        else:
+                            self.scene_items[f"{i.player_class}_{i.text}_{counter}"] = i
+
+                    else:
+                        if f"{i.type_token}_{i.text}_{counter}" in self.scene_items:
+                            while f"{i.type_token}_{i.text}_{counter}" in self.scene_items:
+                                counter += 1
+                            self.scene_items[f"{i.type_token}_{i.text}_{counter}"] = i
+                            counter = 1
+                        else:
+                            self.scene_items[f"{i.type_token}_{i.text}_{counter}"] = i
                     self.scene.addItem(i)
+            self.add_to_scene_items()
+
+        @logger.catch
+        def add_context_menu_listWidget_items_scene(self):
+            self.listWidget_items_scene_menu = QMenu()
+            self.listWidget_items_scene_menu.setStyleSheet("QMenu    {background-color: rgb(55, 55, 55);\n"
+                               "    color: rgb(247, 147, 30);}\n"
+                               "QMenu::item {background-color: transparent;}\n"
+                               "QMenu::item:selected {background-color: rgb(85, 85, 85);}")
+            action_hide = self.listWidget_items_scene_menu.addAction("Add", self.add_scene_item_dialog)
+
+            action_show = self.listWidget_items_scene_menu.addAction("Delete", self.del_scene_item)
+
+            action_add = self.listWidget_items_scene_menu.addAction("Hide", self.hide_scene_item)
+
+            action_del = self.listWidget_items_scene_menu.addAction("Show", self.show_scene_item)
+
+            self.listWidget_items_scene.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+            self.listWidget_items_scene.customContextMenuRequested.connect(self.show_context_menu)
+
+        @logger.catch
+        def show_context_menu(self, event):
+            self.listWidget_items_scene_menu.exec(QPoint(self.cursor().pos()))
+
+        @logger.catch
+        def add_to_scene_items(self):
+            self.listWidget_items_scene.clear()
+            for i in self.scene_items:
+                self.listWidget_items_scene.addItem(i)
+
+        @logger.catch
+        def add_scene_item_dialog(self, bool_val=False):
+            self.Dialog_add_scene_item = QtWidgets.QDialog()
+            self.ui_add_scene_item = Ui_Dialog_new_token()
+            self.ui_add_scene_item.setupUi(self.Dialog_add_scene_item)
+            self.ui_add_scene_item.pushButton_accept.clicked.connect(self.add_scene_item)
+            self.Dialog_add_scene_item.exec()
+
+        @logger.catch
+        def add_scene_item(self, bool_val=False):
+            if self.ui_add_scene_item.edit_name.text() not in self.token_list:
+                token = TokenImg(50, 50, 150, "1", "", text=self.ui_add_scene_item.edit_name.text(), type_token="Hero")
+                self.token_list.update({self.ui_add_scene_item.edit_name.text(): token})
+                self.Dialog_add_scene_item.accept()
+            else:
+                self.Dialog_add_scene_item.accept()
+                self.user_error("Токен с таким именем уже существует", "", "")
+
+            self.add_token()
+
+        @logger.catch
+        def del_scene_item(self, bool_val=False):
+            self.scene.removeItem(self.scene_items.get(self.listWidget_items_scene.currentItem().text()))
+            self.scene_items.pop(self.listWidget_items_scene.currentItem().text())
+            if self.listWidget_items_scene.currentItem().text() in self.token_list:
+                self.token_list.pop(self.listWidget_items_scene.currentItem().text())
+
+            self.add_to_scene_items()
+
+        @logger.catch
+        def hide_scene_item(self, bool_val=False):
+            self.scene_items.get(self.listWidget_items_scene.currentItem().text()).hide()
+
+        @logger.catch
+        def show_scene_item(self, bool_val=False):
+            self.scene_items.get(self.listWidget_items_scene.currentItem().text()).show()
+
 
         '''
         Store

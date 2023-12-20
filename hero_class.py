@@ -136,6 +136,11 @@ class Hero:
         self.label_ac.setText(_translate("MainWindow", "Ac"))
         self.label_initiative.setText(_translate("MainWindow", "Initiative"))
 
+
+    @logger.catch
+    def get_all_widgets(self):
+        return (self.frame_hero, self.label_name, self.label_hp_character, self.pushButton_hp, self.label_initiative,
+                self.lineEdit_initiative, self.label_ac, self.lineEdit_ac, self.textEdit_notes)
     @logger.catch
     def __app_func(self, centralwidget):
         #textEdit
@@ -196,17 +201,17 @@ class Hero:
 
     @logger.catch
     def _set_notes(self):
-        # self.textEdit_notes.setText(f"Gold: {self.gold}\n{self.notes}")
+        if self.json_flag:
+            text = ""
 
-        text = ""
+            for i in self.notes:
+                if i.get("content"):
+                    for k in i.get("content"):
+                        text += k.get("text")
 
-        for i in self.notes:
-            # print(i.get("content"))
-            if i.get("content"):
-                for k in i.get("content"):
-                    text += k.get("text")
-
-        self.textEdit_notes.setText(f"Gold: {self.gold}\n{text}")
+            self.textEdit_notes.setText(f"Gold: {self.gold}\n{text}")
+        else:
+            self.textEdit_notes.setText(self.notes)
 
     @logger.catch
     def get_frame(self):
