@@ -130,6 +130,7 @@ try:
             self.pushButton_increase_token.clicked.connect(self.increase_token)
             # self.pushButton_reduce_img.clicked.connect(self.reduce_img)
             # self.pushButton_increase_img.clicked.connect(self.increase_img)
+            self.pushButton_add_spell_zone.clicked.connect(self.show_context_menu_spell_zone)
             self.pushButton_add_enemy_token.clicked.connect(self.add_enemy_token)
             self.pushButton_add_hero_token.clicked.connect(self.add_hero_token)
             self.pushButton_add_unknown_token.clicked.connect(self.add_unknown_token)
@@ -211,7 +212,7 @@ try:
             self.collect_img()
             self.collect_music()
             self.init_scene()
-            self.add_spell_zone()
+            self.add_context_menu_spell_zone()
             self.add_context_menu_listWidget_items_scene()
 
         @logger.catch
@@ -1189,8 +1190,6 @@ try:
 
             pixmap_item.setPos(600 - (self.current_img.rect().width() / 2), 0)
 
-            self.add_spell_zone()
-
         @logger.catch
         def spinBox_chek_enemy(self, bool_val=False):
             """
@@ -1225,6 +1224,7 @@ try:
                 self.add_token()
             else:
                 self.user_error('Откройте окно просмотра изображения!', "", "")
+                logger.info("add_hero_token, open_window except AttributeError")
 
         @logger.catch
         def add_enemy_token(self, bool_val=False):
@@ -1241,6 +1241,7 @@ try:
                 self.add_token()
             else:
                 self.user_error('Откройте окно просмотра изображения!', "", "")
+                logger.info("add_enemy_token, open_window except AttributeError")
 
         @logger.catch
         def add_unknown_token(self, bool_val=False):
@@ -1267,6 +1268,7 @@ try:
                 self.add_token()
             else:
                 self.user_error('Откройте окно просмотра изображения!', "", "")
+                logger.info("add_unknown_token, open_window except AttributeError")
 
         @logger.catch
         def add_initiative(self, bool_val=False):
@@ -1276,24 +1278,49 @@ try:
                 self.scene.addItem(self.viewer_initiative_list)
             else:
                 self.user_error("Нет инициативы", "", "Рассчитайте инициативу в окне инициативы")
+                logger.info("add_initiative, initiative_list except AttributeError")
 
         @logger.catch
         def update_initiative(self, list_initiative: list):
             self.viewer_initiative_list.update_initiative(list_initiative)
 
         @logger.catch
-        def add_spell_zone(self):
-            self.token_list["token_sphere"] = \
-                TokenImg(10, 10, 840, 0, "./img/token/sphere.30feet.png", type_token="Spell_zone sphere")
-            self.token_list.get("token_sphere").hide()
+        def add_context_menu_spell_zone(self):
+            self.spell_zone_items_scene_menu = QMenu()
+            self.spell_zone_items_scene_menu.setStyleSheet("QMenu    {background-color: rgb(55, 55, 55);\n"
+                                                           "    color: rgb(247, 147, 30);}\n"
+                                                           "QMenu::item {background-color: transparent;}\n"
+                                                           "QMenu::item:selected {background-color: rgb(85, 85, 85);}")
+            self.spell_zone_items_scene_menu.addAction("Sphere.30feet", lambda: self.add_spell_zone(
+                "sphere", "./img/token/sphere.30feet.png"))
 
-            self.token_list["token_cone"] = \
-                TokenImg(10, 10, 325, 0, "./img/token/cone.15feet.png", type_token="Spell_zone cone")
-            self.token_list.get("token_cone").hide()
+            self.spell_zone_items_scene_menu.addAction("Cone.15feet", lambda: self.add_spell_zone(
+                "cone", "./img/token/cone.15feet.png"))
 
-            self.token_list["token_square"] = \
-                TokenImg(10, 10, 195, 0, "./img/token/square.15feet.png", type_token="Spell_zone square")
-            self.token_list.get("token_square").hide()
+            self.spell_zone_items_scene_menu.addAction("Square.15feet", lambda: self.add_spell_zone(
+                "square", "./img/token/square.15feet.png"))
+
+        @logger.catch
+        def add_spell_zone(self, type, path):
+            try:
+                if self.viewer_window.isVisible() and self.viewer_window_master.isVisible():
+                    if type == "sphere":
+                        token_size = 840
+                    elif type == "cone":
+                        token_size = 325
+                    else:
+                        token_size = 195
+                    self.token_list[f"Spell_zone {type}"] = TokenImg(10, 10, token_size, 0, path, type_token=f"Spell_zone {type}")
+                    self.add_token()
+                else:
+                    self.user_error('Откройте окно просмотра изображения!', "", "")
+            except AttributeError:
+                self.user_error('Откройте окно просмотра изображения!', "", "")
+                logger.info("add_spell_zone, open_window except AttributeError")
+
+        @logger.catch
+        def show_context_menu_spell_zone(self, event):
+            self.spell_zone_items_scene_menu.exec(QPoint(self.cursor().pos()))
 
         @logger.catch
         def add_token(self):
@@ -1342,10 +1369,10 @@ try:
             self.listWidget_items_scene_menu.addAction("Show", self.show_scene_item)
 
             self.listWidget_items_scene.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-            self.listWidget_items_scene.customContextMenuRequested.connect(self.show_context_menu)
+            self.listWidget_items_scene.customContextMenuRequested.connect(self.show_context_menu_listWidget_items_scene)
 
         @logger.catch
-        def show_context_menu(self, event):
+        def show_context_menu_listWidget_items_scene(self, event):
             self.listWidget_items_scene_menu.exec(QPoint(self.cursor().pos()))
 
         @logger.catch
@@ -1356,11 +1383,18 @@ try:
 
         @logger.catch
         def add_scene_item_dialog(self, bool_val=False):
-            self.Dialog_add_scene_item = QtWidgets.QDialog()
-            self.ui_add_scene_item = Ui_Dialog_new_token()
-            self.ui_add_scene_item.setupUi(self.Dialog_add_scene_item)
-            self.ui_add_scene_item.pushButton_accept.clicked.connect(self.add_scene_item)
-            self.Dialog_add_scene_item.exec()
+            try:
+                if self.viewer_window.isVisible() and self.viewer_window_master.isVisible():
+                    self.Dialog_add_scene_item = QtWidgets.QDialog()
+                    self.ui_add_scene_item = Ui_Dialog_new_token()
+                    self.ui_add_scene_item.setupUi(self.Dialog_add_scene_item)
+                    self.ui_add_scene_item.pushButton_accept.clicked.connect(self.add_scene_item)
+                    self.Dialog_add_scene_item.exec()
+                else:
+                    self.user_error('Откройте окно просмотра изображения!', "", "")
+            except AttributeError:
+                self.user_error('Откройте окно просмотра изображения!', "", "")
+                logger.info("add_scene_item_dialog, open_window except AttributeError")
 
         @logger.catch
         def add_scene_item(self, bool_val=False):
@@ -1376,20 +1410,29 @@ try:
 
         @logger.catch
         def del_scene_item(self, bool_val=False):
-            self.scene.removeItem(self.scene_items.get(self.listWidget_items_scene.currentItem().text()))
-            self.scene_items.pop(self.listWidget_items_scene.currentItem().text())
-            if self.listWidget_items_scene.currentItem().text() in self.token_list:
-                self.token_list.pop(self.listWidget_items_scene.currentItem().text())
+            if self.listWidget_items_scene.currentItem():
+                self.scene.removeItem(self.scene_items.get(self.listWidget_items_scene.currentItem().text()))
+                self.scene_items.pop(self.listWidget_items_scene.currentItem().text())
+                if self.listWidget_items_scene.currentItem().text() in self.token_list:
+                    self.token_list.pop(self.listWidget_items_scene.currentItem().text())
 
-            self.add_to_scene_items()
+                self.add_to_scene_items()
+            else:
+                self.user_error("Выберите объект для удаления", "", "")
 
         @logger.catch
         def hide_scene_item(self, bool_val=False):
-            self.scene_items.get(self.listWidget_items_scene.currentItem().text()).hide()
+            if self.listWidget_items_scene.currentItem():
+                self.scene_items.get(self.listWidget_items_scene.currentItem().text()).hide()
+            else:
+                self.user_error("Выберите объект для сокрытия", "", "")
 
         @logger.catch
         def show_scene_item(self, bool_val=False):
-            self.scene_items.get(self.listWidget_items_scene.currentItem().text()).show()
+            if self.listWidget_items_scene.currentItem():
+                self.scene_items.get(self.listWidget_items_scene.currentItem().text()).show()
+            else:
+                self.user_error("Выберите объект для показа", "", "")
 
 
         """
