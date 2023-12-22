@@ -110,8 +110,16 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
         self.ui_add_enemy.listWidget_enemy.clicked.connect(self.add_enemy_show_enemy)
         self.ui_add_enemy.pushButton_token.clicked.connect(self.add_enemy_open_token)
         self.ui_add_enemy.pushButton_ok.clicked.connect(self.add_enemy_to_initiative)
+        self.ui_add_enemy.spinBox_amount_enemy.valueChanged.connect(self.check_amoun_enemy)
         #method
         self.add_enemy_set_listWidget(self.data)
+
+    @logger.catch
+    def check_amoun_enemy(self, bool_val=False):
+        if int(self.ui_add_enemy.spinBox_amount_enemy.text()) >= 8:
+            self.user_error('Максимум 8 противников', "Больше просто не влезает на карту XD", "")
+        else:
+            pass
 
     @logger.catch
     def load_enemy_data(self):
@@ -175,13 +183,21 @@ class InitiativeWindow(QtWidgets.QMainWindow, Ui_MainWindow_init):
     def add_enemy_to_initiative(self, bool_val):
         if self.ui_add_enemy.radioButton_fast_gen.isChecked():
             for i in range(int(self.ui_add_enemy.spinBox_amount_enemy.text())):
-                enemy = Enemy(self.ui_add_enemy.enemy_name_edit.text(), self.ui_add_enemy.enemy_hp_edit.text(),
-                              self.ui_add_enemy.enemy_initiative_edit.text(), i+1, self.token_path, self.data)
-                self.enemy_list.append(enemy)
+                if len(self.enemy_list) >= 8:
+                    self.user_error('Максимум 8 противников', "Больше просто не влезает на карту XD", "")
+                    break
+                else:
+                    enemy = Enemy(self.ui_add_enemy.enemy_name_edit.text(), self.ui_add_enemy.enemy_hp_edit.text(),
+                                  self.ui_add_enemy.enemy_initiative_edit.text(), i+1, self.token_path, self.data)
+                    self.enemy_list.append(enemy)
         else:
             for i in range(int(self.ui_add_enemy.spinBox_amount_enemy.text())):
-                enemy = Enemy(self.ui_add_enemy.listWidget_enemy.currentItem().text(), "", "", i+1, self.token_path, self.data)
-                self.enemy_list.append(enemy)
+                if len(self.enemy_list) >= 8:
+                    self.user_error('Максимум 8 противников', "Больше просто не влезает на карту XD", "")
+                    break
+                else:
+                    enemy = Enemy(self.ui_add_enemy.listWidget_enemy.currentItem().text(), "", "", i+1, self.token_path, self.data)
+                    self.enemy_list.append(enemy)
         self.show_enemy()
 
     @logger.catch

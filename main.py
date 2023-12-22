@@ -7,7 +7,7 @@
 from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QMenu, QGraphicsScene, QApplication, \
-    QGraphicsPixmapItem
+    QGraphicsPixmapItem, QVBoxLayout
 from PyQt6.QtCore import Qt, QPoint
 import pygame
 from loguru import logger
@@ -20,6 +20,7 @@ import fnmatch
 from mutagen.mp3 import MP3
 
 from initializing_windows.img_viewer_new_token import Ui_Dialog_new_token
+from initializing_windows.img_view_master import MasteWindowViewerShow
 from initializing_windows.main_class import Ui_MainWindow
 from initiative import InitiativeWindow
 from music_timer import MusicTimer
@@ -68,7 +69,7 @@ try:
         def aplication_func(self):
             # initializing
             self.viewer_window = Window_viewer_show()
-            self.viewer_window_master = Window_viewer_show()
+            self.viewer_window_master = MasteWindowViewerShow()
             self.initiative_window = InitiativeWindow(hero, dict_preset)
             self.mixer = pygame.mixer.music
 
@@ -1161,12 +1162,31 @@ try:
                         self.viewer_window_master.graphicsView_img.setScene(self.scene)
                         self.viewer_window.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
                         self.viewer_window_master.graphicsView_img.setSceneRect(0, 0, 1200, 1000)
+                        self.master_viewer_init()
                     except AttributeError:
                         self.user_error('Выберите изображение, из списка', "", "")
                         logger.info("open_current_img, except AttributeError")
             except AttributeError:
                 self.user_error('Откройте окно просмотра изображения!', "", "")
                 logger.info("open_current_img, open_window except AttributeError")
+
+        @logger.catch
+        def master_viewer_init(self):
+            frame_layout = QVBoxLayout()
+            self.viewer_window_master.frame_navigate.setLayout(frame_layout)
+            self.listWidget_items_scene_master = QtWidgets.QListWidget()
+            self.listWidget_items_scene_master.setGeometry(QtCore.QRect(525, 130, 261, 181))
+
+            self.pushButton_add_spell_zone_master = QtWidgets.QPushButton()
+            self.pushButton_add_spell_zone_master.setGeometry(QtCore.QRect(705, 100, 81, 23))
+            self.pushButton_add_spell_zone_master.setObjectName("pushButton_add_spell_zone_master")
+            self.pushButton_add_spell_zone_master.setText("Add spell zone")
+            self.pushButton_add_spell_zone_master.clicked.connect(self.show_context_menu_spell_zone)
+
+            frame_layout.addWidget(self.pushButton_add_spell_zone_master)
+            frame_layout.addWidget(self.listWidget_items_scene_master)
+
+            self.add_context_menu_listWidget_items_scene_master()
 
         @logger.catch
         def open_current_img(self, bool_val=False):
@@ -1176,6 +1196,7 @@ try:
             self.token_list.clear()
             self.scene_items.clear()
             self.listWidget_items_scene.clear()
+            self.listWidget_items_scene_master.clear()
 
             self.scene.clear()
             for i in self.token_list.values():
@@ -1383,8 +1404,10 @@ try:
         @logger.catch
         def add_to_scene_items(self):
             self.listWidget_items_scene.clear()
+            self.listWidget_items_scene_master.clear()
             for i in self.scene_items:
                 self.listWidget_items_scene.addItem(i)
+                self.listWidget_items_scene_master.addItem(i)
 
         @logger.catch
         def add_scene_item_dialog(self, bool_val=False):
@@ -1416,11 +1439,17 @@ try:
 
         @logger.catch
         def del_scene_item(self, bool_val=False):
+            delete = ""
             if self.listWidget_items_scene.currentItem():
                 self.scene.removeItem(self.scene_items.get(self.listWidget_items_scene.currentItem().text()))
                 self.scene_items.pop(self.listWidget_items_scene.currentItem().text())
-                if self.listWidget_items_scene.currentItem().text() in self.token_list:
-                    self.token_list.pop(self.listWidget_items_scene.currentItem().text())
+                for key, value in self.token_list.items():
+                    if self.scene_items[self.listWidget_items_scene.currentItem().text()] == value:
+                        delete = key
+                if delete:
+                    self.token_list.pop(delete)
+
+                self.scene_items.pop(self.listWidget_items_scene.currentItem().text())
 
                 self.add_to_scene_items()
             else:
@@ -1437,6 +1466,61 @@ try:
         def show_scene_item(self, bool_val=False):
             if self.listWidget_items_scene.currentItem():
                 self.scene_items.get(self.listWidget_items_scene.currentItem().text()).show()
+            else:
+                self.user_error("Выберите объект для показа", "", "")
+
+        @logger.catch
+        def add_context_menu_listWidget_items_scene_master(self):
+            self.listWidget_items_scene_menu_master = QMenu()
+            self.listWidget_items_scene_menu_master.setStyleSheet("QMenu    {background-color: rgb(55, 55, 55);\n"
+                                                           "    color: rgb(247, 147, 30);}\n"
+                                                           "QMenu::item {background-color: transparent;}\n"
+                                                           "QMenu::item:selected {background-color: rgb(85, 85, 85);}")
+            self.listWidget_items_scene_menu_master.addAction("Add", self.add_scene_item_dialog)
+
+            self.listWidget_items_scene_menu_master.addAction("Delete", self.del_scene_item_master)
+
+            self.listWidget_items_scene_menu_master.addAction("Hide", self.hide_scene_item_master)
+
+            self.listWidget_items_scene_menu_master.addAction("Show", self.show_scene_item_master)
+
+            self.listWidget_items_scene_master.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+            self.listWidget_items_scene_master.customContextMenuRequested.connect(
+                self.show_context_menu_listWidget_items_scene_master)
+
+        @logger.catch
+        def show_context_menu_listWidget_items_scene_master(self, event):
+            self.listWidget_items_scene_menu_master.exec(QPoint(self.cursor().pos()))
+
+        @logger.catch
+        def del_scene_item_master(self, bool_val=False):
+            delete = ""
+            if self.listWidget_items_scene_master.currentItem():
+                self.scene.removeItem(self.scene_items.get(self.listWidget_items_scene_master.currentItem().text()))
+
+                for key, value in self.token_list.items():
+                    if self.scene_items[self.listWidget_items_scene_master.currentItem().text()] == value:
+                        delete = key
+                if delete:
+                    self.token_list.pop(delete)
+
+                self.scene_items.pop(self.listWidget_items_scene_master.currentItem().text())
+
+                self.add_to_scene_items()
+            else:
+                self.user_error("Выберите объект для удаления", "", "")
+
+        @logger.catch
+        def hide_scene_item_master(self, bool_val=False):
+            if self.listWidget_items_scene_master.currentItem():
+                self.scene_items.get(self.listWidget_items_scene_master.currentItem().text()).hide()
+            else:
+                self.user_error("Выберите объект для сокрытия", "", "")
+
+        @logger.catch
+        def show_scene_item_master(self, bool_val=False):
+            if self.listWidget_items_scene_master.currentItem():
+                self.scene_items.get(self.listWidget_items_scene_master.currentItem().text()).show()
             else:
                 self.user_error("Выберите объект для показа", "", "")
 

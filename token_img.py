@@ -26,7 +26,7 @@ class InitiativeImg(QGraphicsPixmapItem):
         for i in initiative_list:
             text = f" {i[0]} {i[1]} |"
             text_letter_counter += len(text)
-            if text_letter_counter >= 309:
+            if text_letter_counter >= 280:
                 text_initiative_line_two += text
             else:
                 text_initiative_line_one += text
@@ -34,13 +34,13 @@ class InitiativeImg(QGraphicsPixmapItem):
         if text_initiative_line_one:
             self.text_one = QGraphicsTextItem(text_initiative_line_one, self)
             self.text_one.setDefaultTextColor(Qt.GlobalColor.white)
-            self.text_one.setPos(10, 5)
+            self.text_one.setPos(250, 5)
             text_items.append(self.text_one)
 
         if text_initiative_line_two:
             self.text_two = QGraphicsTextItem(text_initiative_line_two, self)
             self.text_two.setDefaultTextColor(Qt.GlobalColor.white)
-            self.text_two.setPos(10, 25)
+            self.text_two.setPos(250, 25)
             text_items.append(self.text_two)
 
     def update_initiative(self, initiative_list: list):
@@ -61,7 +61,7 @@ class InitiativeImg(QGraphicsPixmapItem):
         for i in initiative_list:
             text = f" {i[0]} {i[1]} |"
             text_letter_counter += len(text)
-            if text_letter_counter >= 309:
+            if text_letter_counter >= 280:
                 text_initiative_line_two += text
             else:
                 text_initiative_line_one += text
@@ -69,13 +69,13 @@ class InitiativeImg(QGraphicsPixmapItem):
         if text_initiative_line_one:
             self.text_one = QGraphicsTextItem(text_initiative_line_one, self)
             self.text_one.setDefaultTextColor(Qt.GlobalColor.white)
-            self.text_one.setPos(10, 5)
+            self.text_one.setPos(250, 5)
             text_items.append(self.text_one)
 
         if text_initiative_line_two:
             self.text_two = QGraphicsTextItem(text_initiative_line_two, self)
             self.text_two.setDefaultTextColor(Qt.GlobalColor.white)
-            self.text_two.setPos(10, 25)
+            self.text_two.setPos(250, 25)
             text_items.append(self.text_two)
 
 
