@@ -1218,6 +1218,7 @@ try:
                     position_token += 100
                     token = TokenImg(150, position_token, self.size_token, str(token_num), "", text=str(i),
                                      player_class=i.get_player_class(), type_token="Hero")
+                    token.setZValue(2)
                     token_num += 1
                     if str(i) not in self.token_list:
                         self.token_list.update({str(i): token})
@@ -1235,6 +1236,7 @@ try:
                 for i in self.initiative_window.enemy_list:
                     position_token += 100
                     token = TokenImg(50, position_token, self.size_token, str(token_num), i.token, text=i.name, type_token="Enemy")
+                    token.setZValue(2)
                     token_num += 1
                     if i not in self.token_list:
                         self.token_list.update({i: token})
@@ -1255,6 +1257,7 @@ try:
                     token_num += 1
                     if f"Enemy_{i}" not in self.token_list:
                         self.token_list.update({f"Enemy_{i}": token})
+                    self.token_list[f"Enemy_{i}"].setZValue(2)
 
                 position_token = 50
                 token_num = 1
@@ -1265,6 +1268,7 @@ try:
                     token_num += 1
                     if f"Ally_{i}" not in self.token_list:
                         self.token_list.update({f"Ally_{i}": token})
+                    self.token_list[f"Ally_{i}"].setZValue(2)
                 self.add_token()
             else:
                 self.user_error('Откройте окно просмотра изображения!', "", "")
@@ -1311,6 +1315,7 @@ try:
                     else:
                         token_size = 195
                     self.token_list[f"Spell_zone {type}"] = TokenImg(10, 10, token_size, 0, path, type_token=f"Spell_zone {type}")
+                    self.token_list[f"Spell_zone {type}"].setZValue(1)
                     self.add_token()
                 else:
                     self.user_error('Откройте окно просмотра изображения!', "", "")
@@ -1399,7 +1404,8 @@ try:
         @logger.catch
         def add_scene_item(self, bool_val=False):
             if self.ui_add_scene_item.edit_name.text() not in self.token_list:
-                token = TokenImg(50, 50, 150, "1", "", text=self.ui_add_scene_item.edit_name.text(), type_token="Hero")
+                token = TokenImg(50, 50, 100, "1", "", text=self.ui_add_scene_item.edit_name.text(), type_token="Hero")
+                token.setZValue(2)
                 self.token_list.update({self.ui_add_scene_item.edit_name.text(): token})
                 self.Dialog_add_scene_item.accept()
             else:

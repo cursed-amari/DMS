@@ -3,7 +3,9 @@ import os
 from PyQt6.QtWidgets import QApplication, QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QGraphicsTextItem, \
     QGraphicsObject, QMenu, QFileDialog, QGraphicsRectItem, QGraphicsDropShadowEffect
 from PyQt6.QtCore import Qt, QPointF, QRect, pyqtSignal, QPoint
-from PyQt6.QtGui import QGuiApplication, QPixmap, QPainter, QFont, QColor, QIcon, QTransform
+from PyQt6.QtGui import QGuiApplication, QPixmap, QPainter, QFont, QColor, QIcon, QTransform, QImage
+
+from PIL import Image
 from loguru import logger
 
 
@@ -88,6 +90,7 @@ class TokenImg(QGraphicsPixmapItem):
 
     del_signal = pyqtSignal(QGraphicsPixmapItem)
 
+    @logger.catch
     def __init__(self, x, y, r, num, image, player_class="", text="Unknown", type_token=""):
         super().__init__()
         self.r = r
@@ -100,15 +103,19 @@ class TokenImg(QGraphicsPixmapItem):
         self.player_class = player_class
         self.type_token = type_token
         self.rotate = 0
+        self.effect = ""
         self.setPos(x, y)
 
 
         self.init_text()
         self.set_image_path()
+        self.effect_context_menu_init()
 
+    @logger.catch
     def __str__(self):
         return self.text
 
+    @logger.catch
     def init_text(self):
         self.text_item = QGraphicsTextItem(self.text, self)
         self.text_item.setDefaultTextColor(Qt.GlobalColor.black)
@@ -128,6 +135,7 @@ class TokenImg(QGraphicsPixmapItem):
 
         self.setAcceptHoverEvents(True)
 
+    @logger.catch
     def set_image_path(self):
         if self.image_path:
             pass
@@ -161,7 +169,7 @@ class TokenImg(QGraphicsPixmapItem):
         else:
             if self.r > 25:
                 self.r -= 25
-                self.set_pixmap()
+                self.check_add_effect()
 
     @logger.catch
     def increase_token(self, bool_val=False):
@@ -171,7 +179,7 @@ class TokenImg(QGraphicsPixmapItem):
         else:
             if self.r <= 200:
                 self.r += 25
-                self.set_pixmap()
+                self.check_add_effect()
 
     @logger.catch
     def open_image(self, bool_val=False):
@@ -185,6 +193,7 @@ class TokenImg(QGraphicsPixmapItem):
             self.pix = QPixmap(self.image_path).scaled(self.r, self.r, aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
                                             transformMode=Qt.TransformationMode.SmoothTransformation).transformed(
             QTransform().rotate(self.rotate), Qt.TransformationMode.SmoothTransformation)
+            self.effect = ""
             self.set_image()
 
     @logger.catch
@@ -194,12 +203,70 @@ class TokenImg(QGraphicsPixmapItem):
     @logger.catch
     def rotate_left(self):
         self.rotate -= 90
-        self.set_pixmap()
+        self.check_add_effect()
 
     @logger.catch
     def rotate_right(self):
         self.rotate += 90
-        self.set_pixmap()
+        self.check_add_effect()
+
+    @logger.catch
+    def effect_context_menu_init(self) -> None:
+        self.effect_context_menu = QMenu()
+        self.effect_context_menu.setStyleSheet("QMenu    {background-color: rgb(55, 55, 55);\n"
+                                               "    color: rgb(247, 147, 30);}\n"
+                                               "QMenu::item {background-color: transparent;}\n"
+                                               "QMenu::item:selected {background-color: rgb(85, 85, 85);}")
+
+        self.effect_context_menu.addAction("Restrained", lambda: self.check_add_effect("restrained"))
+
+        self.effect_context_menu.addAction("Blind", lambda: self.check_add_effect("blind"))
+
+        self.effect_context_menu.addAction("Sleep", lambda: self.check_add_effect("sleep"))
+
+        self.effect_context_menu.addAction("Fear", lambda: self.check_add_effect("fear"))
+
+    @logger.catch
+    def show_effect_context_menu(self):
+        self.effect_context_menu.exec(QPoint(self.cursor().pos()))
+
+    @logger.catch
+    def check_add_effect(self, *args):
+        if args:
+            if "Spell_zone" in self.type_token or args[0] == self.effect:
+                self.effect = ""
+                self.set_pixmap()
+            else:
+                self.effect = args[0]
+                self.set_pixmap_with_effect()
+        else:
+            self.set_pixmap_with_effect()
+
+    @logger.catch
+    def set_pixmap_with_effect(self) -> None:
+            image1 = QImage(self.image_path).scaled(self.r, self.r,
+                                                    aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
+                                                    transformMode=Qt.TransformationMode.SmoothTransformation).transformed(
+                QTransform().rotate(self.rotate), Qt.TransformationMode.SmoothTransformation)
+            image2 = QImage(f"img/token/{self.effect}_effect.png").scaled(self.r, self.r,
+                                                                   aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
+                                                                   transformMode=Qt.TransformationMode.SmoothTransformation)
+
+            width = max(image1.width(), image2.width())
+            height = max(image1.height(), image2.height())
+
+            combined_image = QPixmap(width, height)
+            combined_image.fill(Qt.GlobalColor.transparent)
+
+            painter = QPainter(combined_image)
+
+            painter.drawImage(0, 0, image1)
+            painter.drawImage(0, 0, image2)
+            painter.end()
+
+            self.pix = combined_image
+
+            self.set_image()
 
     @logger.catch
     def contextMenuEvent(self, event) -> None:
@@ -229,6 +296,8 @@ class TokenImg(QGraphicsPixmapItem):
         action_rotate_left = menu.addAction("rotate_left", self.rotate_left)
 
         action_rotate_right = menu.addAction("rotate_right", self.rotate_right)
+
+        action_effect = menu.addAction("effect", self.show_effect_context_menu)
 
         menu.exec(QPoint(self.cursor().pos()))
 
